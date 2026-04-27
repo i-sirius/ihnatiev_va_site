@@ -2,43 +2,45 @@
 <html lang="uk">
 <head>
   <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" href="css/styles.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/styles.css">
   <title>Зв'язок</title>
 </head>
-<body>
+<body data-page="contact">
   <header class="site-header">
-    <h1>Зв'язок</h1>
+    <h1 data-contact-title>Зв'язок</h1>
     <div id="menu"></div>
   </header>
 
   <main>
     <section class="panel">
-      <h2>Зворотній зв'язок</h2>
-      <p>
-        Для роботи форми потрібно створити форму на Formspree і замінити
-        <code>your-form-id</code> у посиланні нижче.
+      <h2 data-contact-heading>Зворотний зв'язок</h2>
+      <p data-contact-intro>
+        Для роботи форми потрібно створити форму на Formspree і замінити your-form-id у посиланні нижче.
       </p>
 
-      <form action="https://formspree.io/f/your-form-id" method="POST">
-        <label>Ім'я
+      <form action="https://formspree.io/f/your-form-id" method="POST" data-contact-form>
+        <label>
+          <span data-contact-name-label>Ім'я</span>
           <input name="name" required>
         </label>
-        <label>Email
+        <label>
+          <span data-contact-email-label>Email</span>
           <input name="email" type="email" required>
         </label>
-        <label>Повідомлення
+        <label>
+          <span data-contact-message-label>Повідомлення</span>
           <textarea name="message" rows="6" required></textarea>
         </label>
-        <button type="submit">Надіслати</button>
+        <button type="submit" data-contact-submit>Надіслати</button>
       </form>
     </section>
   </main>
 
   <footer>
-  <small>© 2026 Ім'я Прізвище</small>
-</footer>
-<script src="config.js"></script>
-<script src="app.js"></script>
+    <small data-footer>© 2026 Віталій Ігнатьєв</small>
+  </footer>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

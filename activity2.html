@@ -2,70 +2,48 @@
 <html lang="uk">
 <head>
   <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" href="css/styles.css">
-  <title data-activity="2"></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Освітня діяльність</title>
 </head>
-<body>
+<body data-page="activity" data-activity-id="2">
   <header class="site-header">
-    <h1 data-activity="2"></h1>
+    <h1 data-activity-page-title>Освітня діяльність</h1>
     <div id="menu"></div>
   </header>
 
   <main>
     <section class="panel about">
-      <h2 data-activity="2"></h2>
+      <h2 data-activity-page-heading>Освітня діяльність</h2>
       <div class="about-container">
         <div class="about-photo">
-          <img src="files/media/activity2-photo1.jpg" alt="Фото: " data-activity="2">
+          <img src="files/media/activity2-photo1.jpg" alt="Фото для сторінки освітньої діяльності" data-activity-hero-image>
         </div>
-        <div class="about-text">
-          <p>
-            Тут буде опис цього напряму діяльності. Якщо потрібен перенос рядка без нового абзацу,
-            використовуй тег <code>&lt;br&gt;</code>.
-          </p>
-          <p>
-            Другий абзац можна залишити для деталей, прикладів, досвіду або пояснення.
-          </p>
+        <div class="about-text" data-activity-paragraphs>
+          <p>Опис буде підставлено з config.js.</p>
         </div>
       </div>
     </section>
 
     <section class="panel">
       <h2>Фото</h2>
-      <div class="gallery">
-        <img src="files/media/activity2-photo1.jpg" alt="Фото 1">
-        <img src="files/media/activity2-photo2.jpg" alt="Фото 2">
-      </div>
+      <div class="gallery" data-activity-gallery></div>
     </section>
 
     <section class="panel">
       <h2>Відео</h2>
-      <p>
+      <p class="helper-text">
         Для YouTube використовуй формат <code>https://www.youtube.com/embed/VIDEO_ID</code>,
         а не звичайне посилання <code>watch?v=</code>.
       </p>
-      <div class="video-gallery">
-        <div class="video-item">
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID"
-            title="YouTube video 1"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-        </div>
-        <div class="video-item">
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID"
-            title="YouTube video 2"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-        </div>
-      </div>
+      <div class="video-gallery" data-activity-videos></div>
     </section>
   </main>
 
   <footer>
-  <small>© 2026 Ім'я Прізвище</small>
-</footer>
-<script src="config.js"></script>
-<script src="app.js"></script>
+    <small data-footer>© 2026 Віталій Ігнатьєв</small>
+  </footer>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
