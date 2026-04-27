@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="stylesheet" href="css/styles.css">
-  <title>Діяльність 2</title>
+  <title data-activity="2"></title>
 </head>
 <body>
   <header class="site-header">
-    <h1>Діяльність 2</h1>
+    <h1 data-activity="2"></h1>
     <nav>
   <a href="index.html">Головна</a> |
-  <a href="activity1.html">Діяльність 1</a> |
-  <a href="activity2.html">Діяльність 2</a> |
-  <a href="activity3.html">Діяльність 3</a> |
+  <a href="activity1.html" data-activity="1"></a> |
+  <a href="activity2.html" data-activity="2"></a> |
+  <a href="activity3.html" data-activity="3"></a> |
   <a href="downloads.html">Завантаження</a> |
   <a href="contact.html">Зв'язок</a>
 </nav>
@@ -21,10 +21,10 @@
 
   <main>
     <section class="panel about">
-      <h2>Діяльність 2</h2>
+      <h2 data-activity="2"></h2>
       <div class="about-container">
         <div class="about-photo">
-          <img src="files/media/activity2-photo1.jpg" alt="Фото: Діяльність 2">
+          <img src="files/media/activity2-photo1.jpg" alt="Фото: " data-activity="2">
         </div>
         <div class="about-text">
           <p>
@@ -72,5 +72,7 @@
   <footer>
   <small>© 2026 Ім'я Прізвище</small>
 </footer>
+<script src="config.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

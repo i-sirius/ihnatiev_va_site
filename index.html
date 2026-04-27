@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="stylesheet" href="css/styles.css">
-  <title>Мій авторський сайт</title>
+  <title>Ігнатьєв Віталій</title>
 </head>
 <body>
   <header class="site-header">
-    <h1>Ім'я Прізвище — авторський сайт</h1>
+    <h1>Віталій Ігнатьєв — авторський сайт</h1>
     <nav>
   <a href="index.html">Головна</a> |
-  <a href="activity1.html">Діяльність 1</a> |
-  <a href="activity2.html">Діяльність 2</a> |
-  <a href="activity3.html">Діяльність 3</a> |
+  <a href="activity1.html" data-activity="1"></a> |
+  <a href="activity2.html" data-activity="2"></a> |
+  <a href="activity3.html" data-activity="3"></a> |
   <a href="downloads.html">Завантаження</a> |
   <a href="contact.html">Зв'язок</a>
 </nav>
@@ -43,17 +43,17 @@
       <h2>Моя діяльність</h2>
       <div class="activity-cards">
         <article class="activity-card">
-          <h3>Діяльність 1</h3>
+          <h3 data-activity="1"></h3>
           <p>Короткий опис першого напряму діяльності.</p>
           <a class="button-link" href="activity1.html">Перейти</a>
         </article>
         <article class="activity-card">
-          <h3>Діяльність 2</h3>
+          <h3 data-activity="2"></h3>
           <p>Короткий опис другого напряму діяльності.</p>
           <a class="button-link" href="activity2.html">Перейти</a>
         </article>
         <article class="activity-card">
-          <h3>Діяльність 3</h3>
+          <h3 data-activity="3"></h3>
           <p>Короткий опис третього напряму діяльності.</p>
           <a class="button-link" href="activity3.html">Перейти</a>
         </article>
@@ -62,7 +62,9 @@
   </main>
 
   <footer>
-  <small>© 2026 Ім'я Прізвище</small>
+  <small>© 2026 Artist</small>
 </footer>
+<script src="config.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
