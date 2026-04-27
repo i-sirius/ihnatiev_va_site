@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="css/styles.css">
+  <title>Зв'язок</title>
+</head>
+<body>
+  <header class="site-header">
+    <h1>Зв'язок</h1>
+    <nav>
+  <a href="index.html">Головна</a> |
+  <a href="activity1.html">Діяльність 1</a> |
+  <a href="activity2.html">Діяльність 2</a> |
+  <a href="activity3.html">Діяльність 3</a> |
+  <a href="downloads.html">Завантаження</a> |
+  <a href="contact.html">Зв'язок</a>
+</nav>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Зворотній зв'язок</h2>
+      <p>
+        Для роботи форми потрібно створити форму на Formspree і замінити
+        <code>your-form-id</code> у посиланні нижче.
+      </p>
+
+      <form action="https://formspree.io/f/your-form-id" method="POST">
+        <label>Ім'я
+          <input name="name" required>
+        </label>
+        <label>Email
+          <input name="email" type="email" required>
+        </label>
+        <label>Повідомлення
+          <textarea name="message" rows="6" required></textarea>
+        </label>
+        <button type="submit">Надіслати</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+  <small>© 2026 Ім'я Прізвище</small>
+</footer>
+</body>
+</html>
