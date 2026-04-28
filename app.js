@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+﻿document.addEventListener("DOMContentLoaded", () => {
   const pageType = document.body.dataset.page;
   const activityId = document.body.dataset.activityId;
   const homeFallbackImage = SITE?.home?.aboutImage || {
@@ -24,6 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const defaultDetailsSummary = "\u0414\u0435\u0442\u0430\u043b\u0456";
+    const defaultExpandLabel = "\u0420\u041e\u0417\u0413\u041e\u0420\u041d\u0423\u0422\u0418";
+    const defaultCloseLabel = "\u0417\u0413\u041e\u0420\u041d\u0423\u0422\u0418";
+    const defaultCloseAria = "\u0417\u0433\u043e\u0440\u043d\u0443\u0442\u0438 \u0441\u043f\u0438\u0441\u043e\u043a";
+
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = paragraphs
         .map((paragraph) => {
@@ -41,9 +46,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
             return `
               <details class="about-details">
-                <summary>${paragraph.summary || "Деталі"}</summary>
-                ${description}
-                <ol class="about-details-list">${items}</ol>
+                <summary>
+                  <span class="about-details-summary-text">${paragraph.summary || defaultDetailsSummary}</span>
+                  <span class="about-details-arrow" aria-hidden="true">
+                    <span class="about-details-arrow-icon"></span>
+                    <span class="about-details-arrow-label" data-label="${defaultExpandLabel}">${defaultExpandLabel}</span>
+                  </span>
+                </summary>
+                <div class="about-details-body">
+                  <div class="about-details-tools">
+                    <button type="button" class="about-details-close" aria-label="${defaultCloseAria}">
+                      <span class="about-details-close-icon"></span>
+                      <span class="about-details-close-label">${defaultCloseLabel}</span>
+                    </button>
+                  </div>
+                  ${description}
+                  <ol class="about-details-list">${items}</ol>
+                </div>
+              </details>
+            `;
+          }
+
+          if (paragraph?.type === "content-details") {
+            const description = paragraph.description
+              ? `<p class="about-details-description">${paragraph.description}</p>`
+              : "";
+            const contentParagraphs = Array.isArray(paragraph.paragraphs)
+              ? paragraph.paragraphs.map((item) => `<p>${item}</p>`).join("")
+              : "";
+            const summaryText =
+              paragraph.summary ||
+              "\u041f\u043e\u043a\u0430\u0437\u0430\u043d\u043e \u0441\u043a\u043e\u0440\u043e\u0447\u0435\u043d\u0443 \u0432\u0435\u0440\u0441\u0456\u044e. \u041d\u0438\u0436\u0447\u0435 \u043c\u043e\u0436\u043d\u0430 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u0438 \u043f\u043e\u0432\u043d\u0438\u0439 \u0442\u0435\u043a\u0441\u0442.";
+            const actionLabel =
+              paragraph.actionLabel || "\u0427\u0438\u0442\u0430\u0442\u0438 \u0434\u0430\u043b\u0456...";
+            const closeLabel =
+              paragraph.closeLabel || "\u0417\u0433\u043e\u0440\u043d\u0443\u0442\u0438";
+
+            return `
+              <details class="about-details about-details-content">
+                <summary>
+                  <span class="about-details-summary-text">${summaryText}</span>
+                  <span class="about-details-arrow" aria-hidden="true">
+                    <span class="about-details-arrow-icon"></span>
+                    <span class="about-details-arrow-label" data-open-label="${actionLabel}" data-close-label="${closeLabel}">${actionLabel}</span>
+                  </span>
+                </summary>
+                <div class="about-details-body">
+                  ${description}
+                  <div class="about-details-copy">${contentParagraphs}</div>
+                </div>
               </details>
             `;
           }
@@ -51,6 +102,22 @@ document.addEventListener("DOMContentLoaded", () => {
           return "";
         })
         .join("");
+    });
+  }
+
+  function initDetailsInteractions() {
+    document.querySelectorAll(".about-details").forEach((details) => {
+      if (details.dataset.enhanced === "true") {
+        return;
+      }
+
+      details.dataset.enhanced = "true";
+      const closeButton = details.querySelector(".about-details-close");
+
+      closeButton?.addEventListener("click", () => {
+        details.open = false;
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
     });
   }
 
@@ -232,6 +299,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const watchLabel = "\u0414\u0418\u0412\u0418\u0422\u0418\u0421\u042c";
+
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = videos
         .map(
@@ -239,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <a class="activity-card video-card" href="${video.url}" target="_blank" rel="noopener noreferrer">
               <img class="video-card-thumb" src="${video.thumbnail}" alt="${video.title}" loading="lazy">
               <h3>${video.title}</h3>
-              <span class="button-link video-card-link">ДИВИТИСЬ</span>
+              <span class="button-link video-card-link">${watchLabel}</span>
             </a>
           `
         )
@@ -250,16 +319,83 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderYoutubeFallback(selector) {
     const playlistUrl =
       "https://youtube.com/playlist?list=PLJiTnA91mVyQTsyn7L64mxggDWd4H63gH&si=PLaUlRCYsZ0n6Mfo";
+    const playlistLabel = "\u041f\u043b\u0435\u0439\u043b\u0438\u0441\u0442 \u043a\u0430\u043d\u0430\u043b\u0443";
+    const watchLabel = "\u0414\u0418\u0412\u0418\u0422\u0418\u0421\u042c";
 
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = `
         <a class="activity-card video-card video-card-fallback" href="${playlistUrl}" target="_blank" rel="noopener noreferrer">
           <div class="video-card-thumb video-card-thumb-fallback">YouTube</div>
-          <h3>Плейлист каналу</h3>
-          <span class="button-link video-card-link">ДИВИТИСЬ</span>
+          <h3>${playlistLabel}</h3>
+          <span class="button-link video-card-link">${watchLabel}</span>
         </a>
       `;
     });
+  }
+
+  function renderYoutubeLoading(selector) {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.innerHTML = Array.from({ length: 3 })
+        .map(
+          () => `
+            <article class="activity-card video-card video-card-loading" aria-hidden="true">
+              <div class="video-card-thumb video-card-thumb-loading"></div>
+              <div class="video-card-line video-card-line-title"></div>
+              <div class="video-card-line video-card-line-button"></div>
+            </article>
+          `
+        )
+        .join("");
+    });
+  }
+
+  function getYoutubeCacheKey(channelId) {
+    return `youtube-feed:${channelId}`;
+  }
+
+  function readYoutubeCache(channelId) {
+    try {
+      const raw = localStorage.getItem(getYoutubeCacheKey(channelId));
+      if (!raw) {
+        return [];
+      }
+
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed?.videos) ? parsed.videos.slice(0, 6) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function writeYoutubeCache(channelId, videos) {
+    try {
+      localStorage.setItem(
+        getYoutubeCacheKey(channelId),
+        JSON.stringify({
+          updatedAt: Date.now(),
+          videos
+        })
+      );
+    } catch {
+      // Ignore storage errors and continue rendering normally.
+    }
+  }
+
+  function fetchWithTimeout(url, responseParser, timeoutMs = 9000) {
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+
+    return fetch(url, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Request failed for ${url}`);
+        }
+
+        return responseParser(response);
+      })
+      .finally(() => {
+        window.clearTimeout(timeoutId);
+      });
   }
 
   function fetchYoutubeFeedXml(channelId) {
@@ -267,31 +403,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${encodeURIComponent(channelId)}&${cacheBuster}`;
     const getUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
     const rawUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`;
-
-    return fetch(getUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("AllOrigins get failed");
-        }
-
-        return response.json();
-      })
-      .then((payload) => {
-        if (typeof payload?.contents === "string" && payload.contents.trim()) {
-          return payload.contents;
-        }
-
-        throw new Error("Empty YouTube feed contents");
-      })
-      .catch(() =>
-        fetch(rawUrl).then((response) => {
-          if (!response.ok) {
-            throw new Error("AllOrigins raw failed");
+    const attempts = [
+      () =>
+        fetchWithTimeout(getUrl, (response) => response.json()).then((payload) => {
+          if (typeof payload?.contents === "string" && payload.contents.trim()) {
+            return payload.contents;
           }
 
-          return response.text();
-        })
-      );
+          throw new Error("Empty AllOrigins get payload");
+        }),
+      () => fetchWithTimeout(rawUrl, (response) => response.text()),
+      () =>
+        fetchWithTimeout(getUrl, (response) => response.json(), 12000).then((payload) => {
+          if (typeof payload?.contents === "string" && payload.contents.trim()) {
+            return payload.contents;
+          }
+
+          throw new Error("Retry AllOrigins get payload is empty");
+        }),
+      () => fetchWithTimeout(rawUrl, (response) => response.text(), 12000)
+    ];
+
+    let chain = Promise.reject(new Error("Initial YouTube feed attempt"));
+    attempts.forEach((attempt) => {
+      chain = chain.catch(() => attempt());
+    });
+
+    return chain;
   }
 
   function fetchJson(url) {
@@ -337,13 +475,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     youtubeFeedLoading = true;
-    let completed = false;
+    const cachedVideos = readYoutubeCache(channelId);
 
-    const fallbackTimer = window.setTimeout(() => {
-      if (!completed) {
-        renderYoutubeFallback("[data-activity-videos]");
-      }
-    }, 4000);
+    if (cachedVideos.length) {
+      renderVideoCards("[data-activity-videos]", cachedVideos);
+    } else {
+      renderYoutubeLoading("[data-activity-videos]");
+    }
 
     fetchYoutubeFeedXml(channelId)
       .then((xmlText) => {
@@ -371,19 +509,22 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .filter(Boolean);
 
-        completed = true;
-        window.clearTimeout(fallbackTimer);
-
         if (videos.length) {
+          writeYoutubeCache(channelId, videos);
           renderVideoCards("[data-activity-videos]", videos);
         } else {
           renderYoutubeFallback("[data-activity-videos]");
         }
       })
       .catch(() => {
-        completed = true;
-        window.clearTimeout(fallbackTimer);
-        renderYoutubeFallback("[data-activity-videos]");
+        if (cachedVideos.length) {
+          renderVideoCards("[data-activity-videos]", cachedVideos);
+        } else {
+          renderYoutubeFallback("[data-activity-videos]");
+        }
+      })
+      .finally(() => {
+        youtubeFeedLoading = false;
       });
   }
 
@@ -481,6 +622,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateImage("[data-activity-hero-image]", heroImage, homeFallbackImage);
 
     renderParagraphs("[data-activity-paragraphs]", activity.pageDescription);
+    initDetailsInteractions();
     loadActivityGallery(activityId);
 
     if (activityId === "1") {
@@ -701,6 +843,7 @@ document.addEventListener("DOMContentLoaded", () => {
     applyMenuLabels();
     initHeaderBrand();
     initThemeToggle();
+    initDetailsInteractions();
   }
 
   fetch("menu.html")
