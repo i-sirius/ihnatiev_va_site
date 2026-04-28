@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("site-theme");
+      if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="css/styles.css">
   <title>Віталій Ігнатьєв</title>
 </head>
@@ -10,7 +18,7 @@
   <header class="site-header">
     <h1>
       <span data-site-title>Віталій Ігнатьєв</span> —
-      <span data-site-subtitle>Філософ, викладач, священнослужитель</span>
+      <span data-site-subtitle>філософ, викладач, священнослужитель</span>
     </h1>
     <div id="menu"></div>
   </header>
@@ -31,21 +39,21 @@
     <section class="panel">
       <h2 data-home-activities-heading>Моя діяльність</h2>
       <div class="activity-cards">
-        <article class="activity-card">
+        <a class="activity-card" href="activity1.html">
           <h3 data-activity-name="1">Наукова активність</h3>
           <p data-activity-card-description="1">Опис напряму діяльності.</p>
-          <a class="button-link" href="activity1.html">Перейти</a>
-        </article>
-        <article class="activity-card">
+          <span class="button-link">Перейти</span>
+        </a>
+        <a class="activity-card" href="activity2.html">
           <h3 data-activity-name="2">Освітня діяльність</h3>
           <p data-activity-card-description="2">Опис напряму діяльності.</p>
-          <a class="button-link" href="activity2.html">Перейти</a>
-        </article>
-        <article class="activity-card">
+          <span class="button-link">Перейти</span>
+        </a>
+        <a class="activity-card" href="activity3.html">
           <h3 data-activity-name="3">Священнослужіння</h3>
           <p data-activity-card-description="3">Опис напряму діяльності.</p>
-          <a class="button-link" href="activity3.html">Перейти</a>
-        </article>
+          <span class="button-link">Перейти</span>
+        </a>
       </div>
     </section>
   </main>

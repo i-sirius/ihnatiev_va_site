@@ -1,9 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   const pageType = document.body.dataset.page;
   const activityId = document.body.dataset.activityId;
+  const homeFallbackImage = SITE?.home?.aboutImage || {
+    src: "files/media/about-me-photo.jpg",
+    alt: "Фото"
+  };
+  let youtubeFeedLoading = false;
+  let currentGalleryItems = [];
+  let currentGalleryIndex = 0;
 
   function setText(selector, value) {
-    if (!value) {
+    if (value == null) {
       return;
     }
 
@@ -19,8 +26,152 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = paragraphs
-        .map((paragraph) => `<p>${paragraph}</p>`)
+        .map((paragraph) => {
+          if (typeof paragraph === "string") {
+            return `<p>${paragraph}</p>`;
+          }
+
+          if (paragraph?.type === "details") {
+            const items = Array.isArray(paragraph.items)
+              ? paragraph.items.map((item) => `<li>${item}</li>`).join("")
+              : "";
+            const description = paragraph.description
+              ? `<p class="about-details-description">${paragraph.description}</p>`
+              : "";
+
+            return `
+              <details class="about-details">
+                <summary>${paragraph.summary || "Деталі"}</summary>
+                ${description}
+                <ol class="about-details-list">${items}</ol>
+              </details>
+            `;
+          }
+
+          return "";
+        })
         .join("");
+    });
+  }
+
+  function updateImage(selector, image, fallbackImage = null) {
+    const source = image || fallbackImage;
+    if (!source) {
+      return;
+    }
+
+    document.querySelectorAll(selector).forEach((element) => {
+      element.alt = source.alt || "";
+      element.src = source.src;
+
+      if (fallbackImage?.src) {
+        element.onerror = () => {
+          element.onerror = null;
+          element.src = fallbackImage.src;
+          element.alt = fallbackImage.alt || source.alt || "";
+        };
+      }
+    });
+  }
+
+  function ensureLightbox() {
+    let lightbox = document.querySelector("[data-gallery-lightbox]");
+
+    if (lightbox) {
+      return lightbox;
+    }
+
+    lightbox = document.createElement("div");
+    lightbox.className = "gallery-lightbox";
+    lightbox.hidden = true;
+    lightbox.setAttribute("data-gallery-lightbox", "");
+    lightbox.innerHTML = `
+      <button class="lightbox-close" type="button" aria-label="Закрити" data-lightbox-close>×</button>
+      <button class="lightbox-nav prev" type="button" aria-label="Попереднє фото" data-lightbox-prev>‹</button>
+      <figure class="lightbox-figure">
+        <img src="" alt="" data-lightbox-image>
+      </figure>
+      <button class="lightbox-nav next" type="button" aria-label="Наступне фото" data-lightbox-next>›</button>
+    `;
+    document.body.appendChild(lightbox);
+
+    const image = lightbox.querySelector("[data-lightbox-image]");
+
+    function updateLightboxImage() {
+      const item = currentGalleryItems[currentGalleryIndex];
+      if (!item || !image) {
+        return;
+      }
+
+      image.src = item.src;
+      image.alt = item.alt || "";
+    }
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      document.body.classList.remove("lightbox-open");
+    }
+
+    function showByIndex(index) {
+      if (!currentGalleryItems.length) {
+        return;
+      }
+
+      currentGalleryIndex =
+        (index + currentGalleryItems.length) % currentGalleryItems.length;
+      updateLightboxImage();
+      lightbox.hidden = false;
+      document.body.classList.add("lightbox-open");
+    }
+
+    lightbox.querySelector("[data-lightbox-close]")?.addEventListener("click", closeLightbox);
+    lightbox.querySelector("[data-lightbox-prev]")?.addEventListener("click", () => {
+      showByIndex(currentGalleryIndex - 1);
+    });
+    lightbox.querySelector("[data-lightbox-next]")?.addEventListener("click", () => {
+      showByIndex(currentGalleryIndex + 1);
+    });
+
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (lightbox.hidden) {
+        return;
+      }
+
+      if (event.key === "Escape") {
+        closeLightbox();
+      }
+
+      if (event.key === "ArrowLeft") {
+        showByIndex(currentGalleryIndex - 1);
+      }
+
+      if (event.key === "ArrowRight") {
+        showByIndex(currentGalleryIndex + 1);
+      }
+    });
+
+    lightbox.showByIndex = showByIndex;
+    return lightbox;
+  }
+
+  function applyPortraitState(container) {
+    container.querySelectorAll("img").forEach((image) => {
+      const markOrientation = () => {
+        const isPortrait = image.naturalHeight > image.naturalWidth;
+        image.closest(".gallery-item")?.classList.toggle("is-portrait", isPortrait);
+      };
+
+      if (image.complete) {
+        markOrientation();
+      } else {
+        image.addEventListener("load", markOrientation, { once: true });
+      }
     });
   }
 
@@ -30,35 +181,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.querySelectorAll(selector).forEach((element) => {
+      const count = images.length;
+      const columns = Math.min(Math.max(count, 1), 4);
+      element.style.setProperty("--gallery-columns", String(columns));
       element.innerHTML = images
         .map(
-          (image) =>
-            `<img src="${image.src}" alt="${image.alt}">`
-        )
-        .join("");
-    });
-  }
-
-  function renderVideos(selector, videos) {
-    if (!Array.isArray(videos)) {
-      return;
-    }
-
-    document.querySelectorAll(selector).forEach((element) => {
-      element.innerHTML = videos
-        .map(
-          (video) => `
-            <div class="video-item">
-              <iframe
-                src="${video.embed}"
-                title="${video.title}"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-              </iframe>
-            </div>
+          (image, index) => `
+            <button class="gallery-item" type="button" data-gallery-index="${index}">
+              <img src="${image.src}" alt="${image.alt || ""}" loading="lazy">
+            </button>
           `
         )
         .join("");
+
+      const lightbox = ensureLightbox();
+      element.querySelectorAll("[data-gallery-index]").forEach((button) => {
+        button.addEventListener("click", () => {
+          currentGalleryItems = images;
+          currentGalleryIndex = Number(button.dataset.galleryIndex || "0");
+          lightbox.showByIndex(currentGalleryIndex);
+        });
+      });
+
+      applyPortraitState(element);
     });
   }
 
@@ -70,22 +215,227 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = files
         .map(
-          (file) =>
-            `<li><a href="${file.href}" download>${file.label}</a></li>`
+          (file) => `
+            <li>
+              <a href="${file.href}" download>
+                <span>${file.label}</span>
+              </a>
+            </li>
+          `
         )
         .join("");
     });
   }
 
-  function updateImage(selector, image) {
-    if (!image) {
+  function renderVideoCards(selector, videos) {
+    if (!Array.isArray(videos)) {
       return;
     }
 
     document.querySelectorAll(selector).forEach((element) => {
-      element.src = image.src;
-      element.alt = image.alt;
+      element.innerHTML = videos
+        .map(
+          (video) => `
+            <a class="activity-card video-card" href="${video.url}" target="_blank" rel="noopener noreferrer">
+              <img class="video-card-thumb" src="${video.thumbnail}" alt="${video.title}" loading="lazy">
+              <h3>${video.title}</h3>
+              <span class="button-link video-card-link">ДИВИТИСЬ</span>
+            </a>
+          `
+        )
+        .join("");
     });
+  }
+
+  function renderYoutubeFallback(selector) {
+    const playlistUrl =
+      "https://youtube.com/playlist?list=PLJiTnA91mVyQTsyn7L64mxggDWd4H63gH&si=PLaUlRCYsZ0n6Mfo";
+
+    document.querySelectorAll(selector).forEach((element) => {
+      element.innerHTML = `
+        <a class="activity-card video-card video-card-fallback" href="${playlistUrl}" target="_blank" rel="noopener noreferrer">
+          <div class="video-card-thumb video-card-thumb-fallback">YouTube</div>
+          <h3>Плейлист каналу</h3>
+          <span class="button-link video-card-link">ДИВИТИСЬ</span>
+        </a>
+      `;
+    });
+  }
+
+  function fetchYoutubeFeedXml(channelId) {
+    const cacheBuster = `t=${Date.now()}`;
+    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${encodeURIComponent(channelId)}&${cacheBuster}`;
+    const getUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+    const rawUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`;
+
+    return fetch(getUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("AllOrigins get failed");
+        }
+
+        return response.json();
+      })
+      .then((payload) => {
+        if (typeof payload?.contents === "string" && payload.contents.trim()) {
+          return payload.contents;
+        }
+
+        throw new Error("Empty YouTube feed contents");
+      })
+      .catch(() =>
+        fetch(rawUrl).then((response) => {
+          if (!response.ok) {
+            throw new Error("AllOrigins raw failed");
+          }
+
+          return response.text();
+        })
+      );
+  }
+
+  function fetchJson(url) {
+    return fetch(url).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to load ${url}`);
+      }
+
+      return response.json();
+    });
+  }
+
+  function loadActivityGallery(id) {
+    const selector = "[data-activity-gallery]";
+    const activity = SITE.activities?.[id];
+    const fallbackImages = Array.isArray(activity?.gallery) ? activity.gallery : [];
+
+    fetchJson(`files/media/activity${id}/photos.json`)
+      .then((images) => {
+        renderGallery(selector, Array.isArray(images) ? images : fallbackImages);
+      })
+      .catch(() => {
+        renderGallery(selector, fallbackImages);
+      });
+  }
+
+  function loadFileList(path, selector, fallbackFiles = []) {
+    fetchJson(path)
+      .then((files) => {
+        renderDownloads(selector, Array.isArray(files) ? files : fallbackFiles);
+      })
+      .catch(() => {
+        renderDownloads(selector, fallbackFiles);
+      });
+  }
+
+  function loadYoutubeFeed() {
+    const target = document.querySelector("[data-activity-videos]");
+    const channelId = SITE.youtubeChannelId;
+
+    if (!target || !channelId || youtubeFeedLoading) {
+      return;
+    }
+
+    youtubeFeedLoading = true;
+    let completed = false;
+
+    const fallbackTimer = window.setTimeout(() => {
+      if (!completed) {
+        renderYoutubeFallback("[data-activity-videos]");
+      }
+    }, 4000);
+
+    fetchYoutubeFeedXml(channelId)
+      .then((xmlText) => {
+        const xml = new DOMParser().parseFromString(xmlText, "application/xml");
+        if (xml.querySelector("parsererror")) {
+          throw new Error("Invalid YouTube XML");
+        }
+
+        const items = Array.from(xml.querySelectorAll("entry")).slice(0, 6);
+        const videos = items
+          .map((item) => {
+            const videoId =
+              item.getElementsByTagName("yt:videoId")[0]?.textContent?.trim() ||
+              item.getElementsByTagName("videoId")[0]?.textContent?.trim();
+
+            if (!videoId) {
+              return null;
+            }
+
+            return {
+              title: item.querySelector("title")?.textContent?.trim() || "YouTube video",
+              thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+              url: `https://www.youtube.com/watch?v=${videoId}`
+            };
+          })
+          .filter(Boolean);
+
+        completed = true;
+        window.clearTimeout(fallbackTimer);
+
+        if (videos.length) {
+          renderVideoCards("[data-activity-videos]", videos);
+        } else {
+          renderYoutubeFallback("[data-activity-videos]");
+        }
+      })
+      .catch(() => {
+        completed = true;
+        window.clearTimeout(fallbackTimer);
+        renderYoutubeFallback("[data-activity-videos]");
+      });
+  }
+
+  function initThemeToggle() {
+    const header = document.querySelector(".site-header");
+    if (!header || header.querySelector(".theme-toggle")) {
+      return;
+    }
+
+    const savedTheme = localStorage.getItem("site-theme");
+    const theme = savedTheme || document.documentElement.getAttribute("data-theme") || "light";
+    document.documentElement.setAttribute("data-theme", theme);
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "theme-toggle";
+    toggle.setAttribute("aria-label", "Перемкнути тему");
+    toggle.innerHTML = `
+      <span class="theme-toggle-track">
+        <span class="theme-toggle-thumb"></span>
+      </span>
+    `;
+
+    if (theme === "dark") {
+      toggle.classList.add("is-dark");
+    }
+
+    toggle.addEventListener("click", () => {
+      const nextTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      localStorage.setItem("site-theme", nextTheme);
+      toggle.classList.toggle("is-dark", nextTheme === "dark");
+    });
+
+    header.appendChild(toggle);
+  }
+
+  function initHeaderBrand() {
+    if (pageType === "home") {
+      return;
+    }
+
+    const header = document.querySelector(".site-header");
+    if (!header || header.querySelector(".site-brand-link")) {
+      return;
+    }
+
+    const brand = document.createElement("a");
+    brand.className = "site-brand-link";
+    brand.href = "index.html";
+    brand.textContent = SITE.meta?.homeTitle || "Ігнатьєв Віталій";
+    header.appendChild(brand);
   }
 
   function applyGlobalContent() {
@@ -115,8 +465,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const activity = SITE.activities[activityId];
-
+    const activity = SITE.activities?.[activityId];
     if (!activity) {
       return;
     }
@@ -124,10 +473,23 @@ document.addEventListener("DOMContentLoaded", () => {
     document.title = activity.name;
     setText("[data-activity-page-title]", activity.name);
     setText("[data-activity-page-heading]", activity.name);
-    updateImage("[data-activity-hero-image]", activity.heroImage);
+
+    const heroImage = {
+      src: `files/media/activity${activityId}/hero.jpg`,
+      alt: activity.heroImage?.alt || activity.name
+    };
+    updateImage("[data-activity-hero-image]", heroImage, homeFallbackImage);
+
     renderParagraphs("[data-activity-paragraphs]", activity.pageDescription);
-    renderGallery("[data-activity-gallery]", activity.gallery);
-    renderVideos("[data-activity-videos]", activity.videos);
+    loadActivityGallery(activityId);
+
+    if (activityId === "1") {
+      loadYoutubeFeed();
+    }
+
+    if (activityId === "2") {
+      loadFileList("files/activity2/files.json", "[data-activity-files]", []);
+    }
   }
 
   function applyDownloadsPage() {
@@ -139,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setText("[data-downloads-title]", SITE.downloads.pageTitle);
     setText("[data-downloads-heading]", SITE.downloads.heading);
     setText("[data-downloads-intro]", SITE.downloads.intro);
-    renderDownloads("[data-downloads-list]", SITE.downloads.files);
+    loadFileList("files/downloads/files.json", "[data-downloads-list]", []);
   }
 
   function applyContactPage() {
@@ -150,16 +512,175 @@ document.addEventListener("DOMContentLoaded", () => {
     document.title = SITE.contact.pageTitle;
     setText("[data-contact-title]", SITE.contact.pageTitle);
     setText("[data-contact-heading]", SITE.contact.heading);
-    setText("[data-contact-intro]", SITE.contact.intro);
     setText("[data-contact-name-label]", SITE.contact.fields.name);
     setText("[data-contact-email-label]", SITE.contact.fields.email);
     setText("[data-contact-message-label]", SITE.contact.fields.message);
     setText("[data-contact-submit]", SITE.contact.fields.submit);
 
     const form = document.querySelector("[data-contact-form]");
-    if (form) {
-      form.action = SITE.contact.formAction;
+    const nameField = form?.querySelector("input[name='name']");
+    const emailField = form?.querySelector("input[name='email']");
+    const phoneField = form?.querySelector("input[name='phone']");
+    const subjectField = form?.querySelector("input[name='subject']");
+    const messageField = form?.querySelector("textarea[name='message']");
+    const submitButton = form?.querySelector("[data-contact-submit]");
+    const counter = document.querySelector("[data-contact-message-count]");
+    const noteName = document.querySelector("[data-note-name]");
+    const noteSubject = document.querySelector("[data-note-subject]");
+    const noteMessage = document.querySelector("[data-contact-message-note]");
+    const noteEmail = document.querySelector("[data-note-email]");
+    const notePhone = document.querySelector("[data-note-phone]");
+    const okName = document.querySelector("[data-ok-name]");
+    const okSubject = document.querySelector("[data-ok-subject]");
+    const okMessage = document.querySelector("[data-ok-message]");
+    const okEmail = document.querySelector("[data-ok-email]");
+    const okPhone = document.querySelector("[data-ok-phone]");
+    const emailMark = document.querySelector("[data-mark-email]");
+    const phoneMark = document.querySelector("[data-mark-phone]");
+
+    if (
+      !form ||
+      !nameField ||
+      !emailField ||
+      !phoneField ||
+      !subjectField ||
+      !messageField ||
+      !submitButton ||
+      !counter ||
+      !noteName ||
+      !noteSubject ||
+      !noteMessage ||
+      !noteEmail ||
+      !notePhone ||
+      !okName ||
+      !okSubject ||
+      !okMessage ||
+      !okEmail ||
+      !okPhone ||
+      !emailMark ||
+      !phoneMark
+    ) {
+      return;
     }
+
+    form.action = SITE.contact.formAction;
+
+    function updateContactState() {
+      const hasName = nameField.value.trim().length > 0;
+      const hasSubject = subjectField.value.trim().length > 0;
+      const emailValue = emailField.value.trim();
+      const phoneValue = phoneField.value.trim();
+      const phoneDigits = phoneValue.replace(/\D/g, "");
+      const hasEmail = emailValue.length > 0;
+      const hasPhone = phoneValue.length > 0;
+      const emailValid = hasEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
+      const phoneValid = hasPhone && phoneDigits.length >= 10;
+      const hasValidContact = emailValid || phoneValid;
+      const messageLength = messageField.value.trim().length;
+      const messageValid = messageLength >= 25;
+      const remaining = Math.max(25 - messageLength, 0);
+      const formIsReady = hasName && hasSubject && hasValidContact && messageValid;
+
+      emailField.setCustomValidity("");
+      phoneField.setCustomValidity("");
+
+      if (!hasValidContact) {
+        if (hasEmail && !emailValid) {
+          emailField.setCustomValidity("Вкажіть коректний email");
+        } else if (hasPhone && !phoneValid) {
+          phoneField.setCustomValidity("Вкажіть коректний номер телефону");
+        } else {
+          emailField.setCustomValidity("Вкажіть email або телефон");
+          phoneField.setCustomValidity("Вкажіть email або телефон");
+        }
+      }
+
+      noteName.hidden = hasName;
+      okName.hidden = !hasName;
+      noteSubject.hidden = hasSubject;
+      okSubject.hidden = !hasSubject;
+
+      emailMark.hidden = hasValidContact;
+      phoneMark.hidden = hasValidContact;
+
+      if (emailValid) {
+        noteEmail.hidden = true;
+        okEmail.hidden = false;
+      } else {
+        okEmail.hidden = true;
+        noteEmail.hidden = false;
+        noteEmail.textContent = phoneValid
+          ? "Необов'язково, бо телефон уже вказано"
+          : hasEmail
+            ? "Вкажіть коректний email"
+            : "Обов'язково: email або телефон";
+      }
+
+      if (phoneValid) {
+        notePhone.hidden = true;
+        okPhone.hidden = false;
+      } else {
+        okPhone.hidden = true;
+        notePhone.hidden = false;
+        notePhone.textContent = emailValid
+          ? "Необов'язково, бо email уже вказано"
+          : hasPhone
+            ? "Вкажіть коректний номер телефону"
+            : "Обов'язково: телефон або email";
+      }
+
+      if (messageValid) {
+        noteMessage.hidden = true;
+        okMessage.hidden = false;
+      } else {
+        noteMessage.hidden = false;
+        okMessage.hidden = true;
+        noteMessage.textContent =
+          messageLength > 0
+            ? `Обов'язково для заповнення, напишіть хоча б ще ${remaining} символів`
+            : "Обов'язково для заповнення (не менше 25 символів)";
+      }
+
+      counter.textContent = `${messageLength} / 25+`;
+      submitButton.disabled = !formIsReady;
+    }
+
+    [nameField, emailField, phoneField, subjectField, messageField].forEach((field) => {
+      field.addEventListener("input", updateContactState);
+      field.addEventListener("change", updateContactState);
+    });
+
+    form.addEventListener("submit", (event) => {
+      updateContactState();
+
+      if (submitButton.disabled) {
+        event.preventDefault();
+
+        if (!nameField.value.trim()) {
+          nameField.reportValidity();
+          return;
+        }
+
+        if (!subjectField.value.trim()) {
+          subjectField.reportValidity();
+          return;
+        }
+
+        if (emailField.validationMessage) {
+          emailField.reportValidity();
+          return;
+        }
+
+        if (phoneField.validationMessage) {
+          phoneField.reportValidity();
+          return;
+        }
+
+        messageField.reportValidity();
+      }
+    });
+
+    updateContactState();
   }
 
   function applyMenuLabels() {
@@ -178,15 +699,16 @@ document.addEventListener("DOMContentLoaded", () => {
     applyDownloadsPage();
     applyContactPage();
     applyMenuLabels();
+    initHeaderBrand();
+    initThemeToggle();
   }
 
   fetch("menu.html")
     .then((response) => response.text())
-    .then((data) => {
+    .then((html) => {
       const menu = document.getElementById("menu");
-
       if (menu) {
-        menu.innerHTML = data;
+        menu.innerHTML = html;
       }
 
       applyAllContent();

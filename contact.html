@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("site-theme");
+      if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="css/styles.css">
   <title>Зв'язок</title>
 </head>
@@ -15,24 +23,79 @@
   <main>
     <section class="panel">
       <h2 data-contact-heading>Зворотний зв'язок</h2>
-      <p data-contact-intro>
-        Для роботи форми потрібно створити форму на Formspree і замінити your-form-id у посиланні нижче.
-      </p>
+      <p>З радістю відповім на ваші питання або запити. Заповніть поля нижче, будь ласка.</p>
 
-      <form action="https://formspree.io/f/your-form-id" method="POST" data-contact-form>
+      <form action="https://formspree.io/f/xnjlkjrp" method="POST" data-contact-form>
+        <input type="hidden" name="_subject" value="Нове повідомлення із сайту">
+
         <label>
-          <span data-contact-name-label>Ім'я</span>
+          <span class="field-label">
+            <span class="field-title">
+              <span data-contact-name-label>Ім'я</span>
+              <span class="required-mark" aria-hidden="true">*</span>
+            </span>
+          </span>
           <input name="name" required>
+          <small class="field-note" data-note-name>Обов'язково для заповнення</small>
+          <small class="field-ok" data-ok-name hidden>✓ Заповнено</small>
         </label>
+
+        <div class="contact-split">
+          <label>
+            <span class="field-label">
+              <span class="field-title">
+                <span data-contact-email-label>Email</span>
+                <span class="required-mark" aria-hidden="true" data-mark-email>*</span>
+              </span>
+            </span>
+            <input name="email" type="text" autocomplete="email" inputmode="email">
+            <small class="field-note" data-note-email>Обов'язково: email або телефон</small>
+            <small class="field-ok" data-ok-email hidden>✓ Email вказано</small>
+          </label>
+
+          <span class="contact-split-separator" aria-hidden="true">/</span>
+
+          <label>
+            <span class="field-label">
+              <span class="field-title">
+                <span>Телефон</span>
+                <span class="required-mark" aria-hidden="true" data-mark-phone>*</span>
+              </span>
+            </span>
+            <input name="phone" type="tel" autocomplete="tel" inputmode="tel">
+            <small class="field-note" data-note-phone>Обов'язково: телефон або email</small>
+            <small class="field-ok" data-ok-phone hidden>✓ Телефон вказано</small>
+          </label>
+        </div>
+
         <label>
-          <span data-contact-email-label>Email</span>
-          <input name="email" type="email" required>
+          <span class="field-label">
+            <span class="field-title">
+              <span>Тема</span>
+              <span class="required-mark" aria-hidden="true">*</span>
+            </span>
+          </span>
+          <input name="subject" required>
+          <small class="field-note" data-note-subject>Обов'язково для заповнення</small>
+          <small class="field-ok" data-ok-subject hidden>✓ Заповнено</small>
         </label>
+
         <label>
-          <span data-contact-message-label>Повідомлення</span>
-          <textarea name="message" rows="6" required></textarea>
+          <span class="field-label">
+            <span class="field-title">
+              <span data-contact-message-label>Повідомлення</span>
+              <span class="required-mark" aria-hidden="true">*</span>
+            </span>
+          </span>
+          <div class="textarea-meta">
+            <small class="field-note" data-contact-message-note>Обов'язково для заповнення (не менше 25 символів)</small>
+            <small class="field-ok" data-ok-message hidden>✓ Достатньо символів</small>
+            <small class="contact-counter" data-contact-message-count>0 / 25+</small>
+          </div>
+          <textarea name="message" rows="6" minlength="25" required></textarea>
         </label>
-        <button type="submit" data-contact-submit>Надіслати</button>
+
+        <button type="submit" data-contact-submit disabled>Надіслати</button>
       </form>
     </section>
   </main>

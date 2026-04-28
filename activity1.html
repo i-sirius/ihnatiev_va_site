@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("site-theme");
+      if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="css/styles.css">
   <title>Наукова активність</title>
 </head>
@@ -17,7 +25,7 @@
       <h2 data-activity-page-heading>Наукова активність</h2>
       <div class="about-container">
         <div class="about-photo">
-          <img src="files/media/activity1-photo1.jpg" alt="Фото для сторінки наукової активності" data-activity-hero-image>
+          <img src="files/media/about-me-photo.jpg" alt="Фото" data-activity-hero-image>
         </div>
         <div class="about-text" data-activity-paragraphs>
           <p>Опис буде підставлено з config.js.</p>
@@ -26,17 +34,13 @@
     </section>
 
     <section class="panel">
-      <h2>Фото</h2>
-      <div class="gallery" data-activity-gallery></div>
+      <h2>Відео</h2>
+      <div class="video-gallery" data-activity-videos></div>
     </section>
 
     <section class="panel">
-      <h2>Відео</h2>
-      <p class="helper-text">
-        Для YouTube використовуй формат <code>https://www.youtube.com/embed/VIDEO_ID</code>,
-        а не звичайне посилання <code>watch?v=</code>.
-      </p>
-      <div class="video-gallery" data-activity-videos></div>
+      <h2>Фото</h2>
+      <div class="gallery" data-activity-gallery></div>
     </section>
   </main>
 

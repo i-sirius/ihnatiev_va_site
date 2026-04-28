@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("site-theme");
+      if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="css/styles.css">
   <title>Завантаження</title>
 </head>
