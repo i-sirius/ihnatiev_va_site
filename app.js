@@ -1,6 +1,10 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
   const pageType = document.body.dataset.page;
   const activityId = document.body.dataset.activityId;
+  const themeAssets = {
+    light: "files/media/logo-light.png",
+    dark: "files/media/logo-dark.png"
+  };
   const homeFallbackImage = SITE?.home?.aboutImage || {
     src: "files/media/about-me-photo.jpg",
     alt: "Фото"
@@ -557,16 +561,33 @@
       document.documentElement.setAttribute("data-theme", nextTheme);
       localStorage.setItem("site-theme", nextTheme);
       toggle.classList.toggle("is-dark", nextTheme === "dark");
+      applyThemeAssets(nextTheme);
     });
 
     header.appendChild(toggle);
   }
 
-  function initHeaderBrand() {
-    if (pageType === "home") {
-      return;
+  function applyThemeAssets(theme = "light") {
+    const asset = theme === "dark" ? themeAssets.dark : themeAssets.light;
+
+    document.querySelectorAll("[data-site-brand-logo]").forEach((element) => {
+      element.src = asset;
+    });
+
+    let favicon = document.querySelector("[data-site-favicon]");
+
+    if (!favicon) {
+      favicon = document.createElement("link");
+      favicon.rel = "icon";
+      favicon.type = "image/png";
+      favicon.setAttribute("data-site-favicon", "");
+      document.head.appendChild(favicon);
     }
 
+    favicon.href = asset;
+  }
+
+  function initHeaderBrand() {
     const header = document.querySelector(".site-header");
     if (!header || header.querySelector(".site-brand-link")) {
       return;
@@ -575,7 +596,15 @@
     const brand = document.createElement("a");
     brand.className = "site-brand-link";
     brand.href = "index.html";
-    brand.textContent = SITE.meta?.homeTitle || "Ігнатьєв Віталій";
+    brand.setAttribute("aria-label", SITE.meta?.homeTitle || "Ігнатьєв Віталій");
+    brand.innerHTML = `
+      <img
+        class="site-brand-logo"
+        data-site-brand-logo
+        src="${themeAssets.light}"
+        alt="${SITE.meta?.homeTitle || "Ігнатьєв Віталій"}"
+      >
+    `;
     header.appendChild(brand);
   }
 
@@ -844,6 +873,7 @@
     initHeaderBrand();
     initThemeToggle();
     initDetailsInteractions();
+    applyThemeAssets(document.documentElement.getAttribute("data-theme") || "light");
   }
 
   fetch("menu.html")
