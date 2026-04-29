@@ -13,18 +13,25 @@
   </script>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" type="image/png" href="files/media/logo-light.png" data-site-favicon>
-  <title>Зв'язок</title>
+  <title>Контакти</title>
 </head>
 <body data-page="contact">
   <header class="site-header">
-    <h1 data-contact-title>Зв'язок</h1>
+    <h1 data-contact-title>Контакти</h1>
     <div id="menu"></div>
   </header>
 
   <main>
     <section class="panel">
-      <h2 data-contact-heading>Зворотний зв'язок</h2>
-      <p>З радістю відповім на ваші питання або запити. Заповніть поля нижче, будь ласка.</p>
+      <h2 data-contact-heading>Контакти</h2>
+      <section class="contact-socials" aria-labelledby="contact-socials-title">
+        <h3 id="contact-socials-title" data-contact-socials-title>Мої соціальні мережі:</h3>
+        <div class="contact-socials-list" data-contact-socials-list></div>
+      </section>
+
+      <div class="contact-form-divider" aria-hidden="true"></div>
+
+      <p class="contact-form-intro">З радістю відповім на ваші питання або запити. Заповніть поля нижче, будь ласка.</p>
 
       <form action="https://formspree.io/f/xnjlkjrp" method="POST" data-contact-form>
         <input type="hidden" name="_subject" value="Нове повідомлення із сайту">

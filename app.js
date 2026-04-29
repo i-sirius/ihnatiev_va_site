@@ -668,6 +668,228 @@
     header.appendChild(brand);
   }
 
+  function getSocialIconMarkup(id, className = "contact-social-icon") {
+    if (id === "youtube") {
+      return `
+        <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8ZM9.6 15.8V8.2l6.5 3.8-6.5 3.8Z"/>
+        </svg>
+      `;
+    }
+
+    if (id === "facebook") {
+      return `
+        <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M13.6 22v-8.2h2.8l.4-3.2h-3.2V8.6c0-.9.3-1.6 1.7-1.6H17V4.1c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.4H7.8v3.2h2.7V22h3.1Z"/>
+        </svg>
+      `;
+    }
+
+    if (id === "webofscience") {
+      return `
+        <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M3.7 5.4c1.2-1.6 3-2.4 5.1-2.4 2.5 0 4.5 1.2 6 3.5l1.4-2.1h4l-3.4 5 3.8 5.5h-4l-1.8-2.6c-1.3 1.7-3.2 2.6-5.5 2.6-2.2 0-4-.8-5.3-2.5C2.7 11 2 9.8 2 8.4c0-1 .3-2 .9-3Zm2.5 1.2c-.6.7-.9 1.5-.9 2.3 0 .9.3 1.7 1 2.4.7.7 1.5 1.1 2.5 1.1 1.6 0 2.9-.8 3.9-2.5-.9-1.7-2.2-2.6-3.9-2.6-1 0-1.8.4-2.6 1.1Zm11.2 9.2h4.2v4.2h-4.2z"/>
+        </svg>
+      `;
+    }
+
+    if (id === "orcid") {
+      return `
+        <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2Zm-4 4.6a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8Zm1.1 10.9H6.8v-7.4h2.3v7.4Zm7.4 0h-3.1l-2.8-4.2v4.2H8.4v-7.4h4.1c2 0 3.2 1.1 3.2 2.9 0 1.5-.8 2.4-2.1 2.7l2.9 4.2Zm-3.9-5.7h-2v1.8h2c.7 0 1.1-.4 1.1-.9s-.4-.9-1.1-.9Z"/>
+        </svg>
+      `;
+    }
+
+    return `
+      <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M21.6 4.3 2.9 11.5c-1.3.5-1.3 1.2-.2 1.5l4.8 1.5 1.9 6c.2.5.1.8.7.8.4 0 .6-.2.8-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.2-15.2c.3-1.2-.4-1.8-1.2-1.4Zm-12.8 10-1-.3 10-6.3c.5-.3.9-.1.5.3l-8 7.2-.3 3.3-1.2-4.2Z"/>
+      </svg>
+    `;
+  }
+
+  function initHeaderSocials() {
+    const header = document.querySelector(".site-header");
+    const title = header?.querySelector("h1");
+    if (!header || !title || header.querySelector(".site-header-socials")) {
+      return;
+    }
+
+    const defaultYoutubeHref = SITE.youtubeChannelId
+      ? `https://www.youtube.com/channel/${SITE.youtubeChannelId}`
+      : "";
+    const socials = Array.isArray(SITE.meta?.headerLinks)
+      ? SITE.meta.headerLinks
+      : [];
+    const activeSocials = socials
+      .map((item) => ({
+        ...item,
+        href: item.id === "youtube" ? item.href || defaultYoutubeHref : item.href || ""
+      }))
+      .filter((item) => item.href);
+
+    if (!activeSocials.length) {
+      return;
+    }
+
+    const socialBar = document.createElement("div");
+    socialBar.className = "site-header-socials";
+    socialBar.setAttribute("aria-label", "Соціальні мережі");
+    socialBar.innerHTML = activeSocials
+      .map(
+        (item) => `
+          <a
+            class="site-header-social-link is-${item.id}"
+            href="${item.href}"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="${item.label}"
+            title="${item.label}"
+          >
+            ${getSocialIconMarkup(item.id, "site-header-social-icon")}
+          </a>
+        `
+      )
+      .join("");
+
+    title.insertAdjacentElement("afterend", socialBar);
+  }
+
+  function renderActivityResearchLinks(activity) {
+    if (pageType !== "activity" || activityId !== "1") {
+      return;
+    }
+
+    const aboutPhoto = document.querySelector(".about-photo");
+    if (!aboutPhoto) {
+      return;
+    }
+
+    aboutPhoto.querySelector(".about-photo-links")?.remove();
+
+    const researchLinks = Array.isArray(SITE.meta?.headerLinks)
+      ? SITE.meta.headerLinks.filter((item) => item.id === "webofscience" || item.id === "orcid")
+      : [];
+    const activeLinks = researchLinks.filter((item) => item.href);
+
+    if (!activeLinks.length) {
+      return;
+    }
+
+    const linksWrap = document.createElement("div");
+    linksWrap.className = "about-photo-links";
+    linksWrap.innerHTML = activeLinks
+      .map(
+        (item) => `
+          <a
+            class="about-photo-link is-${item.id}"
+            href="${item.href}"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="${item.label}"
+            title="${item.label}"
+          >
+            ${getSocialIconMarkup(item.id, "about-photo-link-icon")}
+            <span>${item.label}</span>
+          </a>
+        `
+      )
+      .join("");
+
+    aboutPhoto.appendChild(linksWrap);
+  }
+
+  function initHeaderScrollState() {
+    const header = document.querySelector(".site-header");
+    if (!header) {
+      return;
+    }
+
+    const brand = header.querySelector(".site-brand-link");
+
+    if (brand && !brand.dataset.scrollTopBound) {
+      brand.href = "#top";
+      brand.title = "Нагору сторінки";
+      brand.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      });
+      brand.dataset.scrollTopBound = "true";
+    }
+
+    if (header.dataset.scrollStateReady === "true") {
+      return;
+    }
+
+    let ticking = false;
+    let isCompact = false;
+    let stateLockUntil = 0;
+    let stateLockScrollY = window.scrollY;
+    let lastEvaluatedScrollY = window.scrollY;
+
+    const syncHeaderState = () => {
+      const currentScrollY = window.scrollY;
+      const compactOnThreshold = window.innerWidth <= 700 ? 56 : 88;
+      const compactOffThreshold = window.innerWidth <= 700 ? 32 : 60;
+      const previousState = isCompact;
+
+      if (!isCompact && currentScrollY > compactOnThreshold) {
+        isCompact = true;
+      } else if (isCompact && currentScrollY < compactOffThreshold) {
+        isCompact = false;
+      }
+
+      header.classList.toggle("is-compact", isCompact);
+
+      if (previousState !== isCompact) {
+        stateLockScrollY = currentScrollY;
+        stateLockUntil = window.performance.now() + 220;
+      }
+
+      ticking = false;
+    };
+
+    const requestSync = () => {
+      const currentScrollY = window.scrollY;
+      const minimumScrollDelta = window.innerWidth <= 700 ? 14 : 22;
+
+      if (
+        window.performance.now() < stateLockUntil &&
+        Math.abs(currentScrollY - stateLockScrollY) < minimumScrollDelta
+      ) {
+        return;
+      }
+
+      if (Math.abs(currentScrollY - lastEvaluatedScrollY) < minimumScrollDelta) {
+        return;
+      }
+
+      if (ticking) {
+        return;
+      }
+
+      lastEvaluatedScrollY = currentScrollY;
+      ticking = true;
+      window.requestAnimationFrame(syncHeaderState);
+    };
+
+    const handleResize = () => {
+      lastEvaluatedScrollY = window.scrollY;
+
+      if (ticking) {
+        return;
+      }
+
+      ticking = true;
+      window.requestAnimationFrame(syncHeaderState);
+    };
+
+    header.dataset.scrollStateReady = "true";
+    syncHeaderState();
+    window.addEventListener("scroll", requestSync, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
+  }
+
   function applyGlobalContent() {
     const homeTitle = `${SITE.meta.homeTitle} — ${SITE.meta.homeSubtitle}`;
 
@@ -727,6 +949,7 @@
     updateImage("[data-activity-hero-image]", heroImage, homeFallbackImage);
 
     renderParagraphs("[data-activity-paragraphs]", activity.pageDescription);
+    renderActivityResearchLinks(activity);
     initDetailsInteractions();
     loadActivityGallery(activityId);
 
@@ -759,10 +982,48 @@
     document.title = SITE.contact.pageTitle;
     setText("[data-contact-title]", SITE.contact.pageTitle);
     setText("[data-contact-heading]", SITE.contact.heading);
+    setText("[data-contact-socials-title]", SITE.contact.socials?.title || "Мої соціальні мережі:");
     setText("[data-contact-name-label]", SITE.contact.fields.name);
     setText("[data-contact-email-label]", SITE.contact.fields.email);
     setText("[data-contact-message-label]", SITE.contact.fields.message);
     setText("[data-contact-submit]", SITE.contact.fields.submit);
+
+    const socialsList = document.querySelector("[data-contact-socials-list]");
+    if (socialsList) {
+      const defaultYoutubeHref = SITE.youtubeChannelId
+        ? `https://www.youtube.com/channel/${SITE.youtubeChannelId}`
+        : "";
+      const socials = Array.isArray(SITE.contact.socials?.items)
+        ? SITE.contact.socials.items
+        : [];
+
+      socialsList.innerHTML = socials
+        .map((item) => {
+          const href = item.id === "youtube" ? item.href || defaultYoutubeHref : item.href || "";
+          const isActive = Boolean(href);
+          const status = isActive ? "" : '<span class="contact-social-status">незабаром</span>';
+          const commonClass = `contact-social-button is-${item.id}${isActive ? "" : " is-disabled"}`;
+          const icon = getSocialIconMarkup(item.id, "contact-social-icon");
+
+          if (!isActive) {
+            return `
+              <span class="${commonClass}" aria-disabled="true">
+                ${icon}
+                <span class="contact-social-label">${item.label}</span>
+                ${status}
+              </span>
+            `;
+          }
+
+          return `
+            <a class="${commonClass}" href="${href}" target="_blank" rel="noreferrer">
+              ${icon}
+              <span class="contact-social-label">${item.label}</span>
+            </a>
+          `;
+        })
+        .join("");
+    }
 
     const form = document.querySelector("[data-contact-form]");
     const nameField = form?.querySelector("input[name='name']");
@@ -1151,7 +1412,9 @@
     applyMenuLabels();
     applyActiveMenuState();
     initHeaderBrand();
+    initHeaderSocials();
     initThemeToggle();
+    initHeaderScrollState();
     initDetailsInteractions();
     applyThemeAssets(document.documentElement.getAttribute("data-theme") || "light");
   }

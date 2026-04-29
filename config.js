@@ -2,16 +2,43 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.5",
+    buildVersion: "0.6.7",
     buildDate: "290426",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
-    homeSubtitle: "філософ, викладач, священнослужитель"
+    homeSubtitle: "філософ, викладач, священнослужитель",
+    headerLinks: [
+      {
+        id: "youtube",
+        label: "YouTube",
+        href: ""
+      },
+      {
+        id: "facebook",
+        label: "Facebook",
+        href: "http://facebook.com/va.ignatyev"
+      },
+      {
+        id: "telegram",
+        label: "Telegram",
+        href: "https://t.me/iva_net_ua"
+      },
+      {
+        id: "webofscience",
+        label: "Web of Science",
+        href: "https://www.webofscience.com/wos/author/record/ADR-7609-2022"
+      },
+      {
+        id: "orcid",
+        label: "ORCID",
+        href: "https://orcid.org/0000-0002-0635-6580"
+      }
+    ]
   },
   menu: {
     home: "Головна",
     downloads: "Завантаження",
-    contact: "Зв'язок"
+    contact: "Контакти"
   },
   home: {
     aboutHeading: "Про мене",
@@ -246,10 +273,30 @@
     ]
   },
   contact: {
-    pageTitle: "Зв'язок",
-    heading: "Зворотний зв'язок",
+    pageTitle: "Контакти",
+    heading: "Контакти",
     intro: "Для роботи форми потрібно створити форму на Formspree і замінити your-form-id у посиланні нижче.",
     formAction: "https://formspree.io/f/xnjlkjrp",
+    socials: {
+      title: "Мої соціальні мережі:",
+      items: [
+        {
+          id: "youtube",
+          label: "YouTube",
+          href: ""
+        },
+        {
+          id: "facebook",
+          label: "Facebook",
+          href: "http://facebook.com/va.ignatyev"
+        },
+        {
+          id: "telegram",
+          label: "Telegram",
+          href: "https://t.me/iva_net_ua"
+        }
+      ]
+    },
     fields: {
       name: "Ім'я",
       email: "Email",
