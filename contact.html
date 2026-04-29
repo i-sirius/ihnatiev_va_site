@@ -36,7 +36,7 @@
               <span class="required-mark" aria-hidden="true">*</span>
             </span>
           </span>
-          <input name="name" required>
+          <input name="name" maxlength="80" required>
           <small class="field-note" data-note-name>Обов'язково для заповнення</small>
           <small class="field-ok" data-ok-name hidden>✓ Заповнено</small>
         </label>
@@ -49,7 +49,7 @@
                 <span class="required-mark" aria-hidden="true" data-mark-email>*</span>
               </span>
             </span>
-            <input name="email" type="text" autocomplete="email" inputmode="email">
+            <input name="email" type="text" autocomplete="email" inputmode="email" maxlength="120">
             <small class="field-note" data-note-email>Обов'язково: email або телефон</small>
             <small class="field-ok" data-ok-email hidden>✓ Email вказано</small>
           </label>
@@ -63,7 +63,7 @@
                 <span class="required-mark" aria-hidden="true" data-mark-phone>*</span>
               </span>
             </span>
-            <input name="phone" type="tel" autocomplete="tel" inputmode="tel">
+            <input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="25">
             <small class="field-note" data-note-phone>Обов'язково: телефон або email</small>
             <small class="field-ok" data-ok-phone hidden>✓ Телефон вказано</small>
           </label>
@@ -76,7 +76,7 @@
               <span class="required-mark" aria-hidden="true">*</span>
             </span>
           </span>
-          <input name="subject" required>
+          <input name="subject" maxlength="140" required>
           <small class="field-note" data-note-subject>Обов'язково для заповнення</small>
           <small class="field-ok" data-ok-subject hidden>✓ Заповнено</small>
         </label>
@@ -91,9 +91,9 @@
           <div class="textarea-meta">
             <small class="field-note" data-contact-message-note>Обов'язково для заповнення (не менше 25 символів)</small>
             <small class="field-ok" data-ok-message hidden>✓ Достатньо символів</small>
-            <small class="contact-counter" data-contact-message-count>0 / 25+</small>
+            <small class="contact-counter" data-contact-message-count hidden></small>
           </div>
-          <textarea name="message" rows="6" minlength="25" required></textarea>
+          <textarea name="message" rows="4" minlength="25" maxlength="3000" required></textarea>
         </label>
 
         <button type="submit" data-contact-submit disabled>Надіслати</button>

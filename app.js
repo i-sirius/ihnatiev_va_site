@@ -31,7 +31,6 @@
     const defaultDetailsSummary = "\u0414\u0435\u0442\u0430\u043b\u0456";
     const defaultExpandLabel = "\u0420\u041e\u0417\u0413\u041e\u0420\u041d\u0423\u0422\u0418";
     const defaultCloseLabel = "\u0417\u0413\u041e\u0420\u041d\u0423\u0422\u0418";
-    const defaultCloseAria = "\u0417\u0433\u043e\u0440\u043d\u0443\u0442\u0438 \u0441\u043f\u0438\u0441\u043e\u043a";
 
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = paragraphs
@@ -54,16 +53,10 @@
                   <span class="about-details-summary-text">${paragraph.summary || defaultDetailsSummary}</span>
                   <span class="about-details-arrow" aria-hidden="true">
                     <span class="about-details-arrow-icon"></span>
-                    <span class="about-details-arrow-label" data-label="${defaultExpandLabel}">${defaultExpandLabel}</span>
+                    <span class="about-details-arrow-label" data-open-label="${defaultExpandLabel}" data-close-label="${defaultCloseLabel}">${defaultExpandLabel}</span>
                   </span>
                 </summary>
                 <div class="about-details-body">
-                  <div class="about-details-tools">
-                    <button type="button" class="about-details-close" aria-label="${defaultCloseAria}">
-                      <span class="about-details-close-icon"></span>
-                      <span class="about-details-close-label">${defaultCloseLabel}</span>
-                    </button>
-                  </div>
                   ${description}
                   <ol class="about-details-list">${items}</ol>
                 </div>
@@ -116,11 +109,14 @@
       }
 
       details.dataset.enhanced = "true";
-      const closeButton = details.querySelector(".about-details-close");
+      details.addEventListener("toggle", () => {
+        if (details.open) {
+          return;
+        }
 
-      closeButton?.addEventListener("click", () => {
-        details.open = false;
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        window.requestAnimationFrame(() => {
+          window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        });
       });
     });
   }
@@ -547,20 +543,37 @@
     toggle.className = "theme-toggle";
     toggle.setAttribute("aria-label", "Перемкнути тему");
     toggle.innerHTML = `
+      <span class="theme-toggle-label" data-theme-toggle-label></span>
       <span class="theme-toggle-track">
         <span class="theme-toggle-thumb"></span>
       </span>
     `;
 
+    const toggleLabel = toggle.querySelector("[data-theme-toggle-label]");
+
+    function updateThemeToggleLabel(currentTheme) {
+      const nextTheme = currentTheme === "dark" ? "light" : "dark";
+      const nextThemeIcon = nextTheme === "dark" ? "🌙" : "☀️";
+      const nextThemeText = nextTheme === "dark" ? "Темна тема" : "Світла тема";
+      toggleLabel.innerHTML = `
+        <span class="theme-toggle-icon" aria-hidden="true">${nextThemeIcon}</span>
+        <span class="theme-toggle-text">${nextThemeText}</span>
+      `;
+      toggle.setAttribute("aria-label", `Увімкнути ${nextTheme === "dark" ? "темну" : "світлу"} тему`);
+    }
+
     if (theme === "dark") {
       toggle.classList.add("is-dark");
     }
+
+    updateThemeToggleLabel(theme);
 
     toggle.addEventListener("click", () => {
       const nextTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", nextTheme);
       localStorage.setItem("site-theme", nextTheme);
       toggle.classList.toggle("is-dark", nextTheme === "dark");
+      updateThemeToggleLabel(nextTheme);
       applyThemeAssets(nextTheme);
     });
 
@@ -711,7 +724,6 @@
     const subjectField = form?.querySelector("input[name='subject']");
     const messageField = form?.querySelector("textarea[name='message']");
     const submitButton = form?.querySelector("[data-contact-submit]");
-    const counter = document.querySelector("[data-contact-message-count]");
     const noteName = document.querySelector("[data-note-name]");
     const noteSubject = document.querySelector("[data-note-subject]");
     const noteMessage = document.querySelector("[data-contact-message-note]");
@@ -725,6 +737,54 @@
     const emailMark = document.querySelector("[data-mark-email]");
     const phoneMark = document.querySelector("[data-mark-phone]");
 
+    function ensureLimitCounter(
+      field,
+      counterKey,
+      containerSelector = ".field-label",
+      legacySelector = "",
+      extraClass = ""
+    ) {
+      if (!field) {
+        return null;
+      }
+
+      const label = field.closest("label");
+      if (!label) {
+        return null;
+      }
+
+      let counterElement = label.querySelector(`[data-contact-counter="${counterKey}"]`);
+      if (!counterElement && legacySelector) {
+        counterElement = label.querySelector(legacySelector);
+      }
+      if (!counterElement) {
+        counterElement = document.createElement("small");
+        counterElement.hidden = true;
+      }
+
+      counterElement.setAttribute("data-contact-counter", counterKey);
+      counterElement.className = `contact-counter contact-limit-counter${extraClass ? ` ${extraClass}` : ""}`;
+
+      const container = containerSelector ? label.querySelector(containerSelector) : null;
+      if (counterElement.parentElement !== container) {
+        (container || label).appendChild(counterElement);
+      }
+
+      return counterElement;
+    }
+
+    const nameCounter = ensureLimitCounter(nameField, "name");
+    const emailCounter = ensureLimitCounter(emailField, "email");
+    const phoneCounter = ensureLimitCounter(phoneField, "phone");
+    const subjectCounter = ensureLimitCounter(subjectField, "subject");
+    const messageCounter = ensureLimitCounter(
+      messageField,
+      "message",
+      "",
+      "[data-contact-message-count]",
+      "contact-limit-counter-under"
+    );
+
     if (
       !form ||
       !nameField ||
@@ -733,7 +793,11 @@
       !subjectField ||
       !messageField ||
       !submitButton ||
-      !counter ||
+      !nameCounter ||
+      !emailCounter ||
+      !phoneCounter ||
+      !subjectCounter ||
+      !messageCounter ||
       !noteName ||
       !noteSubject ||
       !noteMessage ||
@@ -751,6 +815,101 @@
     }
 
     form.action = SITE.contact.formAction;
+
+    if (form.dataset.enhanced === "true") {
+      return;
+    }
+
+    form.dataset.enhanced = "true";
+
+    function autoResizeMessageField(keepSubmitVisible = false) {
+      const previousRect = messageField.getBoundingClientRect();
+      const previousHeight = messageField.offsetHeight;
+      messageField.style.height = "auto";
+      messageField.style.height = `${messageField.scrollHeight}px`;
+
+      const nextHeight = messageField.offsetHeight;
+      const heightDelta = nextHeight - previousHeight;
+
+      if (heightDelta < 0 && document.activeElement === messageField) {
+        const nextRect = messageField.getBoundingClientRect();
+        const bottomShift = nextRect.bottom - previousRect.bottom;
+
+        if (bottomShift !== 0) {
+          window.scrollBy({
+            top: bottomShift,
+            left: 0,
+            behavior: "auto"
+          });
+        }
+      }
+
+      if (!keepSubmitVisible || heightDelta <= 0) {
+        return;
+      }
+
+      const viewportPadding = 24;
+      const submitRect = submitButton.getBoundingClientRect();
+      const overflow = submitRect.bottom - (window.innerHeight - viewportPadding);
+
+      if (overflow > 0) {
+        window.scrollBy({
+          top: overflow + 8,
+          left: 0,
+          behavior: "auto"
+        });
+      }
+    }
+
+    function updateLimitCounter(field, counterElement) {
+      const limit = Number(field.maxLength) || 0;
+      if (!limit) {
+        counterElement.hidden = true;
+        counterElement.textContent = "";
+        counterElement.style.removeProperty("--limit-counter-opacity");
+        counterElement.classList.remove("is-exhausted");
+        return;
+      }
+
+      const charsLeft = Math.max(limit - field.value.length, 0);
+      const warnThreshold = Math.ceil(limit * 0.15);
+
+      if (charsLeft <= warnThreshold) {
+        const progress = 1 - charsLeft / Math.max(warnThreshold, 1);
+        const opacity = charsLeft === 0 ? 0.96 : 0.18 + progress * 0.82;
+        counterElement.hidden = false;
+        counterElement.textContent =
+          charsLeft === 0 ? "ЛІМІТ ПО ТЕКСТУ ВИЧЕРПАНО" : `Залишилось ${charsLeft} симв.`;
+        counterElement.style.setProperty("--limit-counter-opacity", opacity.toFixed(3));
+        counterElement.classList.toggle("is-exhausted", charsLeft === 0);
+      } else {
+        counterElement.hidden = true;
+        counterElement.textContent = "";
+        counterElement.style.removeProperty("--limit-counter-opacity");
+        counterElement.classList.remove("is-exhausted");
+      }
+    }
+
+    function triggerLimitFeedback(field) {
+      field.classList.remove("field-limit-hit");
+      void field.offsetWidth;
+      field.classList.add("field-limit-hit");
+    }
+
+    const limitedFields = [
+      nameField,
+      emailField,
+      phoneField,
+      subjectField,
+      messageField
+    ];
+    const limitCounters = [
+      [nameField, nameCounter],
+      [emailField, emailCounter],
+      [phoneField, phoneCounter],
+      [subjectField, subjectCounter],
+      [messageField, messageCounter]
+    ];
 
     function updateContactState() {
       const hasName = nameField.value.trim().length > 0;
@@ -828,7 +987,8 @@
             : "Обов'язково для заповнення (не менше 25 символів)";
       }
 
-      counter.textContent = `${messageLength} / 25+`;
+      limitCounters.forEach(([field, counterElement]) => updateLimitCounter(field, counterElement));
+
       submitButton.disabled = !formIsReady;
     }
 
@@ -836,6 +996,37 @@
       field.addEventListener("input", updateContactState);
       field.addEventListener("change", updateContactState);
     });
+
+    limitedFields.forEach((field) => {
+      field.addEventListener("beforeinput", (event) => {
+        const limit = Number(field.maxLength) || 0;
+        if (!limit || event.isComposing) {
+          return;
+        }
+
+        const inputType = event.inputType || "";
+        if (!inputType.startsWith("insert")) {
+          return;
+        }
+
+        const selectionStart =
+          typeof field.selectionStart === "number" ? field.selectionStart : field.value.length;
+        const selectionEnd =
+          typeof field.selectionEnd === "number" ? field.selectionEnd : field.value.length;
+        const selectedLength = Math.max(selectionEnd - selectionStart, 0);
+
+        if (field.value.length - selectedLength >= limit) {
+          triggerLimitFeedback(field);
+        }
+      });
+
+      field.addEventListener("animationend", () => {
+        field.classList.remove("field-limit-hit");
+      });
+    });
+
+    messageField.addEventListener("input", () => autoResizeMessageField(true));
+    window.addEventListener("resize", () => autoResizeMessageField(false));
 
     form.addEventListener("submit", (event) => {
       updateContactState();
@@ -867,6 +1058,7 @@
       }
     });
 
+    autoResizeMessageField(false);
     updateContactState();
   }
 
