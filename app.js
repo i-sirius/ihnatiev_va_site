@@ -23,6 +23,15 @@
     });
   }
 
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
   function renderParagraphs(selector, paragraphs) {
     if (!Array.isArray(paragraphs)) {
       return;
@@ -240,6 +249,142 @@
     return lightbox;
   }
 
+  function canPreviewDownloadFile(fileType = "FILE") {
+    const normalizedType = String(fileType).toUpperCase();
+    return ["PDF", "PNG", "JPG", "JPEG", "WEBP", "GIF", "TXT", "HTM", "HTML"].includes(normalizedType);
+  }
+
+  function ensureDocumentLightbox() {
+    let lightbox = document.querySelector("[data-document-lightbox]");
+
+    if (lightbox) {
+      return lightbox;
+    }
+
+    lightbox = document.createElement("div");
+    lightbox.className = "gallery-lightbox document-lightbox";
+    lightbox.hidden = true;
+    lightbox.setAttribute("data-document-lightbox", "");
+    lightbox.innerHTML = `
+      <div class="lightbox-stage document-lightbox-stage">
+        <div class="lightbox-toolbar document-lightbox-toolbar">
+          <div class="document-lightbox-meta">
+            <span class="document-lightbox-filetype" data-document-filetype></span>
+            <span class="document-lightbox-title" data-document-title></span>
+          </div>
+          <div class="document-lightbox-actions">
+            <a
+              class="document-lightbox-link"
+              href="#"
+              target="_blank"
+              rel="noreferrer"
+              data-document-open
+            >Відкрити окремо</a>
+            <a
+              class="document-lightbox-link is-download"
+              href="#"
+              download
+              data-document-download
+            >Завантажити</a>
+            <button class="lightbox-close" type="button" aria-label="Закрити" data-document-close>×</button>
+          </div>
+        </div>
+        <div class="document-lightbox-view">
+          <iframe
+            class="document-lightbox-frame"
+            title="Попередній перегляд файла"
+            data-document-frame
+            hidden
+          ></iframe>
+          <div class="document-lightbox-fallback" data-document-fallback hidden>
+            <p class="document-lightbox-fallback-title">Попередній перегляд у вікні сайту для цього формату недоступний.</p>
+            <p class="document-lightbox-fallback-text">Можна відкрити файл окремо або одразу завантажити його кнопкою вище.</p>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(lightbox);
+
+    const frame = lightbox.querySelector("[data-document-frame]");
+    const fallback = lightbox.querySelector("[data-document-fallback]");
+    const title = lightbox.querySelector("[data-document-title]");
+    const filetype = lightbox.querySelector("[data-document-filetype]");
+    const openLink = lightbox.querySelector("[data-document-open]");
+    const downloadLink = lightbox.querySelector("[data-document-download]");
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      document.body.classList.remove("lightbox-open");
+      frame?.setAttribute("hidden", "");
+      fallback?.setAttribute("hidden", "");
+
+      if (frame) {
+        frame.src = "about:blank";
+      }
+    }
+
+    function showPreview(file = {}) {
+      const href = file.href || "#";
+      const label = file.label || href || "Файл";
+      const type = getDownloadFileType(file);
+
+      if (title) {
+        title.textContent = label;
+      }
+
+      if (filetype) {
+        filetype.textContent = type;
+      }
+
+      if (openLink) {
+        openLink.href = href;
+      }
+
+      if (downloadLink) {
+        downloadLink.href = href;
+        downloadLink.setAttribute("download", "");
+      }
+
+      if (canPreviewDownloadFile(type) && frame) {
+        frame.hidden = false;
+        fallback?.setAttribute("hidden", "");
+        frame.src = type === "PDF" ? `${href}#toolbar=1&navpanes=0&view=FitH` : href;
+      } else {
+        frame?.setAttribute("hidden", "");
+
+        if (frame) {
+          frame.src = "about:blank";
+        }
+
+        fallback?.removeAttribute("hidden");
+      }
+
+      lightbox.hidden = false;
+      document.body.classList.add("lightbox-open");
+    }
+
+    lightbox.querySelector("[data-document-close]")?.addEventListener("click", closeLightbox);
+
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (lightbox.hidden) {
+        return;
+      }
+
+      if (event.key === "Escape") {
+        closeLightbox();
+      }
+    });
+
+    lightbox.showPreview = showPreview;
+    return lightbox;
+  }
+
   function applyPortraitState(container) {
     container.querySelectorAll("img").forEach((image) => {
       const markOrientation = () => {
@@ -299,17 +444,136 @@
     }
 
     document.querySelectorAll(selector).forEach((element) => {
-      element.innerHTML = files
-        .map(
-          (file) => `
-            <li>
-              <a href="${file.href}" download>
-                <span>${file.label}</span>
-              </a>
-            </li>
-          `
-        )
-        .join("");
+      element.innerHTML = files.map((file) => renderDownloadListItem(file)).join("");
+    });
+  }
+
+  function getDownloadFileType(file = {}) {
+    const source = `${file.href || ""} ${file.label || ""}`;
+    const match = source.match(/\.([a-z0-9]{2,5})(?:$|[?#\s])/i);
+    return (match?.[1] || "file").toUpperCase();
+  }
+
+  function getDownloadFileIconMarkup(fileType = "FILE") {
+    const normalizedType = String(fileType).toUpperCase();
+
+    if (normalizedType === "PDF") {
+      return `
+        <svg class="download-file-icon is-pdf" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M6 2.8h8.4L20 8.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Zm7.8 1.8v4.3h4.3L13.8 4.6ZM8 17.8v-6h2.6c1.5 0 2.4.8 2.4 2.1 0 1.4-.9 2.2-2.4 2.2H9.5v1.7H8Zm1.5-3h1c.6 0 1-.3 1-.9s-.4-.8-1-.8h-1v1.7Zm4.4 3v-6h2.3c1.9 0 3.2 1.2 3.2 3s-1.3 3-3.2 3h-2.3Zm1.5-1.3h.7c1.1 0 1.8-.7 1.8-1.8s-.7-1.8-1.8-1.8h-.7v3.6Zm4.7 1.3v-6h3.9v1.3h-2.4v1.2h2.1v1.3h-2.1v2.2h-1.5Z"/>
+        </svg>
+      `;
+    }
+
+    if (normalizedType === "DOC" || normalizedType === "DOCX") {
+      return `
+        <svg class="download-file-icon is-doc" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M6 2.8h8.4L20 8.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Zm7.8 1.8v4.3h4.3L13.8 4.6ZM7.8 17.8v-6H10c1.9 0 3.1 1.2 3.1 3s-1.2 3-3.1 3H7.8Zm1.5-1.3H10c1 0 1.6-.6 1.6-1.7S11 13.1 10 13.1H9.3v3.4Zm7.2 1.4c-1.7 0-2.8-1.2-2.8-3.1s1.1-3.1 2.8-3.1 2.8 1.2 2.8 3.1-1.1 3.1-2.8 3.1Zm0-1.3c.8 0 1.3-.7 1.3-1.8s-.5-1.8-1.3-1.8-1.3.7-1.3 1.8.5 1.8 1.3 1.8Z"/>
+        </svg>
+      `;
+    }
+
+    if (normalizedType === "DJVU" || normalizedType === "DJV") {
+      return `
+        <svg class="download-file-icon is-djvu" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M6 2.8h8.4L20 8.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Zm7.8 1.8v4.3h4.3L13.8 4.6ZM7.7 17.8v-6h1.5v4.7h2.3v1.3H7.7Zm5.2.1c-1 0-1.8-.3-2.4-.9l.8-1.1c.4.4.8.6 1.4.6.6 0 .9-.3.9-.8v-3.9h1.5v3.9c0 1.4-.8 2.2-2.2 2.2Zm5.2 0c-1.8 0-2.9-1.2-2.9-3.1s1.1-3.1 2.9-3.1c1 0 1.8.4 2.3 1l-.9 1c-.3-.4-.8-.7-1.4-.7-.9 0-1.4.7-1.4 1.8s.6 1.8 1.4 1.8c.6 0 1.1-.3 1.4-.7l.9 1c-.5.7-1.3 1-2.3 1Z"/>
+        </svg>
+      `;
+    }
+
+    return `
+      <svg class="download-file-icon is-file" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M6 2.8h8.4L20 8.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Zm7.8 1.8v4.3h4.3L13.8 4.6ZM8 17.7v-5.8h1.5v4.5h2.6v1.3H8Zm5-5.8h1.5v5.8H13v-5.8Zm2.8 0h4.1v1.3h-2.6v1h2.2v1.3h-2.2v2.2h-1.5v-5.8Z"/>
+      </svg>
+    `;
+  }
+
+  function renderDownloadListItem(file = {}) {
+    const fileType = getDownloadFileType(file);
+    const href = file.href || "#";
+    const label = file.label || file.href || "Файл";
+    const safeHref = escapeHtml(href);
+    const safeLabel = escapeHtml(label);
+    const safeType = escapeHtml(fileType);
+
+    return `
+      <li>
+        <div class="download-row">
+          <button
+            class="download-preview-trigger"
+            type="button"
+            data-download-preview
+            data-preview-href="${safeHref}"
+            data-preview-label="${safeLabel}"
+            data-preview-type="${safeType}"
+            aria-label="Переглянути ${safeLabel}"
+          >
+            <span class="download-link-main">
+              <span class="download-filetype" aria-hidden="true">
+                ${getDownloadFileIconMarkup(fileType)}
+              </span>
+              <span class="download-link-text">${safeLabel}</span>
+            </span>
+          </button>
+          <a
+            class="download-link-action"
+            href="${safeHref}"
+            download
+            aria-label="Завантажити ${safeLabel}"
+            title="Завантажити"
+          >↓</a>
+        </div>
+      </li>
+    `;
+  }
+
+  function renderDownloadGroupFiles(files = []) {
+    if (!Array.isArray(files) || !files.length) {
+      return `<p class="download-group-empty">Файли тимчасово відсутні.</p>`;
+    }
+
+    return `
+      <ul class="download-list">
+        ${files.map((file) => renderDownloadListItem(file)).join("")}
+      </ul>
+    `;
+  }
+
+  function renderDownloadsGroups(selector, groups) {
+    if (!groups || typeof groups !== "object") {
+      return;
+    }
+
+    document.querySelectorAll(selector).forEach((element) => {
+      const monographs = Array.isArray(groups.monographs) ? groups.monographs : [];
+      const articleGroups = Array.isArray(groups.articles) ? groups.articles : [];
+
+      element.innerHTML = `
+        <section class="download-group download-group-main">
+          <h3 class="download-group-title">МОНОГРАФІЇ</h3>
+          ${renderDownloadGroupFiles(monographs)}
+        </section>
+        <section class="download-group download-group-main">
+          <h3 class="download-group-title">СТАТТІ</h3>
+          <div class="download-subgroups">
+            ${articleGroups
+              .map(
+                (group) => `
+                  <details class="download-subgroup">
+                    <summary>
+                      <span class="download-subgroup-title">${group.title || "РОЗДІЛ"}</span>
+                      <span class="download-subgroup-toggle" aria-hidden="true"></span>
+                    </summary>
+                    <div class="download-subgroup-body">
+                      ${renderDownloadGroupFiles(group.files)}
+                    </div>
+                  </details>
+                `
+              )
+              .join("")}
+          </div>
+        </section>
+      `;
     });
   }
 
@@ -513,6 +777,49 @@
       });
   }
 
+  function loadDownloadsGroups(path, selector, fallbackGroups = null) {
+    fetchJson(path)
+      .then((groups) => {
+        if (groups && typeof groups === "object" && !Array.isArray(groups)) {
+          renderDownloadsGroups(selector, groups);
+          return;
+        }
+
+        if (fallbackGroups && typeof fallbackGroups === "object") {
+          renderDownloadsGroups(selector, fallbackGroups);
+        }
+      })
+      .catch(() => {
+        if (fallbackGroups && typeof fallbackGroups === "object") {
+          renderDownloadsGroups(selector, fallbackGroups);
+        }
+      });
+  }
+
+  function initDownloadPreviewTriggers() {
+    if (document.body.dataset.downloadPreviewReady === "true") {
+      return;
+    }
+
+    const lightbox = ensureDocumentLightbox();
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-download-preview]");
+      if (!trigger) {
+        return;
+      }
+
+      event.preventDefault();
+      lightbox.showPreview({
+        href: trigger.getAttribute("data-preview-href") || "",
+        label: trigger.getAttribute("data-preview-label") || "",
+        type: trigger.getAttribute("data-preview-type") || ""
+      });
+    });
+
+    document.body.dataset.downloadPreviewReady = "true";
+  }
+
   function loadYoutubeFeed() {
     const target = document.querySelector("[data-activity-videos]");
     const channelId = SITE.youtubeChannelId;
@@ -701,6 +1008,14 @@
       `;
     }
 
+    if (id === "googlescholar") {
+      return `
+        <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M12 2 1.5 7.3 12 12.6l8.5-4.3v5.3H22V7.3L12 2Zm-6.8 9.5V15c0 2.5 3.1 4.5 6.8 4.5s6.8-2 6.8-4.5v-3.5L12 15l-6.8-3.5Zm3 4.1h1.6c.2 1 1.1 1.6 2.3 1.6 1.3 0 2.2-.7 2.2-1.6s-.9-1.6-2.2-1.6c-.6 0-1.2.1-1.6.4l-.7-1c.6-.5 1.5-.7 2.4-.7 2.1 0 3.6 1.1 3.6 2.9 0 1.8-1.5 2.9-3.8 2.9-2 0-3.4-1-3.8-2.9Z"/>
+        </svg>
+      `;
+    }
+
     return `
       <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path fill="currentColor" d="M21.6 4.3 2.9 11.5c-1.3.5-1.3 1.2-.2 1.5l4.8 1.5 1.9 6c.2.5.1.8.7.8.4 0 .6-.2.8-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.2-15.2c.3-1.2-.4-1.8-1.2-1.4Zm-12.8 10-1-.3 10-6.3c.5-.3.9-.1.5.3l-8 7.2-.3 3.3-1.2-4.2Z"/>
@@ -768,7 +1083,10 @@
     aboutPhoto.querySelector(".about-photo-links")?.remove();
 
     const researchLinks = Array.isArray(SITE.meta?.headerLinks)
-      ? SITE.meta.headerLinks.filter((item) => item.id === "webofscience" || item.id === "orcid")
+      ? SITE.meta.headerLinks.filter(
+          (item) =>
+            item.id === "webofscience" || item.id === "orcid" || item.id === "googlescholar"
+        )
       : [];
     const activeLinks = researchLinks.filter((item) => item.href);
 
@@ -827,6 +1145,13 @@
     let stateLockScrollY = window.scrollY;
     let lastEvaluatedScrollY = window.scrollY;
 
+    const updateHeaderOffset = () => {
+      document.documentElement.style.setProperty(
+        "--site-header-offset",
+        `${Math.ceil(header.getBoundingClientRect().height)}px`
+      );
+    };
+
     const syncHeaderState = () => {
       const currentScrollY = window.scrollY;
       const compactOnThreshold = window.innerWidth <= 700 ? 56 : 88;
@@ -840,6 +1165,7 @@
       }
 
       header.classList.toggle("is-compact", isCompact);
+      updateHeaderOffset();
 
       if (previousState !== isCompact) {
         stateLockScrollY = currentScrollY;
@@ -970,8 +1296,13 @@
     document.title = SITE.downloads.pageTitle;
     setText("[data-downloads-title]", SITE.downloads.pageTitle);
     setText("[data-downloads-heading]", SITE.downloads.heading);
-    setText("[data-downloads-intro]", SITE.downloads.intro);
-    loadFileList("files/downloads/files.json", "[data-downloads-list]", []);
+    const downloadsIntro = document.querySelector("[data-downloads-intro]");
+    if (downloadsIntro) {
+      const intro = SITE.downloads.intro || "";
+      downloadsIntro.textContent = intro;
+      downloadsIntro.hidden = !intro.trim();
+    }
+    loadDownloadsGroups("files/downloads/files.json", "[data-downloads-groups]", SITE.downloads.groups || null);
   }
 
   function applyContactPage() {
@@ -1416,6 +1747,7 @@
     initThemeToggle();
     initHeaderScrollState();
     initDetailsInteractions();
+    initDownloadPreviewTriggers();
     applyThemeAssets(document.documentElement.getAttribute("data-theme") || "light");
   }
 

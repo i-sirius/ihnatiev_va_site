@@ -1,78 +1,101 @@
-[
-  {
-    "href": "files/downloads/Ознайомлення з монографією -Націософія- - Ігнатьєв ВА.pdf",
-    "label": "1. (PREVIEW) Ознайомлення з монографією <Націософія> - Ігнатьєв В.А.pdf"
-  },
-  {
-    "href": "files/downloads/Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf",
-    "label": "2. (PREVIEW) Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf"
-  },
-  {
-    "href": "files/downloads/HISTORICAL AND PHILOSOPHICAL SOURCES OF.pdf",
-    "label": "1. HISTORICAL AND PHILOSOPHICAL SOURCES OF....pdf"
-  },
-  {
-    "href": "files/downloads/NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf",
-    "label": "2. NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf"
-  },
-  {
-    "href": "files/downloads/PHILOSOPHICAL UNDERSTANDING.pdf",
-    "label": "3. PHILOSOPHICAL UNDERSTANDING.pdf"
-  },
-  {
-    "href": "files/downloads/PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf",
-    "label": "4. PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf"
-  },
-  {
-    "href": "files/downloads/POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf",
-    "label": "5. POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf"
-  },
-  {
-    "href": "files/downloads/SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf",
-    "label": "6. SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf"
-  },
-  {
-    "href": "files/downloads/THE USE OF S. KHORUZHYI'S IDEAS.pdf",
-    "label": "7. THE USE OF S. KHORUZHYI'S IDEAS.pdf"
-  },
-  {
-    "href": "files/downloads/ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf",
-    "label": "8. ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf"
-  },
-  {
-    "href": "files/downloads/ЕСТЕЗИС АПОФАЗИСУ.pdf",
-    "label": "9. ЕСТЕЗИС АПОФАЗИСУ.pdf"
-  },
-  {
-    "href": "files/downloads/ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf",
-    "label": "10. ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf"
-  },
-  {
-    "href": "files/downloads/Наукова_діяльність_у_вищому_навчальному_закладі.docx",
-    "label": "11. Наукова діяльність у вищому навчальному закладі.docx"
-  },
-  {
-    "href": "files/downloads/Ісихастська тратиція.pdf",
-    "label": "12. Ісихастська тратиція.pdf"
-  },
-  {
-    "href": "files/downloads/НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf",
-    "label": "13. НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf"
-  },
-  {
-    "href": "files/downloads/Православна політична теологія.pdf",
-    "label": "14. Православна політична теологія.pdf"
-  },
-  {
-    "href": "files/downloads/Рашизм як форма етнофілетизму.pdf",
-    "label": "15. Рашизм як форма етнофілетизму.pdf"
-  },
-  {
-    "href": "files/downloads/РЕЛІГІЙНІ СИМУЛЯКРИ .pdf",
-    "label": "16. РЕЛІГІЙНІ СИМУЛЯКРИ .pdf"
-  },
-  {
-    "href": "files/downloads/Філософська антропологія.pdf",
-    "label": "17. Філософська антропологія.pdf"
-  }
-]
+{
+  "monographs": [
+    {
+      "href": "files/downloads/Ознайомлення з монографією -Націософія- - Ігнатьєв ВА.pdf",
+      "label": "1. (PREVIEW) Ознайомлення з монографією <Націософія> - Ігнатьєв В.А.pdf"
+    },
+    {
+      "href": "files/downloads/Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf",
+      "label": "2. (PREVIEW) Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf"
+    }
+  ],
+  "articles": [
+    {
+      "title": "SCOPUS",
+      "files": [
+        {
+          "href": "files/downloads/SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf",
+          "label": "1. SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf"
+        },
+        {
+          "href": "files/downloads/Improving the quality of education based on the system of continuing education.pdf",
+          "label": "2. Improving the quality of education based on the system of continuing education.pdf"
+        },
+        {
+          "href": "files/downloads/Improving the quality of tourist services.pdf",
+          "label": "3. Improving the quality of tourist services.pdf"
+        }
+      ]
+    },
+    {
+      "title": "WEB OF SCIENCE",
+      "files": [
+        {
+          "href": "files/downloads/PHILOSOPHICAL UNDERSTANDING.pdf",
+          "label": "1. PHILOSOPHICAL UNDERSTANDING.pdf"
+        },
+        {
+          "href": "files/downloads/PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf",
+          "label": "2. PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf"
+        },
+        {
+          "href": "files/downloads/POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf",
+          "label": "3. POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf"
+        },
+        {
+          "href": "files/downloads/THE USE OF S. KHORUZHYI'S IDEAS.pdf",
+          "label": "4. THE USE OF S. KHORUZHYI'S IDEAS.pdf"
+        }
+      ]
+    },
+    {
+      "title": "ФАХОВІ СТАТТІ",
+      "files": [
+        {
+          "href": "files/downloads/NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf",
+          "label": "1. NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf"
+        },
+        {
+          "href": "files/downloads/ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf",
+          "label": "2. ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf"
+        },
+        {
+          "href": "files/downloads/ЕСТЕЗИС АПОФАЗИСУ.pdf",
+          "label": "3. ЕСТЕЗИС АПОФАЗИСУ.pdf"
+        },
+        {
+          "href": "files/downloads/ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf",
+          "label": "4. ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf"
+        },
+        {
+          "href": "files/downloads/Наукова_діяльність_у_вищому_навчальному_закладі.docx",
+          "label": "5. Наукова діяльність у вищому навчальному закладі.docx"
+        },
+        {
+          "href": "files/downloads/Ісихастська традиція .pdf",
+          "label": "6. Ісихастська традиція .pdf"
+        },
+        {
+          "href": "files/downloads/НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf",
+          "label": "7. НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf"
+        },
+        {
+          "href": "files/downloads/Православна політична теологія.pdf",
+          "label": "8. Православна політична теологія.pdf"
+        },
+        {
+          "href": "files/downloads/Рашизм як форма етнофілетизму.pdf",
+          "label": "9. Рашизм як форма етнофілетизму.pdf"
+        },
+        {
+          "href": "files/downloads/РЕЛІГІЙНІ СИМУЛЯКРИ .pdf",
+          "label": "10. РЕЛІГІЙНІ СИМУЛЯКРИ .pdf"
+        },
+        {
+          "href": "files/downloads/Філософська антропологія.pdf",
+          "label": "11. Філософська антропологія.pdf"
+        }
+      ]
+    }
+  ]
+}

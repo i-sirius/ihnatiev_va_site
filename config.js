@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.7",
+    buildVersion: "0.6.8",
     buildDate: "290426",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -32,6 +32,11 @@
         id: "orcid",
         label: "ORCID",
         href: "https://orcid.org/0000-0002-0635-6580"
+      },
+      {
+        id: "googlescholar",
+        label: "Google Академія",
+        href: "https://scholar.google.com/citations?user=A79MaIoAAAAJ"
       }
     ]
   },
@@ -260,7 +265,7 @@
   downloads: {
     pageTitle: "Завантаження",
     heading: "Матеріали для завантаження",
-    intro: "Тут можна розміщувати книги, уривки, PDF або DOCX-файли.",
+    intro: "",
     files: [
       {
         href: "files/example.pdf",

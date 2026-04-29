@@ -18,6 +18,7 @@
   --input-border: #d7cfc2;
   --ok: #437054;
   --danger: #b24e41;
+  --site-header-offset: 0px;
 }
 
 html[data-theme="dark"] {
@@ -458,6 +459,10 @@ html[data-theme="dark"] .site-header-social-link {
   color: #6cab36;
 }
 
+.site-header-social-link.is-googlescholar {
+  color: #4285f4;
+}
+
 .site-header-social-icon {
   width: 0.95rem;
   height: 0.95rem;
@@ -592,6 +597,12 @@ main {
   color: #5a9528;
 }
 
+.about-photo-link.is-googlescholar {
+  background: linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(231, 241, 255, 0.94));
+  border-color: rgba(66, 133, 244, 0.2);
+  color: #2d6cdf;
+}
+
 .about-photo-link-icon {
   width: 1rem;
   height: 1rem;
@@ -645,7 +656,7 @@ html[data-theme="dark"] .about-details {
 
 .about-details[open] > summary {
   position: sticky;
-  top: 12px;
+  top: calc(var(--site-header-offset) + 12px);
   z-index: 8;
 }
 
@@ -1144,26 +1155,345 @@ button:disabled {
   margin-top: 12px;
 }
 
-.download-list a {
+.download-row {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--download-bg) 48%, var(--border));
+  background: color-mix(in srgb, var(--download-bg) 72%, var(--panel-bg));
+  color: var(--primary-dark);
+  font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.download-preview-trigger {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  padding: 14px 0 14px 16px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.download-link-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.download-filetype {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--primary) 14%, var(--panel-bg));
+  border: 1px solid color-mix(in srgb, var(--primary) 26%, var(--border));
+  flex: 0 0 auto;
+}
+
+.download-file-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.download-file-icon.is-pdf {
+  color: #c23a32;
+}
+
+.download-file-icon.is-doc {
+  color: #2d63c8;
+}
+
+.download-file-icon.is-djvu {
+  color: #6c4eb5;
+}
+
+.download-file-icon.is-file {
+  color: var(--primary);
+}
+
+.download-link-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.download-link-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  align-self: center;
+  margin: 0 16px 0 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid color-mix(in srgb, var(--border) 84%, var(--primary));
+  color: var(--primary);
+  font-size: 1rem;
+  line-height: 1;
+  flex: 0 0 auto;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.download-row:hover,
+.download-row:focus-within {
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--download-hover) 76%, var(--panel-bg));
+  border-color: color-mix(in srgb, var(--download-hover) 84%, var(--border));
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.download-preview-trigger:focus-visible,
+.download-link-action:focus-visible {
+  outline: none;
+}
+
+.download-row:hover .download-link-action,
+.download-row:focus-within .download-link-action {
+  transform: translateY(1px);
+  background: rgba(255, 255, 255, 0.86);
+  border-color: color-mix(in srgb, var(--primary) 36%, var(--border));
+}
+
+.document-lightbox-stage {
+  gap: 12px;
+  width: min(96vw, 1220px);
+}
+
+.document-lightbox-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.document-lightbox-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.document-lightbox-filetype {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  min-height: 32px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.document-lightbox-title {
+  min-width: 0;
+  font-size: 0.96rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.document-lightbox-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.document-lightbox-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.document-lightbox-link:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+.document-lightbox-link.is-download {
+  background: rgba(86, 132, 103, 0.28);
+  border-color: rgba(149, 198, 167, 0.34);
+  color: #edf8f0;
+}
+
+.document-lightbox-link.is-download:hover {
+  background: rgba(98, 148, 115, 0.38);
+  border-color: rgba(172, 216, 186, 0.44);
+}
+
+.document-lightbox-view {
+  display: grid;
+  place-items: center;
+  min-height: min(78vh, 820px);
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.document-lightbox-frame {
+  width: min(90vw, 1100px);
+  height: min(76vh, 800px);
+  border: 0;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.document-lightbox-fallback {
+  width: min(92vw, 720px);
+  padding: 28px 24px;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+.document-lightbox-fallback-title {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.document-lightbox-fallback-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.downloads-groups {
+  display: grid;
+  gap: 22px;
+}
+
+.download-group {
+  display: grid;
+  gap: 14px;
+}
+
+.download-group-main {
+  padding: 18px 18px 20px;
+  border: 1px solid color-mix(in srgb, var(--border) 92%, var(--primary));
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(247, 243, 235, 0.62));
+}
+
+html[data-theme="dark"] .download-group-main {
+  background: linear-gradient(180deg, rgba(52, 61, 59, 0.62), rgba(41, 49, 47, 0.72));
+}
+
+.download-group-title {
+  margin: 0;
+  color: var(--primary-dark);
+  font-size: 1.02rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.download-subgroups {
+  display: grid;
+  gap: 12px;
+}
+
+.download-subgroup {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.42);
+  overflow: hidden;
+}
+
+html[data-theme="dark"] .download-subgroup {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.download-subgroup summary {
+  cursor: pointer;
+  list-style: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid color-mix(in srgb, var(--download-bg) 48%, var(--border));
-  background: color-mix(in srgb, var(--download-bg) 72%, var(--panel-bg));
+  font-weight: 700;
   color: var(--primary-dark);
-  text-decoration: none;
-  font-weight: 600;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.download-list a:hover {
-  transform: translateY(-2px);
-  background: color-mix(in srgb, var(--download-hover) 76%, var(--panel-bg));
-  border-color: color-mix(in srgb, var(--download-hover) 84%, var(--border));
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+.download-subgroup summary::-webkit-details-marker {
+  display: none;
+}
+
+.download-subgroup-title {
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.download-subgroup-toggle {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--border) 80%, var(--primary));
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.download-subgroup-toggle::before,
+.download-subgroup-toggle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 1.5px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+}
+
+.download-subgroup-toggle::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.download-subgroup[open] .download-subgroup-toggle::after {
+  opacity: 0;
+}
+
+.download-subgroup-body {
+  padding: 0 14px 14px;
+}
+
+.download-group-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
 form {
@@ -1749,6 +2079,43 @@ footer {
     margin-top: 8px;
     font-size: 0.82rem;
     line-height: 1.35;
+  }
+
+  .document-lightbox-stage {
+    width: min(100%, 96vw);
+  }
+
+  .document-lightbox-toolbar {
+    align-items: stretch;
+  }
+
+  .document-lightbox-meta,
+  .document-lightbox-actions {
+    width: 100%;
+  }
+
+  .document-lightbox-actions {
+    justify-content: space-between;
+  }
+
+  .document-lightbox-link {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .document-lightbox-view {
+    min-height: 68vh;
+    padding: 8px;
+  }
+
+  .document-lightbox-frame {
+    width: 100%;
+    height: 66vh;
+  }
+
+  .document-lightbox-fallback {
+    width: 100%;
+    padding: 22px 16px;
   }
 }
 
