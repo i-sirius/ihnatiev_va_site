@@ -153,16 +153,24 @@
     lightbox.hidden = true;
     lightbox.setAttribute("data-gallery-lightbox", "");
     lightbox.innerHTML = `
-      <button class="lightbox-close" type="button" aria-label="Закрити" data-lightbox-close>×</button>
-      <button class="lightbox-nav prev" type="button" aria-label="Попереднє фото" data-lightbox-prev>‹</button>
-      <figure class="lightbox-figure">
-        <img src="" alt="" data-lightbox-image>
-      </figure>
-      <button class="lightbox-nav next" type="button" aria-label="Наступне фото" data-lightbox-next>›</button>
+      <div class="lightbox-stage">
+        <div class="lightbox-toolbar">
+          <button class="lightbox-close" type="button" aria-label="Закрити" data-lightbox-close>×</button>
+        </div>
+        <div class="lightbox-content">
+          <button class="lightbox-nav prev" type="button" aria-label="Попереднє фото" data-lightbox-prev>‹</button>
+          <figure class="lightbox-figure">
+            <img src="" alt="" data-lightbox-image>
+            <figcaption class="lightbox-caption" data-lightbox-caption hidden></figcaption>
+          </figure>
+          <button class="lightbox-nav next" type="button" aria-label="Наступне фото" data-lightbox-next>›</button>
+        </div>
+      </div>
     `;
     document.body.appendChild(lightbox);
 
     const image = lightbox.querySelector("[data-lightbox-image]");
+    const caption = lightbox.querySelector("[data-lightbox-caption]");
 
     function updateLightboxImage() {
       const item = currentGalleryItems[currentGalleryIndex];
@@ -172,6 +180,11 @@
 
       image.src = item.src;
       image.alt = item.alt || "";
+
+      if (caption) {
+        caption.textContent = item.alt || "";
+        caption.hidden = !item.alt;
+      }
     }
 
     function closeLightbox() {
@@ -249,6 +262,12 @@
 
     document.querySelectorAll(selector).forEach((element) => {
       const count = images.length;
+      if (!count) {
+        element.style.removeProperty("--gallery-columns");
+        element.innerHTML = `<p class="gallery-empty">Фото тимчасово відсутні.</p>`;
+        return;
+      }
+
       const columns = Math.min(Math.max(count, 1), 4);
       element.style.setProperty("--gallery-columns", String(columns));
       element.innerHTML = images
@@ -442,6 +461,29 @@
     });
   }
 
+  function filterAvailableImages(images) {
+    if (!Array.isArray(images) || !images.length) {
+      return Promise.resolve([]);
+    }
+
+    return Promise.all(
+      images.map(
+        (image) =>
+          new Promise((resolve) => {
+            if (!image?.src) {
+              resolve(null);
+              return;
+            }
+
+            const probe = new Image();
+            probe.onload = () => resolve(image);
+            probe.onerror = () => resolve(null);
+            probe.src = image.src;
+          })
+      )
+    ).then((resolvedImages) => resolvedImages.filter(Boolean));
+  }
+
   function loadActivityGallery(id) {
     const selector = "[data-activity-gallery]";
     const activity = SITE.activities?.[id];
@@ -449,10 +491,15 @@
 
     fetchJson(`files/media/activity${id}/photos.json`)
       .then((images) => {
-        renderGallery(selector, Array.isArray(images) ? images : fallbackImages);
+        const galleryImages = Array.isArray(images) ? images : fallbackImages;
+        return filterAvailableImages(galleryImages).then((availableImages) => {
+          renderGallery(selector, availableImages);
+        });
       })
       .catch(() => {
-        renderGallery(selector, fallbackImages);
+        filterAvailableImages(fallbackImages).then((availableImages) => {
+          renderGallery(selector, availableImages);
+        });
       });
   }
 
