@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.8",
+    buildVersion: "0.6.9",
     buildDate: "290426",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -299,6 +299,21 @@
           id: "telegram",
           label: "Telegram",
           href: "https://t.me/iva_net_ua"
+        },
+        {
+          id: "webofscience",
+          label: "Web of Science",
+          href: "https://www.webofscience.com/wos/author/record/ADR-7609-2022"
+        },
+        {
+          id: "orcid",
+          label: "ORCID",
+          href: "https://orcid.org/0000-0002-0635-6580"
+        },
+        {
+          id: "googlescholar",
+          label: "Google Академія",
+          href: "https://scholar.google.com/citations?user=A79MaIoAAAAJ"
         }
       ]
     },

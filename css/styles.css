@@ -14,6 +14,10 @@
   --button-text: #fbfaf7;
   --download-bg: #f4e8bc;
   --download-hover: #efcd75;
+  --download-row-bg: linear-gradient(180deg, rgba(250, 244, 227, 0.98), rgba(245, 236, 212, 0.96));
+  --download-row-border: rgba(191, 155, 89, 0.24);
+  --download-row-hover-bg: linear-gradient(180deg, rgba(247, 232, 188, 0.98), rgba(239, 219, 164, 0.96));
+  --download-row-hover-border: rgba(184, 133, 47, 0.34);
   --input-bg: #fffdfa;
   --input-border: #d7cfc2;
   --ok: #437054;
@@ -37,6 +41,10 @@ html[data-theme="dark"] {
   --button-text: #f6f3eb;
   --download-bg: #5d552d;
   --download-hover: #82691f;
+  --download-row-bg: linear-gradient(180deg, rgba(55, 65, 62, 0.94), rgba(47, 56, 54, 0.97));
+  --download-row-border: rgba(133, 157, 148, 0.22);
+  --download-row-hover-bg: linear-gradient(180deg, rgba(64, 76, 72, 0.96), rgba(56, 67, 64, 0.98));
+  --download-row-hover-border: rgba(154, 184, 172, 0.34);
   --input-bg: #3a4542;
   --input-border: #5c6965;
   --ok: #98d2aa;
@@ -924,7 +932,7 @@ button:disabled {
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(var(--gallery-columns, 4), minmax(0, 1fr));
+  grid-template-columns: repeat(var(--gallery-columns, 5), minmax(0, 1fr));
   gap: 16px;
   align-items: stretch;
 }
@@ -975,45 +983,52 @@ button:disabled {
   display: grid;
   place-items: center;
   padding: 40px 24px;
+  overflow-y: auto;
   background: rgba(10, 10, 10, 0.82);
 }
 
 .lightbox-stage {
   display: grid;
-  gap: 10px;
-  width: min(96vw, 1220px);
+  gap: 8px;
+  width: fit-content;
+  max-width: min(94vw, 1180px);
+  margin: 0 auto;
 }
 
 .lightbox-toolbar {
   display: flex;
   justify-content: flex-end;
+  width: 100%;
 }
 
 .lightbox-content {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) 48px;
+  grid-template-columns: 46px minmax(0, auto) 46px;
   align-items: start;
-  gap: 12px;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .lightbox-figure {
   margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   min-width: 0;
 }
 
 .lightbox-figure img {
-  max-width: min(92vw, 1100px);
+  max-width: min(86vw, 1040px);
   max-height: 82vh;
   border-radius: 16px;
   box-shadow: 0 18px 34px rgba(0, 0, 0, 0.26);
 }
 
 .lightbox-caption {
-  width: min(92vw, 1100px);
+  width: min(86vw, 1040px);
   margin-top: 10px;
   color: rgba(255, 255, 255, 0.82);
   font-size: 0.9rem;
@@ -1050,9 +1065,10 @@ button:disabled {
 .lightbox-nav {
   align-self: center;
   justify-self: center;
-  min-width: 48px;
-  min-height: 48px;
+  min-width: 44px;
+  min-height: 44px;
   font-size: 1.6rem;
+  margin-top: 0;
 }
 
 .video-card {
@@ -1161,8 +1177,8 @@ button:disabled {
   justify-content: space-between;
   gap: 12px;
   border-radius: 14px;
-  border: 1px solid color-mix(in srgb, var(--download-bg) 48%, var(--border));
-  background: color-mix(in srgb, var(--download-bg) 72%, var(--panel-bg));
+  border: 1px solid var(--download-row-border);
+  background: var(--download-row-bg);
   color: var(--primary-dark);
   font-weight: 600;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
@@ -1180,6 +1196,12 @@ button:disabled {
   text-align: left;
   font: inherit;
   cursor: pointer;
+}
+
+.download-preview-trigger:hover:not(:disabled) {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
 }
 
 .download-link-main {
@@ -1232,26 +1254,35 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   align-self: center;
   margin: 0 16px 0 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.62);
-  border: 1px solid color-mix(in srgb, var(--border) 84%, var(--primary));
+  background: color-mix(in srgb, var(--panel-bg) 82%, white);
+  border: 1px solid color-mix(in srgb, var(--primary) 42%, var(--border));
   color: var(--primary);
-  font-size: 1rem;
+  font-size: 1.08rem;
+  font-weight: 800;
   line-height: 1;
   flex: 0 0 auto;
   text-decoration: none;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+html[data-theme="dark"] .download-link-action {
+  background: rgba(245, 243, 236, 0.12);
+  border-color: rgba(154, 184, 172, 0.42);
+  color: #dbece4;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
 }
 
 .download-row:hover,
 .download-row:focus-within {
   transform: translateY(-2px);
-  background: color-mix(in srgb, var(--download-hover) 76%, var(--panel-bg));
-  border-color: color-mix(in srgb, var(--download-hover) 84%, var(--border));
+  background: var(--download-row-hover-bg);
+  border-color: var(--download-row-hover-border);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
 
@@ -1263,8 +1294,17 @@ button:disabled {
 .download-row:hover .download-link-action,
 .download-row:focus-within .download-link-action {
   transform: translateY(1px);
-  background: rgba(255, 255, 255, 0.86);
-  border-color: color-mix(in srgb, var(--primary) 36%, var(--border));
+  background: color-mix(in srgb, white 88%, var(--panel-bg));
+  border-color: color-mix(in srgb, var(--primary) 52%, var(--border));
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+}
+
+html[data-theme="dark"] .download-row:hover .download-link-action,
+html[data-theme="dark"] .download-row:focus-within .download-link-action {
+  background: rgba(245, 243, 236, 0.2);
+  border-color: rgba(176, 208, 195, 0.56);
+  color: #f4fbf7;
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.24);
 }
 
 .document-lightbox-stage {
@@ -1273,11 +1313,10 @@ button:disabled {
 }
 
 .document-lightbox-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
   gap: 14px;
-  flex-wrap: wrap;
 }
 
 .document-lightbox-meta {
@@ -1315,7 +1354,9 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  justify-self: end;
+  margin-left: auto;
 }
 
 .document-lightbox-link {
@@ -1337,8 +1378,9 @@ button:disabled {
 
 .document-lightbox-link:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.34);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.16);
 }
 
 .document-lightbox-link.is-download {
@@ -1350,6 +1392,13 @@ button:disabled {
 .document-lightbox-link.is-download:hover {
   background: rgba(98, 148, 115, 0.38);
   border-color: rgba(172, 216, 186, 0.44);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+}
+
+.document-lightbox-toolbar .lightbox-close:hover:not(:disabled) {
+  background: rgba(178, 78, 65, 0.5);
+  border-color: rgba(226, 140, 124, 0.54);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
 }
 
 .document-lightbox-view {
@@ -1593,6 +1642,24 @@ html[data-theme="dark"] .contact-socials {
   background: linear-gradient(180deg, rgba(242, 250, 255, 0.96), rgba(232, 246, 255, 0.94));
   border-color: rgba(46, 138, 184, 0.16);
   color: #1e7da4;
+}
+
+.contact-social-button.is-webofscience {
+  background: linear-gradient(180deg, rgba(249, 241, 255, 0.96), rgba(241, 231, 255, 0.94));
+  border-color: rgba(123, 31, 162, 0.16);
+  color: #7b1fa2;
+}
+
+.contact-social-button.is-orcid {
+  background: linear-gradient(180deg, rgba(245, 253, 236, 0.96), rgba(237, 248, 228, 0.94));
+  border-color: rgba(108, 171, 54, 0.22);
+  color: #5a9528;
+}
+
+.contact-social-button.is-googlescholar {
+  background: linear-gradient(180deg, rgba(239, 246, 255, 0.96), rgba(231, 241, 255, 0.94));
+  border-color: rgba(66, 133, 244, 0.18);
+  color: #2d6cdf;
 }
 
 .contact-social-button.is-disabled {
@@ -2046,11 +2113,13 @@ footer {
 
   .gallery-lightbox {
     padding: 48px 14px 20px;
+    place-items: start center;
   }
 
   .lightbox-stage {
-    width: min(100%, 96vw);
+    width: min(100%, 94vw);
     gap: 8px;
+    align-self: start;
   }
 
   .lightbox-toolbar {
@@ -2058,15 +2127,17 @@ footer {
   }
 
   .lightbox-content {
-    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    grid-template-columns: 38px minmax(0, 1fr) 38px;
     align-items: start;
     gap: 8px;
+    width: 100%;
   }
 
   .lightbox-nav {
-    min-width: 40px;
-    min-height: 40px;
+    min-width: 36px;
+    min-height: 36px;
     font-size: 1.35rem;
+    margin-top: 0;
   }
 
   .lightbox-figure img {
@@ -2086,6 +2157,7 @@ footer {
   }
 
   .document-lightbox-toolbar {
+    grid-template-columns: 1fr;
     align-items: stretch;
   }
 
@@ -2096,6 +2168,7 @@ footer {
 
   .document-lightbox-actions {
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .document-lightbox-link {

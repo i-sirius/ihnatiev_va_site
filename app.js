@@ -413,7 +413,7 @@
         return;
       }
 
-      const columns = Math.min(Math.max(count, 1), 4);
+      const columns = Math.min(Math.max(count, 1), 5);
       element.style.setProperty("--gallery-columns", String(columns));
       element.innerHTML = images
         .map(
