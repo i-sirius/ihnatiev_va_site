@@ -623,7 +623,23 @@
       setText(`[data-activity-card-description='${id}']`, activity.cardDescription);
     });
 
-    setText("[data-footer]", `© ${SITE.meta.year} ${SITE.meta.ownerName}`);
+    const footerElement = document.querySelector("[data-footer]");
+    const buildVersion = SITE.meta.buildVersion
+      ? SITE.meta.buildVersion.startsWith("v.")
+        ? SITE.meta.buildVersion
+        : `v.${SITE.meta.buildVersion}`
+      : "";
+    const footerBuild = [buildVersion, SITE.meta.buildDate].filter(Boolean).join(".");
+    const footerOwner = [SITE.meta.year ? `© ${SITE.meta.year}` : "", SITE.meta.ownerName]
+      .filter(Boolean)
+      .join(" ");
+
+    if (footerElement) {
+      footerElement.innerHTML = `
+        <span class="footer-owner">${footerOwner}</span>
+        ${footerBuild ? `<span class="footer-build">${footerBuild}</span>` : ""}
+      `;
+    }
 
     if (pageType === "home") {
       document.title = homeTitle;
@@ -864,12 +880,37 @@
     });
   }
 
+  function applyActiveMenuState() {
+    document
+      .querySelectorAll(".site-header nav a[aria-current='page']")
+      .forEach((element) => element.removeAttribute("aria-current"));
+
+    let selector = "";
+
+    if (pageType === "home") {
+      selector = "[data-menu-home]";
+    } else if (pageType === "downloads") {
+      selector = "[data-menu-downloads]";
+    } else if (pageType === "contact") {
+      selector = "[data-menu-contact]";
+    } else if (pageType === "activity" && activityId) {
+      selector = `[data-menu-activity='${activityId}']`;
+    }
+
+    if (!selector) {
+      return;
+    }
+
+    document.querySelector(selector)?.setAttribute("aria-current", "page");
+  }
+
   function applyAllContent() {
     applyGlobalContent();
     applyActivityPage();
     applyDownloadsPage();
     applyContactPage();
     applyMenuLabels();
+    applyActiveMenuState();
     initHeaderBrand();
     initThemeToggle();
     initDetailsInteractions();

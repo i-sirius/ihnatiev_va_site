@@ -165,6 +165,7 @@ html[data-theme="dark"] .site-header::after {
 
 .site-header nav a {
   position: relative;
+  display: inline-block;
   text-decoration: none;
   color: var(--primary);
   font-size: 0.84rem;
@@ -172,6 +173,9 @@ html[data-theme="dark"] .site-header::after {
   text-transform: uppercase;
   font-weight: 600;
   margin: 0 8px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .site-header nav a::after {
@@ -187,6 +191,16 @@ html[data-theme="dark"] .site-header::after {
 
 .site-header nav a:hover::after {
   width: 100%;
+}
+
+.site-header nav a[aria-current="page"] {
+  color: var(--button-text);
+  background: var(--button-bg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.site-header nav a[aria-current="page"]::after {
+  width: 0;
 }
 
 .site-brand-link {
@@ -336,6 +350,10 @@ main {
   overflow: hidden;
 }
 
+html[data-theme="dark"] .about-details {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 .about-details summary {
   cursor: pointer;
   display: grid;
@@ -349,6 +367,11 @@ main {
   border-radius: 14px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(245, 240, 231, 0.9));
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme="dark"] .about-details summary {
+  background: linear-gradient(180deg, rgba(63, 74, 71, 0.92), rgba(44, 53, 51, 0.96));
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .about-details summary:hover .about-details-arrow {
@@ -944,6 +967,26 @@ footer {
   color: var(--muted);
   text-align: center;
   font-size: 0.86rem;
+}
+
+[data-footer] {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12rem;
+  line-height: 1.25;
+}
+
+.footer-owner {
+  font-size: 1em;
+}
+
+.footer-build {
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.72em;
+  color: var(--muted);
+  opacity: 0.68;
+  letter-spacing: 0.08em;
 }
 
 @media (max-width: 900px) {
