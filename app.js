@@ -2160,10 +2160,15 @@
         })
         .catch((error) => {
           try {
-            const cachedValue = Number(localStorage.getItem(cacheKey));
-            if (Number.isFinite(cachedValue)) {
-              visitorCounterValue = cachedValue;
-              return cachedValue;
+            const rawCachedValue = localStorage.getItem(cacheKey);
+
+            if (rawCachedValue !== null) {
+              const cachedValue = Number(rawCachedValue);
+
+              if (Number.isFinite(cachedValue) && cachedValue > 0) {
+                visitorCounterValue = cachedValue;
+                return cachedValue;
+              }
             }
           } catch {
             // Ignore cache access issues and fall through to the caller.
