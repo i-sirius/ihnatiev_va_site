@@ -1,14 +1,23 @@
 [
   {
     "href": "files/activity2/Наукова діяльність у вищому навчальному закладі.docx",
-    "label": "Наукова діяльність у вищому навчальному закладі.docx"
+    "label": {
+      "uk": "Наукова діяльність у вищому навчальному закладі.docx",
+      "en": "Research Activity in a Higher Educational Institution.docx"
+    }
   },
   {
     "href": "files/activity2/Посібник з дисципліни ФІЛОСОФІЯ.pdf",
-    "label": "Навчально-методичний посібник з дисципліни ФІЛОСОФІЯ для студентів за спеціальністю «Медицина».pdf"
+    "label": {
+      "uk": "Навчально-методичний посібник з дисципліни ФІЛОСОФІЯ для студентів за спеціальністю «Медицина».pdf",
+      "en": "Educational and Methodological Guide in PHILOSOPHY for Medical Students.pdf"
+    }
   },
   {
     "href": "files/activity2/ВИКОРИСТАННЯ МОБІЛЬНИХ ДОДАТКІВ.pdf",
-    "label": "ВИКОРИСТАННЯ МОБІЛЬНИХ ДОДАТКІВ ДЛЯ МОТИВАЦІЇ ТА ПІДТРИМКИ НАВЧАННЯ В УМОВАХ ДИСТАНЦІЙНОГО НАВЧАННЯ.pdf"
+    "label": {
+      "uk": "ВИКОРИСТАННЯ МОБІЛЬНИХ ДОДАТКІВ ДЛЯ МОТИВАЦІЇ ТА ПІДТРИМКИ НАВЧАННЯ В УМОВАХ ДИСТАНЦІЙНОГО НАВЧАННЯ.pdf",
+      "en": "THE USE OF MOBILE APPLICATIONS FOR MOTIVATION AND LEARNING SUPPORT IN DISTANCE EDUCATION.pdf"
+    }
   }
 ]

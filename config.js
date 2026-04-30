@@ -2,8 +2,8 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.9",
-    buildDate: "290426",
+    buildVersion: "0.6.10",
+    buildDate: "300426",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
     homeSubtitle: "філософ, викладач, священнослужитель",
@@ -55,7 +55,8 @@
       "Закінчив філософський факультет Київського державного університету імені Тараса Шевченка і отримав кваліфікацію спеціаліста за спеціальністю «філософ, викладач філософських дисциплін».",
       "У 2010 р. в Інституті вищої освіти АПН України захистив кандидатську дисертацію на тему: «Націософія в дискурсі філософських парадигм».",
       "У 2013 р. присвоєно вчене звання доцента кафедри суспільно-політичних наук, глобалістики та соціальних комунікацій.",
-      "У 2023-2025 рр. навчався в докторантурі РДГУ за спеціальністю «Релігієзнавство»."
+      "У 2025 р. завершив навчання в докторантурі Рівненського державного гуманітарного університету за спеціальністю 031 «Релігієзнавство».",
+      "За результатами дослідження вийшла з друку монографія: «Ісихазм у контексті некласичної філософсько-релігійної парадигми»."
     ],
     activitiesHeading: "Моя діяльність"
   },
@@ -66,6 +67,8 @@
       pageDescription: [
         "Ігнатьєв Віталій Аркадійович навчався у Київському національному університеті ім. Тараса Шевченка (1988–1994 рр.) на філософському факультеті за спеціальністю «філософ, викладач філософських дисциплін».",
         "Захистив кандидатську дисертацію на тему «Націософія в дискурсі філософських парадигм» в Інституті вищої освіти АПН України у 2010 році.",
+        "У 2025 р. завершив навчання в докторантурі Рівненського державного гуманітарного університету за спеціальністю 031 «Релігієзнавство». За результатами дослідження вийшла з друку монографія: «Ісихазм у контексті некласичної філософсько-релігійної парадигми».",
+        "Наукові інтереси: дослідження з питань некласичної філософії та філософії релігії.",
         {
           type: "details",
           summary: "Список наукових праць (кількість: 85)",
@@ -324,6 +327,524 @@
       submit: "Надіслати"
     }
   },
+  ui: {
+    buttons: {
+      open: "Перейти"
+    },
+    activitySections: {
+      videos: "Відео",
+      photos: "Фото",
+      files: "Файли"
+    },
+    details: {
+      summary: "Деталі",
+      expand: "РОЗГОРНУТИ",
+      collapse: "ЗГОРНУТИ",
+      contentSummary: "Показано скорочену версію. Нижче можна прочитати повний текст.",
+      contentAction: "ЧИТАТИ ДАЛІ...",
+      contentCollapse: "ЗГОРНУТИ"
+    },
+    gallery: {
+      close: "Закрити",
+      previous: "Попереднє фото",
+      next: "Наступне фото",
+      empty: "Фото тимчасово відсутні."
+    },
+    documentPreview: {
+      open: "Відкрити окремо",
+      download: "Завантажити",
+      close: "Закрити",
+      frameTitle: "Попередній перегляд файла",
+      unavailableTitle: "Попередній перегляд у вікні сайту для цього формату недоступний.",
+      unavailableText: "Можна відкрити файл окремо або одразу завантажити його кнопкою вище.",
+      previewAria: "Переглянути",
+      downloadAria: "Завантажити",
+      fileFallbackLabel: "Файл",
+      purchase: "Замовити e-book",
+      purchaseAria: "Замовити",
+      purchaseTitle: "Замовити електронну книгу"
+    },
+    downloads: {
+      empty: "Файли тимчасово відсутні.",
+      monographsTitle: "МОНОГРАФІЇ",
+      articlesTitle: "СТАТТІ",
+      subgroupFallback: "РОЗДІЛ"
+    },
+    video: {
+      watch: "ДИВИТИСЬ",
+      playlist: "Плейлист каналу",
+      fallbackTitle: "Відео YouTube"
+    },
+    theme: {
+      toggle: "Перемкнути тему",
+      nextDark: "Темна тема",
+      nextLight: "Світла тема",
+      enableDark: "Увімкнути темну тему",
+      enableLight: "Увімкнути світлу тему"
+    },
+    language: {
+      label: "Мова",
+      toggle: "Перемкнути мову",
+      options: {
+        uk: "UA",
+        en: "EN"
+      },
+      names: {
+        uk: "Українська",
+        en: "English"
+      }
+    },
+    header: {
+      socialsLabel: "Соціальні мережі",
+      backToTop: "Нагору сторінки"
+    },
+    contact: {
+      socialsComingSoon: "незабаром",
+      phone: "Телефон",
+      subject: "Тема",
+      intro: "З радістю відповім на ваші питання або запити. Заповніть поля нижче, будь ласка.",
+      formSubject: "Нове повідомлення із сайту",
+      required: "Обов'язково для заповнення",
+      emailOrPhoneRequired: "Обов'язково: email або телефон",
+      phoneOrEmailRequired: "Обов'язково: телефон або email",
+      emailProvided: "Email вказано",
+      phoneProvided: "Телефон вказано",
+      completed: "Заповнено",
+      messageEnough: "Достатньо символів",
+      messageRequired: "Обов'язково для заповнення (не менше 25 символів)",
+      messageRemainingPrefix: "Обов'язково для заповнення, напишіть хоча б ще ",
+      messageRemainingSuffix: " символів",
+      emailOptionalBecausePhone: "Необов'язково, бо телефон уже вказано",
+      phoneOptionalBecauseEmail: "Необов'язково, бо email уже вказано",
+      invalidEmail: "Вкажіть коректний email",
+      invalidPhone: "Вкажіть коректний номер телефону",
+      provideEmailOrPhone: "Вкажіть email або телефон",
+      limitExhausted: "ЛІМІТ ПО ТЕКСТУ ВИЧЕРПАНО",
+      limitRemainingPrefix: "Залишилось ",
+      limitRemainingSuffix: " симв."
+    },
+    footer: {
+      viewsLabel: "Відвідувань:",
+      loading: "оновлення...",
+      unavailable: "лічильник недоступний"
+    }
+  },
 
   youtubeChannelId: "UC2VL7PQ9FWDonb6O56dTUng"
 };
+
+const SITE_BASE = typeof structuredClone === "function"
+  ? structuredClone(SITE)
+  : JSON.parse(JSON.stringify(SITE));
+
+const SITE_EN = {
+  meta: {
+    siteTitle: "Vitalii Ihnatiev",
+    homeTitle: "Vitalii Ihnatiev",
+    homeSubtitle: "philosopher, lecturer, priest",
+    headerLinks: [
+      {
+        id: "youtube",
+        label: "YouTube",
+        href: ""
+      },
+      {
+        id: "facebook",
+        label: "Facebook",
+        href: "http://facebook.com/va.ignatyev"
+      },
+      {
+        id: "telegram",
+        label: "Telegram",
+        href: "https://t.me/iva_net_ua"
+      },
+      {
+        id: "webofscience",
+        label: "Web of Science",
+        href: "https://www.webofscience.com/wos/author/record/ADR-7609-2022"
+      },
+      {
+        id: "orcid",
+        label: "ORCID",
+        href: "https://orcid.org/0000-0002-0635-6580"
+      },
+      {
+        id: "googlescholar",
+        label: "Google Scholar",
+        href: "https://scholar.google.com/citations?user=A79MaIoAAAAJ"
+      }
+    ]
+  },
+  menu: {
+    home: "Home",
+    downloads: "Downloads",
+    contact: "Contacts"
+  },
+  home: {
+    aboutHeading: "About Me",
+    aboutImage: {
+      alt: "Photo of Vitalii Ihnatiev"
+    },
+    aboutParagraphs: [
+      "He graduated from the Faculty of Philosophy of Taras Shevchenko Kyiv State University and obtained the qualification of Specialist in Philosophy and Teaching of Philosophical Disciplines.",
+      "In 2010, he defended his PhD dissertation at the Institute of Higher Education of the Academy of Pedagogical Sciences of Ukraine on the topic “Natiosophy in the Discourse of Philosophical Paradigms.”",
+      "In 2013, he was awarded the academic title of Associate Professor of the Department of Socio-Political Sciences, Global Studies, and Social Communications.",
+      "In 2025, he completed his doctoral studies at Rivne State University for the Humanities, specialty 031 “Religious Studies.”",
+      "As a result of the research, the monograph “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm” was published."
+    ],
+    activitiesHeading: "My Activities"
+  },
+  activities: {
+    1: {
+      name: "Research Activity",
+      cardDescription: "Research in non-classical philosophy and philosophy of religion",
+      pageDescription: [
+        "Vitalii Ihnatiev studied at Taras Shevchenko National University of Kyiv (1988-1994), Faculty of Philosophy, majoring in philosophy and the teaching of philosophical disciplines.",
+        "He defended his PhD dissertation entitled “Natiosophy in the Discourse of Philosophical Paradigms” at the Institute of Higher Education of the Academy of Pedagogical Sciences of Ukraine in 2010.",
+        "In 2025, he completed his doctoral studies at Rivne State University for the Humanities, specialty 031 “Religious Studies.” As a result of the research, the monograph “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm” was published.",
+        "Research interests: studies in non-classical philosophy and philosophy of religion.",
+        {
+          type: "details",
+          summary: "List of academic publications (85 items)",
+          description: "PhD in Philosophy, V. A. Ihnatiev",
+          items: SITE_BASE.activities[1].pageDescription[4].items
+        }
+      ],
+      heroImage: {
+        alt: "Photo for the research activity page"
+      }
+    },
+    2: {
+      name: "Educational Activity",
+      cardDescription: "Lecturer in philosophy at Donetsk National Medical University in Kropyvnytskyi",
+      pageDescription: [
+        "<strong>Education:</strong><br>• 1988-1994 - Taras Shevchenko National University of Kyiv, Faculty of Philosophy; qualification: philosopher and lecturer in philosophical disciplines.<br>• In May 2010, at the Institute of Higher Education of the Academy of Pedagogical Sciences of Ukraine, he defended a dissertation on the topic “Natiosophy in the Discourse of Philosophical Paradigms.” By the decision of the Presidium of the Higher Attestation Commission of Ukraine dated December 6, 2010 (Protocol No. 13 06/6), based on the public defense, he was awarded the academic degree of Candidate of Philosophical Sciences in Social Philosophy and Philosophy of History (Diploma No. 061829). On December 14, 2010, he received an international-format Candidate of Sciences certificate (comparable to the academic degree of Doctor of Philosophy, PhD).<br>• On March 28, 2013, by decision of the Attestation Board (Protocol No. 3/02-D), he was awarded the academic title of Associate Professor of the Department of Socio-Political Sciences, Global Studies, and Social Communications. Diploma 12DC No. 034615.",
+        {
+          type: "content-details",
+          summary: "A shortened version is shown. You can read the full text below.",
+          actionLabel: "READ MORE...",
+          closeLabel: "COLLAPSE",
+          paragraphs: [
+            "<strong>Professional Experience:</strong><br>• 1985 - actor at the Kirovohrad Regional Musical and Drama Theater named after M. Kropyvnytskyi. 1987-2005 - actor at the Kirovohrad Regional Puppet Theater.<br>• From 1989 he studied at the Faculty of Philosophy of Taras Shevchenko National University of Kyiv and in 1994 obtained the qualification of specialist in philosophy and teaching of philosophical disciplines. (Diploma dated 20.06.1994, LE No. 005573).<br>• 2005-2011 - lecturer at the Department of Socio-Economic Disciplines, Kirovohrad Law Institute of Kharkiv National University of Internal Affairs.<br>• 2011-2013 - Associate Professor of the Department of Socio-Economic Disciplines, Kirovohrad Institute for Human Development of the Open International University of Human Development “Ukraine”.<br>• 2013 - Associate Professor of the Department of Law, Kirovohrad Institute of State and Municipal Administration of the Classical Private University.<br>• 2014-2017 - Head of the Department of Humanities and Economics, Kirovohrad Institute of State and Municipal Administration of the Classical Private University.<br>• Since 2017 - Associate Professor of the Department of Philosophy, Social and Humanitarian Disciplines, Foreign Languages, Ukrainian and Latin Language No. 2 at DNMU.<br>• Since 2018 - Associate Professor of the Department of Language and Humanitarian Disciplines No. 2 at DNMU.<br>• Since October 2019 - Acting Head of the Department of Language and Humanitarian Disciplines No. 2 at DNMU.<br>• Since November 25, 2021 - Head of the Department of Language and Humanitarian Disciplines No. 2 at DNMU.<br>• Since October 2022 - Associate Professor of the Department of Language and Humanitarian Disciplines No. 1 at DNMU.<br>• 2023-2025 - doctoral student at Rivne State University for the Humanities, specialty 031 Religious Studies.",
+            "<strong>Areas of Work:</strong><br>• Teaching philosophy, logic, religious studies, sociology, ethics and aesthetics, cultural studies, and political science.<br>• Research in non-classical philosophy and philosophy of religion.",
+            "<strong>Additional Information:</strong><br>• Published monograph “Natiosophy: A Socio-Philosophical Analysis” (2010, 2011, 2017).<br>• Published monograph “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm” (2025)."
+          ]
+        }
+      ],
+      heroImage: {
+        alt: "Photo for the educational activity page"
+      }
+    },
+    3: {
+      name: "Priestly Ministry",
+      cardDescription: "Priest, Archpriest of the Holy Protection Church in Kropyvnytskyi",
+      pageDescription: [
+        "Priest, Archpriest of the Holy Protection Church in Kropyvnytskyi.",
+        "<strong>Ordination:</strong><br>To the rank of deacon - August 4, 2015, at the Cathedral of the Nativity of the Most Holy Theotokos in Kirovohrad, ordained by Archbishop Ioasaf of Kirovohrad and Novomyrhorod.<br>To the rank of presbyter - August 5, 2015, at the Cathedral of the Nativity of the Most Holy Theotokos in Kirovohrad, ordained by Archbishop Ioasaf of Kirovohrad and Novomyrhorod.",
+        "<strong>Ministry:</strong><br>August 5, 2015 - rector of the church in honor of Saints Cyril and Methodius at the Kirovohrad Institute of State and Municipal Administration of the Classical Private University.<br>July 17, 2017 - 2022 - cleric of the Transfiguration Cathedral in Kropyvnytskyi.<br>Since June 17, 2022 - cleric of the Holy Protection Church in Kropyvnytskyi.",
+        "<strong>Awards:</strong><br>2016 (Paschal) - golden pectoral cross.<br>2018 - archpriest rank.<br>2019 - decorated cross.",
+        "<strong>Link:</strong><br><a href=\"http://orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij\" target=\"_blank\" rel=\"noopener noreferrer\">orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij</a>"
+      ],
+      heroImage: {
+        alt: "Photo for the priestly ministry page"
+      }
+    }
+  },
+  downloads: {
+    pageTitle: "Downloads",
+    heading: "Materials for Download",
+    intro: "Monographs, articles, and educational materials are available here."
+  },
+  contact: {
+    pageTitle: "Contacts",
+    heading: "Contacts",
+    intro: "To use the form, create a Formspree form and replace the form ID in the link below.",
+    socials: {
+      title: "My social networks:",
+      items: [
+        {
+          id: "youtube",
+          label: "YouTube",
+          href: ""
+        },
+        {
+          id: "facebook",
+          label: "Facebook",
+          href: "http://facebook.com/va.ignatyev"
+        },
+        {
+          id: "telegram",
+          label: "Telegram",
+          href: "https://t.me/iva_net_ua"
+        },
+        {
+          id: "webofscience",
+          label: "Web of Science",
+          href: "https://www.webofscience.com/wos/author/record/ADR-7609-2022"
+        },
+        {
+          id: "orcid",
+          label: "ORCID",
+          href: "https://orcid.org/0000-0002-0635-6580"
+        },
+        {
+          id: "googlescholar",
+          label: "Google Scholar",
+          href: "https://scholar.google.com/citations?user=A79MaIoAAAAJ"
+        }
+      ]
+    },
+    fields: {
+      name: "Name",
+      email: "Email",
+      message: "Message",
+      submit: "Send"
+    }
+  },
+  ui: {
+    buttons: {
+      open: "Open"
+    },
+    activitySections: {
+      videos: "Videos",
+      photos: "Photos",
+      files: "Files"
+    },
+    details: {
+      summary: "Details",
+      expand: "EXPAND",
+      collapse: "COLLAPSE",
+      contentSummary: "A shortened version is shown. You can read the full text below.",
+      contentAction: "READ MORE...",
+      contentCollapse: "COLLAPSE"
+    },
+    gallery: {
+      close: "Close",
+      previous: "Previous photo",
+      next: "Next photo",
+      empty: "Photos are temporarily unavailable."
+    },
+    documentPreview: {
+      open: "Open separately",
+      download: "Download",
+      close: "Close",
+      frameTitle: "Document preview",
+      unavailableTitle: "Preview inside the site is not available for this file format.",
+      unavailableText: "You can open the file separately or download it using the button above.",
+      previewAria: "Preview",
+      downloadAria: "Download",
+      fileFallbackLabel: "File",
+      purchase: "Request e-book",
+      purchaseAria: "Request",
+      purchaseTitle: "Request the e-book"
+    },
+    downloads: {
+      empty: "Files are temporarily unavailable.",
+      monographsTitle: "MONOGRAPHS",
+      articlesTitle: "ARTICLES",
+      subgroupFallback: "SECTION"
+    },
+    video: {
+      watch: "WATCH",
+      playlist: "Channel playlist",
+      fallbackTitle: "YouTube videos"
+    },
+    theme: {
+      toggle: "Toggle theme",
+      nextDark: "Dark theme",
+      nextLight: "Light theme",
+      enableDark: "Enable dark theme",
+      enableLight: "Enable light theme"
+    },
+    language: {
+      label: "Language",
+      toggle: "Switch language",
+      options: {
+        uk: "UA",
+        en: "EN"
+      },
+      names: {
+        uk: "Ukrainian",
+        en: "English"
+      }
+    },
+    header: {
+      socialsLabel: "Social media",
+      backToTop: "Back to top"
+    },
+    contact: {
+      socialsComingSoon: "coming soon",
+      phone: "Phone",
+      subject: "Subject",
+      intro: "I will be glad to answer your questions or requests. Please fill out the fields below.",
+      formSubject: "New message from the website",
+      required: "Required",
+      emailOrPhoneRequired: "Required: email or phone",
+      phoneOrEmailRequired: "Required: phone or email",
+      emailProvided: "Email provided",
+      phoneProvided: "Phone provided",
+      completed: "Completed",
+      messageEnough: "Enough characters",
+      messageRequired: "Required (at least 25 characters)",
+      messageRemainingPrefix: "Required, please add at least ",
+      messageRemainingSuffix: " more characters",
+      emailOptionalBecausePhone: "Optional because the phone number is already provided",
+      phoneOptionalBecauseEmail: "Optional because the email is already provided",
+      invalidEmail: "Enter a valid email address",
+      invalidPhone: "Enter a valid phone number",
+      provideEmailOrPhone: "Enter an email address or phone number",
+      limitExhausted: "TEXT LIMIT REACHED",
+      limitRemainingPrefix: "",
+      limitRemainingSuffix: " chars left"
+    },
+    footer: {
+      viewsLabel: "Visits:",
+      loading: "updating...",
+      unavailable: "counter unavailable"
+    }
+  }
+};
+
+const SITE_RUNTIME = {
+  defaultLocale: "uk",
+  supportedLocales: ["uk", "en"],
+  storageKeys: {
+    locale: "site-locale",
+    counterSession: "site-visit-counted",
+    counterCache: "site-visit-count-cache"
+  },
+  visitCounter: {
+    enabled: true,
+    apiBase: "https://api.countapi.xyz",
+    namespace: "sirius-ihnatiev-va",
+    key: "site-visits"
+  },
+  locales: {
+    uk: SITE_BASE,
+    en: SITE_EN
+  }
+};
+
+let activeSiteLocale = SITE_RUNTIME.defaultLocale;
+
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function cloneSiteData(value) {
+  return typeof structuredClone === "function"
+    ? structuredClone(value)
+    : JSON.parse(JSON.stringify(value));
+}
+
+function mergeSiteLocale(base, override) {
+  if (Array.isArray(override)) {
+    return override.slice();
+  }
+
+  if (!isPlainObject(base) || !isPlainObject(override)) {
+    return override ?? base;
+  }
+
+  const result = { ...base };
+
+  Object.entries(override).forEach(([key, value]) => {
+    const baseValue = base[key];
+
+    if (Array.isArray(value)) {
+      result[key] = value.slice();
+      return;
+    }
+
+    if (isPlainObject(baseValue) && isPlainObject(value)) {
+      result[key] = mergeSiteLocale(baseValue, value);
+      return;
+    }
+
+    result[key] = value;
+  });
+
+  return result;
+}
+
+function resolveSiteLocale(locale) {
+  return SITE_RUNTIME.supportedLocales.includes(locale) ? locale : SITE_RUNTIME.defaultLocale;
+}
+
+function getStoredSiteLocale() {
+  try {
+    return localStorage.getItem(SITE_RUNTIME.storageKeys.locale);
+  } catch {
+    return null;
+  }
+}
+
+function setStoredSiteLocale(locale) {
+  const resolvedLocale = resolveSiteLocale(locale);
+
+  try {
+    localStorage.setItem(SITE_RUNTIME.storageKeys.locale, resolvedLocale);
+  } catch {
+    // Ignore storage write failures and keep the locale in memory.
+  }
+
+  document.documentElement.lang = resolvedLocale;
+  return resolvedLocale;
+}
+
+function syncSiteRuntimeProperties() {
+  Object.defineProperties(SITE, {
+    defaultLocale: {
+      value: SITE_RUNTIME.defaultLocale,
+      enumerable: false,
+      configurable: true
+    },
+    supportedLocales: {
+      value: SITE_RUNTIME.supportedLocales,
+      enumerable: false,
+      configurable: true
+    },
+    storageKeys: {
+      value: SITE_RUNTIME.storageKeys,
+      enumerable: false,
+      configurable: true
+    },
+    visitCounter: {
+      value: SITE_RUNTIME.visitCounter,
+      enumerable: false,
+      configurable: true
+    },
+    currentLocale: {
+      get() {
+        return activeSiteLocale;
+      },
+      enumerable: false,
+      configurable: true
+    }
+  });
+}
+
+function replaceSiteContent(nextContent) {
+  Object.keys(SITE).forEach((key) => {
+    delete SITE[key];
+  });
+
+  Object.entries(nextContent).forEach(([key, value]) => {
+    SITE[key] = value;
+  });
+}
+
+function applySiteLocale(locale) {
+  const resolvedLocale = setStoredSiteLocale(locale);
+  const baseContent = cloneSiteData(SITE_BASE);
+  const localeOverrides = SITE_RUNTIME.locales[resolvedLocale] || {};
+  const localizedContent = mergeSiteLocale(baseContent, localeOverrides);
+
+  activeSiteLocale = resolvedLocale;
+  replaceSiteContent(localizedContent);
+  syncSiteRuntimeProperties();
+  return resolvedLocale;
+}
+
+syncSiteRuntimeProperties();
+applySiteLocale(getStoredSiteLocale() || document.documentElement.lang || SITE_RUNTIME.defaultLocale);

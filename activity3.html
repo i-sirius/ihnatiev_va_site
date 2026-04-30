@@ -2,17 +2,31 @@
 <html lang="uk">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#556d64" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <script>
     (() => {
-      const savedTheme = localStorage.getItem("site-theme");
-      if (savedTheme) {
-        document.documentElement.setAttribute("data-theme", savedTheme);
+      try {
+        const savedTheme = localStorage.getItem("site-theme");
+        const savedLocale = localStorage.getItem("site-locale");
+        if (savedTheme) {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        }
+        if (savedLocale) {
+          document.documentElement.lang = savedLocale;
+        }
+      } catch {
+        // Ignore storage access issues before the app boots.
       }
     })();
   </script>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" type="image/png" href="files/media/logo-light.png" data-site-favicon>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="files/media/logo-light.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="files/media/logo-light.png" data-site-favicon />
   <title>Священнослужіння</title>
 </head>
 <body data-page="activity" data-activity-id="3">
@@ -26,7 +40,7 @@
       <h2 data-activity-page-heading>Священнослужіння</h2>
       <div class="about-container">
         <div class="about-photo">
-          <img src="files/media/about-me-photo.jpg" alt="Фото" data-activity-hero-image>
+          <img src="files/media/about-me-photo.jpg" alt="Фото" data-activity-hero-image />
         </div>
         <div class="about-text" data-activity-paragraphs>
           <p>Опис буде підставлено з config.js.</p>
@@ -35,7 +49,7 @@
     </section>
 
     <section class="panel">
-      <h2>Фото</h2>
+      <h2 data-activity-photos-heading>Фото</h2>
       <div class="gallery" data-activity-gallery></div>
     </section>
   </main>

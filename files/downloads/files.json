@@ -2,106 +2,246 @@
   "monographs": [
     {
       "href": "files/downloads/Ознайомлення з монографією -Націософія- - Ігнатьєв ВА.pdf",
-      "label": "1. (PREVIEW) Ознайомлення з монографією <Націософія> - Ігнатьєв В.А.pdf"
+      "label": {
+        "uk": "Ознайомитись з монографією “Націософія”",
+        "en": "Introduction to the monograph “Natiosophy”"
+      },
+      "purchase": {
+        "mode": "contact",
+        "label": {
+          "uk": "Запитати e-книгу",
+          "en": "Request e-book"
+        },
+        "subject": {
+          "uk": "Запит електронної книги «Ісихазм у контексті некласичної філософсько-релігійної парадигми»",
+          "en": "Request of the book “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
+        },
+        "message": {
+          "uk": "Доброго дня! Хочу замовити електронну версію монографії  Націософія” - Ігнатьєв В.А. Прошу повідомити умови отримання.",
+          "en": "Hello! I would like to order the e-book “Natiosophy” - V.A. Ihnatiev. Please inform me about the conditions for obtaining it."
+        }
+      }
     },
     {
       "href": "files/downloads/Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf",
-      "label": "2. (PREVIEW) Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf"
+      "label": {
+        "uk": "Ознайомитись з монографією “Ісихазм у контексті некласичної філософсько-релігійної парадигми”",
+        "en": "Introduction to the monograph “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
+      },
+      "purchase": {
+        "mode": "contact",
+        "label": {
+          "uk": "Запитати книгу",
+          "en": "Request the book"
+        },
+        "subject": {
+          "uk": "Запит книги «Ісихазм у контексті некласичної філософсько-релігійної парадигми»",
+          "en": "Request of the book “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
+        },
+        "message": {
+          "uk": "Доброго дня! Хочу замовити книгу «Ісихазм у контексті некласичної філософсько-релігійної парадигми». Прошу повідомити умови отримання.",
+          "en": "Hello! I would like to order the book “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”. Please inform me about the conditions for obtaining it."
+        }
+      }
     }
   ],
   "articles": [
     {
-      "title": "SCOPUS",
+      "title": {
+        "uk": "SCOPUS",
+        "en": "SCOPUS"
+      },
       "files": [
         {
           "href": "files/downloads/SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf",
-          "label": "1. SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf"
+          "label": {
+            "uk": "1. SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf",
+            "en": "1. SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf"
+          }
         },
         {
           "href": "files/downloads/Improving the quality of education based on the system of continuing education.pdf",
-          "label": "2. Improving the quality of education based on the system of continuing education.pdf"
+          "label": {
+            "uk": "2. Improving the quality of education based on the system of continuing education.pdf",
+            "en": "2. Improving the quality of education based on the system of continuing education.pdf"
+          }
         },
         {
           "href": "files/downloads/Improving the quality of tourist services.pdf",
-          "label": "3. Improving the quality of tourist services.pdf"
+          "label": {
+            "uk": "3. Improving the quality of tourist services.pdf",
+            "en": "3. Improving the quality of tourist services.pdf"
+          }
         }
       ]
     },
     {
-      "title": "WEB OF SCIENCE",
+      "title": {
+        "uk": "WEB OF SCIENCE",
+        "en": "WEB OF SCIENCE"
+      },
       "files": [
         {
           "href": "files/downloads/PHILOSOPHICAL UNDERSTANDING.pdf",
-          "label": "1. PHILOSOPHICAL UNDERSTANDING.pdf"
+          "label": {
+            "uk": "1. PHILOSOPHICAL UNDERSTANDING.pdf",
+            "en": "1. PHILOSOPHICAL UNDERSTANDING.pdf"
+          }
         },
         {
           "href": "files/downloads/PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf",
-          "label": "2. PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf"
+          "label": {
+            "uk": "2. PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf",
+            "en": "2. PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf"
+          }
         },
         {
           "href": "files/downloads/POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf",
-          "label": "3. POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf"
+          "label": {
+            "uk": "3. POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf",
+            "en": "3. POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf"
+          }
         },
         {
           "href": "files/downloads/THE USE OF S. KHORUZHYI'S IDEAS.pdf",
-          "label": "4. THE USE OF S. KHORUZHYI'S IDEAS.pdf"
-        }        ,
+          "label": {
+            "uk": "4. THE USE OF S. KHORUZHYI'S IDEAS.pdf",
+            "en": "4. THE USE OF S. KHORUZHYI'S IDEAS.pdf"
+          }
+        },
         {
           "href": "files/downloads/Religious Secular Reality of Individual Consciousness In The Context of COVID-19.pdf",
-          "label": "5. Religious Secular Reality of Individual Consciousness In The Context of COVID-19.pdf"
+          "label": {
+            "uk": "5. Religious Secular Reality of Individual Consciousness In The Context of COVID-19.pdf",
+            "en": "5. Religious Secular Reality of Individual Consciousness In The Context of COVID-19.pdf"
+          }
         },
         {
           "href": "files/downloads/Study on the philosophical aspects of social justice equality in modern society.pdf",
-          "label": "6. Study on the philosophical aspects of social justice equality in modern society.pdf"
+          "label": {
+            "uk": "6. Study on the philosophical aspects of social justice equality in modern society.pdf",
+            "en": "6. Study on the philosophical aspects of social justice equality in modern society.pdf"
+          }
         }
       ]
     },
     {
-      "title": "ФАХОВІ СТАТТІ",
+      "title": {
+        "uk": "ФАХОВІ СТАТТІ",
+        "en": "PEER-REVIEWED ARTICLES"
+      },
       "files": [
         {
           "href": "files/downloads/NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf",
-          "label": "1. NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf"
+          "label": {
+            "uk": "1. NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf",
+            "en": "1. NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf"
+          }
         },
         {
           "href": "files/downloads/ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf",
-          "label": "2. ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf"
+          "label": {
+            "uk": "2. ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf",
+            "en": "2. Existential Encounter.pdf"
+          }
         },
         {
           "href": "files/downloads/ЕСТЕЗИС АПОФАЗИСУ.pdf",
-          "label": "3. ЕСТЕЗИС АПОФАЗИСУ.pdf"
+          "label": {
+            "uk": "3. ЕСТЕЗИС АПОФАЗИСУ.pdf",
+            "en": "3. Esthesis of Apophasis.pdf"
+          }
         },
         {
           "href": "files/downloads/ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf",
-          "label": "4. ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf"
+          "label": {
+            "uk": "4. ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf",
+            "en": "4. Aesthetic Contemplation.pdf"
+          }
         },
         {
-          "href": "files/downloads/Наукова_діяльність_у_вищому_навчальному_закладі.docx",
-          "label": "5. Наукова діяльність у вищому навчальному закладі.docx"
+          "href": "files/downloads/5. НЕКЛАСИЧНА МЕТАФІЗИКА.pdf",
+          "label": {
+            "uk": "5. НЕКЛАСИЧНА МЕТАФІЗИКА.pdf",
+            "en": "5. НЕКЛАСИЧНА МЕТАФІЗИКА.pdf"
+          }
         },
         {
           "href": "files/downloads/Ісихастська традиція .pdf",
-          "label": "6. Ісихастська традиція .pdf"
+          "label": {
+            "uk": "6. Ісихастська традиція .pdf",
+            "en": "6. Hesychast Tradition.pdf"
+          }
         },
         {
           "href": "files/downloads/НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf",
-          "label": "7. НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf"
+          "label": {
+            "uk": "7. НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf",
+            "en": "7. Non-Classical Philosophical Anthropology.pdf"
+          }
         },
         {
           "href": "files/downloads/Православна політична теологія.pdf",
-          "label": "8. Православна політична теологія.pdf"
+          "label": {
+            "uk": "8. Православна політична теологія.pdf",
+            "en": "8. Orthodox Political Theology.pdf"
+          }
         },
         {
           "href": "files/downloads/Рашизм як форма етнофілетизму.pdf",
-          "label": "9. Рашизм як форма етнофілетизму.pdf"
+          "label": {
+            "uk": "9. Рашизм як форма етнофілетизму.pdf",
+            "en": "9. Rashism as a Form of Ethnophyletism.pdf"
+          }
         },
         {
           "href": "files/downloads/РЕЛІГІЙНІ СИМУЛЯКРИ .pdf",
-          "label": "10. РЕЛІГІЙНІ СИМУЛЯКРИ .pdf"
+          "label": {
+            "uk": "10. РЕЛІГІЙНІ СИМУЛЯКРИ .pdf",
+            "en": "10. Religious Simulacra.pdf"
+          }
         },
         {
           "href": "files/downloads/Філософська антропологія.pdf",
-          "label": "11. Філософська антропологія.pdf"
+          "label": {
+            "uk": "11. Філософська антропологія.pdf",
+            "en": "11. Philosophical Anthropology.pdf"
+          }
+        },
+        {
+          "href": "files/downloads/12. «ПРИНЦИП ДОПОЛНИТЕЛЬНОСТИ».pdf",
+          "label": {
+            "uk": "12. «ПРИНЦИП ДОПОЛНИТЕЛЬНОСТИ».pdf",
+            "en": "12. «ПРИНЦИП ДОПОЛНИТЕЛЬНОСТИ».pdf"
+          }
+        },
+        {
+          "href": "files/downloads/13. ВЗАЄМОВІДНОСИНИ_ФІЛОСОФІЇ_І_ТЕОЛОГІЇ.pdf",
+          "label": {
+            "uk": "13. ВЗАЄМОВІДНОСИНИ_ФІЛОСОФІЇ_І_ТЕОЛОГІЇ.pdf",
+            "en": "13. ВЗАЄМОВІДНОСИНИ_ФІЛОСОФІЇ_І_ТЕОЛОГІЇ.pdf"
+          }
+        },
+        {
+          "href": "files/downloads/14. ЕНЕРГІЙНИЙ ДИСКУРС НЕКЛАСНОЇ ОНТОЛОГІЇ.pdf",
+          "label": {
+            "uk": "14. ЕНЕРГІЙНИЙ ДИСКУРС НЕКЛАСНОЇ ОНТОЛОГІЇ.pdf",
+            "en": "14. ЕНЕРГІЙНИЙ ДИСКУРС НЕКЛАСНОЇ ОНТОЛОГІЇ.pdf"
+          }
+        },
+        {
+          "href": "files/downloads/15. ІСИХАЗМ - СУПЕРЕЧНІСТЬ НАРАТИВІВ У РЕЛІГІЙНО-ФІЛОСОФСЬКОМУ ДИСКУРСІ .pdf",
+          "label": {
+            "uk": "15. ІСИХАЗМ - СУПЕРЕЧНІСТЬ НАРАТИВІВ У РЕЛІГІЙНО-ФІЛОСОФСЬКОМУ ДИСКУРСІ .pdf",
+            "en": "15. ІСИХАЗМ - СУПЕРЕЧНІСТЬ НАРАТИВІВ У РЕЛІГІЙНО-ФІЛОСОФСЬКОМУ ДИСКУРСІ .pdf"
+          }
+        },
+        {
+          "href": "files/downloads/16. МЕТАФІЗИКА ПРАВОСЛАВНОГО ЕКЗИСТЕНЦІАЛІЗМУ.pdf",
+          "label": {
+            "uk": "16. МЕТАФІЗИКА ПРАВОСЛАВНОГО ЕКЗИСТЕНЦІАЛІЗМУ.pdf",
+            "en": "16. МЕТАФІЗИКА ПРАВОСЛАВНОГО ЕКЗИСТЕНЦІАЛІЗМУ.pdf"
+          }
         }
       ]
     }

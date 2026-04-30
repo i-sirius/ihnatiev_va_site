@@ -12,6 +12,8 @@
   let youtubeFeedLoading = false;
   let currentGalleryItems = [];
   let currentGalleryIndex = 0;
+  let visitorCounterValue = null;
+  let visitorCounterPromise = null;
 
   function setText(selector, value) {
     if (value == null) {
@@ -32,14 +34,37 @@
       .replaceAll("'", "&#39;");
   }
 
+  function getLocalizedValue(value, fallback = "") {
+    if (value == null) {
+      return fallback;
+    }
+
+    if (typeof value === "string") {
+      return value;
+    }
+
+    if (typeof value === "object" && !Array.isArray(value)) {
+      const locale = SITE.currentLocale || SITE.defaultLocale || "uk";
+      const defaultLocale = SITE.defaultLocale || "uk";
+      const localizedValue =
+        value[locale] ??
+        value[defaultLocale] ??
+        Object.values(value).find((item) => typeof item === "string");
+      return typeof localizedValue === "string" ? localizedValue : fallback;
+    }
+
+    return fallback;
+  }
+
   function renderParagraphs(selector, paragraphs) {
     if (!Array.isArray(paragraphs)) {
       return;
     }
 
-    const defaultDetailsSummary = "\u0414\u0435\u0442\u0430\u043b\u0456";
-    const defaultExpandLabel = "\u0420\u041e\u0417\u0413\u041e\u0420\u041d\u0423\u0422\u0418";
-    const defaultCloseLabel = "\u0417\u0413\u041e\u0420\u041d\u0423\u0422\u0418";
+    const detailsUi = SITE.ui?.details || {};
+    const defaultDetailsSummary = detailsUi.summary || "Деталі";
+    const defaultExpandLabel = detailsUi.expand || "РОЗГОРНУТИ";
+    const defaultCloseLabel = detailsUi.collapse || "ЗГОРНУТИ";
 
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = paragraphs
@@ -82,11 +107,12 @@
               : "";
             const summaryText =
               paragraph.summary ||
-              "\u041f\u043e\u043a\u0430\u0437\u0430\u043d\u043e \u0441\u043a\u043e\u0440\u043e\u0447\u0435\u043d\u0443 \u0432\u0435\u0440\u0441\u0456\u044e. \u041d\u0438\u0436\u0447\u0435 \u043c\u043e\u0436\u043d\u0430 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u0438 \u043f\u043e\u0432\u043d\u0438\u0439 \u0442\u0435\u043a\u0441\u0442.";
+              detailsUi.contentSummary ||
+              "Показано скорочену версію. Нижче можна прочитати повний текст.";
             const actionLabel =
-              paragraph.actionLabel || "\u0427\u0438\u0442\u0430\u0442\u0438 \u0434\u0430\u043b\u0456...";
+              paragraph.actionLabel || detailsUi.contentAction || "Читати далі...";
             const closeLabel =
-              paragraph.closeLabel || "\u0417\u0433\u043e\u0440\u043d\u0443\u0442\u0438";
+              paragraph.closeLabel || detailsUi.contentCollapse || "Згорнути";
 
             return `
               <details class="about-details about-details-content">
@@ -153,30 +179,42 @@
   function ensureLightbox() {
     let lightbox = document.querySelector("[data-gallery-lightbox]");
 
-    if (lightbox) {
-      return lightbox;
+    if (!lightbox) {
+      lightbox = document.createElement("div");
+      lightbox.className = "gallery-lightbox";
+      lightbox.hidden = true;
+      lightbox.setAttribute("data-gallery-lightbox", "");
+      lightbox.innerHTML = `
+        <div class="lightbox-stage">
+          <div class="lightbox-toolbar">
+            <button class="lightbox-close" type="button" data-lightbox-close>×</button>
+          </div>
+          <div class="lightbox-content">
+            <button class="lightbox-nav prev" type="button" data-lightbox-prev>‹</button>
+            <figure class="lightbox-figure">
+              <img src="" alt="" data-lightbox-image>
+              <figcaption class="lightbox-caption" data-lightbox-caption hidden></figcaption>
+            </figure>
+            <button class="lightbox-nav next" type="button" data-lightbox-next>›</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(lightbox);
     }
 
-    lightbox = document.createElement("div");
-    lightbox.className = "gallery-lightbox";
-    lightbox.hidden = true;
-    lightbox.setAttribute("data-gallery-lightbox", "");
-    lightbox.innerHTML = `
-      <div class="lightbox-stage">
-        <div class="lightbox-toolbar">
-          <button class="lightbox-close" type="button" aria-label="Закрити" data-lightbox-close>×</button>
-        </div>
-        <div class="lightbox-content">
-          <button class="lightbox-nav prev" type="button" aria-label="Попереднє фото" data-lightbox-prev>‹</button>
-          <figure class="lightbox-figure">
-            <img src="" alt="" data-lightbox-image>
-            <figcaption class="lightbox-caption" data-lightbox-caption hidden></figcaption>
-          </figure>
-          <button class="lightbox-nav next" type="button" aria-label="Наступне фото" data-lightbox-next>›</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(lightbox);
+    const galleryUi = SITE.ui?.gallery || {};
+    lightbox.querySelector("[data-lightbox-close]")?.setAttribute(
+      "aria-label",
+      galleryUi.close || "Закрити"
+    );
+    lightbox.querySelector("[data-lightbox-prev]")?.setAttribute(
+      "aria-label",
+      galleryUi.previous || "Попереднє фото"
+    );
+    lightbox.querySelector("[data-lightbox-next]")?.setAttribute(
+      "aria-label",
+      galleryUi.next || "Наступне фото"
+    );
 
     const image = lightbox.querySelector("[data-lightbox-image]");
     const caption = lightbox.querySelector("[data-lightbox-caption]");
@@ -257,53 +295,78 @@
   function ensureDocumentLightbox() {
     let lightbox = document.querySelector("[data-document-lightbox]");
 
-    if (lightbox) {
-      return lightbox;
+    if (!lightbox) {
+      lightbox = document.createElement("div");
+      lightbox.className = "gallery-lightbox document-lightbox";
+      lightbox.hidden = true;
+      lightbox.setAttribute("data-document-lightbox", "");
+      lightbox.innerHTML = `
+        <div class="lightbox-stage document-lightbox-stage">
+          <div class="lightbox-toolbar document-lightbox-toolbar">
+            <div class="document-lightbox-meta">
+              <span class="document-lightbox-filetype" data-document-filetype></span>
+              <span class="document-lightbox-title" data-document-title></span>
+            </div>
+            <div class="document-lightbox-actions">
+              <a
+                class="document-lightbox-link"
+                href="#"
+                target="_blank"
+                rel="noreferrer"
+                data-document-open
+              ></a>
+              <a
+                class="document-lightbox-link is-download"
+                href="#"
+                download
+                data-document-download
+              ></a>
+              <button class="lightbox-close" type="button" data-document-close>×</button>
+            </div>
+          </div>
+          <div class="document-lightbox-view">
+            <iframe
+              class="document-lightbox-frame"
+              data-document-frame
+              hidden
+            ></iframe>
+            <div class="document-lightbox-fallback" data-document-fallback hidden>
+              <p class="document-lightbox-fallback-title" data-document-fallback-title></p>
+              <p class="document-lightbox-fallback-text" data-document-fallback-text></p>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(lightbox);
     }
 
-    lightbox = document.createElement("div");
-    lightbox.className = "gallery-lightbox document-lightbox";
-    lightbox.hidden = true;
-    lightbox.setAttribute("data-document-lightbox", "");
-    lightbox.innerHTML = `
-      <div class="lightbox-stage document-lightbox-stage">
-        <div class="lightbox-toolbar document-lightbox-toolbar">
-          <div class="document-lightbox-meta">
-            <span class="document-lightbox-filetype" data-document-filetype></span>
-            <span class="document-lightbox-title" data-document-title></span>
-          </div>
-          <div class="document-lightbox-actions">
-            <a
-              class="document-lightbox-link"
-              href="#"
-              target="_blank"
-              rel="noreferrer"
-              data-document-open
-            >Відкрити окремо</a>
-            <a
-              class="document-lightbox-link is-download"
-              href="#"
-              download
-              data-document-download
-            >Завантажити</a>
-            <button class="lightbox-close" type="button" aria-label="Закрити" data-document-close>×</button>
-          </div>
-        </div>
-        <div class="document-lightbox-view">
-          <iframe
-            class="document-lightbox-frame"
-            title="Попередній перегляд файла"
-            data-document-frame
-            hidden
-          ></iframe>
-          <div class="document-lightbox-fallback" data-document-fallback hidden>
-            <p class="document-lightbox-fallback-title">Попередній перегляд у вікні сайту для цього формату недоступний.</p>
-            <p class="document-lightbox-fallback-text">Можна відкрити файл окремо або одразу завантажити його кнопкою вище.</p>
-          </div>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(lightbox);
+    const previewUi = SITE.ui?.documentPreview || {};
+    lightbox.querySelector("[data-document-open]")?.replaceChildren(
+      document.createTextNode(previewUi.open || "Відкрити окремо")
+    );
+    lightbox.querySelector("[data-document-download]")?.replaceChildren(
+      document.createTextNode(previewUi.download || "Завантажити")
+    );
+    lightbox.querySelector("[data-document-close]")?.setAttribute(
+      "aria-label",
+      previewUi.close || "Закрити"
+    );
+    lightbox.querySelector("[data-document-frame]")?.setAttribute(
+      "title",
+      previewUi.frameTitle || "Попередній перегляд файла"
+    );
+    const fallbackTitle = lightbox.querySelector("[data-document-fallback-title]");
+    const fallbackText = lightbox.querySelector("[data-document-fallback-text]");
+    if (fallbackTitle) {
+      fallbackTitle.textContent =
+        previewUi.unavailableTitle ||
+        "Попередній перегляд у вікні сайту для цього формату недоступний.";
+    }
+    if (fallbackText) {
+      fallbackText.textContent =
+        previewUi.unavailableText ||
+        "Можна відкрити файл окремо або одразу завантажити його кнопкою вище.";
+    }
 
     const frame = lightbox.querySelector("[data-document-frame]");
     const fallback = lightbox.querySelector("[data-document-fallback]");
@@ -325,7 +388,10 @@
 
     function showPreview(file = {}) {
       const href = file.href || "#";
-      const label = file.label || href || "Файл";
+      const label =
+        getLocalizedValue(file.label, "") ||
+        href ||
+        (previewUi.fileFallbackLabel || "Файл");
       const type = getDownloadFileType(file);
 
       if (title) {
@@ -409,7 +475,9 @@
       const count = images.length;
       if (!count) {
         element.style.removeProperty("--gallery-columns");
-        element.innerHTML = `<p class="gallery-empty">Фото тимчасово відсутні.</p>`;
+        element.innerHTML = `<p class="gallery-empty">${escapeHtml(
+          SITE.ui?.gallery?.empty || "Фото тимчасово відсутні."
+        )}</p>`;
         return;
       }
 
@@ -449,9 +517,40 @@
   }
 
   function getDownloadFileType(file = {}) {
-    const source = `${file.href || ""} ${file.label || ""}`;
+    const source = `${file.href || ""} ${getLocalizedValue(file.label, "")}`;
     const match = source.match(/\.([a-z0-9]{2,5})(?:$|[?#\s])/i);
     return (match?.[1] || "file").toUpperCase();
+  }
+
+  function getPurchaseHref(file = {}) {
+    const purchase = file.purchase;
+    if (!purchase || typeof purchase !== "object") {
+      return "";
+    }
+
+    const directHref = getLocalizedValue(purchase.href, "");
+    if (directHref) {
+      return directHref;
+    }
+
+    if (purchase.mode !== "contact") {
+      return "";
+    }
+
+    const params = new URLSearchParams();
+    const subject = getLocalizedValue(purchase.subject, "");
+    const message = getLocalizedValue(purchase.message, "");
+
+    if (subject) {
+      params.set("subject", subject);
+    }
+
+    if (message) {
+      params.set("message", message);
+    }
+
+    const query = params.toString();
+    return `contact.html${query ? `?${query}` : ""}`;
   }
 
   function getDownloadFileIconMarkup(fileType = "FILE") {
@@ -491,10 +590,46 @@
   function renderDownloadListItem(file = {}) {
     const fileType = getDownloadFileType(file);
     const href = file.href || "#";
-    const label = file.label || file.href || "Файл";
+    const label =
+      getLocalizedValue(file.label, "") ||
+      file.href ||
+      SITE.ui?.documentPreview?.fileFallbackLabel ||
+      "Файл";
     const safeHref = escapeHtml(href);
     const safeLabel = escapeHtml(label);
     const safeType = escapeHtml(fileType);
+    const previewUi = SITE.ui?.documentPreview || {};
+    const purchaseLabel = getLocalizedValue(
+      file.purchase?.label,
+      previewUi.purchase || "Замовити e-book"
+    );
+    const purchaseHref = getPurchaseHref(file);
+    const actions = [
+      `
+        <a
+          class="download-link-action"
+          href="${safeHref}"
+          download
+          aria-label="${escapeHtml(
+            `${previewUi.downloadAria || "Завантажити"} ${label}`
+          )}"
+          title="${escapeHtml(previewUi.download || "Завантажити")}"
+        >↓</a>
+      `
+    ];
+
+    if (purchaseHref) {
+      actions.unshift(`
+        <a
+          class="download-purchase-action"
+          href="${escapeHtml(purchaseHref)}"
+          aria-label="${escapeHtml(
+            `${previewUi.purchaseAria || "Замовити"} ${label}`
+          )}"
+          title="${escapeHtml(previewUi.purchaseTitle || "Замовити електронну книгу")}"
+        >${escapeHtml(purchaseLabel)}</a>
+      `);
+    }
 
     return `
       <li>
@@ -506,7 +641,9 @@
             data-preview-href="${safeHref}"
             data-preview-label="${safeLabel}"
             data-preview-type="${safeType}"
-            aria-label="Переглянути ${safeLabel}"
+            aria-label="${escapeHtml(
+              `${previewUi.previewAria || "Переглянути"} ${label}`
+            )}"
           >
             <span class="download-link-main">
               <span class="download-filetype" aria-hidden="true">
@@ -515,13 +652,7 @@
               <span class="download-link-text">${safeLabel}</span>
             </span>
           </button>
-          <a
-            class="download-link-action"
-            href="${safeHref}"
-            download
-            aria-label="Завантажити ${safeLabel}"
-            title="Завантажити"
-          >↓</a>
+          <div class="download-actions">${actions.join("")}</div>
         </div>
       </li>
     `;
@@ -529,7 +660,9 @@
 
   function renderDownloadGroupFiles(files = []) {
     if (!Array.isArray(files) || !files.length) {
-      return `<p class="download-group-empty">Файли тимчасово відсутні.</p>`;
+      return `<p class="download-group-empty">${escapeHtml(
+        SITE.ui?.downloads?.empty || "Файли тимчасово відсутні."
+      )}</p>`;
     }
 
     return `
@@ -547,21 +680,31 @@
     document.querySelectorAll(selector).forEach((element) => {
       const monographs = Array.isArray(groups.monographs) ? groups.monographs : [];
       const articleGroups = Array.isArray(groups.articles) ? groups.articles : [];
+      const downloadsUi = SITE.ui?.downloads || {};
 
       element.innerHTML = `
         <section class="download-group download-group-main">
-          <h3 class="download-group-title">МОНОГРАФІЇ</h3>
+          <h3 class="download-group-title">${escapeHtml(
+            downloadsUi.monographsTitle || "МОНОГРАФІЇ"
+          )}</h3>
           ${renderDownloadGroupFiles(monographs)}
         </section>
         <section class="download-group download-group-main">
-          <h3 class="download-group-title">СТАТТІ</h3>
+          <h3 class="download-group-title">${escapeHtml(
+            downloadsUi.articlesTitle || "СТАТТІ"
+          )}</h3>
           <div class="download-subgroups">
             ${articleGroups
               .map(
                 (group) => `
                   <details class="download-subgroup">
                     <summary>
-                      <span class="download-subgroup-title">${group.title || "РОЗДІЛ"}</span>
+                      <span class="download-subgroup-title">${escapeHtml(
+                        getLocalizedValue(
+                          group.title,
+                          downloadsUi.subgroupFallback || "РОЗДІЛ"
+                        )
+                      )}</span>
                       <span class="download-subgroup-toggle" aria-hidden="true"></span>
                     </summary>
                     <div class="download-subgroup-body">
@@ -582,7 +725,7 @@
       return;
     }
 
-    const watchLabel = "\u0414\u0418\u0412\u0418\u0422\u0418\u0421\u042c";
+    const watchLabel = SITE.ui?.video?.watch || "ДИВИТИСЬ";
 
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = videos
@@ -602,13 +745,15 @@
   function renderYoutubeFallback(selector) {
     const playlistUrl =
       "https://youtube.com/playlist?list=PLJiTnA91mVyQTsyn7L64mxggDWd4H63gH&si=PLaUlRCYsZ0n6Mfo";
-    const playlistLabel = "\u041f\u043b\u0435\u0439\u043b\u0438\u0441\u0442 \u043a\u0430\u043d\u0430\u043b\u0443";
-    const watchLabel = "\u0414\u0418\u0412\u0418\u0422\u0418\u0421\u042c";
+    const playlistLabel = SITE.ui?.video?.playlist || "Плейлист каналу";
+    const watchLabel = SITE.ui?.video?.watch || "ДИВИТИСЬ";
 
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = `
         <a class="activity-card video-card video-card-fallback" href="${playlistUrl}" target="_blank" rel="noopener noreferrer">
-          <div class="video-card-thumb video-card-thumb-fallback">YouTube</div>
+          <div class="video-card-thumb video-card-thumb-fallback">${escapeHtml(
+            SITE.ui?.video?.fallbackTitle || "YouTube"
+          )}</div>
           <h3>${playlistLabel}</h3>
           <span class="button-link video-card-link">${watchLabel}</span>
         </a>
@@ -797,11 +942,11 @@
   }
 
   function initDownloadPreviewTriggers() {
+    ensureDocumentLightbox();
+
     if (document.body.dataset.downloadPreviewReady === "true") {
       return;
     }
-
-    const lightbox = ensureDocumentLightbox();
 
     document.addEventListener("click", (event) => {
       const trigger = event.target.closest("[data-download-preview]");
@@ -810,7 +955,7 @@
       }
 
       event.preventDefault();
-      lightbox.showPreview({
+      ensureDocumentLightbox().showPreview({
         href: trigger.getAttribute("data-preview-href") || "",
         label: trigger.getAttribute("data-preview-label") || "",
         type: trigger.getAttribute("data-preview-type") || ""
@@ -856,7 +1001,10 @@
             }
 
             return {
-              title: item.querySelector("title")?.textContent?.trim() || "YouTube video",
+              title:
+                item.querySelector("title")?.textContent?.trim() ||
+                SITE.ui?.video?.fallbackTitle ||
+                "YouTube video",
               thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
               url: `https://www.youtube.com/watch?v=${videoId}`
             };
@@ -882,9 +1030,100 @@
       });
   }
 
-  function initThemeToggle() {
+  function ensureHeaderControls() {
     const header = document.querySelector(".site-header");
-    if (!header || header.querySelector(".theme-toggle")) {
+    if (!header) {
+      return null;
+    }
+
+    let controls = header.querySelector(".site-header-controls");
+    if (!controls) {
+      controls = document.createElement("div");
+      controls.className = "site-header-controls";
+      header.appendChild(controls);
+    }
+
+    return controls;
+  }
+
+  function initLanguageToggle() {
+    const controls = ensureHeaderControls();
+    if (!controls) {
+      return;
+    }
+
+    let toggle = controls.querySelector("[data-language-toggle]");
+    if (!toggle) {
+      toggle = document.createElement("div");
+      toggle.className = "language-toggle";
+      toggle.setAttribute("data-language-toggle", "");
+      toggle.innerHTML = `
+        <span class="language-toggle-label" data-language-toggle-label></span>
+        <div class="language-toggle-options" role="group" data-language-toggle-options></div>
+      `;
+      controls.appendChild(toggle);
+    }
+
+    const label = toggle.querySelector("[data-language-toggle-label]");
+    const optionsWrap = toggle.querySelector("[data-language-toggle-options]");
+    const languageUi = SITE.ui?.language || {};
+
+    if (label) {
+      label.textContent = languageUi.label || "Мова";
+    }
+
+    if (optionsWrap) {
+      optionsWrap.setAttribute("aria-label", languageUi.toggle || "Перемкнути мову");
+      const supportedLocales = Array.isArray(SITE.supportedLocales)
+        ? SITE.supportedLocales
+        : [SITE.defaultLocale || "uk"];
+
+      optionsWrap.innerHTML = supportedLocales
+        .map((locale) => {
+          const optionLabel = getLocalizedValue(languageUi.options?.[locale], locale.toUpperCase()) ||
+            locale.toUpperCase();
+          const localeName = getLocalizedValue(languageUi.names?.[locale], locale.toUpperCase()) ||
+            locale.toUpperCase();
+          const isActive = locale === SITE.currentLocale;
+
+          return `
+            <button
+              class="language-toggle-option${isActive ? " is-active" : ""}"
+              type="button"
+              data-language-option="${locale}"
+              aria-pressed="${isActive ? "true" : "false"}"
+              title="${escapeHtml(localeName)}"
+            >${escapeHtml(optionLabel)}</button>
+          `;
+        })
+        .join("");
+    }
+
+    if (toggle.dataset.bound === "true") {
+      return;
+    }
+
+    toggle.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-language-option]");
+      if (!button) {
+        return;
+      }
+
+      const nextLocale = button.getAttribute("data-language-option") || SITE.defaultLocale || "uk";
+      if (nextLocale === SITE.currentLocale) {
+        return;
+      }
+
+      applySiteLocale(nextLocale);
+      applyAllContent();
+    });
+
+    toggle.dataset.bound = "true";
+  }
+
+  function initThemeToggle() {
+    const controls = ensureHeaderControls();
+    if (!controls) {
       return;
     }
 
@@ -892,38 +1131,53 @@
     const theme = savedTheme || document.documentElement.getAttribute("data-theme") || "light";
     document.documentElement.setAttribute("data-theme", theme);
 
-    const toggle = document.createElement("button");
-    toggle.type = "button";
-    toggle.className = "theme-toggle";
-    toggle.setAttribute("aria-label", "Перемкнути тему");
-    toggle.innerHTML = `
-      <span class="theme-toggle-label" data-theme-toggle-label></span>
-      <span class="theme-toggle-track">
-        <span class="theme-toggle-thumb"></span>
-      </span>
-    `;
+    let toggle = controls.querySelector(".theme-toggle");
+    if (!toggle) {
+      toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "theme-toggle";
+      toggle.innerHTML = `
+        <span class="theme-toggle-label" data-theme-toggle-label></span>
+        <span class="theme-toggle-track">
+          <span class="theme-toggle-thumb"></span>
+        </span>
+      `;
+      controls.appendChild(toggle);
+    }
 
     const toggleLabel = toggle.querySelector("[data-theme-toggle-label]");
+    const themeUi = SITE.ui?.theme || {};
 
     function updateThemeToggleLabel(currentTheme) {
       const nextTheme = currentTheme === "dark" ? "light" : "dark";
       const nextThemeIcon = nextTheme === "dark" ? "🌙" : "☀️";
-      const nextThemeText = nextTheme === "dark" ? "Темна тема" : "Світла тема";
+      const nextThemeText =
+        nextTheme === "dark"
+          ? themeUi.nextDark || "Темна тема"
+          : themeUi.nextLight || "Світла тема";
       toggleLabel.innerHTML = `
         <span class="theme-toggle-icon" aria-hidden="true">${nextThemeIcon}</span>
         <span class="theme-toggle-text">${nextThemeText}</span>
       `;
-      toggle.setAttribute("aria-label", `Увімкнути ${nextTheme === "dark" ? "темну" : "світлу"} тему`);
+      toggle.setAttribute(
+        "aria-label",
+        nextTheme === "dark"
+          ? themeUi.enableDark || "Увімкнути темну тему"
+          : themeUi.enableLight || "Увімкнути світлу тему"
+      );
+      toggle.title = themeUi.toggle || "Перемкнути тему";
     }
 
-    if (theme === "dark") {
-      toggle.classList.add("is-dark");
-    }
-
+    toggle.classList.toggle("is-dark", theme === "dark");
     updateThemeToggleLabel(theme);
 
+    if (toggle.dataset.bound === "true") {
+      return;
+    }
+
     toggle.addEventListener("click", () => {
-      const nextTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      const nextTheme =
+        document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", nextTheme);
       localStorage.setItem("site-theme", nextTheme);
       toggle.classList.toggle("is-dark", nextTheme === "dark");
@@ -931,7 +1185,7 @@
       applyThemeAssets(nextTheme);
     });
 
-    header.appendChild(toggle);
+    toggle.dataset.bound = "true";
   }
 
   function applyThemeAssets(theme = "light") {
@@ -956,23 +1210,32 @@
 
   function initHeaderBrand() {
     const header = document.querySelector(".site-header");
-    if (!header || header.querySelector(".site-brand-link")) {
+    if (!header) {
       return;
     }
 
-    const brand = document.createElement("a");
-    brand.className = "site-brand-link";
-    brand.href = "index.html";
-    brand.setAttribute("aria-label", SITE.meta?.homeTitle || "Ігнатьєв Віталій");
-    brand.innerHTML = `
-      <img
-        class="site-brand-logo"
-        data-site-brand-logo
-        src="${themeAssets.light}"
-        alt="${SITE.meta?.homeTitle || "Ігнатьєв Віталій"}"
-      >
-    `;
-    header.appendChild(brand);
+    let brand = header.querySelector(".site-brand-link");
+    if (!brand) {
+      brand = document.createElement("a");
+      brand.className = "site-brand-link";
+      brand.href = "index.html";
+      brand.innerHTML = `
+        <img
+          class="site-brand-logo"
+          data-site-brand-logo
+          src="${themeAssets.light}"
+          alt=""
+        >
+      `;
+      header.appendChild(brand);
+    }
+
+    const brandLabel = SITE.meta?.homeTitle || SITE.meta?.siteTitle || "Ігнатьєв Віталій";
+    brand.setAttribute("aria-label", brandLabel);
+    const image = brand.querySelector("[data-site-brand-logo]");
+    if (image) {
+      image.alt = brandLabel;
+    }
   }
 
   function getSocialIconMarkup(id, className = "contact-social-icon") {
@@ -1026,7 +1289,7 @@
   function initHeaderSocials() {
     const header = document.querySelector(".site-header");
     const title = header?.querySelector("h1");
-    if (!header || !title || header.querySelector(".site-header-socials")) {
+    if (!header || !title) {
       return;
     }
 
@@ -1043,13 +1306,20 @@
       }))
       .filter((item) => item.href);
 
+    let socialBar = header.querySelector(".site-header-socials");
+
     if (!activeSocials.length) {
+      socialBar?.remove();
       return;
     }
 
-    const socialBar = document.createElement("div");
-    socialBar.className = "site-header-socials";
-    socialBar.setAttribute("aria-label", "Соціальні мережі");
+    if (!socialBar) {
+      socialBar = document.createElement("div");
+      socialBar.className = "site-header-socials";
+      title.insertAdjacentElement("afterend", socialBar);
+    }
+
+    socialBar.setAttribute("aria-label", SITE.ui?.header?.socialsLabel || "Соціальні мережі");
     socialBar.innerHTML = activeSocials
       .map(
         (item) => `
@@ -1066,8 +1336,6 @@
         `
       )
       .join("");
-
-    title.insertAdjacentElement("afterend", socialBar);
   }
 
   function renderActivityResearchLinks(activity) {
@@ -1125,9 +1393,12 @@
 
     const brand = header.querySelector(".site-brand-link");
 
-    if (brand && !brand.dataset.scrollTopBound) {
+    if (brand) {
       brand.href = "#top";
-      brand.title = "Нагору сторінки";
+      brand.title = SITE.ui?.header?.backToTop || "Нагору сторінки";
+    }
+
+    if (brand && !brand.dataset.scrollTopBound) {
       brand.addEventListener("click", (event) => {
         event.preventDefault();
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -1219,12 +1490,18 @@
   function applyGlobalContent() {
     const homeTitle = `${SITE.meta.homeTitle} — ${SITE.meta.homeSubtitle}`;
 
+    document.documentElement.lang = SITE.currentLocale || SITE.defaultLocale || "uk";
     setText("[data-site-title]", SITE.meta.siteTitle);
     setText("[data-site-subtitle]", SITE.meta.homeSubtitle);
     setText("[data-home-about-heading]", SITE.home.aboutHeading);
     setText("[data-home-activities-heading]", SITE.home.activitiesHeading);
+    setText("[data-activity-card-link]", SITE.ui?.buttons?.open || "Перейти");
     updateImage("[data-home-about-image]", SITE.home.aboutImage);
     renderParagraphs("[data-home-about-paragraphs]", SITE.home.aboutParagraphs);
+
+    setText("[data-activity-videos-heading]", SITE.ui?.activitySections?.videos || "Відео");
+    setText("[data-activity-photos-heading]", SITE.ui?.activitySections?.photos || "Фото");
+    setText("[data-activity-files-heading]", SITE.ui?.activitySections?.files || "Файли");
 
     Object.entries(SITE.activities).forEach(([id, activity]) => {
       setText(`[data-activity-name='${id}']`, activity.name);
@@ -1246,6 +1523,10 @@
       footerElement.innerHTML = `
         <span class="footer-owner">${footerOwner}</span>
         ${footerBuild ? `<span class="footer-build">${footerBuild}</span>` : ""}
+        <span class="footer-counter" data-footer-counter>
+          <span class="footer-counter-label">${SITE.ui?.footer?.viewsLabel || "Відвідувань:"}</span>
+          <span class="footer-counter-value" data-footer-counter-value>${SITE.ui?.footer?.loading || "оновлення..."}</span>
+        </span>
       `;
     }
 
@@ -1310,12 +1591,16 @@
       return;
     }
 
+    const contactUi = SITE.ui?.contact || {};
     document.title = SITE.contact.pageTitle;
     setText("[data-contact-title]", SITE.contact.pageTitle);
     setText("[data-contact-heading]", SITE.contact.heading);
     setText("[data-contact-socials-title]", SITE.contact.socials?.title || "Мої соціальні мережі:");
+    setText("[data-contact-intro]", contactUi.intro || SITE.contact.intro || "");
     setText("[data-contact-name-label]", SITE.contact.fields.name);
     setText("[data-contact-email-label]", SITE.contact.fields.email);
+    setText("[data-contact-phone-label]", contactUi.phone || "Телефон");
+    setText("[data-contact-subject-label]", contactUi.subject || "Тема");
     setText("[data-contact-message-label]", SITE.contact.fields.message);
     setText("[data-contact-submit]", SITE.contact.fields.submit);
 
@@ -1332,7 +1617,11 @@
         .map((item) => {
           const href = item.id === "youtube" ? item.href || defaultYoutubeHref : item.href || "";
           const isActive = Boolean(href);
-          const status = isActive ? "" : '<span class="contact-social-status">незабаром</span>';
+          const status = isActive
+            ? ""
+            : `<span class="contact-social-status">${escapeHtml(
+                contactUi.socialsComingSoon || "незабаром"
+              )}</span>`;
           const commonClass = `contact-social-button is-${item.id}${isActive ? "" : " is-disabled"}`;
           const icon = getSocialIconMarkup(item.id, "contact-social-icon");
 
@@ -1363,6 +1652,7 @@
     const subjectField = form?.querySelector("input[name='subject']");
     const messageField = form?.querySelector("textarea[name='message']");
     const submitButton = form?.querySelector("[data-contact-submit]");
+    const hiddenSubjectField = form?.querySelector("input[name='_subject']");
     const noteName = document.querySelector("[data-note-name]");
     const noteSubject = document.querySelector("[data-note-subject]");
     const noteMessage = document.querySelector("[data-contact-message-note]");
@@ -1454,8 +1744,32 @@
     }
 
     form.action = SITE.contact.formAction;
+    if (hiddenSubjectField) {
+      hiddenSubjectField.value = contactUi.formSubject || "Нове повідомлення із сайту";
+    }
+
+    noteName.textContent = contactUi.required || "Обов'язково для заповнення";
+    noteSubject.textContent = contactUi.required || "Обов'язково для заповнення";
+    noteMessage.textContent =
+      contactUi.messageRequired || "Обов'язково для заповнення (не менше 25 символів)";
+    noteEmail.textContent = contactUi.emailOrPhoneRequired || "Обов'язково: email або телефон";
+    notePhone.textContent = contactUi.phoneOrEmailRequired || "Обов'язково: телефон або email";
+    okName.textContent = `✓ ${contactUi.completed || "Заповнено"}`;
+    okSubject.textContent = `✓ ${contactUi.completed || "Заповнено"}`;
+    okMessage.textContent = `✓ ${contactUi.messageEnough || "Достатньо символів"}`;
+    okEmail.textContent = `✓ ${contactUi.emailProvided || "Email вказано"}`;
+    okPhone.textContent = `✓ ${contactUi.phoneProvided || "Телефон вказано"}`;
 
     if (form.dataset.enhanced === "true") {
+      if (typeof form._applyContactPrefill === "function") {
+        form._applyContactPrefill();
+      }
+      if (typeof form._autoResizeMessageField === "function") {
+        form._autoResizeMessageField(false);
+      }
+      if (typeof form._updateContactState === "function") {
+        form._updateContactState();
+      }
       return;
     }
 
@@ -1501,6 +1815,7 @@
     }
 
     function updateLimitCounter(field, counterElement) {
+      const currentContactUi = SITE.ui?.contact || {};
       const limit = Number(field.maxLength) || 0;
       if (!limit) {
         counterElement.hidden = true;
@@ -1518,7 +1833,11 @@
         const opacity = charsLeft === 0 ? 0.96 : 0.18 + progress * 0.82;
         counterElement.hidden = false;
         counterElement.textContent =
-          charsLeft === 0 ? "ЛІМІТ ПО ТЕКСТУ ВИЧЕРПАНО" : `Залишилось ${charsLeft} симв.`;
+          charsLeft === 0
+            ? currentContactUi.limitExhausted || "ЛІМІТ ПО ТЕКСТУ ВИЧЕРПАНО"
+            : `${currentContactUi.limitRemainingPrefix || ""}${charsLeft}${
+                currentContactUi.limitRemainingSuffix || ""
+              }`;
         counterElement.style.setProperty("--limit-counter-opacity", opacity.toFixed(3));
         counterElement.classList.toggle("is-exhausted", charsLeft === 0);
       } else {
@@ -1550,7 +1869,31 @@
       [messageField, messageCounter]
     ];
 
+    function applyContactPrefill() {
+      if (form.dataset.prefillApplied === "true") {
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const prefillMap = [
+        [nameField, params.get("name")],
+        [emailField, params.get("email")],
+        [phoneField, params.get("phone")],
+        [subjectField, params.get("subject")],
+        [messageField, params.get("message")]
+      ];
+
+      prefillMap.forEach(([field, value]) => {
+        if (field && value && !field.value.trim()) {
+          field.value = value;
+        }
+      });
+
+      form.dataset.prefillApplied = "true";
+    }
+
     function updateContactState() {
+      const currentContactUi = SITE.ui?.contact || {};
       const hasName = nameField.value.trim().length > 0;
       const hasSubject = subjectField.value.trim().length > 0;
       const emailValue = emailField.value.trim();
@@ -1571,12 +1914,16 @@
 
       if (!hasValidContact) {
         if (hasEmail && !emailValid) {
-          emailField.setCustomValidity("Вкажіть коректний email");
+          emailField.setCustomValidity(currentContactUi.invalidEmail || "Вкажіть коректний email");
         } else if (hasPhone && !phoneValid) {
-          phoneField.setCustomValidity("Вкажіть коректний номер телефону");
+          phoneField.setCustomValidity(
+            currentContactUi.invalidPhone || "Вкажіть коректний номер телефону"
+          );
         } else {
-          emailField.setCustomValidity("Вкажіть email або телефон");
-          phoneField.setCustomValidity("Вкажіть email або телефон");
+          const contactMessage =
+            currentContactUi.provideEmailOrPhone || "Вкажіть email або телефон";
+          emailField.setCustomValidity(contactMessage);
+          phoneField.setCustomValidity(contactMessage);
         }
       }
 
@@ -1595,10 +1942,10 @@
         okEmail.hidden = true;
         noteEmail.hidden = false;
         noteEmail.textContent = phoneValid
-          ? "Необов'язково, бо телефон уже вказано"
+          ? currentContactUi.emailOptionalBecausePhone || "Необов'язково, бо телефон уже вказано"
           : hasEmail
-            ? "Вкажіть коректний email"
-            : "Обов'язково: email або телефон";
+            ? currentContactUi.invalidEmail || "Вкажіть коректний email"
+            : currentContactUi.emailOrPhoneRequired || "Обов'язково: email або телефон";
       }
 
       if (phoneValid) {
@@ -1608,10 +1955,10 @@
         okPhone.hidden = true;
         notePhone.hidden = false;
         notePhone.textContent = emailValid
-          ? "Необов'язково, бо email уже вказано"
+          ? currentContactUi.phoneOptionalBecauseEmail || "Необов'язково, бо email уже вказано"
           : hasPhone
-            ? "Вкажіть коректний номер телефону"
-            : "Обов'язково: телефон або email";
+            ? currentContactUi.invalidPhone || "Вкажіть коректний номер телефону"
+            : currentContactUi.phoneOrEmailRequired || "Обов'язково: телефон або email";
       }
 
       if (messageValid) {
@@ -1622,8 +1969,9 @@
         okMessage.hidden = true;
         noteMessage.textContent =
           messageLength > 0
-            ? `Обов'язково для заповнення, напишіть хоча б ще ${remaining} символів`
-            : "Обов'язково для заповнення (не менше 25 символів)";
+            ? `${currentContactUi.messageRemainingPrefix || "Обов'язково для заповнення, напишіть хоча б ще "}${remaining}${currentContactUi.messageRemainingSuffix || " символів"}`
+            : currentContactUi.messageRequired ||
+              "Обов'язково для заповнення (не менше 25 символів)";
       }
 
       limitCounters.forEach(([field, counterElement]) => updateLimitCounter(field, counterElement));
@@ -1697,6 +2045,11 @@
       }
     });
 
+    form._applyContactPrefill = applyContactPrefill;
+    form._autoResizeMessageField = autoResizeMessageField;
+    form._updateContactState = updateContactState;
+
+    applyContactPrefill();
     autoResizeMessageField(false);
     updateContactState();
   }
@@ -1735,6 +2088,114 @@
     document.querySelector(selector)?.setAttribute("aria-current", "page");
   }
 
+  function formatVisitorCounter(value) {
+    const locale = SITE.currentLocale === "en" ? "en-US" : "uk-UA";
+    return new Intl.NumberFormat(locale).format(value);
+  }
+
+  function initVisitorCounter() {
+    const labelElement = document.querySelector(".footer-counter-label");
+    const valueElement = document.querySelector("[data-footer-counter-value]");
+    if (!labelElement || !valueElement) {
+      return;
+    }
+
+    const footerUi = SITE.ui?.footer || {};
+    labelElement.textContent = footerUi.viewsLabel || "Відвідувань:";
+
+    if (!SITE.visitCounter?.enabled) {
+      valueElement.textContent = footerUi.unavailable || "лічильник недоступний";
+      return;
+    }
+
+    if (visitorCounterValue != null) {
+      valueElement.textContent = formatVisitorCounter(visitorCounterValue);
+      return;
+    }
+
+    valueElement.textContent = footerUi.loading || "оновлення...";
+
+    if (!visitorCounterPromise) {
+      const counterConfig = SITE.visitCounter || {};
+      const storageKeys = SITE.storageKeys || {};
+      const apiBase = counterConfig.apiBase || "https://api.countapi.xyz";
+      const namespace = encodeURIComponent(counterConfig.namespace || "default");
+      const key = encodeURIComponent(counterConfig.key || "site-visits");
+      const sessionKey = storageKeys.counterSession || "site-visit-counted";
+      const cacheKey = storageKeys.counterCache || "site-visit-count-cache";
+      let shouldIncrement = true;
+
+      try {
+        shouldIncrement = sessionStorage.getItem(sessionKey) !== "true";
+      } catch {
+        shouldIncrement = true;
+      }
+
+      const endpoint = `${apiBase}/${shouldIncrement ? "hit" : "get"}/${namespace}/${key}`;
+
+      visitorCounterPromise = fetch(endpoint)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Counter request failed with ${response.status}`);
+          }
+
+          return response.json();
+        })
+        .then((payload) => {
+          const value = Number(payload?.value);
+          if (!Number.isFinite(value)) {
+            throw new Error("Invalid counter response");
+          }
+
+          visitorCounterValue = value;
+
+          try {
+            localStorage.setItem(cacheKey, String(value));
+            sessionStorage.setItem(sessionKey, "true");
+          } catch {
+            // Ignore storage write issues; the visible counter is still usable.
+          }
+
+          return value;
+        })
+        .catch((error) => {
+          try {
+            const cachedValue = Number(localStorage.getItem(cacheKey));
+            if (Number.isFinite(cachedValue)) {
+              visitorCounterValue = cachedValue;
+              return cachedValue;
+            }
+          } catch {
+            // Ignore cache access issues and fall through to the caller.
+          }
+
+          throw error;
+        });
+    }
+
+    visitorCounterPromise
+      .then((value) => {
+        valueElement.textContent = formatVisitorCounter(value);
+      })
+      .catch(() => {
+        valueElement.textContent = footerUi.unavailable || "лічильник недоступний";
+      });
+  }
+
+  function initPwa() {
+    if (document.body.dataset.pwaReady === "true") {
+      return;
+    }
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(() => {
+        // Ignore registration failures on unsupported hosting modes.
+      });
+    }
+
+    document.body.dataset.pwaReady = "true";
+  }
+
   function applyAllContent() {
     applyGlobalContent();
     applyActivityPage();
@@ -1744,10 +2205,13 @@
     applyActiveMenuState();
     initHeaderBrand();
     initHeaderSocials();
+    initLanguageToggle();
     initThemeToggle();
     initHeaderScrollState();
     initDetailsInteractions();
     initDownloadPreviewTriggers();
+    initVisitorCounter();
+    initPwa();
     applyThemeAssets(document.documentElement.getAttribute("data-theme") || "light");
   }
 
