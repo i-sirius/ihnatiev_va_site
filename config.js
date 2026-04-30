@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.10",
+    buildVersion: "0.6.10a",
     buildDate: "300426",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -814,7 +814,7 @@ function syncSiteRuntimeProperties() {
       apiBase: "https://iva-counter.pollux-twin.workers.dev",
       namespace: "sirius-ihnatiev-va",
       key: "site-visits"
-    },
+
     currentLocale: {
       get() {
         return activeSiteLocale;
