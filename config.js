@@ -810,9 +810,10 @@ function syncSiteRuntimeProperties() {
       configurable: true
     },
     visitCounter: {
-      value: SITE_RUNTIME.visitCounter,
-      enumerable: false,
-      configurable: true
+      enabled: true,
+      apiBase: "https://iva-counter.pollux-twin.workers.dev",
+      namespace: "sirius-ihnatiev-va",
+      key: "site-visits"
     },
     currentLocale: {
       get() {
