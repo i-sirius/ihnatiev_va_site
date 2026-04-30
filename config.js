@@ -814,7 +814,7 @@ function syncSiteRuntimeProperties() {
       apiBase: "https://iva-counter.pollux-twin.workers.dev",
       namespace: "sirius-ihnatiev-va",
       key: "site-visits"
-
+    },
     currentLocale: {
       get() {
         return activeSiteLocale;
