@@ -486,7 +486,7 @@ const SITE_EN = {
       alt: "Photo of Vitalii Ihnatiev"
     },
     aboutParagraphs: [
-      "He graduated from the Faculty of Philosophy of Taras Shevchenko Kyiv State University and obtained the qualification of Specialist in Philosophy and Teaching of Philosophical Disciplines.",
+      "He graduated from the Faculty of Philosophy at Taras Shevchenko National University of Kyiv and obtained the qualification of a Specialist in Philosophy (Philosopher, Lecturer in Philosophical Disciplines).",
       "In 2010, he defended his PhD dissertation at the Institute of Higher Education of the Academy of Pedagogical Sciences of Ukraine on the topic “Natiosophy in the Discourse of Philosophical Paradigms.”",
       "In 2013, he was awarded the academic title of Associate Professor of the Department of Socio-Political Sciences, Global Studies, and Social Communications.",
       "In 2025, he completed his doctoral studies at Rivne State University for the Humanities, specialty 031 “Religious Studies.”",
