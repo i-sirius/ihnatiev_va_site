@@ -2,8 +2,8 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.10a",
-    buildDate: "300426",
+    buildVersion: "0.6.11",
+    buildDate: "110526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
     homeSubtitle: "філософ, викладач, священнослужитель",
@@ -373,7 +373,12 @@
     video: {
       watch: "ДИВИТИСЬ",
       playlist: "Плейлист каналу",
-      fallbackTitle: "Відео YouTube"
+      fallbackTitle: "Відео YouTube",
+      updating: "Оновлюємо нові відео з YouTube у фоновому режимі. Зазвичай це займає до 10 секунд.",
+      fallbackText: "Якщо автоматичне завантаження затримується, канал доступний за посиланням нижче.",
+      cachedText: "Показано збережені відео. Новіші перевіряються у фоні.",
+      openChannel: "Відкрити канал",
+      views: "переглядів"
     },
     theme: {
       toggle: "Перемкнути тему",
@@ -430,7 +435,23 @@
     }
   },
 
-  youtubeChannelId: "UC2VL7PQ9FWDonb6O56dTUng"
+  youtubeChannelId: "UC2VL7PQ9FWDonb6O56dTUng",
+  youtubeFallbackVideos: [
+    {
+      title: {
+        uk: "Філософія Ісихазму",
+        en: "Philosophy of Hesychasm"
+      },
+      url: "https://youtube.com/playlist?list=PLJiTnA91mVyQTsyn7L64mxggDWd4H63gH&si=PLaUlRCYsZ0n6Mfo"
+    },
+    {
+      title: {
+        uk: "Канал Віталія Ігнатьєва",
+        en: "Vitalii Ihnatiev YouTube channel"
+      },
+      url: "https://www.youtube.com/channel/UC2VL7PQ9FWDonb6O56dTUng"
+    }
+  ]
 };
 
 const SITE_BASE = typeof structuredClone === "function"
@@ -647,7 +668,12 @@ const SITE_EN = {
     video: {
       watch: "WATCH",
       playlist: "Channel playlist",
-      fallbackTitle: "YouTube videos"
+      fallbackTitle: "YouTube videos",
+      updating: "Refreshing the latest YouTube videos in the background. This usually takes up to 10 seconds.",
+      fallbackText: "If automatic loading takes too long, the channel is available through the link below.",
+      cachedText: "Saved videos are shown. Newer videos are being checked in the background.",
+      openChannel: "Open channel",
+      views: "views"
     },
     theme: {
       toggle: "Toggle theme",

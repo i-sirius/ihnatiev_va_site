@@ -9,9 +9,11 @@
     src: "files/media/about-me-photo.jpg",
     alt: "Фото"
   };
+  const youtubeCacheMaxAgeMs = 6 * 60 * 60 * 1000;
   let youtubeFeedLoading = false;
   let currentGalleryItems = [];
   let currentGalleryIndex = 0;
+  let currentActivityLightboxItems = [];
   let visitorCounterValue = null;
   let visitorCounterPromise = null;
 
@@ -506,6 +508,77 @@
     });
   }
 
+  function initActivityHeroLightbox(image) {
+    const hero = document.querySelector("[data-activity-hero-image]");
+    if (!hero || !image?.src) {
+      return;
+    }
+
+    const lightbox = ensureLightbox();
+    const openHero = () => {
+      const heroItem = {
+        src: hero.currentSrc || hero.src || image.src,
+        alt: hero.alt || image.alt || ""
+      };
+      const galleryItems = currentActivityLightboxItems.filter((item) => item?.src !== heroItem.src);
+
+      currentGalleryItems = [
+        heroItem,
+        ...galleryItems
+      ];
+      currentGalleryIndex = 0;
+      lightbox.showByIndex(0);
+    };
+
+    currentActivityLightboxItems = [
+      {
+        src: image.src,
+        alt: image.alt || ""
+      },
+      ...currentActivityLightboxItems.filter((item) => item?.src !== image.src)
+    ];
+
+    hero.classList.add("is-clickable");
+    hero.tabIndex = 0;
+    hero.setAttribute("role", "button");
+    hero.setAttribute("aria-label", SITE.ui?.gallery?.open || image.alt || "Відкрити фото");
+
+    if (hero.dataset.heroLightboxBound === "true") {
+      return;
+    }
+
+    hero.addEventListener("click", openHero);
+    hero.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      openHero();
+    });
+    hero.dataset.heroLightboxBound = "true";
+  }
+
+  function setActivityLightboxGalleryItems(images) {
+    if (pageType !== "activity") {
+      return;
+    }
+
+    const hero = document.querySelector("[data-activity-hero-image]");
+    const heroItem = hero
+      ? {
+          src: hero.currentSrc || hero.src || "",
+          alt: hero.alt || ""
+        }
+      : null;
+    const galleryItems = Array.isArray(images) ? images.filter((item) => item?.src) : [];
+
+    currentActivityLightboxItems = [
+      ...(heroItem?.src ? [heroItem] : []),
+      ...galleryItems.filter((item) => item.src !== heroItem?.src)
+    ];
+  }
+
   function renderDownloads(selector, files) {
     if (!Array.isArray(files)) {
       return;
@@ -726,39 +799,128 @@
     }
 
     const watchLabel = SITE.ui?.video?.watch || "ДИВИТИСЬ";
+    const fallbackTitle = SITE.ui?.video?.fallbackTitle || "YouTube";
+    const viewsLabel = SITE.ui?.video?.views || "переглядів";
 
     document.querySelectorAll(selector).forEach((element) => {
       element.innerHTML = videos
+        .filter((video) => video?.url)
         .map(
-          (video) => `
-            <a class="activity-card video-card" href="${video.url}" target="_blank" rel="noopener noreferrer">
-              <img class="video-card-thumb" src="${video.thumbnail}" alt="${video.title}" loading="lazy">
-              <h3>${video.title}</h3>
-              <span class="button-link video-card-link">${watchLabel}</span>
+          (video) => {
+            const title = getLocalizedValue(video.title, fallbackTitle);
+            const url = escapeHtml(video.url);
+            const thumbnail = video.thumbnail ? escapeHtml(video.thumbnail) : "";
+            const viewsText = formatVideoViews(video.viewCount, viewsLabel);
+            const actionMarkup = viewsText
+              ? `
+                <span class="video-card-link-icon" aria-hidden="true"></span>
+                <span class="video-card-link-copy">
+                  <span class="video-card-link-label">${escapeHtml(watchLabel)}</span>
+                  <span class="video-card-link-views">${escapeHtml(viewsText)}</span>
+                </span>
+              `
+              : `
+                <span class="video-card-link-icon" aria-hidden="true"></span>
+                <span class="video-card-link-copy">
+                  <span class="video-card-link-label">${escapeHtml(watchLabel)}</span>
+                </span>
+              `;
+            const thumb = video.thumbnail
+              ? `<img class="video-card-thumb" src="${thumbnail}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">`
+              : `<div class="video-card-thumb video-card-thumb-fallback">${escapeHtml(fallbackTitle)}</div>`;
+
+            return `
+            <a class="activity-card video-card" href="${url}" target="_blank" rel="noopener noreferrer">
+              ${thumb}
+              <h3>${escapeHtml(title)}</h3>
+              <span class="button-link video-card-link">${actionMarkup}</span>
             </a>
-          `
+          `;
+          }
         )
         .join("");
     });
   }
 
-  function renderYoutubeFallback(selector) {
-    const playlistUrl =
-      "https://youtube.com/playlist?list=PLJiTnA91mVyQTsyn7L64mxggDWd4H63gH&si=PLaUlRCYsZ0n6Mfo";
-    const playlistLabel = SITE.ui?.video?.playlist || "Плейлист каналу";
-    const watchLabel = SITE.ui?.video?.watch || "ДИВИТИСЬ";
+  function formatVideoViews(value, viewsLabel) {
+    const numericValue = Number(value);
+    if (!Number.isFinite(numericValue) || numericValue < 0) {
+      return "";
+    }
+
+    try {
+      return `${new Intl.NumberFormat(SITE.currentLocale || "uk").format(numericValue)} ${viewsLabel}`;
+    } catch {
+      return `${numericValue} ${viewsLabel}`;
+    }
+  }
+
+  function getYoutubeFallbackVideos(channelId) {
+    if (Array.isArray(SITE.youtubeFallbackVideos) && SITE.youtubeFallbackVideos.length) {
+      return SITE.youtubeFallbackVideos;
+    }
+
+    return [
+      {
+        title: SITE.ui?.video?.playlist || "Плейлист каналу",
+        url: "https://youtube.com/playlist?list=PLJiTnA91mVyQTsyn7L64mxggDWd4H63gH&si=PLaUlRCYsZ0n6Mfo"
+      },
+      {
+        title: SITE.ui?.video?.openChannel || "Відкрити канал",
+        url: channelId ? `https://www.youtube.com/channel/${channelId}` : "https://www.youtube.com"
+      }
+    ];
+  }
+
+  function renderYoutubeFallbackLinks(selector, videos) {
+    const fallbackTitle = SITE.ui?.video?.fallbackTitle || "YouTube";
 
     document.querySelectorAll(selector).forEach((element) => {
-      element.innerHTML = `
-        <a class="activity-card video-card video-card-fallback" href="${playlistUrl}" target="_blank" rel="noopener noreferrer">
-          <div class="video-card-thumb video-card-thumb-fallback">${escapeHtml(
-            SITE.ui?.video?.fallbackTitle || "YouTube"
-          )}</div>
-          <h3>${playlistLabel}</h3>
-          <span class="button-link video-card-link">${watchLabel}</span>
-        </a>
-      `;
+      element.innerHTML = videos
+        .filter((video) => video?.url)
+        .map((video) => {
+          const title = getLocalizedValue(video.title, fallbackTitle);
+          const url = escapeHtml(video.url);
+
+          return `
+            <a class="button-link video-fallback-link" href="${url}" target="_blank" rel="noopener noreferrer">
+              <span class="video-card-link-icon" aria-hidden="true"></span>
+              <span class="video-card-link-copy">
+                <span class="video-card-link-label">${escapeHtml(title)}</span>
+              </span>
+            </a>
+          `;
+        })
+        .join("");
     });
+  }
+
+  function renderYoutubeStatus(selector, statusText = "", options = {}) {
+    const fallbackText =
+      statusText === ""
+        ? ""
+        : statusText ||
+          SITE.ui?.video?.fallbackText ||
+          "Канал доступний за посиланням нижче.";
+
+    document.querySelectorAll(selector).forEach((element) => {
+      let status = element.querySelector("[data-youtube-status]");
+      if (!status) {
+        status = document.createElement("div");
+        status.className = "video-status-text";
+        status.setAttribute("data-youtube-status", "");
+        element.prepend(status);
+      }
+
+      status.classList.toggle("is-loading", Boolean(options.loading));
+      status.textContent = fallbackText;
+      status.hidden = !fallbackText;
+    });
+  }
+
+  function renderYoutubeFallback(selector, channelId, statusText = "", options = {}) {
+    renderYoutubeFallbackLinks(selector, getYoutubeFallbackVideos(channelId));
+    renderYoutubeStatus(selector, statusText, options);
   }
 
   function renderYoutubeLoading(selector) {
@@ -785,13 +947,28 @@
     try {
       const raw = localStorage.getItem(getYoutubeCacheKey(channelId));
       if (!raw) {
-        return [];
+        return {
+          videos: [],
+          updatedAt: 0,
+          isFresh: false
+        };
       }
 
       const parsed = JSON.parse(raw);
-      return Array.isArray(parsed?.videos) ? parsed.videos.slice(0, 6) : [];
+      const updatedAt = Number(parsed?.updatedAt) || 0;
+      const videos = Array.isArray(parsed?.videos) ? parsed.videos.slice(0, 6) : [];
+
+      return {
+        videos,
+        updatedAt,
+        isFresh: videos.length > 0 && Date.now() - updatedAt < youtubeCacheMaxAgeMs
+      };
     } catch {
-      return [];
+      return {
+        videos: [],
+        updatedAt: 0,
+        isFresh: false
+      };
     }
   }
 
@@ -809,7 +986,7 @@
     }
   }
 
-  function fetchWithTimeout(url, responseParser, timeoutMs = 9000) {
+  function fetchWithTimeout(url, responseParser, timeoutMs = 4500) {
     const controller = new AbortController();
     const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
 
@@ -840,16 +1017,7 @@
 
           throw new Error("Empty AllOrigins get payload");
         }),
-      () => fetchWithTimeout(rawUrl, (response) => response.text()),
-      () =>
-        fetchWithTimeout(getUrl, (response) => response.json(), 12000).then((payload) => {
-          if (typeof payload?.contents === "string" && payload.contents.trim()) {
-            return payload.contents;
-          }
-
-          throw new Error("Retry AllOrigins get payload is empty");
-        }),
-      () => fetchWithTimeout(rawUrl, (response) => response.text(), 12000)
+      () => fetchWithTimeout(rawUrl, (response) => response.text())
     ];
 
     let chain = Promise.reject(new Error("Initial YouTube feed attempt"));
@@ -902,11 +1070,13 @@
       .then((images) => {
         const galleryImages = Array.isArray(images) ? images : fallbackImages;
         return filterAvailableImages(galleryImages).then((availableImages) => {
+          setActivityLightboxGalleryItems(availableImages);
           renderGallery(selector, availableImages);
         });
       })
       .catch(() => {
         filterAvailableImages(fallbackImages).then((availableImages) => {
+          setActivityLightboxGalleryItems(availableImages);
           renderGallery(selector, availableImages);
         });
       });
@@ -974,10 +1144,26 @@
     }
 
     youtubeFeedLoading = true;
-    const cachedVideos = readYoutubeCache(channelId);
+    const cache = readYoutubeCache(channelId);
+    const cachedVideos = cache.videos;
+
+    const fallbackVideos = getYoutubeFallbackVideos(channelId);
 
     if (cachedVideos.length) {
       renderVideoCards("[data-activity-videos]", cachedVideos);
+      if (cache.isFresh) {
+        renderYoutubeStatus("[data-activity-videos]", "");
+        youtubeFeedLoading = false;
+        return;
+      }
+
+      renderYoutubeStatus("[data-activity-videos]", SITE.ui?.video?.cachedText, {
+        loading: true
+      });
+    } else if (fallbackVideos.length) {
+      renderYoutubeFallback("[data-activity-videos]", channelId, SITE.ui?.video?.updating, {
+        loading: true
+      });
     } else {
       renderYoutubeLoading("[data-activity-videos]");
     }
@@ -1006,23 +1192,30 @@
                 SITE.ui?.video?.fallbackTitle ||
                 "YouTube video",
               thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
-              url: `https://www.youtube.com/watch?v=${videoId}`
+              url: `https://www.youtube.com/watch?v=${videoId}`,
+              viewCount:
+                item.getElementsByTagName("media:statistics")[0]?.getAttribute("views") ||
+                item.getElementsByTagName("statistics")[0]?.getAttribute("views") ||
+                null
             };
           })
           .filter(Boolean);
 
         if (videos.length) {
           writeYoutubeCache(channelId, videos);
+          renderYoutubeStatus("[data-activity-videos]", "");
           renderVideoCards("[data-activity-videos]", videos);
-        } else {
-          renderYoutubeFallback("[data-activity-videos]");
+        } else if (!cachedVideos.length) {
+          renderYoutubeFallback("[data-activity-videos]", channelId, SITE.ui?.video?.updating, {
+            loading: true
+          });
         }
       })
       .catch(() => {
-        if (cachedVideos.length) {
-          renderVideoCards("[data-activity-videos]", cachedVideos);
-        } else {
-          renderYoutubeFallback("[data-activity-videos]");
+        if (!cachedVideos.length) {
+          renderYoutubeFallback("[data-activity-videos]", channelId, SITE.ui?.video?.updating, {
+            loading: true
+          });
         }
       })
       .finally(() => {
@@ -1146,9 +1339,9 @@
     }
 
     const toggleLabel = toggle.querySelector("[data-theme-toggle-label]");
-    const themeUi = SITE.ui?.theme || {};
 
     function updateThemeToggleLabel(currentTheme) {
+      const themeUi = SITE.ui?.theme || {};
       const nextTheme = currentTheme === "dark" ? "light" : "dark";
       const nextThemeIcon = nextTheme === "dark" ? "🌙" : "☀️";
       const nextThemeText =
@@ -1258,7 +1451,9 @@
     if (id === "webofscience") {
       return `
         <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path fill="currentColor" d="M3.7 5.4c1.2-1.6 3-2.4 5.1-2.4 2.5 0 4.5 1.2 6 3.5l1.4-2.1h4l-3.4 5 3.8 5.5h-4l-1.8-2.6c-1.3 1.7-3.2 2.6-5.5 2.6-2.2 0-4-.8-5.3-2.5C2.7 11 2 9.8 2 8.4c0-1 .3-2 .9-3Zm2.5 1.2c-.6.7-.9 1.5-.9 2.3 0 .9.3 1.7 1 2.4.7.7 1.5 1.1 2.5 1.1 1.6 0 2.9-.8 3.9-2.5-.9-1.7-2.2-2.6-3.9-2.6-1 0-1.8.4-2.6 1.1Zm11.2 9.2h4.2v4.2h-4.2z"/>
+          <path fill="#050505" d="M3.9 6.1c1.6-.5 3.4-.5 5.5-.2-.9 1.8-1.3 3.8-1.3 6.1s.4 4.3 1.3 6.1c-2.1.3-3.9.3-5.5-.2A15 15 0 0 1 3.2 12c0-2.1.2-4.1.7-5.9Z"/>
+          <path fill="#6036c8" d="M10.2 3.1c4.1.8 7.4 2.7 10.2 5.9l-2.8 3.2c-2.2-2.8-5.1-4.7-8.6-5.6l1.2-3.5Z"/>
+          <path fill="#08a600" d="M17.6 11.8l2.8 3.2c-2.8 3.2-6.1 5.1-10.2 5.9L9 17.4c3.5-.9 6.4-2.8 8.6-5.6Z"/>
         </svg>
       `;
     }
@@ -1554,6 +1749,7 @@
       alt: activity.heroImage?.alt || activity.name
     };
     updateImage("[data-activity-hero-image]", heroImage, homeFallbackImage);
+    initActivityHeroLightbox(heroImage);
 
     renderParagraphs("[data-activity-paragraphs]", activity.pageDescription);
     renderActivityResearchLinks(activity);
