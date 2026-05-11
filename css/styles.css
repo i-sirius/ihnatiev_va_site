@@ -875,9 +875,14 @@ main {
   height: auto;
   display: block;
   object-fit: cover;
+  object-position: center center;
   border-radius: 16px;
   border: 1px solid var(--border);
   max-height: 340px;
+}
+
+body[data-page="activity"][data-activity-id="3"] .about-photo img[data-activity-hero-image] {
+  object-position: center 18%;
 }
 
 .about-photo img.is-clickable {
