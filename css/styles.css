@@ -2527,7 +2527,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 5px;
     min-width: 0;
     min-height: 52px;
     margin: 0;
@@ -2543,7 +2543,7 @@ footer {
     letter-spacing: 0;
     line-height: 1.05;
     text-transform: none;
-    text-align: left;
+    text-align: center;
     text-decoration: none;
     overflow-wrap: anywhere;
     word-break: normal;
@@ -2573,10 +2573,11 @@ footer {
     color: inherit;
     flex: 1 1 auto;
     min-width: 0;
-    max-width: 100%;
+    max-width: max-content;
     font-size: clamp(0.68rem, 1.95vw, 0.88rem);
     line-height: 1.08;
     text-decoration: none;
+    text-transform: uppercase;
     transition: none;
     overflow: hidden;
     text-overflow: ellipsis;
