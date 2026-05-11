@@ -2472,24 +2472,34 @@
     const fitNavigationLabels = () => {
       fitFrame = 0;
       const currentNav = document.querySelector(".mobile-nav-host nav");
+      const modeClasses = ["is-labels-only", "is-condensed-labels", "is-icons-only"];
+      const currentMode = currentNav?.classList.contains("is-icons-only")
+        ? "icons"
+        : currentNav?.classList.contains("is-labels-only")
+          ? "labels"
+          : "mixed";
+      const tightenSpace = 5;
+      const loosenSpace = 14;
 
       if (!currentNav || !mobileQuery.matches) {
         document
-          .querySelectorAll("nav a.is-text-only, nav a.is-icon-only")
-          .forEach((link) => link.classList.remove("is-text-only", "is-icon-only"));
+          .querySelectorAll("nav.is-labels-only, nav.is-condensed-labels, nav.is-icons-only")
+          .forEach((navElement) => navElement.classList.remove(...modeClasses));
         return;
       }
 
-      currentNav.querySelectorAll("a").forEach((link) => {
-        link.classList.remove("is-text-only", "is-icon-only");
+      currentNav.classList.remove(...modeClasses);
 
-        if (link.offsetParent === null) {
-          return;
-        }
+      const links = Array.from(currentNav.querySelectorAll("a")).filter(
+        (link) => link.offsetParent !== null
+      );
+      let needsLabelsOnly = false;
+      let needsIconsOnly = false;
 
+      const getFitData = (link) => {
         const label = link.getAttribute("data-mobile-label") || link.textContent.trim();
         if (!label) {
-          return;
+          return null;
         }
 
         const linkStyle = window.getComputedStyle(link);
@@ -2497,24 +2507,75 @@
         const paddingX = parseFloat(linkStyle.paddingLeft) + parseFloat(linkStyle.paddingRight);
         const gap = parseFloat(linkStyle.gap) || 0;
         const iconWidth = parseFloat(iconStyle.width) || 0;
-        const labelWidth = measureNavLabel(link, label);
         const safetySpace = 3;
-        const availableWithIcon = link.clientWidth - paddingX - iconWidth - gap - safetySpace;
 
-        if (labelWidth <= availableWithIcon) {
+        return {
+          label,
+          labelWidth: measureNavLabel(link, label),
+          availableWithIcon: link.clientWidth - paddingX - iconWidth - gap - safetySpace,
+          availableWithoutIcon: link.clientWidth - paddingX - safetySpace,
+        };
+      };
+
+      links.forEach((link) => {
+        const fitData = getFitData(link);
+        if (!fitData) {
           return;
         }
 
-        link.classList.add("is-text-only");
+        const withIconSpace =
+          currentMode === "mixed"
+            ? fitData.availableWithIcon + tightenSpace
+            : fitData.availableWithIcon - loosenSpace;
 
-        const availableWithoutIcon = link.clientWidth - paddingX - safetySpace;
-        if (labelWidth <= availableWithoutIcon) {
-          return;
+        if (fitData.labelWidth > withIconSpace) {
+          needsLabelsOnly = true;
         }
-
-        link.classList.remove("is-text-only");
-        link.classList.add("is-icon-only");
       });
+
+      if (!needsLabelsOnly) {
+        return;
+      }
+
+      currentNav.classList.add("is-labels-only");
+
+      links.forEach((link) => {
+        const fitData = getFitData(link);
+        const textOnlySpace = fitData
+          ? currentMode === "icons"
+            ? fitData.availableWithoutIcon - loosenSpace
+            : fitData.availableWithoutIcon + tightenSpace
+          : 0;
+
+        if (fitData && fitData.labelWidth > textOnlySpace) {
+          needsIconsOnly = true;
+        }
+      });
+
+      if (!needsIconsOnly) {
+        return;
+      }
+
+      currentNav.classList.add("is-condensed-labels");
+      needsIconsOnly = false;
+
+      links.forEach((link) => {
+        const fitData = getFitData(link);
+        const condensedSpace = fitData
+          ? currentMode === "icons"
+            ? fitData.availableWithoutIcon - loosenSpace
+            : fitData.availableWithoutIcon + tightenSpace
+          : 0;
+
+        if (fitData && fitData.labelWidth > condensedSpace) {
+          needsIconsOnly = true;
+        }
+      });
+
+      if (needsIconsOnly) {
+        currentNav.classList.remove("is-labels-only", "is-condensed-labels");
+        currentNav.classList.add("is-icons-only");
+      }
     };
 
     const requestNavigationFit = () => {
