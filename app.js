@@ -2469,6 +2469,56 @@
       };
     })();
 
+    let lensFrame = 0;
+    let pendingLensTarget = null;
+
+    const syncNavigationLens = (target = null) => {
+      lensFrame = 0;
+      const currentNav = document.querySelector(".mobile-nav-host nav");
+
+      if (!currentNav || !mobileQuery.matches) {
+        document
+          .querySelectorAll("nav.is-lens-ready")
+          .forEach((navElement) => navElement.classList.remove("is-lens-ready"));
+        return;
+      }
+
+      const hoveredTarget = target?.closest?.("a");
+      const lensTarget =
+        hoveredTarget && currentNav.contains(hoveredTarget) && hoveredTarget.offsetParent !== null
+          ? hoveredTarget
+          : currentNav.querySelector("a[aria-current='page']");
+
+      if (!lensTarget) {
+        currentNav.classList.remove("is-lens-ready");
+        return;
+      }
+
+      const navRect = currentNav.getBoundingClientRect();
+      const targetRect = lensTarget.getBoundingClientRect();
+
+      currentNav.style.setProperty("--nav-lens-x", `${Math.round(targetRect.left - navRect.left)}px`);
+      currentNav.style.setProperty("--nav-lens-y", `${Math.round(targetRect.top - navRect.top)}px`);
+      currentNav.style.setProperty("--nav-lens-width", `${Math.round(targetRect.width)}px`);
+      currentNav.style.setProperty("--nav-lens-height", `${Math.round(targetRect.height)}px`);
+      currentNav.classList.toggle("is-lens-current", lensTarget.matches("[aria-current='page']"));
+      currentNav.classList.add("is-lens-ready");
+    };
+
+    const requestNavigationLens = (target = null) => {
+      pendingLensTarget = target || pendingLensTarget;
+
+      if (lensFrame) {
+        return;
+      }
+
+      lensFrame = window.requestAnimationFrame(() => {
+        const targetElement = pendingLensTarget;
+        pendingLensTarget = null;
+        syncNavigationLens(targetElement);
+      });
+    };
+
     const fitNavigationLabels = () => {
       fitFrame = 0;
       const currentNav = document.querySelector(".mobile-nav-host nav");
@@ -2478,8 +2528,7 @@
         : currentNav?.classList.contains("is-labels-only")
           ? "labels"
           : "mixed";
-      const tightenSpace = 5;
-      const loosenSpace = 14;
+      const expandSpace = 14;
 
       if (!currentNav || !mobileQuery.matches) {
         document
@@ -2493,8 +2542,6 @@
       const links = Array.from(currentNav.querySelectorAll("a")).filter(
         (link) => link.offsetParent !== null
       );
-      let needsLabelsOnly = false;
-      let needsIconsOnly = false;
 
       const getFitData = (link) => {
         const label = link.getAttribute("data-mobile-label") || link.textContent.trim();
@@ -2507,7 +2554,7 @@
         const paddingX = parseFloat(linkStyle.paddingLeft) + parseFloat(linkStyle.paddingRight);
         const gap = parseFloat(linkStyle.gap) || 0;
         const iconWidth = parseFloat(iconStyle.width) || 0;
-        const safetySpace = 3;
+        const safetySpace = 7;
 
         return {
           label,
@@ -2517,65 +2564,36 @@
         };
       };
 
-      links.forEach((link) => {
-        const fitData = getFitData(link);
-        if (!fitData) {
-          return;
-        }
+      const allLabelsFit = (availableKey, extraSpace = 0) =>
+        links.every((link) => {
+          const fitData = getFitData(link);
+          return !fitData || fitData.labelWidth <= fitData[availableKey] - extraSpace;
+        });
 
-        const withIconSpace =
-          currentMode === "mixed"
-            ? fitData.availableWithIcon + tightenSpace
-            : fitData.availableWithIcon - loosenSpace;
-
-        if (fitData.labelWidth > withIconSpace) {
-          needsLabelsOnly = true;
-        }
-      });
-
-      if (!needsLabelsOnly) {
+      const mixedExtraSpace = currentMode === "mixed" ? 0 : expandSpace;
+      if (allLabelsFit("availableWithIcon", mixedExtraSpace)) {
+        requestNavigationLens();
         return;
       }
 
       currentNav.classList.add("is-labels-only");
 
-      links.forEach((link) => {
-        const fitData = getFitData(link);
-        const textOnlySpace = fitData
-          ? currentMode === "icons"
-            ? fitData.availableWithoutIcon - loosenSpace
-            : fitData.availableWithoutIcon + tightenSpace
-          : 0;
-
-        if (fitData && fitData.labelWidth > textOnlySpace) {
-          needsIconsOnly = true;
-        }
-      });
-
-      if (!needsIconsOnly) {
+      const labelsExtraSpace = currentMode === "icons" ? expandSpace : 0;
+      if (allLabelsFit("availableWithoutIcon", labelsExtraSpace)) {
+        requestNavigationLens();
         return;
       }
 
       currentNav.classList.add("is-condensed-labels");
-      needsIconsOnly = false;
 
-      links.forEach((link) => {
-        const fitData = getFitData(link);
-        const condensedSpace = fitData
-          ? currentMode === "icons"
-            ? fitData.availableWithoutIcon - loosenSpace
-            : fitData.availableWithoutIcon + tightenSpace
-          : 0;
-
-        if (fitData && fitData.labelWidth > condensedSpace) {
-          needsIconsOnly = true;
-        }
-      });
-
-      if (needsIconsOnly) {
-        currentNav.classList.remove("is-labels-only", "is-condensed-labels");
-        currentNav.classList.add("is-icons-only");
+      if (allLabelsFit("availableWithoutIcon", labelsExtraSpace)) {
+        requestNavigationLens();
+        return;
       }
+
+      currentNav.classList.remove("is-labels-only", "is-condensed-labels");
+      currentNav.classList.add("is-icons-only");
+      requestNavigationLens();
     };
 
     const requestNavigationFit = () => {
@@ -2602,6 +2620,7 @@
       }
 
       requestNavigationFit();
+      requestNavigationLens();
     };
 
     syncNavigationPlacement();
@@ -2616,13 +2635,199 @@
       mobileQuery.addListener(syncNavigationPlacement);
     }
 
-    window.addEventListener("resize", requestNavigationFit, { passive: true });
-    window.addEventListener("orientationchange", requestNavigationFit, { passive: true });
+    nav.addEventListener("pointerover", (event) => {
+      const link = event.target.closest("a");
+      if (link) {
+        requestNavigationLens(link);
+      }
+    });
+    nav.addEventListener("pointerleave", () => requestNavigationLens());
+    nav.addEventListener("focusin", (event) => {
+      const link = event.target.closest("a");
+      if (link) {
+        requestNavigationLens(link);
+      }
+    });
+    nav.addEventListener("focusout", () => requestNavigationLens());
+
+    window.addEventListener(
+      "resize",
+      () => {
+        requestNavigationFit();
+        requestNavigationLens();
+      },
+      { passive: true }
+    );
+    window.addEventListener(
+      "orientationchange",
+      () => {
+        requestNavigationFit();
+        requestNavigationLens();
+      },
+      { passive: true }
+    );
     if (document.fonts?.ready) {
-      document.fonts.ready.then(requestNavigationFit).catch(() => {});
+      document.fonts.ready
+        .then(() => {
+          requestNavigationFit();
+          requestNavigationLens();
+        })
+        .catch(() => {});
     }
 
     document.body.dataset.mobileNavReady = "true";
+  }
+
+  function initLiquidDroplets() {
+    const dropletGroups = [
+      {
+        list: document.querySelector("[data-contact-socials-list]"),
+        itemSelector: ".contact-social-button:not(.is-disabled)",
+        defaultToFirst: false
+      },
+      ...Array.from(document.querySelectorAll(".about-photo-links")).map((list) => ({
+        list,
+        itemSelector: ".about-photo-link",
+        defaultToFirst: false
+      })),
+      ...Array.from(document.querySelectorAll(".site-header-socials")).map((list) => ({
+        list,
+        itemSelector: ".site-header-social-link",
+        defaultToFirst: false
+      })),
+      ...Array.from(document.querySelectorAll(".site-header nav")).map((list) => ({
+        list,
+        itemSelector: "a",
+        defaultToFirst: false
+      })),
+      ...Array.from(document.querySelectorAll(".site-header-controls")).map((list) => ({
+        list,
+        itemSelector: ".language-toggle-options, .theme-toggle-track",
+        defaultToFirst: false
+      }))
+    ].filter(({ list }) => list);
+
+    dropletGroups.forEach(({ list, itemSelector, defaultToFirst }) => {
+      let dropletFrame = 0;
+      let pendingTarget = null;
+      let dropletMotionTimer = 0;
+
+      const clearDroplet = () => {
+        list.classList.remove(
+          "is-droplet-ready",
+          "is-droplet-in-motion",
+          "is-droplet-moving-right",
+          "is-droplet-moving-left"
+        );
+      };
+
+      const syncDroplet = (target = null) => {
+        dropletFrame = 0;
+
+        const matchedTarget = target?.closest?.(itemSelector);
+        const dropletTarget =
+          matchedTarget && list.contains(matchedTarget)
+            ? matchedTarget
+            : defaultToFirst
+              ? list.querySelector(itemSelector)
+              : null;
+
+        if (!dropletTarget || !list.contains(dropletTarget)) {
+          clearDroplet();
+          return;
+        }
+
+        const listRect = list.getBoundingClientRect();
+        const targetRect = dropletTarget.getBoundingClientRect();
+        const bleed = 5;
+        const targetStyle = window.getComputedStyle(dropletTarget);
+        const accent = targetStyle.getPropertyValue("--social-accent").trim() || targetStyle.color;
+        const previousX = Number.parseFloat(list.style.getPropertyValue("--contact-droplet-x")) || 0;
+        const nextX = targetRect.left - listRect.left - bleed;
+        const isMoving = Math.abs(nextX - previousX) > 2;
+
+        list.classList.toggle("is-droplet-moving-right", nextX > previousX + 2);
+        list.classList.toggle("is-droplet-moving-left", nextX < previousX - 2);
+        list.classList.toggle("is-droplet-in-motion", isMoving);
+
+        if (dropletMotionTimer) {
+          window.clearTimeout(dropletMotionTimer);
+        }
+
+        if (isMoving) {
+          dropletMotionTimer = window.setTimeout(() => {
+            list.classList.remove(
+              "is-droplet-in-motion",
+              "is-droplet-moving-right",
+              "is-droplet-moving-left"
+            );
+            dropletMotionTimer = 0;
+          }, 420);
+        }
+
+        list.style.setProperty("--contact-droplet-x", `${Math.round(nextX)}px`);
+        list.style.setProperty("--contact-droplet-y", `${Math.round(targetRect.top - listRect.top - bleed)}px`);
+        list.style.setProperty("--contact-droplet-width", `${Math.round(targetRect.width + bleed * 2)}px`);
+        list.style.setProperty("--contact-droplet-height", `${Math.round(targetRect.height + bleed * 2)}px`);
+
+        if (accent) {
+          list.style.setProperty("--contact-droplet-accent", accent);
+        }
+
+        list.classList.add("is-droplet-ready");
+      };
+
+      const requestDroplet = (target = null) => {
+        pendingTarget = target || pendingTarget;
+
+        if (dropletFrame) {
+          return;
+        }
+
+        dropletFrame = window.requestAnimationFrame(() => {
+          const targetElement = pendingTarget;
+          pendingTarget = null;
+          syncDroplet(targetElement);
+        });
+      };
+
+      if (list.dataset.dropletBound !== "true") {
+        list.addEventListener("pointerover", (event) => {
+          const button = event.target.closest(itemSelector);
+          if (button) {
+            requestDroplet(button);
+          }
+        });
+        list.addEventListener("pointerleave", () => {
+          if (defaultToFirst) {
+            requestDroplet();
+          } else {
+            clearDroplet();
+          }
+        });
+        list.addEventListener("focusin", (event) => {
+          const button = event.target.closest(itemSelector);
+          if (button) {
+            requestDroplet(button);
+          }
+        });
+        list.addEventListener("focusout", () => {
+          if (defaultToFirst) {
+            requestDroplet();
+          } else {
+            clearDroplet();
+          }
+        });
+        window.addEventListener("resize", () => requestDroplet(), { passive: true });
+        list.dataset.dropletBound = "true";
+      }
+
+      if (defaultToFirst) {
+        requestDroplet();
+      } else {
+        clearDroplet();
+      }
+    });
   }
 
   function formatVisitorCounter(value) {
@@ -2761,6 +2966,7 @@
     initHeaderScrollState();
     initDetailsInteractions();
     initDownloadPreviewTriggers();
+    initLiquidDroplets();
     initVisitorCounter();
     initPwa();
     applyThemeAssets(document.documentElement.getAttribute("data-theme") || "light");
