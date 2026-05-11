@@ -2237,12 +2237,8 @@ html[data-theme="dark"] .contact-social-button.is-googlescholar {
 }
 
 :where(
-  .button-link,
-  button:not(.theme-toggle):not(.language-toggle-option):not(.lightbox-close):not(.lightbox-nav),
-  .about-details-arrow,
   .about-photo-link,
   .download-link-action,
-  .download-purchase-action,
   .document-lightbox-link,
   .contact-social-button:not(.is-disabled)
 ):hover {
@@ -2255,22 +2251,9 @@ html[data-theme="dark"] .contact-social-button.is-googlescholar {
   -webkit-backdrop-filter: blur(18px) saturate(1.26);
 }
 
-.about-details summary:hover .about-details-arrow {
-  border-color: var(--gold-glass-border);
-  background: var(--gold-glass-bg);
-  color: var(--gold-glass-text);
-  box-shadow: var(--gold-glass-shadow);
-  backdrop-filter: blur(18px) saturate(1.26);
-  -webkit-backdrop-filter: blur(18px) saturate(1.26);
-}
-
 :where(
-  .button-link,
-  button:not(.theme-toggle):not(.language-toggle-option):not(.lightbox-close):not(.lightbox-nav),
-  .about-details-arrow,
   .about-photo-link,
   .download-link-action,
-  .download-purchase-action,
   .document-lightbox-link,
   .contact-social-button:not(.is-disabled)
 ):active {
