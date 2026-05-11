@@ -2438,6 +2438,92 @@
     }
 
     const mobileQuery = window.matchMedia("(max-width: 900px)");
+    let fitFrame = 0;
+
+    const measureNavLabel = (() => {
+      let measurer = null;
+
+      return (link, label) => {
+        if (!measurer) {
+          measurer = document.createElement("span");
+          measurer.style.position = "fixed";
+          measurer.style.left = "-9999px";
+          measurer.style.top = "-9999px";
+          measurer.style.visibility = "hidden";
+          measurer.style.whiteSpace = "nowrap";
+          measurer.style.pointerEvents = "none";
+          document.body.appendChild(measurer);
+        }
+
+        const textStyle = window.getComputedStyle(link, "::after");
+        const textTransform = textStyle.textTransform;
+        const renderedLabel = textTransform === "uppercase" ? label.toUpperCase() : label;
+
+        measurer.style.fontFamily = textStyle.fontFamily;
+        measurer.style.fontSize = textStyle.fontSize;
+        measurer.style.fontWeight = textStyle.fontWeight;
+        measurer.style.letterSpacing = textStyle.letterSpacing;
+        measurer.textContent = renderedLabel;
+
+        return Math.ceil(measurer.getBoundingClientRect().width);
+      };
+    })();
+
+    const fitNavigationLabels = () => {
+      fitFrame = 0;
+      const currentNav = document.querySelector(".mobile-nav-host nav");
+
+      if (!currentNav || !mobileQuery.matches) {
+        document
+          .querySelectorAll("nav a.is-text-only, nav a.is-icon-only")
+          .forEach((link) => link.classList.remove("is-text-only", "is-icon-only"));
+        return;
+      }
+
+      currentNav.querySelectorAll("a").forEach((link) => {
+        link.classList.remove("is-text-only", "is-icon-only");
+
+        if (link.offsetParent === null) {
+          return;
+        }
+
+        const label = link.getAttribute("data-mobile-label") || link.textContent.trim();
+        if (!label) {
+          return;
+        }
+
+        const linkStyle = window.getComputedStyle(link);
+        const iconStyle = window.getComputedStyle(link, "::before");
+        const paddingX = parseFloat(linkStyle.paddingLeft) + parseFloat(linkStyle.paddingRight);
+        const gap = parseFloat(linkStyle.gap) || 0;
+        const iconWidth = parseFloat(iconStyle.width) || 0;
+        const labelWidth = measureNavLabel(link, label);
+        const safetySpace = 3;
+        const availableWithIcon = link.clientWidth - paddingX - iconWidth - gap - safetySpace;
+
+        if (labelWidth <= availableWithIcon) {
+          return;
+        }
+
+        link.classList.add("is-text-only");
+
+        const availableWithoutIcon = link.clientWidth - paddingX - safetySpace;
+        if (labelWidth <= availableWithoutIcon) {
+          return;
+        }
+
+        link.classList.remove("is-text-only");
+        link.classList.add("is-icon-only");
+      });
+    };
+
+    const requestNavigationFit = () => {
+      if (fitFrame) {
+        return;
+      }
+
+      fitFrame = window.requestAnimationFrame(fitNavigationLabels);
+    };
 
     const syncNavigationPlacement = () => {
       const currentNav = document.querySelector("#menu nav, .mobile-nav-host nav");
@@ -2453,6 +2539,8 @@
       } else if (currentNav.parentElement !== menu) {
         menu.appendChild(currentNav);
       }
+
+      requestNavigationFit();
     };
 
     syncNavigationPlacement();
@@ -2465,6 +2553,12 @@
       mobileQuery.addEventListener("change", syncNavigationPlacement);
     } else {
       mobileQuery.addListener(syncNavigationPlacement);
+    }
+
+    window.addEventListener("resize", requestNavigationFit, { passive: true });
+    window.addEventListener("orientationchange", requestNavigationFit, { passive: true });
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(requestNavigationFit).catch(() => {});
     }
 
     document.body.dataset.mobileNavReady = "true";
