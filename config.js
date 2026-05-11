@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.11",
+    buildVersion: "0.6.12",
     buildDate: "110526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -164,28 +164,8 @@
       ],
       heroImage: {
         src: "files/media/activity1-photo1.jpg",
-        alt: "Фото для сторінки наукової активності"
-      },
-      gallery: [
-        {
-          src: "files/media/activity1-photo1.jpg",
-          alt: "Фото 1 для наукової активності"
-        },
-        {
-          src: "files/media/activity1-photo2.jpg",
-          alt: "Фото 2 для наукової активності"
-        }
-      ],
-      videos: [
-        {
-          title: "YouTube video 1",
-          embed: "https://www.youtube.com/embed/VIDEO_ID"
-        },
-        {
-          title: "YouTube video 2",
-          embed: "https://www.youtube.com/embed/VIDEO_ID"
-        }
-      ]
+        alt: "Наукова діяльність (Віталій Ігнатьєв)"
+      }
     },
     2: {
       name: "Освітня діяльність",
@@ -206,28 +186,8 @@
       ],
       heroImage: {
         src: "files/media/activity2-photo1.jpg",
-        alt: "Фото для сторінки освітньої діяльності"
-      },
-      gallery: [
-        {
-          src: "files/media/activity2-photo1.jpg",
-          alt: "Фото 1 для освітньої діяльності"
-        },
-        {
-          src: "files/media/activity2-photo2.jpg",
-          alt: "Фото 2 для освітньої діяльності"
-        }
-      ],
-      videos: [
-        {
-          title: "YouTube video 1",
-          embed: "https://www.youtube.com/embed/VIDEO_ID"
-        },
-        {
-          title: "YouTube video 2",
-          embed: "https://www.youtube.com/embed/VIDEO_ID"
-        }
-      ]
+        alt: "Освітній процес (Віталій Ігнатьєв)"
+      }
     },
     3: {
       name: "Священнослужіння",
@@ -241,28 +201,8 @@
       ],
       heroImage: {
         src: "files/media/activity3-photo1.jpg",
-        alt: "Фото для сторінки священнослужіння"
-      },
-      gallery: [
-        {
-          src: "files/media/activity3-photo1.jpg",
-          alt: "Фото 1 для священнослужіння"
-        },
-        {
-          src: "files/media/activity3-photo2.jpg",
-          alt: "Фото 2 для священнослужіння"
-        }
-      ],
-      videos: [
-        {
-          title: "YouTube video 1",
-          embed: "https://www.youtube.com/embed/VIDEO_ID"
-        },
-        {
-          title: "YouTube video 2",
-          embed: "https://www.youtube.com/embed/VIDEO_ID"
-        }
-      ]
+        alt: "Священнослужіння (Віталій Ігнатьєв)"
+      }
     }
   },
   downloads: {
@@ -375,8 +315,9 @@
       playlist: "Плейлист каналу",
       fallbackTitle: "Відео YouTube",
       updating: "Оновлюємо нові відео з YouTube у фоновому режимі. Зазвичай це займає до 10 секунд.",
-      fallbackText: "Якщо автоматичне завантаження затримується, канал доступний за посиланням нижче.",
+      fallbackText: "Автоматично оновити відео зараз не вдалося. Канал і плейлист доступні за посиланнями нижче.",
       cachedText: "Показано збережені відео. Новіші перевіряються у фоні.",
+      cachedFallbackText: "Показано збережені відео. Автоматично оновити список зараз не вдалося.",
       openChannel: "Відкрити канал",
       views: "переглядів"
     },
@@ -532,7 +473,7 @@ const SITE_EN = {
         }
       ],
       heroImage: {
-        alt: "Photo for the research activity page"
+        alt: "Research activity (Vitalii Ihnatiev)"
       }
     },
     2: {
@@ -553,7 +494,7 @@ const SITE_EN = {
         }
       ],
       heroImage: {
-        alt: "Photo for the educational activity page"
+        alt: "Educational activity (Vitalii Ihnatiev)"
       }
     },
     3: {
@@ -567,7 +508,7 @@ const SITE_EN = {
         "<strong>Link:</strong><br><a href=\"http://orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij\" target=\"_blank\" rel=\"noopener noreferrer\">orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij</a>"
       ],
       heroImage: {
-        alt: "Photo for the priestly ministry page"
+        alt: "Priestly ministry (Vitalii Ihnatiev)"
       }
     }
   },
@@ -670,8 +611,9 @@ const SITE_EN = {
       playlist: "Channel playlist",
       fallbackTitle: "YouTube videos",
       updating: "Refreshing the latest YouTube videos in the background. This usually takes up to 10 seconds.",
-      fallbackText: "If automatic loading takes too long, the channel is available through the link below.",
+      fallbackText: "Automatic video refresh is unavailable right now. The channel and playlist are available through the links below.",
       cachedText: "Saved videos are shown. Newer videos are being checked in the background.",
+      cachedFallbackText: "Saved videos are shown. Automatic refresh is unavailable right now.",
       openChannel: "Open channel",
       views: "views"
     },

@@ -14,6 +14,7 @@
   let currentGalleryItems = [];
   let currentGalleryIndex = 0;
   let currentActivityLightboxItems = [];
+  let currentActivityGalleryPromise = null;
   let visitorCounterValue = null;
   let visitorCounterPromise = null;
 
@@ -220,6 +221,8 @@
 
     const image = lightbox.querySelector("[data-lightbox-image]");
     const caption = lightbox.querySelector("[data-lightbox-caption]");
+    const prevButton = lightbox.querySelector("[data-lightbox-prev]");
+    const nextButton = lightbox.querySelector("[data-lightbox-next]");
 
     function updateLightboxImage() {
       const item = currentGalleryItems[currentGalleryIndex];
@@ -229,6 +232,16 @@
 
       image.src = item.src;
       image.alt = item.alt || "";
+
+      const hasNeighbors = currentGalleryItems.length > 1;
+      if (prevButton) {
+        prevButton.hidden = !hasNeighbors;
+        prevButton.disabled = !hasNeighbors;
+      }
+      if (nextButton) {
+        nextButton.hidden = !hasNeighbors;
+        nextButton.disabled = !hasNeighbors;
+      }
 
       if (caption) {
         caption.textContent = item.alt || "";
@@ -253,39 +266,70 @@
       document.body.classList.add("lightbox-open");
     }
 
-    lightbox.querySelector("[data-lightbox-close]")?.addEventListener("click", closeLightbox);
-    lightbox.querySelector("[data-lightbox-prev]")?.addEventListener("click", () => {
-      showByIndex(currentGalleryIndex - 1);
-    });
-    lightbox.querySelector("[data-lightbox-next]")?.addEventListener("click", () => {
-      showByIndex(currentGalleryIndex + 1);
-    });
-
-    lightbox.addEventListener("click", (event) => {
-      if (event.target === lightbox) {
-        closeLightbox();
-      }
-    });
-
-    document.addEventListener("keydown", (event) => {
+    function refreshLightboxLayout() {
       if (lightbox.hidden) {
         return;
       }
 
-      if (event.key === "Escape") {
-        closeLightbox();
-      }
+      window.requestAnimationFrame(() => {
+        updateLightboxImage();
+        lightbox.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
+    }
 
-      if (event.key === "ArrowLeft") {
+    if (lightbox.dataset.bound !== "true") {
+      lightbox.querySelector("[data-lightbox-close]")?.addEventListener("click", closeLightbox);
+      lightbox.querySelector("[data-lightbox-prev]")?.addEventListener("click", () => {
+        if (currentGalleryItems.length <= 1) {
+          return;
+        }
+
         showByIndex(currentGalleryIndex - 1);
+      });
+      lightbox.querySelector("[data-lightbox-next]")?.addEventListener("click", () => {
+        if (currentGalleryItems.length <= 1) {
+          return;
+        }
+
+        showByIndex(currentGalleryIndex + 1);
+      });
+
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (lightbox.hidden) {
+          return;
+        }
+
+        if (event.key === "Escape") {
+          closeLightbox();
+        }
+
+        if (event.key === "ArrowLeft" && currentGalleryItems.length > 1) {
+          showByIndex(currentGalleryIndex - 1);
+        }
+
+        if (event.key === "ArrowRight" && currentGalleryItems.length > 1) {
+          showByIndex(currentGalleryIndex + 1);
+        }
+      });
+
+      window.addEventListener("resize", refreshLightboxLayout, { passive: true });
+      window.addEventListener("orientationchange", refreshLightboxLayout, { passive: true });
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", refreshLightboxLayout, { passive: true });
       }
 
-      if (event.key === "ArrowRight") {
-        showByIndex(currentGalleryIndex + 1);
-      }
-    });
+      lightbox.dataset.bound = "true";
+    }
 
     lightbox.showByIndex = showByIndex;
+    lightbox.refreshLayout = refreshLightboxLayout;
     return lightbox;
   }
 
@@ -515,7 +559,7 @@
     }
 
     const lightbox = ensureLightbox();
-    const openHero = () => {
+    const showHero = () => {
       const heroItem = {
         src: hero.currentSrc || hero.src || image.src,
         alt: hero.alt || image.alt || ""
@@ -528,6 +572,14 @@
       ];
       currentGalleryIndex = 0;
       lightbox.showByIndex(0);
+    };
+    const openHero = () => {
+      if (currentActivityGalleryPromise) {
+        currentActivityGalleryPromise.finally(showHero);
+        return;
+      }
+
+      showHero();
     };
 
     currentActivityLightboxItems = [
@@ -557,6 +609,45 @@
       openHero();
     });
     hero.dataset.heroLightboxBound = "true";
+  }
+
+  function initHomeAboutLightbox(image) {
+    const aboutImage = document.querySelector("[data-home-about-image]");
+    if (pageType !== "home" || !aboutImage || !image?.src) {
+      return;
+    }
+
+    const lightbox = ensureLightbox();
+    const openImage = () => {
+      currentGalleryItems = [
+        {
+          src: aboutImage.currentSrc || aboutImage.src || image.src,
+          alt: aboutImage.alt || image.alt || ""
+        }
+      ];
+      currentGalleryIndex = 0;
+      lightbox.showByIndex(0);
+    };
+
+    aboutImage.classList.add("is-clickable");
+    aboutImage.tabIndex = 0;
+    aboutImage.setAttribute("role", "button");
+    aboutImage.setAttribute("aria-label", SITE.ui?.gallery?.open || image.alt || "Відкрити фото");
+
+    if (aboutImage.dataset.homeLightboxBound === "true") {
+      return;
+    }
+
+    aboutImage.addEventListener("click", openImage);
+    aboutImage.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      openImage();
+    });
+    aboutImage.dataset.homeLightboxBound = "true";
   }
 
   function setActivityLightboxGalleryItems(images) {
@@ -1063,22 +1154,23 @@
 
   function loadActivityGallery(id) {
     const selector = "[data-activity-gallery]";
-    const activity = SITE.activities?.[id];
-    const fallbackImages = Array.isArray(activity?.gallery) ? activity.gallery : [];
 
-    fetchJson(`files/media/activity${id}/photos.json`)
+    currentActivityGalleryPromise = fetchJson(`files/media/activity${id}/photos.json`)
       .then((images) => {
-        const galleryImages = Array.isArray(images) ? images : fallbackImages;
+        const galleryImages = Array.isArray(images) ? images : [];
         return filterAvailableImages(galleryImages).then((availableImages) => {
           setActivityLightboxGalleryItems(availableImages);
           renderGallery(selector, availableImages);
+          return availableImages;
         });
       })
       .catch(() => {
-        filterAvailableImages(fallbackImages).then((availableImages) => {
-          setActivityLightboxGalleryItems(availableImages);
-          renderGallery(selector, availableImages);
-        });
+        setActivityLightboxGalleryItems([]);
+        renderGallery(selector, []);
+        return [];
+      })
+      .finally(() => {
+        currentActivityGalleryPromise = null;
       });
   }
 
@@ -1205,17 +1297,23 @@
           writeYoutubeCache(channelId, videos);
           renderYoutubeStatus("[data-activity-videos]", "");
           renderVideoCards("[data-activity-videos]", videos);
+        } else if (cachedVideos.length) {
+          renderYoutubeStatus(
+            "[data-activity-videos]",
+            SITE.ui?.video?.cachedFallbackText || SITE.ui?.video?.cachedText
+          );
         } else if (!cachedVideos.length) {
-          renderYoutubeFallback("[data-activity-videos]", channelId, SITE.ui?.video?.updating, {
-            loading: true
-          });
+          renderYoutubeFallback("[data-activity-videos]", channelId, SITE.ui?.video?.fallbackText);
         }
       })
       .catch(() => {
-        if (!cachedVideos.length) {
-          renderYoutubeFallback("[data-activity-videos]", channelId, SITE.ui?.video?.updating, {
-            loading: true
-          });
+        if (cachedVideos.length) {
+          renderYoutubeStatus(
+            "[data-activity-videos]",
+            SITE.ui?.video?.cachedFallbackText || SITE.ui?.video?.cachedText
+          );
+        } else {
+          renderYoutubeFallback("[data-activity-videos]", channelId, SITE.ui?.video?.fallbackText);
         }
       })
       .finally(() => {
@@ -1262,7 +1360,13 @@
     const languageUi = SITE.ui?.language || {};
 
     if (label) {
-      label.textContent = languageUi.label || "Мова";
+      const currentLocaleCode =
+        SITE.currentLocale === "uk"
+          ? "УКР"
+          : SITE.currentLocale === "en"
+            ? "EN"
+            : SITE.currentLocale?.toUpperCase();
+      label.textContent = `${languageUi.label || "Мова"}: ${currentLocaleCode || ""}`;
     }
 
     if (optionsWrap) {
@@ -1277,6 +1381,7 @@
             locale.toUpperCase();
           const localeName = getLocalizedValue(languageUi.names?.[locale], locale.toUpperCase()) ||
             locale.toUpperCase();
+          const localeFlagClass = locale === "uk" ? "is-uk" : locale === "en" ? "is-en" : "";
           const isActive = locale === SITE.currentLocale;
 
           return `
@@ -1285,8 +1390,11 @@
               type="button"
               data-language-option="${locale}"
               aria-pressed="${isActive ? "true" : "false"}"
+              aria-label="${escapeHtml(localeName)}"
               title="${escapeHtml(localeName)}"
-            >${escapeHtml(optionLabel)}</button>
+            >
+              ${localeFlagClass ? `<span class="language-toggle-flag ${localeFlagClass}" aria-hidden="true"></span>` : `<span class="language-toggle-code">${escapeHtml(optionLabel)}</span>`}
+            </button>
           `;
         })
         .join("");
@@ -1343,14 +1451,14 @@
     function updateThemeToggleLabel(currentTheme) {
       const themeUi = SITE.ui?.theme || {};
       const nextTheme = currentTheme === "dark" ? "light" : "dark";
-      const nextThemeIcon = nextTheme === "dark" ? "🌙" : "☀️";
-      const nextThemeText =
-        nextTheme === "dark"
+      const currentThemeIcon = currentTheme === "dark" ? "🌙" : "☀️";
+      const currentThemeText =
+        currentTheme === "dark"
           ? themeUi.nextDark || "Темна тема"
           : themeUi.nextLight || "Світла тема";
       toggleLabel.innerHTML = `
-        <span class="theme-toggle-icon" aria-hidden="true">${nextThemeIcon}</span>
-        <span class="theme-toggle-text">${nextThemeText}</span>
+        <span class="theme-toggle-icon" aria-hidden="true">${currentThemeIcon}</span>
+        <span class="theme-toggle-text">${currentThemeText}</span>
       `;
       toggle.setAttribute(
         "aria-label",
@@ -1461,7 +1569,9 @@
     if (id === "orcid") {
       return `
         <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2Zm-4 4.6a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8Zm1.1 10.9H6.8v-7.4h2.3v7.4Zm7.4 0h-3.1l-2.8-4.2v4.2H8.4v-7.4h4.1c2 0 3.2 1.1 3.2 2.9 0 1.5-.8 2.4-2.1 2.7l2.9 4.2Zm-3.9-5.7h-2v1.8h2c.7 0 1.1-.4 1.1-.9s-.4-.9-1.1-.9Z"/>
+          <circle cx="12" cy="12" r="10" fill="#a6ce39"/>
+          <circle cx="7.7" cy="7.2" r="1.15" fill="#ffffff"/>
+          <path fill="#ffffff" d="M6.8 10h1.8v7H6.8zM11 7.5h3.2c3 0 5.1 1.9 5.1 4.5S17.2 16.5 14.2 16.5H11v-9Zm1.8 1.7v5.6h1.3c2 0 3.3-1.1 3.3-2.8s-1.3-2.8-3.3-2.8h-1.3Z"/>
         </svg>
       `;
     }
@@ -1692,6 +1802,7 @@
     setText("[data-home-activities-heading]", SITE.home.activitiesHeading);
     setText("[data-activity-card-link]", SITE.ui?.buttons?.open || "Перейти");
     updateImage("[data-home-about-image]", SITE.home.aboutImage);
+    initHomeAboutLightbox(SITE.home.aboutImage);
     renderParagraphs("[data-home-about-paragraphs]", SITE.home.aboutParagraphs);
 
     setText("[data-activity-videos-heading]", SITE.ui?.activitySections?.videos || "Відео");
@@ -1717,11 +1828,11 @@
     if (footerElement) {
       footerElement.innerHTML = `
         <span class="footer-owner">${footerOwner}</span>
-        ${footerBuild ? `<span class="footer-build">${footerBuild}</span>` : ""}
-        <span class="footer-counter" data-footer-counter>
-          <span class="footer-counter-label">${SITE.ui?.footer?.viewsLabel || "Відвідувань:"}</span>
-          <span class="footer-counter-value" data-footer-counter-value>${SITE.ui?.footer?.loading || "оновлення..."}</span>
-        </span>
+        ${footerBuild ? `
+          <span class="footer-build">
+            ${footerBuild}<span data-footer-counter-separator hidden>:</span><span class="footer-counter-value" data-footer-counter-value hidden></span>
+          </span>
+        ` : ""}
       `;
     }
 
@@ -2290,26 +2401,34 @@
   }
 
   function initVisitorCounter() {
-    const labelElement = document.querySelector(".footer-counter-label");
     const valueElement = document.querySelector("[data-footer-counter-value]");
-    if (!labelElement || !valueElement) {
+    const separatorElement = document.querySelector("[data-footer-counter-separator]");
+    if (!valueElement) {
       return;
     }
 
     const footerUi = SITE.ui?.footer || {};
-    labelElement.textContent = footerUi.viewsLabel || "Відвідувань:";
+
+    function setCounterText(value, visible = true) {
+      valueElement.textContent = value;
+      valueElement.hidden = !visible;
+
+      if (separatorElement) {
+        separatorElement.hidden = !visible;
+      }
+    }
 
     if (!SITE.visitCounter?.enabled) {
-      valueElement.textContent = footerUi.unavailable || "лічильник недоступний";
+      setCounterText("");
       return;
     }
 
     if (visitorCounterValue != null) {
-      valueElement.textContent = formatVisitorCounter(visitorCounterValue);
+      setCounterText(formatVisitorCounter(visitorCounterValue));
       return;
     }
 
-    valueElement.textContent = footerUi.loading || "оновлення...";
+    setCounterText("", false);
 
     if (!visitorCounterPromise) {
       const counterConfig = SITE.visitCounter || {};
@@ -2376,10 +2495,10 @@
 
     visitorCounterPromise
       .then((value) => {
-        valueElement.textContent = formatVisitorCounter(value);
+        setCounterText(formatVisitorCounter(value));
       })
       .catch(() => {
-        valueElement.textContent = footerUi.unavailable || "лічильник недоступний";
+        setCounterText("");
       });
   }
 
