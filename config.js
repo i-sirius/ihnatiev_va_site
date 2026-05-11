@@ -48,7 +48,7 @@
       home: "Дім",
       activity1: "Наука",
       activity2: "Освіта",
-      activity3: "Священство",
+      activity3: "Церква",
       downloads: "Файли",
       contact: "Зв'язок"
     }
