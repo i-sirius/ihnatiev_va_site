@@ -1440,7 +1440,9 @@
       toggle.innerHTML = `
         <span class="theme-toggle-label" data-theme-toggle-label></span>
         <span class="theme-toggle-track">
+          <span class="theme-toggle-track-icon is-sun" aria-hidden="true"></span>
           <span class="theme-toggle-thumb"></span>
+          <span class="theme-toggle-track-icon is-moon" aria-hidden="true"></span>
         </span>
       `;
       controls.appendChild(toggle);
@@ -1699,11 +1701,14 @@
     const brand = header.querySelector(".site-brand-link");
 
     if (brand) {
-      brand.href = "#top";
-      brand.title = SITE.ui?.header?.backToTop || "Нагору сторінки";
+      brand.href = pageType === "home" ? "#top" : "index.html";
+      brand.title =
+        pageType === "home"
+          ? SITE.ui?.header?.backToTop || "Нагору сторінки"
+          : SITE.ui?.header?.home || SITE.menu?.home || "Головна";
     }
 
-    if (brand && !brand.dataset.scrollTopBound) {
+    if (brand && pageType === "home" && !brand.dataset.scrollTopBound) {
       brand.addEventListener("click", (event) => {
         event.preventDefault();
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -1730,13 +1735,13 @@
 
     const syncHeaderState = () => {
       const currentScrollY = window.scrollY;
-      const compactOnThreshold = window.innerWidth <= 700 ? 56 : 88;
-      const compactOffThreshold = window.innerWidth <= 700 ? 32 : 60;
+      const compactOnThreshold = window.innerWidth <= 700 ? 104 : 144;
+      const compactOffThreshold = 12;
       const previousState = isCompact;
 
       if (!isCompact && currentScrollY > compactOnThreshold) {
         isCompact = true;
-      } else if (isCompact && currentScrollY < compactOffThreshold) {
+      } else if (isCompact && currentScrollY <= compactOffThreshold) {
         isCompact = false;
       }
 
@@ -1745,7 +1750,7 @@
 
       if (previousState !== isCompact) {
         stateLockScrollY = currentScrollY;
-        stateLockUntil = window.performance.now() + 220;
+        stateLockUntil = window.performance.now() + 420;
       }
 
       ticking = false;
@@ -1754,15 +1759,18 @@
     const requestSync = () => {
       const currentScrollY = window.scrollY;
       const minimumScrollDelta = window.innerWidth <= 700 ? 14 : 22;
+      const compactOffThreshold = 12;
+      const forceTopSync = currentScrollY <= compactOffThreshold;
 
       if (
+        !forceTopSync &&
         window.performance.now() < stateLockUntil &&
         Math.abs(currentScrollY - stateLockScrollY) < minimumScrollDelta
       ) {
         return;
       }
 
-      if (Math.abs(currentScrollY - lastEvaluatedScrollY) < minimumScrollDelta) {
+      if (!forceTopSync && Math.abs(currentScrollY - lastEvaluatedScrollY) < minimumScrollDelta) {
         return;
       }
 
