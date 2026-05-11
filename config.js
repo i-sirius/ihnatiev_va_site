@@ -48,9 +48,9 @@
       home: "Дім",
       activity1: "Наука",
       activity2: "Освіта",
-      activity3: "Служіння",
+      activity3: "Священство",
       downloads: "Файли",
-      contact: "Контакти"
+      contact: "Зв'язок"
     }
   },
   home: {
@@ -453,7 +453,7 @@ const SITE_EN = {
       home: "Home",
       activity1: "Research",
       activity2: "Teaching",
-      activity3: "Ministry",
+      activity3: "Priesthood",
       downloads: "Files",
       contact: "Contact"
     }

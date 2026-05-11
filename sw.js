@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.6.14-r6";
+const CACHE_NAME = "ihnatiev-site-v0.6.14-r7";
 const APP_SHELL = [
   "./",
   "./index.html",

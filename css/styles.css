@@ -2527,11 +2527,11 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 4px;
     min-width: 0;
     min-height: 52px;
     margin: 0;
-    padding: 8px 6px;
+    padding: 8px 5px;
     border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
     border-radius: 16px;
     background:
@@ -2555,9 +2555,9 @@ footer {
 
   .mobile-nav-host nav a::before {
     content: "";
-    width: 20px;
-    height: 20px;
-    flex: 0 0 20px;
+    width: 17px;
+    height: 17px;
+    flex: 0 0 17px;
     background: currentColor;
     mask: var(--nav-icon) center / contain no-repeat;
     -webkit-mask: var(--nav-icon) center / contain no-repeat;
@@ -2574,7 +2574,7 @@ footer {
     flex: 1 1 auto;
     min-width: 0;
     max-width: 100%;
-    font-size: clamp(0.74rem, 2.15vw, 0.92rem);
+    font-size: clamp(0.68rem, 1.95vw, 0.88rem);
     line-height: 1.08;
     text-decoration: none;
     transition: none;
