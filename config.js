@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.13",
+    buildVersion: "0.6.14",
     buildDate: "110526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -43,7 +43,15 @@
   menu: {
     home: "Головна",
     downloads: "Завантаження",
-    contact: "Контакти"
+    contact: "Контакти",
+    mobile: {
+      home: "Дім",
+      activity1: "Наука",
+      activity2: "Освіта",
+      activity3: "Служіння",
+      downloads: "Файли",
+      contact: "Контакти"
+    }
   },
   home: {
     aboutHeading: "Про мене",
@@ -440,7 +448,15 @@ const SITE_EN = {
   menu: {
     home: "Home",
     downloads: "Downloads",
-    contact: "Contacts"
+    contact: "Contacts",
+    mobile: {
+      home: "Home",
+      activity1: "Research",
+      activity2: "Teaching",
+      activity3: "Ministry",
+      downloads: "Files",
+      contact: "Contact"
+    }
   },
   home: {
     aboutHeading: "About Me",

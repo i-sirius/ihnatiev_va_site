@@ -1735,7 +1735,7 @@
 
     const syncHeaderState = () => {
       const currentScrollY = window.scrollY;
-      const compactOnThreshold = window.innerWidth <= 700 ? 104 : 144;
+      const compactOnThreshold = window.innerWidth <= 900 ? 104 : 144;
       const compactOffThreshold = 12;
       const previousState = isCompact;
 
@@ -1758,7 +1758,7 @@
 
     const requestSync = () => {
       const currentScrollY = window.scrollY;
-      const minimumScrollDelta = window.innerWidth <= 700 ? 14 : 22;
+      const minimumScrollDelta = window.innerWidth <= 900 ? 14 : 22;
       const compactOffThreshold = 12;
       const forceTopSync = currentScrollY <= compactOffThreshold;
 
@@ -2370,18 +2370,37 @@
   }
 
   function applyMenuLabels() {
-    setText("[data-menu-home]", SITE.menu.home);
-    setText("[data-menu-downloads]", SITE.menu.downloads);
-    setText("[data-menu-contact]", SITE.menu.contact);
+    function setMenuItemLabel(selector, label, mobileLabel = label) {
+      if (label == null) {
+        return;
+      }
+
+      document.querySelectorAll(selector).forEach((element) => {
+        element.textContent = label;
+        element.setAttribute("aria-label", label);
+        element.setAttribute("title", label);
+        element.setAttribute("data-mobile-label", mobileLabel || label);
+      });
+    }
+
+    const mobileMenu = SITE.menu?.mobile || {};
+
+    setMenuItemLabel("[data-menu-home]", SITE.menu.home, mobileMenu.home);
+    setMenuItemLabel("[data-menu-downloads]", SITE.menu.downloads, mobileMenu.downloads);
+    setMenuItemLabel("[data-menu-contact]", SITE.menu.contact, mobileMenu.contact);
 
     Object.entries(SITE.activities).forEach(([id, activity]) => {
-      setText(`[data-menu-activity='${id}']`, activity.name);
+      setMenuItemLabel(
+        `[data-menu-activity='${id}']`,
+        activity.name,
+        mobileMenu[`activity${id}`]
+      );
     });
   }
 
   function applyActiveMenuState() {
     document
-      .querySelectorAll(".site-header nav a[aria-current='page']")
+      .querySelectorAll("nav a[aria-current='page']")
       .forEach((element) => element.removeAttribute("aria-current"));
 
     let selector = "";
@@ -2401,6 +2420,54 @@
     }
 
     document.querySelector(selector)?.setAttribute("aria-current", "page");
+  }
+
+  function initMobileNavigation() {
+    const menu = document.getElementById("menu");
+    const nav = document.querySelector("#menu nav, .mobile-nav-host nav");
+
+    if (!menu || !nav) {
+      return;
+    }
+
+    let host = document.querySelector(".mobile-nav-host");
+    if (!host) {
+      host = document.createElement("div");
+      host.className = "mobile-nav-host";
+      document.body.appendChild(host);
+    }
+
+    const mobileQuery = window.matchMedia("(max-width: 900px)");
+
+    const syncNavigationPlacement = () => {
+      const currentNav = document.querySelector("#menu nav, .mobile-nav-host nav");
+
+      if (!currentNav) {
+        return;
+      }
+
+      if (mobileQuery.matches) {
+        if (currentNav.parentElement !== host) {
+          host.appendChild(currentNav);
+        }
+      } else if (currentNav.parentElement !== menu) {
+        menu.appendChild(currentNav);
+      }
+    };
+
+    syncNavigationPlacement();
+
+    if (document.body.dataset.mobileNavReady === "true") {
+      return;
+    }
+
+    if (typeof mobileQuery.addEventListener === "function") {
+      mobileQuery.addEventListener("change", syncNavigationPlacement);
+    } else {
+      mobileQuery.addListener(syncNavigationPlacement);
+    }
+
+    document.body.dataset.mobileNavReady = "true";
   }
 
   function formatVisitorCounter(value) {
@@ -2531,6 +2598,7 @@
     applyContactPage();
     applyMenuLabels();
     applyActiveMenuState();
+    initMobileNavigation();
     initHeaderBrand();
     initHeaderSocials();
     initLanguageToggle();
