@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.18c",
+    buildVersion: "0.6.18d",
     buildDate: "120526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -204,8 +204,14 @@
         "Священник, протоієрей Свято-Покровського Храму у м. Кропивницький.",
         "<strong>Хіротонія:</strong><br>У сан диякона – 4 серпня 2015 р. у Кафедральному соборі Різдва Пресвятої Богородиці м. Кіровограда висвячений архієпископом Кіровоградським та Новомиргородським Йоасафом.<br>У сан пресвітера – 5 серпня 2015 р. у Кафедральному соборі Різдва Пресвятої Богородиці м. Кіровограда висвячений архієпископом Кіровоградським та Новомиргородським Йоасафом.",
         "<strong>Служіння:</strong><br>5 серпня 2015 р. – настоятель храму на честь святих рівноапостольних Кирила та Мефодія при Кіровоградському інституті державного та муніципального управління Класичного приватного університету.<br>17 липня 2017 р. – 2022 р. – клірик Спасо-Преображенського Кафедрального собору м. Кропивницький.<br>17 червня 2022 р. – клірик Свято-Покровського храму м. Кропивницький.",
-        "<strong>Нагороди:</strong><br>2016 р. (Великодня) – золотий наперсний хрест.<br>2018 р. – протоієрейство.<br>2019 р. – хрест із прикрасами.",
-        "<strong>Посилання:</strong><br><a href=\"http://orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij\" target=\"_blank\" rel=\"noopener noreferrer\">orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij</a>"
+        "<strong>Нагороди:</strong><br>2016 р. (Великодня) – золотий наперсний хрест.<br>2018 р. – протоієрейство.<br>2019 р. – хрест із прикрасами."
+      ],
+      links: [
+        {
+          id: "church",
+          label: "Профіль на orthodox-kr.org.ua",
+          href: "http://orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij"
+        }
       ],
       heroImage: {
         src: "files/media/activity3-photo1.jpg",
@@ -520,8 +526,14 @@ const SITE_EN = {
         "Priest, Archpriest of the Holy Protection Church in Kropyvnytskyi.",
         "<strong>Ordination:</strong><br>To the rank of deacon - August 4, 2015, at the Cathedral of the Nativity of the Most Holy Theotokos in Kirovohrad, ordained by Archbishop Ioasaf of Kirovohrad and Novomyrhorod.<br>To the rank of presbyter - August 5, 2015, at the Cathedral of the Nativity of the Most Holy Theotokos in Kirovohrad, ordained by Archbishop Ioasaf of Kirovohrad and Novomyrhorod.",
         "<strong>Ministry:</strong><br>August 5, 2015 - rector of the church in honor of Saints Cyril and Methodius at the Kirovohrad Institute of State and Municipal Administration of the Classical Private University.<br>July 17, 2017 - 2022 - cleric of the Transfiguration Cathedral in Kropyvnytskyi.<br>Since June 17, 2022 - cleric of the Holy Protection Church in Kropyvnytskyi.",
-        "<strong>Awards:</strong><br>2016 (Paschal) - golden pectoral cross.<br>2018 - archpriest rank.<br>2019 - decorated cross.",
-        "<strong>Link:</strong><br><a href=\"http://orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij\" target=\"_blank\" rel=\"noopener noreferrer\">orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij</a>"
+        "<strong>Awards:</strong><br>2016 (Paschal) - golden pectoral cross.<br>2018 - archpriest rank.<br>2019 - decorated cross."
+      ],
+      links: [
+        {
+          id: "church",
+          label: "Profile on orthodox-kr.org.ua",
+          href: "http://orthodox-kr.org.ua/ru/duhovenstvo/Ignatiev_vitalij"
+        }
       ],
       heroImage: {
         alt: "Priestly ministry (Vitalii Ihnatiev)"

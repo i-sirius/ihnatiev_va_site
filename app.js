@@ -1589,6 +1589,14 @@
       `;
     }
 
+    if (id === "church") {
+      return `
+        <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M11.3 1.5h1.4v1.7h1.7v1.3h-1.7v2h-1.4v-2H9.6V3.2h1.7V1.5Zm-5.1 5h1.2v1.4h1.4v1.2H7.4v1.5H6.2V9.1H4.7V7.9h1.5V6.5Zm10.4 0h1.2v1.4h1.5v1.2h-1.5v1.5h-1.2V9.1h-1.4V7.9h1.4V6.5ZM12 7.2c-2.2 1.4-3.4 3-3.4 4.8 0 1.6 1.3 2.8 3.4 2.8s3.4-1.2 3.4-2.8c0-1.8-1.2-3.4-3.4-4.8ZM4.8 14h3.6v7H4.8v-7Zm4.5-.2h5.4V21h-1.8v-3.2a.9.9 0 0 0-1.8 0V21H9.3v-7.2Zm6.3.2h3.6v7h-3.6v-7Z"/>
+        </svg>
+      `;
+    }
+
     return `
       <svg class="${className}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path fill="currentColor" d="M21.6 4.3 2.9 11.5c-1.3.5-1.3 1.2-.2 1.5l4.8 1.5 1.9 6c.2.5.1.8.7.8.4 0 .6-.2.8-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.2-15.2c.3-1.2-.4-1.8-1.2-1.4Zm-12.8 10-1-.3 10-6.3c.5-.3.9-.1.5.3l-8 7.2-.3 3.3-1.2-4.2Z"/>
@@ -1649,7 +1657,7 @@
   }
 
   function renderActivityResearchLinks(activity) {
-    if (pageType !== "activity" || activityId !== "1") {
+    if (pageType !== "activity") {
       return;
     }
 
@@ -1660,13 +1668,15 @@
 
     aboutPhoto.querySelector(".about-photo-links")?.remove();
 
-    const researchLinks = Array.isArray(SITE.meta?.headerLinks)
-      ? SITE.meta.headerLinks.filter(
-          (item) =>
-            item.id === "webofscience" || item.id === "orcid" || item.id === "googlescholar"
-        )
-      : [];
-    const activeLinks = researchLinks.filter((item) => item.href);
+    const researchLinks =
+      activityId === "1" && Array.isArray(SITE.meta?.headerLinks)
+        ? SITE.meta.headerLinks.filter(
+            (item) =>
+              item.id === "webofscience" || item.id === "orcid" || item.id === "googlescholar"
+          )
+        : [];
+    const activityLinks = Array.isArray(activity.links) ? activity.links : [];
+    const activeLinks = [...researchLinks, ...activityLinks].filter((item) => item.href);
 
     if (!activeLinks.length) {
       return;
@@ -1679,14 +1689,14 @@
         (item) => `
           <a
             class="about-photo-link is-${item.id}"
-            href="${item.href}"
+            href="${escapeHtml(item.href)}"
             target="_blank"
             rel="noreferrer"
-            aria-label="${item.label}"
-            title="${item.label}"
+            aria-label="${escapeHtml(item.label)}"
+            title="${escapeHtml(item.label)}"
           >
             ${getSocialIconMarkup(item.id, "about-photo-link-icon")}
-            <span>${item.label}</span>
+            <span>${escapeHtml(item.label)}</span>
           </a>
         `
       )

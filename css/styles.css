@@ -1515,6 +1515,16 @@ html[data-theme="dark"] .about-photo-link.is-googlescholar {
   color: #9dccff;
 }
 
+.about-photo-link.is-church {
+  --social-accent: #556d64;
+  color: var(--primary-dark);
+}
+
+html[data-theme="dark"] .about-photo-link.is-church {
+  --social-accent: #d9c28a;
+  color: #eadbb0;
+}
+
 html[data-theme="dark"] .about-photo-link {
   background:
     radial-gradient(circle at 16% 0%, rgba(226, 240, 235, 0.2), transparent 26%),
