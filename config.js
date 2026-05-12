@@ -2,8 +2,8 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.17",
-    buildDate: "110526",
+    buildVersion: "0.6.17a",
+    buildDate: "120526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
     homeSubtitle: "філософ, викладач, священнослужитель",
