@@ -3939,6 +3939,9 @@ footer {
   body[data-page="home"] .site-header h1 [data-site-title] {
     font-size: clamp(1.16rem, 5vw, 1.54rem);
     line-height: 1.05;
+    overflow-wrap: normal;
+    word-break: keep-all;
+    hyphens: none;
   }
 
   body[data-page="home"] .site-header h1 [data-site-subtitle] {
