@@ -778,7 +778,10 @@
             `${previewUi.downloadAria || "Завантажити"} ${label}`
           )}"
           title="${escapeHtml(previewUi.download || "Завантажити")}"
-        >↓</a>
+        >
+          <span aria-hidden="true">↓</span>
+          <span class="download-link-action-text">${escapeHtml(previewUi.download || "Завантажити")}</span>
+        </a>
       `
     ];
 
