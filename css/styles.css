@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --bg: #f4f1ea;
   --bg-soft: #ece7dd;
   --text: #282420;
@@ -755,8 +755,8 @@ html[data-theme="dark"] .language-toggle-option.is-active {
   min-width: 0;
   min-height: 48px;
   padding-top: 0;
-  padding-left: 126px;
-  padding-right: 126px;
+  padding-left: 96px;
+  padding-right: 190px;
   line-height: 1.2;
 }
 
@@ -765,9 +765,9 @@ html[data-theme="dark"] .language-toggle-option.is-active {
   align-items: center;
   justify-content: center;
   min-height: 36px;
-  margin: 0 6px;
-  padding: 9px 12px;
-  font-size: 0.8rem;
+  margin: 0 5px;
+  padding: 9px 10px;
+  font-size: 0.76rem;
   line-height: 1;
   white-space: nowrap;
 }
@@ -1444,7 +1444,7 @@ html[data-theme="dark"] .about-details summary {
 }
 
 .about-details-arrow-icon::before {
-  content: "↓";
+  content: "v";
 }
 
 .about-details-arrow-label {
@@ -1472,7 +1472,7 @@ html[data-theme="dark"] .about-details summary {
 }
 
 .about-details[open] .about-details-arrow-icon::before {
-  content: "↑";
+  content: "^";
 }
 
 .about-details summary::-webkit-details-marker {
@@ -3678,10 +3678,18 @@ footer {
     width: auto;
     min-height: 66px;
     padding: 6px;
-    border: 1px solid color-mix(in srgb, var(--border) 56%, var(--liquid-glass-border));
+    border: 1px solid color-mix(in srgb, var(--gold-glass-border) 44%, var(--liquid-glass-border));
     border-radius: 24px;
-    background: var(--liquid-glass-bg);
-    box-shadow: var(--liquid-glass-shadow);
+    background:
+      radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.76), transparent 32%),
+      radial-gradient(circle at 84% 96%, rgba(196, 151, 57, 0.13), transparent 44%),
+      linear-gradient(135deg, rgba(255, 252, 243, 0.64), rgba(247, 225, 168, 0.16)),
+      color-mix(in srgb, var(--panel-bg) 70%, transparent);
+    box-shadow:
+      0 16px 34px rgba(40, 34, 28, 0.12),
+      0 0 22px rgba(196, 151, 57, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 0 rgba(196, 151, 57, 0.14);
     overflow: visible;
     backdrop-filter: blur(22px) saturate(1.28);
     -webkit-backdrop-filter: blur(22px) saturate(1.28);

@@ -2471,6 +2471,7 @@
 
     let lensFrame = 0;
     let pendingLensTarget = null;
+    let lensHoverTimer = 0;
 
     const syncNavigationLens = (target = null) => {
       lensFrame = 0;
@@ -2530,6 +2531,17 @@
         pendingLensTarget = null;
         syncNavigationLens(targetElement);
       });
+    };
+
+    const requestStickyNavigationLens = (target = null, delay = 95) => {
+      if (lensHoverTimer) {
+        window.clearTimeout(lensHoverTimer);
+      }
+
+      lensHoverTimer = window.setTimeout(() => {
+        lensHoverTimer = 0;
+        requestNavigationLens(target);
+      }, delay);
     };
 
     const fitNavigationLabels = () => {
@@ -2651,10 +2663,10 @@
     nav.addEventListener("pointerover", (event) => {
       const link = event.target.closest("a");
       if (link) {
-        requestNavigationLens(link);
+        requestStickyNavigationLens(link);
       }
     });
-    nav.addEventListener("pointerleave", () => requestNavigationLens());
+    nav.addEventListener("pointerleave", () => requestStickyNavigationLens(null, 90));
     nav.addEventListener("focusin", (event) => {
       const link = event.target.closest("a");
       if (link) {
@@ -2711,7 +2723,8 @@
       ...Array.from(document.querySelectorAll(".site-header nav")).map((list) => ({
         list,
         itemSelector: "a",
-        defaultToFirst: false
+        defaultToFirst: false,
+        hoverDelay: 95
       })),
       ...Array.from(document.querySelectorAll(".site-header-controls")).map((list) => ({
         list,
@@ -2720,10 +2733,11 @@
       }))
     ].filter(({ list }) => list);
 
-    dropletGroups.forEach(({ list, itemSelector, defaultToFirst }) => {
+    dropletGroups.forEach(({ list, itemSelector, defaultToFirst, hoverDelay = 0 }) => {
       let dropletFrame = 0;
       let pendingTarget = null;
       let dropletMotionTimer = 0;
+      let dropletHoverTimer = 0;
 
       const clearDroplet = () => {
         list.classList.remove(
@@ -2805,14 +2819,35 @@
         });
       };
 
+      const requestStickyDroplet = (target = null, delay = hoverDelay) => {
+        if (!delay) {
+          requestDroplet(target);
+          return;
+        }
+
+        if (dropletHoverTimer) {
+          window.clearTimeout(dropletHoverTimer);
+        }
+
+        dropletHoverTimer = window.setTimeout(() => {
+          dropletHoverTimer = 0;
+          requestDroplet(target);
+        }, delay);
+      };
+
       if (list.dataset.dropletBound !== "true") {
         list.addEventListener("pointerover", (event) => {
           const button = event.target.closest(itemSelector);
           if (button) {
-            requestDroplet(button);
+            requestStickyDroplet(button);
           }
         });
         list.addEventListener("pointerleave", () => {
+          if (dropletHoverTimer) {
+            window.clearTimeout(dropletHoverTimer);
+            dropletHoverTimer = 0;
+          }
+
           if (defaultToFirst) {
             requestDroplet();
           } else {
