@@ -2479,7 +2479,9 @@
       if (!currentNav || !mobileQuery.matches) {
         document
           .querySelectorAll("nav.is-lens-ready")
-          .forEach((navElement) => navElement.classList.remove("is-lens-ready"));
+          .forEach((navElement) =>
+            navElement.classList.remove("is-lens-ready", "is-lens-settling", "is-lens-instant")
+          );
         return;
       }
 
@@ -2490,12 +2492,17 @@
           : currentNav.querySelector("a[aria-current='page']");
 
       if (!lensTarget) {
-        currentNav.classList.remove("is-lens-ready");
+        currentNav.classList.remove("is-lens-ready", "is-lens-settling", "is-lens-instant");
         return;
       }
 
       const navRect = currentNav.getBoundingClientRect();
       const targetRect = lensTarget.getBoundingClientRect();
+      const wasReady = currentNav.classList.contains("is-lens-ready");
+
+      if (!wasReady) {
+        currentNav.classList.add("is-lens-settling", "is-lens-instant");
+      }
 
       currentNav.style.setProperty("--nav-lens-x", `${Math.round(targetRect.left - navRect.left)}px`);
       currentNav.style.setProperty("--nav-lens-y", `${Math.round(targetRect.top - navRect.top)}px`);
@@ -2503,6 +2510,12 @@
       currentNav.style.setProperty("--nav-lens-height", `${Math.round(targetRect.height)}px`);
       currentNav.classList.toggle("is-lens-current", lensTarget.matches("[aria-current='page']"));
       currentNav.classList.add("is-lens-ready");
+
+      if (!wasReady) {
+        window.setTimeout(() => {
+          currentNav.classList.remove("is-lens-settling", "is-lens-instant");
+        }, 90);
+      }
     };
 
     const requestNavigationLens = (target = null) => {
@@ -2742,9 +2755,10 @@
         const bleed = 5;
         const targetStyle = window.getComputedStyle(dropletTarget);
         const accent = targetStyle.getPropertyValue("--social-accent").trim() || targetStyle.color;
+        const wasReady = list.classList.contains("is-droplet-ready");
         const previousX = Number.parseFloat(list.style.getPropertyValue("--contact-droplet-x")) || 0;
         const nextX = targetRect.left - listRect.left - bleed;
-        const isMoving = Math.abs(nextX - previousX) > 2;
+        const isMoving = wasReady && Math.abs(nextX - previousX) > 2;
 
         list.classList.toggle("is-droplet-moving-right", nextX > previousX + 2);
         list.classList.toggle("is-droplet-moving-left", nextX < previousX - 2);
