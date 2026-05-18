@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c13
+
+**Дванадцятий малий рефакторинг `app.js`.**
+
+- Винесено JSON-завантаження, нормалізацію списків, перевірку доступних зображень і content loaders у `js/content-loader.js`.
+- `app.js` залишає короткі wrapper-и для activity gallery, activity files і downloads groups.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c13` і кеш service worker до `v0.6.19c13-r1`.
+
 ## 0.6.19c12
 
 **Одинадцятий малий рефакторинг `app.js`.**
