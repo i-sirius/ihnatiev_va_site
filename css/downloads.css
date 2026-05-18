@@ -125,6 +125,8 @@ html[data-theme="dark"] .download-row::before {
 .download-link-text {
   min-width: 0;
   overflow-wrap: anywhere;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
 }
 
 .download-link-action {

@@ -179,6 +179,8 @@ html[data-theme="dark"] .about-photo-link {
 .about-text {
   flex: 1;
   min-width: 0;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
   font-size: 1rem;
   line-height: 1.68;
 }
@@ -220,6 +222,7 @@ html[data-theme="dark"] .about-details {
   list-style: none;
   padding: 16px 18px;
   min-height: 72px;
+  font-family: var(--font-ui);
   font-weight: 700;
   border-radius: 14px;
   background:

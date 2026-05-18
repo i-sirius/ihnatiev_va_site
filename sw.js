@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.6.20m-r1";
+const CACHE_NAME = "ihnatiev-site-v0.6.21a-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -45,11 +45,15 @@ const APP_SHELL = [
   "./files/media/icon-512.png",
   "./files/media/logo-light.png",
   "./files/media/logo-dark.png",
-  "./files/media/about-me-photo.jpg"
+  "./files/media/about-me-photo.jpg",
+  "./files/fonts/Manrope-wght.ttf",
+  "./files/fonts/Literata-opsz-wght.ttf",
+  "./files/fonts/OFL-Manrope.txt",
+  "./files/fonts/OFL-Literata.txt"
 ];
 
 function isCacheableAsset(requestUrl) {
-  return /\.(?:css|js|json|png|jpg|jpeg|webp|gif|svg|ico)$/i.test(requestUrl.pathname);
+  return /\.(?:css|js|json|png|jpg|jpeg|webp|gif|svg|ico|woff2?|ttf|otf)$/i.test(requestUrl.pathname);
 }
 
 self.addEventListener("install", (event) => {

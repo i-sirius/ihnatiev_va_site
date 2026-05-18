@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.21a
+
+**Пробний типографічний пакет Literata + Manrope.**
+
+- Додано локальні шрифти `Literata` і `Manrope` у `files/fonts/` разом з OFL license файлами.
+- Підключено шрифти через `@font-face` без зовнішнього CDN.
+- Додано змінну `--font-ui`; body/UI/меню переведено на Manrope, заголовки й описові блоки — на Literata.
+- Додано font-файли в APP_SHELL service worker і runtime cache pattern.
+- Оновлено build-версію до `0.6.21a` і кеш service worker до `v0.6.21a-r1`.
+
 ## 0.6.20m
 
 **UX-hotfix скляної лінзи меню після CSS-рефакторингу.**

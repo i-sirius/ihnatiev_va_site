@@ -21,6 +21,10 @@ body {
   transition: background 0.25s ease, color 0.25s ease;
 }
 
+:where(button, input, textarea, select) {
+  font-family: var(--font-ui);
+}
+
 body.lightbox-open {
   overflow: hidden;
 }
@@ -35,6 +39,7 @@ code {
   border-radius: 6px;
 }
 
-:where(h1, h2) {
+:where(h1, h2, h3) {
   font-family: var(--font-display);
+  font-optical-sizing: auto;
 }

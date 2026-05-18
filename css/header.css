@@ -119,6 +119,7 @@ html[data-theme="dark"] .site-header::after {
   display: inline-block;
   text-decoration: none;
   color: var(--primary);
+  font-family: var(--font-ui);
   font-size: 0.84rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1330,6 +1331,7 @@ html[data-theme="dark"] .theme-toggle-track {
     border-radius: 16px;
     background: color-mix(in srgb, var(--panel-bg) 34%, transparent);
     color: color-mix(in srgb, var(--primary) 82%, var(--muted));
+    font-family: var(--font-ui);
     font-size: 0;
     font-weight: 900;
     letter-spacing: 0;

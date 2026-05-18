@@ -1,6 +1,23 @@
+@font-face {
+  font-family: "Manrope";
+  src: url("../files/fonts/Manrope-wght.ttf") format("truetype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 200 800;
+}
+
+@font-face {
+  font-family: "Literata";
+  src: url("../files/fonts/Literata-opsz-wght.ttf") format("truetype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 200 900;
+}
+
 :root {
-  --font-body: "Segoe UI", Arial, sans-serif;
-  --font-display: Constantia, "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --font-body: "Manrope", "Segoe UI", Arial, sans-serif;
+  --font-ui: "Manrope", "Segoe UI", Arial, sans-serif;
+  --font-display: "Literata", Constantia, "Palatino Linotype", Georgia, "Times New Roman", serif;
   --bg: #f4f1ea;
   --bg-soft: #ece7dd;
   --text: #282420;

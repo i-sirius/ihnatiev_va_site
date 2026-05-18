@@ -22,6 +22,8 @@ body[data-page="contact"] .panel h2 {
 body[data-page="contact"] .panel > p {
   margin: 0;
   align-self: center;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
   line-height: 1.42;
 }
 
@@ -242,6 +244,8 @@ html[data-theme="dark"] .contact-social-button {
   grid-column: 1 / -1;
   margin: 2px 0 2px;
   color: var(--primary-dark);
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
   font-size: 0.98rem;
   font-weight: 700;
   line-height: 1.34;

@@ -31,3 +31,8 @@ main {
 .panel p {
   margin: 0 0 16px;
 }
+
+.panel > p {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+}
