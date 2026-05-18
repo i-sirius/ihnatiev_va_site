@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.20f
+
+**Шостий безпечний крок розділення `css/styles.css`.**
+
+- Винесено video gallery, video lens, video cards, fallback/loading стани й video keyframes у `css/video.css`.
+- `css/styles.css` підключає `video.css` після gallery styles.
+- Downloads, document lightbox, contact і header блоки залишено на місці.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20f` і кеш service worker до `v0.6.20f-r1`.
+
 ## 0.6.20e
 
 **П'ятий безпечний крок розділення `css/styles.css`.**
