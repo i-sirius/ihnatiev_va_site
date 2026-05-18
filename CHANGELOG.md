@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.20i
+
+**Дев'ятий безпечний крок розділення `css/styles.css`.**
+
+- Винесено contact panel, contact socials, social buttons і contact form поля у `css/contact.css`.
+- Винесено contact mobile-адаптацію panel/socials/form у `css/contact.css`.
+- `css/styles.css` підключає `contact.css` після downloads styles; shared droplet/lens і action-glass правила залишено на місці для окремого кроку.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20i` і кеш service worker до `v0.6.20i-r1`.
+
 ## 0.6.20h
 
 **Восьмий безпечний крок розділення `css/styles.css`.**
