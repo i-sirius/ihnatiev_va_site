@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c2
+
+**Перший малий рефакторинг `app.js`.**
+
+- Винесено document preview/lightbox у `js/document-lightbox.js`.
+- `app.js` залишає тонкий wrapper для підключення існуючих залежностей і поведінки.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c2` і кеш service worker до `v0.6.19c2-r1`.
+
 ## 0.6.19c1
 
 **Контроль перед рефакторингом `app.js`.**
