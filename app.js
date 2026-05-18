@@ -51,10 +51,6 @@
     return fallback;
   }
 
-  function initDetailsInteractions() {
-    window.SitePageContent?.initDetailsInteractions();
-  }
-
   function ensureDocumentLightbox() {
     return window.SiteDocumentLightbox?.ensure({
       site: SITE,
@@ -175,10 +171,6 @@
     });
   }
 
-  function ensureHeaderControls() {
-    return window.SiteHeaderUi?.ensureControls() || null;
-  }
-
   function initLanguageToggle() {
     window.SiteHeaderUi?.initLanguageToggle({
       site: SITE,
@@ -191,13 +183,6 @@
     });
   }
 
-  function initThemeToggle() {
-    window.SiteHeaderUi?.initThemeToggle({
-      site: SITE,
-      applyThemeAssets
-    });
-  }
-
   function applyThemeAssets(theme = "light") {
     window.SiteHeaderUi?.applyThemeAssets({
       theme,
@@ -205,104 +190,8 @@
     });
   }
 
-  function initHeaderBrand() {
-    window.SiteHeaderUi?.initBrand({
-      site: SITE,
-      themeAssets
-    });
-  }
-
   function getSocialIconMarkup(id, className = "contact-social-icon") {
     return window.SiteSocialIcons?.getMarkup(id, className) || "";
-  }
-
-  function initHeaderSocials() {
-    window.SiteHeaderUi?.initSocials({
-      site: SITE,
-      getSocialIconMarkup
-    });
-  }
-
-  function initHeaderScrollState() {
-    window.SiteHeaderUi?.initScrollState({
-      site: SITE,
-      pageType
-    });
-  }
-
-  function applyGlobalContent() {
-    window.SitePageContent?.applyGlobalContent({
-      site: SITE,
-      pageType,
-      setText,
-      initHomeAboutLightbox
-    });
-  }
-
-  function applyActivityPage() {
-    window.SitePageContent?.applyActivityPage({
-      site: SITE,
-      pageType,
-      activityId,
-      homeFallbackImage,
-      setText,
-      escapeHtml,
-      getSocialIconMarkup,
-      initActivityHeroLightbox,
-      loadActivityGallery,
-      loadFileList,
-      loadYoutubeFeed
-    });
-  }
-
-  function applyDownloadsPage() {
-    window.SitePageContent?.applyDownloadsPage({
-      site: SITE,
-      pageType,
-      setText,
-      loadDownloadsGroups
-    });
-  }
-
-  function applyContactPage() {
-    window.SitePageContent?.applyContactPage({
-      pageType,
-      site: SITE,
-      setText,
-      escapeHtml,
-      getSocialIconMarkup
-    });
-  }
-
-  function applyMenuLabels() {
-    window.SitePageContent?.applyMenuLabels({
-      site: SITE
-    });
-  }
-
-  function applyActiveMenuState() {
-    window.SitePageContent?.applyActiveMenuState({
-      pageType,
-      activityId
-    });
-  }
-
-  function initMobileNavigation() {
-    window.SiteMobileNavigation?.init();
-  }
-
-  function initLiquidDroplets() {
-    window.SiteLiquidEffects?.initDroplets();
-  }
-
-  function initVideoLiquidLens() {
-    window.SiteLiquidEffects?.initVideoLens();
-  }
-
-  function initVisitorCounter() {
-    window.SiteVisitorCounter?.init({
-      site: SITE
-    });
   }
 
   function initPwa() {
@@ -320,23 +209,70 @@
   }
 
   function applyAllContent() {
-    applyGlobalContent();
-    applyActivityPage();
-    applyDownloadsPage();
-    applyContactPage();
-    applyMenuLabels();
-    applyActiveMenuState();
-    initMobileNavigation();
-    initHeaderBrand();
-    initHeaderSocials();
+    window.SitePageContent?.applyGlobalContent({
+      site: SITE,
+      pageType,
+      setText,
+      initHomeAboutLightbox
+    });
+    window.SitePageContent?.applyActivityPage({
+      site: SITE,
+      pageType,
+      activityId,
+      homeFallbackImage,
+      setText,
+      escapeHtml,
+      getSocialIconMarkup,
+      initActivityHeroLightbox,
+      loadActivityGallery,
+      loadFileList,
+      loadYoutubeFeed
+    });
+    window.SitePageContent?.applyDownloadsPage({
+      site: SITE,
+      pageType,
+      setText,
+      loadDownloadsGroups
+    });
+    window.SitePageContent?.applyContactPage({
+      pageType,
+      site: SITE,
+      setText,
+      escapeHtml,
+      getSocialIconMarkup
+    });
+    window.SitePageContent?.applyMenuLabels({
+      site: SITE
+    });
+    window.SitePageContent?.applyActiveMenuState({
+      pageType,
+      activityId
+    });
+    window.SiteMobileNavigation?.init();
+    window.SiteHeaderUi?.initBrand({
+      site: SITE,
+      themeAssets
+    });
+    window.SiteHeaderUi?.initSocials({
+      site: SITE,
+      getSocialIconMarkup
+    });
     initLanguageToggle();
-    initThemeToggle();
-    initHeaderScrollState();
-    initDetailsInteractions();
+    window.SiteHeaderUi?.initThemeToggle({
+      site: SITE,
+      applyThemeAssets
+    });
+    window.SiteHeaderUi?.initScrollState({
+      site: SITE,
+      pageType
+    });
+    window.SitePageContent?.initDetailsInteractions();
     initDownloadPreviewTriggers();
-    initLiquidDroplets();
-    initVideoLiquidLens();
-    initVisitorCounter();
+    window.SiteLiquidEffects?.initDroplets();
+    window.SiteLiquidEffects?.initVideoLens();
+    window.SiteVisitorCounter?.init({
+      site: SITE
+    });
     initPwa();
     applyThemeAssets(document.documentElement.getAttribute("data-theme") || "light");
   }
