@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c8
+
+**Сьомий малий рефакторинг `app.js`.**
+
+- Винесено visitor counter футера, кешування і session-прапорець у `js/visitor-counter.js`.
+- `app.js` залишає короткий wrapper `initVisitorCounter()` для запуску модуля.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c8` і кеш service worker до `v0.6.19c8-r1`.
+
 ## 0.6.19c7
 
 **Шостий малий рефакторинг `app.js`.**
