@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c12
+
+**Одинадцятий малий рефакторинг `app.js`.**
+
+- Винесено рендер галерей, portrait state, home/about lightbox і activity hero lightbox у `js/gallery-renderer.js`.
+- Стан activity lightbox-галереї тепер живе в gallery renderer, а `app.js` залишає короткі wrapper-и.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c12` і кеш service worker до `v0.6.19c12-r1`.
+
 ## 0.6.19c11
 
 **Десятий малий рефакторинг `app.js`.**

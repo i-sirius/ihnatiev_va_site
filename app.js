@@ -9,8 +9,6 @@
     src: "files/media/about-me-photo.jpg",
     alt: "Фото"
   };
-  let currentActivityLightboxItems = [];
-  let currentActivityGalleryPromise = null;
 
   function setText(selector, value) {
     if (value == null) {
@@ -173,12 +171,6 @@
     });
   }
 
-  function ensureLightbox() {
-    return window.SiteGalleryLightbox?.ensure({
-      site: SITE
-    });
-  }
-
   function ensureDocumentLightbox() {
     return window.SiteDocumentLightbox?.ensure({
       site: SITE,
@@ -187,171 +179,35 @@
     });
   }
 
-  function applyPortraitState(container) {
-    container.querySelectorAll("img").forEach((image) => {
-      const markOrientation = () => {
-        const isPortrait = image.naturalHeight > image.naturalWidth;
-        image.closest(".gallery-item")?.classList.toggle("is-portrait", isPortrait);
-      };
-
-      if (image.complete) {
-        markOrientation();
-      } else {
-        image.addEventListener("load", markOrientation, { once: true });
-      }
-    });
-  }
-
   function renderGallery(selector, images) {
-    if (!Array.isArray(images)) {
-      return;
-    }
-
-    document.querySelectorAll(selector).forEach((element) => {
-      const count = images.length;
-      if (!count) {
-        element.style.removeProperty("--gallery-columns");
-        element.innerHTML = `<p class="gallery-empty">${escapeHtml(
-          SITE.ui?.gallery?.empty || "Фото тимчасово відсутні."
-        )}</p>`;
-        return;
-      }
-
-      const columns = Math.min(Math.max(count, 1), 5);
-      element.style.setProperty("--gallery-columns", String(columns));
-      element.innerHTML = images
-        .map(
-          (image, index) => `
-            <button class="gallery-item" type="button" data-gallery-index="${index}">
-              <img src="${image.src}" alt="${image.alt || ""}" loading="lazy">
-            </button>
-          `
-        )
-        .join("");
-
-      const lightbox = ensureLightbox();
-      element.querySelectorAll("[data-gallery-index]").forEach((button) => {
-        button.addEventListener("click", () => {
-          lightbox?.showItems(images, Number(button.dataset.galleryIndex || "0"));
-        });
-      });
-
-      applyPortraitState(element);
+    window.SiteGalleryRenderer?.renderGallery({
+      selector,
+      images,
+      site: SITE,
+      escapeHtml
     });
   }
 
   function initActivityHeroLightbox(image) {
-    const hero = document.querySelector("[data-activity-hero-image]");
-    if (!hero || !image?.src) {
-      return;
-    }
-
-    const lightbox = ensureLightbox();
-    const showHero = () => {
-      const heroItem = {
-        src: hero.currentSrc || hero.src || image.src,
-        alt: hero.alt || image.alt || ""
-      };
-      const galleryItems = currentActivityLightboxItems.filter((item) => item?.src !== heroItem.src);
-
-      lightbox?.showItems([
-        heroItem,
-        ...galleryItems
-      ], 0);
-    };
-    const openHero = () => {
-      if (currentActivityGalleryPromise) {
-        currentActivityGalleryPromise.finally(showHero);
-        return;
-      }
-
-      showHero();
-    };
-
-    currentActivityLightboxItems = [
-      {
-        src: image.src,
-        alt: image.alt || ""
-      },
-      ...currentActivityLightboxItems.filter((item) => item?.src !== image.src)
-    ];
-
-    hero.classList.add("is-clickable");
-    hero.tabIndex = 0;
-    hero.setAttribute("role", "button");
-    hero.setAttribute("aria-label", SITE.ui?.gallery?.open || image.alt || "Відкрити фото");
-
-    if (hero.dataset.heroLightboxBound === "true") {
-      return;
-    }
-
-    hero.addEventListener("click", openHero);
-    hero.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter" && event.key !== " ") {
-        return;
-      }
-
-      event.preventDefault();
-      openHero();
+    window.SiteGalleryRenderer?.initActivityHeroLightbox({
+      image,
+      site: SITE
     });
-    hero.dataset.heroLightboxBound = "true";
   }
 
   function initHomeAboutLightbox(image) {
-    const aboutImage = document.querySelector("[data-home-about-image]");
-    if (pageType !== "home" || !aboutImage || !image?.src) {
-      return;
-    }
-
-    const lightbox = ensureLightbox();
-    const openImage = () => {
-      lightbox?.showItems([
-        {
-          src: aboutImage.currentSrc || aboutImage.src || image.src,
-          alt: aboutImage.alt || image.alt || ""
-        }
-      ], 0);
-    };
-
-    aboutImage.classList.add("is-clickable");
-    aboutImage.tabIndex = 0;
-    aboutImage.setAttribute("role", "button");
-    aboutImage.setAttribute("aria-label", SITE.ui?.gallery?.open || image.alt || "Відкрити фото");
-
-    if (aboutImage.dataset.homeLightboxBound === "true") {
-      return;
-    }
-
-    aboutImage.addEventListener("click", openImage);
-    aboutImage.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter" && event.key !== " ") {
-        return;
-      }
-
-      event.preventDefault();
-      openImage();
+    window.SiteGalleryRenderer?.initHomeAboutLightbox({
+      image,
+      pageType,
+      site: SITE
     });
-    aboutImage.dataset.homeLightboxBound = "true";
   }
 
   function setActivityLightboxGalleryItems(images) {
-    if (pageType !== "activity") {
-      return;
-    }
-
-    const hero = document.querySelector("[data-activity-hero-image]");
-    const heroItem = hero
-      ? {
-          src: hero.currentSrc || hero.src || "",
-          alt: hero.alt || ""
-        }
-      : null;
-    const galleryItems = Array.isArray(images) ? images.filter((item) => item?.src) : [];
-
-    currentActivityLightboxItems = [
-      ...(heroItem?.src ? [heroItem] : []),
-      ...galleryItems.filter((item) => item.src !== heroItem?.src)
-    ];
+    window.SiteGalleryRenderer?.setActivityLightboxGalleryItems({
+      images,
+      pageType
+    });
   }
 
   function getDownloadsRenderer() {
@@ -423,7 +279,7 @@
   function loadActivityGallery(id) {
     const selector = "[data-activity-gallery]";
 
-    currentActivityGalleryPromise = fetchJson(`files/media/activity${id}/photos.json`)
+    const galleryPromise = fetchJson(`files/media/activity${id}/photos.json`)
       .then((images) => {
         const galleryImages = normalizeJsonList(images, ["images", "photos"]);
         return filterAvailableImages(galleryImages).then((availableImages) => {
@@ -438,8 +294,10 @@
         return [];
       })
       .finally(() => {
-        currentActivityGalleryPromise = null;
+        window.SiteGalleryRenderer?.setActivityGalleryPromise(null);
       });
+
+    window.SiteGalleryRenderer?.setActivityGalleryPromise(galleryPromise);
   }
 
   function loadFileList(path, selector, fallbackFiles = []) {
