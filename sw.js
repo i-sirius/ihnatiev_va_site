@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.6.20b-r1";
+const CACHE_NAME = "ihnatiev-site-v0.6.20c-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -12,6 +12,7 @@ const APP_SHELL = [
   "./css/base.css",
   "./css/layout.css",
   "./css/components.css",
+  "./css/content.css",
   "./css/styles.css",
   "./config.js",
   "./js/site-utils.js",

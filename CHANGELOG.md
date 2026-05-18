@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.20c
+
+**Третій безпечний крок розділення `css/styles.css`.**
+
+- Винесено about/content блоки у `css/content.css`: layout фото й тексту, профільні посилання, details/collapsible content.
+- `css/styles.css` підключає `content.css` після theme/base/layout/components.
+- Складні activity cards, video, gallery, downloads, contact і header блоки залишено на місці.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20c` і кеш service worker до `v0.6.20c-r1`.
+
 ## 0.6.20b
 
 **Другий безпечний крок розділення `css/styles.css`.**
