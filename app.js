@@ -1,6 +1,7 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
   const pageType = document.body.dataset.page;
   const activityId = document.body.dataset.activityId;
+  const { escapeHtml, getLocalizedValue, setText } = window.SiteUtils;
   const themeAssets = {
     light: "files/media/logo-light.png",
     dark: "files/media/logo-dark.png"
@@ -9,47 +10,6 @@
     src: "files/media/about-me-photo.jpg",
     alt: "Фото"
   };
-
-  function setText(selector, value) {
-    if (value == null) {
-      return;
-    }
-
-    document.querySelectorAll(selector).forEach((element) => {
-      element.textContent = value;
-    });
-  }
-
-  function escapeHtml(value) {
-    return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;");
-  }
-
-  function getLocalizedValue(value, fallback = "") {
-    if (value == null) {
-      return fallback;
-    }
-
-    if (typeof value === "string") {
-      return value;
-    }
-
-    if (typeof value === "object" && !Array.isArray(value)) {
-      const locale = SITE.currentLocale || SITE.defaultLocale || "uk";
-      const defaultLocale = SITE.defaultLocale || "uk";
-      const localizedValue =
-        value[locale] ??
-        value[defaultLocale] ??
-        Object.values(value).find((item) => typeof item === "string");
-      return typeof localizedValue === "string" ? localizedValue : fallback;
-    }
-
-    return fallback;
-  }
 
   function ensureDocumentLightbox() {
     return window.SiteDocumentLightbox?.ensure({
@@ -277,19 +237,8 @@
     applyThemeAssets(document.documentElement.getAttribute("data-theme") || "light");
   }
 
-  fetch("menu.html")
-    .then((response) => response.text())
-    .then((html) => {
-      const menu = document.getElementById("menu");
-      if (menu) {
-        menu.innerHTML = html;
-      }
-
-      applyAllContent();
-    })
-    .catch(() => {
-      applyAllContent();
-    });
-
+  window.SiteMenuLoader?.load({
+    onComplete: applyAllContent
+  });
   applyAllContent();
 });

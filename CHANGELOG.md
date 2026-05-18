@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.19c16
+
+**Фінальна чистка `app.js` після модульного рефакторингу.**
+
+- Винесено спільні helper-и `setText`, `escapeHtml`, `getLocalizedValue` у `js/site-utils.js`.
+- Винесено завантаження `menu.html` у `js/menu-loader.js`.
+- `app.js` залишено оркестратором DOMContentLoaded/init і запуску модулів.
+- Додано нові JS-файли у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c16` і кеш service worker до `v0.6.19c16-r1`.
+
 ## 0.6.19c15
 
 **Чотирнадцятий малий рефакторинг `app.js`.**
