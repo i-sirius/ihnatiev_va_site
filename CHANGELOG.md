@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.20h
+
+**Восьмий безпечний крок розділення `css/styles.css`.**
+
+- Винесено downloads list/row/actions, file icons, grouped downloads і subgroup accordion у `css/downloads.css`.
+- Винесено мобільну адаптацію download-row/actions у `css/downloads.css`.
+- `css/styles.css` підключає `downloads.css` після document lightbox styles; спільні action-glass правила для кількох секцій залишено на місці.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20h` і кеш service worker до `v0.6.20h-r1`.
+
 ## 0.6.20g
 
 **Сьомий безпечний крок розділення `css/styles.css` і точкова UX-правка меню.**
