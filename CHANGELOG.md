@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.20d
+
+**Четвертий безпечний крок розділення `css/styles.css`.**
+
+- Винесено картки напрямів діяльності `.activity-cards` і `.activity-card` у `css/activity.css`.
+- Спільне правило `.activity-cards, .video-gallery` розділено без зміни поведінки: video grid залишився у `css/styles.css`, activity grid переїхав у `css/activity.css`.
+- Gallery, video cards, downloads, contact і header блоки залишено на місці.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20d` і кеш service worker до `v0.6.20d-r1`.
+
 ## 0.6.20c
 
 **Третій безпечний крок розділення `css/styles.css`.**

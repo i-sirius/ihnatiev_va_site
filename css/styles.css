@@ -3,6 +3,7 @@
 @import url("./layout.css");
 @import url("./components.css");
 @import url("./content.css");
+@import url("./activity.css");
 
 .site-header {
   position: sticky;
@@ -1149,17 +1150,9 @@ html[data-theme="dark"] .theme-toggle-track {
   transform: translateX(46px);
 }
 
-.activity-cards,
 .video-gallery {
   display: grid;
   gap: 18px;
-}
-
-.activity-cards {
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-}
-
-.video-gallery {
   --video-lens-x: 0px;
   --video-lens-y: 0px;
   --video-lens-width: 0px;
@@ -1283,45 +1276,6 @@ html[data-theme="dark"] .video-gallery::before {
 
 html[data-theme="dark"] .video-gallery::after {
   background: radial-gradient(circle, rgba(230, 190, 92, 0.05), transparent 68%);
-}
-
-.activity-card {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-height: 100%;
-  padding: 18px;
-  border-radius: 18px;
-  border: 1px solid color-mix(in srgb, var(--border) 68%, var(--liquid-glass-border));
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 40%),
-    color-mix(in srgb, var(--card-bg) 88%, transparent);
-  text-decoration: none;
-  box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42);
-  backdrop-filter: blur(10px) saturate(1.06);
-  -webkit-backdrop-filter: blur(10px) saturate(1.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-}
-
-.activity-card:hover {
-  transform: translateY(-4px);
-  background: var(--liquid-glass-hover-bg);
-  box-shadow: var(--liquid-glass-hover-shadow);
-  border-color: color-mix(in srgb, var(--liquid-glass-edge) 72%, var(--border));
-}
-
-.activity-card h3 {
-  margin: 0;
-  color: var(--primary-dark);
-  font-size: 1.1rem;
-}
-
-.activity-card p {
-  margin: 0;
-  flex: 1;
-  color: var(--muted);
 }
 
 .gallery {
