@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.6.19c5-r1";
+const CACHE_NAME = "ihnatiev-site-v0.6.19c6-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -14,6 +14,7 @@ const APP_SHELL = [
   "./js/document-lightbox.js",
   "./js/downloads-renderer.js",
   "./js/youtube-feed.js",
+  "./js/mobile-navigation.js",
   "./app.js",
   "./manifest.webmanifest",
   "./files/media/icon-192.png",

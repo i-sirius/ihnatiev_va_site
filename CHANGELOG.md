@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c6
+
+**П'ятий малий рефакторинг `app.js`.**
+
+- Винесено mobile navigation, перенесення меню в нижню панель і mobile lens у `js/mobile-navigation.js`.
+- `app.js` залишає короткий wrapper `initMobileNavigation()` після застосування label/active state меню.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c6` і кеш service worker до `v0.6.19c6-r1`.
+
 ## 0.6.19c5
 
 **Четвертий малий рефакторинг `app.js`.**
