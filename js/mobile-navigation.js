@@ -48,9 +48,11 @@
 
     let lensFrame = 0;
     let pendingLensTarget = null;
+    let pendingLensInstant = false;
     let lensHoverTimer = 0;
+    let pointerInsideNav = false;
 
-    const syncNavigationLens = (target = null) => {
+    const syncNavigationLens = (target = null, instant = false) => {
       lensFrame = 0;
       const currentNav = document.querySelector(".mobile-nav-host nav");
 
@@ -77,8 +79,9 @@
       const navRect = currentNav.getBoundingClientRect();
       const targetRect = lensTarget.getBoundingClientRect();
       const wasReady = currentNav.classList.contains("is-lens-ready");
+      const shouldUseInstant = instant || !wasReady;
 
-      if (!wasReady) {
+      if (shouldUseInstant) {
         currentNav.classList.add("is-lens-settling", "is-lens-instant");
       }
 
@@ -89,15 +92,16 @@
       currentNav.classList.toggle("is-lens-current", lensTarget.matches("[aria-current='page']"));
       currentNav.classList.add("is-lens-ready");
 
-      if (!wasReady) {
+      if (shouldUseInstant) {
         window.setTimeout(() => {
           currentNav.classList.remove("is-lens-settling", "is-lens-instant");
         }, 90);
       }
     };
 
-    const requestNavigationLens = (target = null) => {
+    const requestNavigationLens = (target = null, instant = false) => {
       pendingLensTarget = target || pendingLensTarget;
+      pendingLensInstant = pendingLensInstant || instant;
 
       if (lensFrame) {
         return;
@@ -105,19 +109,21 @@
 
       lensFrame = window.requestAnimationFrame(() => {
         const targetElement = pendingLensTarget;
+        const shouldUseInstant = pendingLensInstant;
         pendingLensTarget = null;
-        syncNavigationLens(targetElement);
+        pendingLensInstant = false;
+        syncNavigationLens(targetElement, shouldUseInstant);
       });
     };
 
-    const requestStickyNavigationLens = (target = null, delay = 95) => {
+    const requestStickyNavigationLens = (target = null, delay = 95, instant = false) => {
       if (lensHoverTimer) {
         window.clearTimeout(lensHoverTimer);
       }
 
       lensHoverTimer = window.setTimeout(() => {
         lensHoverTimer = 0;
-        requestNavigationLens(target);
+        requestNavigationLens(target, instant);
       }, delay);
     };
 
@@ -237,13 +243,21 @@
       mobileQuery.addListener(syncNavigationPlacement);
     }
 
+    nav.addEventListener("pointerenter", () => {
+      pointerInsideNav = false;
+    });
     nav.addEventListener("pointerover", (event) => {
       const link = event.target.closest("a");
       if (link) {
-        requestStickyNavigationLens(link);
+        const shouldUseInstant = !pointerInsideNav;
+        pointerInsideNav = true;
+        requestStickyNavigationLens(link, 95, shouldUseInstant);
       }
     });
-    nav.addEventListener("pointerleave", () => requestStickyNavigationLens(null, 90));
+    nav.addEventListener("pointerleave", () => {
+      pointerInsideNav = false;
+      requestStickyNavigationLens(null, 90, true);
+    });
     nav.addEventListener("focusin", (event) => {
       const link = event.target.closest("a");
       if (link) {

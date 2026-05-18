@@ -101,6 +101,11 @@ html[data-theme="dark"] :where(.contact-socials-list, .about-photo-links, .site-
     scale(1.28, 0.94);
 }
 
+:where(.contact-socials-list, .about-photo-links, .site-header-socials, .site-header nav, .site-header-controls).is-droplet-instant::before,
+:where(.contact-socials-list, .about-photo-links, .site-header-socials, .site-header nav, .site-header-controls).is-droplet-instant::after {
+  transition: opacity 0.18s ease !important;
+}
+
 :where(.contact-socials-list, .about-photo-links, .site-header-socials, .site-header nav, .site-header-controls).is-droplet-in-motion::before {
   border-radius: var(--contact-droplet-radius, 22px);
   box-shadow:

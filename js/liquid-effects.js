@@ -38,6 +38,7 @@
       const clearDroplet = () => {
         list.classList.remove(
           "is-droplet-ready",
+          "is-droplet-instant",
           "is-droplet-in-motion",
           "is-droplet-moving-right",
           "is-droplet-moving-left"
@@ -70,6 +71,7 @@
         const nextX = targetRect.left - listRect.left - bleed;
         const isMoving = wasReady && Math.abs(nextX - previousX) > 2;
 
+        list.classList.toggle("is-droplet-instant", !wasReady);
         list.classList.toggle("is-droplet-moving-right", isMoving && nextX > previousX + 2);
         list.classList.toggle("is-droplet-moving-left", isMoving && nextX < previousX - 2);
         list.classList.toggle("is-droplet-in-motion", isMoving);
@@ -99,6 +101,12 @@
         }
 
         list.classList.add("is-droplet-ready");
+
+        if (!wasReady) {
+          window.setTimeout(() => {
+            list.classList.remove("is-droplet-instant");
+          }, 90);
+        }
       };
 
       const requestDroplet = (target = null) => {
