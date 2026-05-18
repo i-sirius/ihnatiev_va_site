@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c9
+
+**Восьмий малий рефакторинг `app.js`.**
+
+- Винесено liquid droplet і video lens UI-ефекти у `js/liquid-effects.js`.
+- `app.js` залишає короткі wrapper-и `initLiquidDroplets()` і `initVideoLiquidLens()`.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c9` і кеш service worker до `v0.6.19c9-r1`.
+
 ## 0.6.19c8
 
 **Сьомий малий рефакторинг `app.js`.**
