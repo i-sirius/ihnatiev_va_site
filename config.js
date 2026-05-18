@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.19",
+    buildVersion: "0.6.19b",
     buildDate: "180526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -222,17 +222,7 @@
   downloads: {
     pageTitle: "Завантаження",
     heading: "Матеріали для завантаження",
-    intro: "",
-    files: [
-      {
-        href: "files/example.pdf",
-        label: "Книга - приклад PDF"
-      },
-      {
-        href: "files/sample-chapter.docx",
-        label: "Уривок - приклад DOCX"
-      }
-    ]
+    intro: ""
   },
   contact: {
     pageTitle: "Контакти",
