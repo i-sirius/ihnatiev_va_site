@@ -1,0 +1,166 @@
+backend:
+  name: github
+  repo: i-sirius/ihnatiev_va_site
+  branch: main
+  site_domain: iva.net.ua
+  base_url: https://decap.iva.net.ua
+  auth_endpoint: /auth
+
+# Enables local CMS testing with the Decap local proxy.
+local_backend: true
+
+publish_mode: editorial_workflow
+media_folder: files/media/uploads
+public_folder: files/media/uploads
+
+collections:
+  - name: gallery_activity1
+    label: "Галерея: Наукова активність"
+    media_folder: files/media/activity1
+    public_folder: files/media/activity1
+    files:
+      - name: photos
+        label: "Фото"
+        file: files/media/activity1/photos.json
+        format: json
+        fields:
+          - label: "Фото"
+            name: images
+            widget: list
+            summary: "{{fields.src}}"
+            fields:
+              - { label: "Зображення", name: src, widget: image }
+              - { label: "Опис для доступності", name: alt, widget: string, required: false }
+
+  - name: gallery_activity2
+    label: "Галерея: Освітня діяльність"
+    media_folder: files/media/activity2
+    public_folder: files/media/activity2
+    files:
+      - name: photos
+        label: "Фото"
+        file: files/media/activity2/photos.json
+        format: json
+        fields:
+          - label: "Фото"
+            name: images
+            widget: list
+            summary: "{{fields.src}}"
+            fields:
+              - { label: "Зображення", name: src, widget: image }
+              - { label: "Опис для доступності", name: alt, widget: string, required: false }
+
+  - name: gallery_activity3
+    label: "Галерея: Священнослужіння"
+    media_folder: files/media/activity3
+    public_folder: files/media/activity3
+    files:
+      - name: photos
+        label: "Фото"
+        file: files/media/activity3/photos.json
+        format: json
+        fields:
+          - label: "Фото"
+            name: images
+            widget: list
+            summary: "{{fields.src}}"
+            fields:
+              - { label: "Зображення", name: src, widget: image }
+              - { label: "Опис для доступності", name: alt, widget: string, required: false }
+
+  - name: activity2_files
+    label: "Файли: Освітня діяльність"
+    media_folder: files/activity2
+    public_folder: files/activity2
+    files:
+      - name: files
+        label: "Файли"
+        file: files/activity2/files.json
+        format: json
+        fields:
+          - label: "Файли"
+            name: files
+            widget: list
+            summary: "{{fields.href}}"
+            fields:
+              - { label: "Файл", name: href, widget: file }
+              - label: "Назва"
+                name: label
+                widget: object
+                fields:
+                  - { label: "Українською", name: uk, widget: string }
+                  - { label: "English", name: en, widget: string, required: false }
+
+  - name: downloads
+    label: "Завантаження"
+    media_folder: files/downloads
+    public_folder: files/downloads
+    files:
+      - name: files
+        label: "Матеріали для завантаження"
+        file: files/downloads/files.json
+        format: json
+        fields:
+          - label: "Монографії"
+            name: monographs
+            widget: list
+            summary: "{{fields.href}}"
+            fields:
+              - { label: "Файл", name: href, widget: file, required: false }
+              - label: "Назва"
+                name: label
+                widget: object
+                fields:
+                  - { label: "Українською", name: uk, widget: string }
+                  - { label: "English", name: en, widget: string, required: false }
+              - label: "Кнопка запиту книги"
+                name: purchase
+                widget: object
+                required: false
+                fields:
+                  - { label: "Режим", name: mode, widget: string, default: contact }
+                  - label: "Текст кнопки"
+                    name: label
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: "Українською", name: uk, widget: string, required: false }
+                      - { label: "English", name: en, widget: string, required: false }
+                  - label: "Тема листа"
+                    name: subject
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: "Українською", name: uk, widget: string, required: false }
+                      - { label: "English", name: en, widget: string, required: false }
+                  - label: "Текст листа"
+                    name: message
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: "Українською", name: uk, widget: text, required: false }
+                      - { label: "English", name: en, widget: text, required: false }
+
+          - label: "Статті"
+            name: articles
+            widget: list
+            summary: "{{fields.title.uk}}"
+            fields:
+              - label: "Назва групи"
+                name: title
+                widget: object
+                fields:
+                  - { label: "Українською", name: uk, widget: string }
+                  - { label: "English", name: en, widget: string, required: false }
+              - label: "Файли"
+                name: files
+                widget: list
+                summary: "{{fields.href}}"
+                fields:
+                  - { label: "Файл", name: href, widget: file }
+                  - label: "Назва"
+                    name: label
+                    widget: object
+                    fields:
+                      - { label: "Українською", name: uk, widget: string }
+                      - { label: "English", name: en, widget: string, required: false }

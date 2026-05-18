@@ -475,23 +475,27 @@
       document.body.classList.add("lightbox-open");
     }
 
-    lightbox.querySelector("[data-document-close]")?.addEventListener("click", closeLightbox);
+    if (lightbox.dataset.bound !== "true") {
+      lightbox.querySelector("[data-document-close]")?.addEventListener("click", closeLightbox);
 
-    lightbox.addEventListener("click", (event) => {
-      if (event.target === lightbox) {
-        closeLightbox();
-      }
-    });
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
 
-    document.addEventListener("keydown", (event) => {
-      if (lightbox.hidden) {
-        return;
-      }
+      document.addEventListener("keydown", (event) => {
+        if (lightbox.hidden) {
+          return;
+        }
 
-      if (event.key === "Escape") {
-        closeLightbox();
-      }
-    });
+        if (event.key === "Escape") {
+          closeLightbox();
+        }
+      });
+
+      lightbox.dataset.bound = "true";
+    }
 
     lightbox.showPreview = showPreview;
     return lightbox;
@@ -1132,6 +1136,19 @@
     });
   }
 
+  function normalizeJsonList(payload, keys = []) {
+    if (Array.isArray(payload)) {
+      return payload;
+    }
+
+    if (payload && typeof payload === "object") {
+      const matchedKey = keys.find((key) => Array.isArray(payload[key]));
+      return matchedKey ? payload[matchedKey] : [];
+    }
+
+    return [];
+  }
+
   function filterAvailableImages(images) {
     if (!Array.isArray(images) || !images.length) {
       return Promise.resolve([]);
@@ -1160,7 +1177,7 @@
 
     currentActivityGalleryPromise = fetchJson(`files/media/activity${id}/photos.json`)
       .then((images) => {
-        const galleryImages = Array.isArray(images) ? images : [];
+        const galleryImages = normalizeJsonList(images, ["images", "photos"]);
         return filterAvailableImages(galleryImages).then((availableImages) => {
           setActivityLightboxGalleryItems(availableImages);
           renderGallery(selector, availableImages);
@@ -1180,7 +1197,8 @@
   function loadFileList(path, selector, fallbackFiles = []) {
     fetchJson(path)
       .then((files) => {
-        renderDownloads(selector, Array.isArray(files) ? files : fallbackFiles);
+        const fileList = normalizeJsonList(files, ["files", "items"]);
+        renderDownloads(selector, fileList.length ? fileList : fallbackFiles);
       })
       .catch(() => {
         renderDownloads(selector, fallbackFiles);

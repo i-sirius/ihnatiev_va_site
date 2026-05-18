@@ -1,63 +1,64 @@
-﻿[
-  {
-    "src": "files/media/activity1/activity1-photo1.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo2.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo3.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo4.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo5.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo6.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo7.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo8.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo9.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo101.jpg",
-    "alt": "Монографія <Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf>"
-  },
-  {
-    "src": "files/media/activity1/activity1-photo102.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo103.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo104.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo105.jpg",
-    "alt": ""
-  },
-  {
-    "src": "files/media/activity1/activity1-photo106.jpg",
-    "alt": ""
-  }
+﻿{
+  "images": [
+    {
+        "src":  "files/media/activity1/activity1-photo1.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo2.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo3.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo4.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo5.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo6.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo7.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo8.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo9.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo101.jpg",
+        "alt":  "Монографія <Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf>"
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo102.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo103.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo104.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo105.jpg",
+        "alt":  ""
+    },
+    {
+        "src":  "files/media/activity1/activity1-photo106.jpg",
+        "alt":  ""
+    }
 ]
-
+}
