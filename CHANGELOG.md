@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.20k
+
+**Одинадцятий безпечний крок розділення `css/styles.css` і помітніша типографіка.**
+
+- Винесено desktop/mobile header, brand, language/theme controls, header socials і mobile nav у `css/header.css`.
+- `css/styles.css` підключає `header.css` після effects styles; контентні mobile-правила залишено на місці.
+- Посилено display font stack до Constantia/Palatino/Georgia і трохи піднято вагу заголовка шапки.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20k` і кеш service worker до `v0.6.20k-r1`.
+
 ## 0.6.20j
 
 **Десятий безпечний крок розділення `css/styles.css` і старт стилізованої типографіки.**
