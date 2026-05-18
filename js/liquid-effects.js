@@ -70,8 +70,8 @@
         const nextX = targetRect.left - listRect.left - bleed;
         const isMoving = wasReady && Math.abs(nextX - previousX) > 2;
 
-        list.classList.toggle("is-droplet-moving-right", nextX > previousX + 2);
-        list.classList.toggle("is-droplet-moving-left", nextX < previousX - 2);
+        list.classList.toggle("is-droplet-moving-right", isMoving && nextX > previousX + 2);
+        list.classList.toggle("is-droplet-moving-left", isMoving && nextX < previousX - 2);
         list.classList.toggle("is-droplet-in-motion", isMoving);
 
         if (dropletMotionTimer) {

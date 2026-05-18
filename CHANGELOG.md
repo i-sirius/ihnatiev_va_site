@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.20g
+
+**Сьомий безпечний крок розділення `css/styles.css` і точкова UX-правка меню.**
+
+- Винесено document lightbox, toolbar/actions, iframe/fallback і mobile-адаптацію у `css/document-lightbox.css`.
+- `css/styles.css` підключає `document-lightbox.css` після video styles; спільні glass-hover правила поки залишено на місці.
+- Виправлено поведінку скляної лінзи меню: напрямок руху тепер вмикається тільки коли лінза реально переходить між пунктами, без “вильоту” при першому наведенні зверху або знизу.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20g` і кеш service worker до `v0.6.20g-r1`.
+
 ## 0.6.20f
 
 **Шостий безпечний крок розділення `css/styles.css`.**
