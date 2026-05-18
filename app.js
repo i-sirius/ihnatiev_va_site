@@ -11,8 +11,6 @@
   };
   const youtubeCacheMaxAgeMs = 6 * 60 * 60 * 1000;
   let youtubeFeedLoading = false;
-  let currentGalleryItems = [];
-  let currentGalleryIndex = 0;
   let currentActivityLightboxItems = [];
   let currentActivityGalleryPromise = null;
   let visitorCounterValue = null;
@@ -180,157 +178,9 @@
   }
 
   function ensureLightbox() {
-    let lightbox = document.querySelector("[data-gallery-lightbox]");
-
-    if (!lightbox) {
-      lightbox = document.createElement("div");
-      lightbox.className = "gallery-lightbox";
-      lightbox.hidden = true;
-      lightbox.setAttribute("data-gallery-lightbox", "");
-      lightbox.innerHTML = `
-        <div class="lightbox-stage">
-          <div class="lightbox-toolbar">
-            <button class="lightbox-close" type="button" data-lightbox-close>×</button>
-          </div>
-          <div class="lightbox-content">
-            <button class="lightbox-nav prev" type="button" data-lightbox-prev>‹</button>
-            <figure class="lightbox-figure">
-              <img src="" alt="" data-lightbox-image>
-              <figcaption class="lightbox-caption" data-lightbox-caption hidden></figcaption>
-            </figure>
-            <button class="lightbox-nav next" type="button" data-lightbox-next>›</button>
-          </div>
-        </div>
-      `;
-      document.body.appendChild(lightbox);
-    }
-
-    const galleryUi = SITE.ui?.gallery || {};
-    lightbox.querySelector("[data-lightbox-close]")?.setAttribute(
-      "aria-label",
-      galleryUi.close || "Закрити"
-    );
-    lightbox.querySelector("[data-lightbox-prev]")?.setAttribute(
-      "aria-label",
-      galleryUi.previous || "Попереднє фото"
-    );
-    lightbox.querySelector("[data-lightbox-next]")?.setAttribute(
-      "aria-label",
-      galleryUi.next || "Наступне фото"
-    );
-
-    const image = lightbox.querySelector("[data-lightbox-image]");
-    const caption = lightbox.querySelector("[data-lightbox-caption]");
-    const prevButton = lightbox.querySelector("[data-lightbox-prev]");
-    const nextButton = lightbox.querySelector("[data-lightbox-next]");
-
-    function updateLightboxImage() {
-      const item = currentGalleryItems[currentGalleryIndex];
-      if (!item || !image) {
-        return;
-      }
-
-      image.src = item.src;
-      image.alt = item.alt || "";
-
-      const hasNeighbors = currentGalleryItems.length > 1;
-      if (prevButton) {
-        prevButton.hidden = !hasNeighbors;
-        prevButton.disabled = !hasNeighbors;
-      }
-      if (nextButton) {
-        nextButton.hidden = !hasNeighbors;
-        nextButton.disabled = !hasNeighbors;
-      }
-
-      if (caption) {
-        caption.textContent = item.alt || "";
-        caption.hidden = !item.alt;
-      }
-    }
-
-    function closeLightbox() {
-      lightbox.hidden = true;
-      document.body.classList.remove("lightbox-open");
-    }
-
-    function showByIndex(index) {
-      if (!currentGalleryItems.length) {
-        return;
-      }
-
-      currentGalleryIndex =
-        (index + currentGalleryItems.length) % currentGalleryItems.length;
-      updateLightboxImage();
-      lightbox.hidden = false;
-      document.body.classList.add("lightbox-open");
-    }
-
-    function refreshLightboxLayout() {
-      if (lightbox.hidden) {
-        return;
-      }
-
-      window.requestAnimationFrame(() => {
-        updateLightboxImage();
-        lightbox.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      });
-    }
-
-    if (lightbox.dataset.bound !== "true") {
-      lightbox.querySelector("[data-lightbox-close]")?.addEventListener("click", closeLightbox);
-      lightbox.querySelector("[data-lightbox-prev]")?.addEventListener("click", () => {
-        if (currentGalleryItems.length <= 1) {
-          return;
-        }
-
-        showByIndex(currentGalleryIndex - 1);
-      });
-      lightbox.querySelector("[data-lightbox-next]")?.addEventListener("click", () => {
-        if (currentGalleryItems.length <= 1) {
-          return;
-        }
-
-        showByIndex(currentGalleryIndex + 1);
-      });
-
-      lightbox.addEventListener("click", (event) => {
-        if (event.target === lightbox) {
-          closeLightbox();
-        }
-      });
-
-      document.addEventListener("keydown", (event) => {
-        if (lightbox.hidden) {
-          return;
-        }
-
-        if (event.key === "Escape") {
-          closeLightbox();
-        }
-
-        if (event.key === "ArrowLeft" && currentGalleryItems.length > 1) {
-          showByIndex(currentGalleryIndex - 1);
-        }
-
-        if (event.key === "ArrowRight" && currentGalleryItems.length > 1) {
-          showByIndex(currentGalleryIndex + 1);
-        }
-      });
-
-      window.addEventListener("resize", refreshLightboxLayout, { passive: true });
-      window.addEventListener("orientationchange", refreshLightboxLayout, { passive: true });
-
-      if (window.visualViewport) {
-        window.visualViewport.addEventListener("resize", refreshLightboxLayout, { passive: true });
-      }
-
-      lightbox.dataset.bound = "true";
-    }
-
-    lightbox.showByIndex = showByIndex;
-    lightbox.refreshLayout = refreshLightboxLayout;
-    return lightbox;
+    return window.SiteGalleryLightbox?.ensure({
+      site: SITE
+    });
   }
 
   function ensureDocumentLightbox() {
@@ -386,9 +236,7 @@
       const lightbox = ensureLightbox();
       element.querySelectorAll("[data-gallery-index]").forEach((button) => {
         button.addEventListener("click", () => {
-          currentGalleryItems = images;
-          currentGalleryIndex = Number(button.dataset.galleryIndex || "0");
-          lightbox.showByIndex(currentGalleryIndex);
+          lightbox?.showItems(images, Number(button.dataset.galleryIndex || "0"));
         });
       });
 
@@ -410,12 +258,10 @@
       };
       const galleryItems = currentActivityLightboxItems.filter((item) => item?.src !== heroItem.src);
 
-      currentGalleryItems = [
+      lightbox?.showItems([
         heroItem,
         ...galleryItems
-      ];
-      currentGalleryIndex = 0;
-      lightbox.showByIndex(0);
+      ], 0);
     };
     const openHero = () => {
       if (currentActivityGalleryPromise) {
@@ -463,14 +309,12 @@
 
     const lightbox = ensureLightbox();
     const openImage = () => {
-      currentGalleryItems = [
+      lightbox?.showItems([
         {
           src: aboutImage.currentSrc || aboutImage.src || image.src,
           alt: aboutImage.alt || image.alt || ""
         }
-      ];
-      currentGalleryIndex = 0;
-      lightbox.showByIndex(0);
+      ], 0);
     };
 
     aboutImage.classList.add("is-clickable");
