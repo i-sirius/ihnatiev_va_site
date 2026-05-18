@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.20a
+
+**Перший безпечний крок розділення `css/styles.css`.**
+
+- Винесено CSS-змінні, light/dark theme tokens і кольорові токени у `css/theme.css`.
+- Винесено reset/base/html/body/link/code правила у `css/base.css`.
+- Винесено базові layout-контейнери `main` і `.panel` у `css/layout.css`.
+- `css/styles.css` підключає нові файли через `@import` на початку, а складні блоки gallery/downloads/contact/header поки залишено на місці.
+- Додано нові CSS-файли в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20a` і кеш service worker до `v0.6.20a-r1`.
+
 ## 0.6.19c16
 
 **Фінальна чистка `app.js` після модульного рефакторингу.**

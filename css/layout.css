@@ -1,0 +1,33 @@
+main {
+  padding-bottom: 8px;
+}
+
+.panel {
+  width: min(920px, calc(100% - 32px));
+  margin: 32px auto;
+  padding: 28px;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--border) 62%, var(--liquid-glass-border));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 42%),
+    color-mix(in srgb, var(--panel-bg) 88%, transparent);
+  box-shadow: var(--liquid-glass-shadow);
+  backdrop-filter: blur(16px) saturate(1.08);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    backdrop-filter 0.25s ease;
+}
+
+.panel h2 {
+  margin: 0 0 18px;
+  color: var(--primary-dark);
+  font-size: 1.42rem;
+  font-weight: 600;
+}
+
+.panel p {
+  margin: 0 0 16px;
+}
