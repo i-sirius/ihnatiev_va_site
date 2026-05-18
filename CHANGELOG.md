@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c5
+
+**Четвертий малий рефакторинг `app.js`.**
+
+- Винесено YouTube feed, кеш, fallback і рендер відеокарток у `js/youtube-feed.js`.
+- `app.js` залишає короткий wrapper `loadYoutubeFeed()` для запуску модуля на сторінці активності.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c5` і кеш service worker до `v0.6.19c5-r1`.
+
 ## 0.6.19c4
 
 **Третій малий рефакторинг `app.js`.**
