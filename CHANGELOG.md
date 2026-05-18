@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c11
+
+**Десятий малий рефакторинг `app.js`.**
+
+- Винесено header controls, language/theme toggles, brand, header socials і compact-scroll state у `js/header-ui.js`.
+- `app.js` залишає короткі wrapper-и для запуску header-модуля і передачі потрібних helper-функцій.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c11` і кеш service worker до `v0.6.19c11-r1`.
+
 ## 0.6.19c10
 
 **Дев'ятий малий рефакторинг `app.js`.**
