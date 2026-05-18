@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c10
+
+**Дев'ятий малий рефакторинг `app.js`.**
+
+- Винесено SVG-шаблони соціальних іконок у `js/social-icons.js`.
+- `app.js` залишає короткий wrapper `getSocialIconMarkup()` для header, контактів і activity links.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c10` і кеш service worker до `v0.6.19c10-r1`.
+
 ## 0.6.19c9
 
 **Восьмий малий рефакторинг `app.js`.**
