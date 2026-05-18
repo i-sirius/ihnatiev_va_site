@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.20e
+
+**П'ятий безпечний крок розділення `css/styles.css`.**
+
+- Винесено photo gallery і базовий gallery lightbox у `css/gallery.css`.
+- `css/styles.css` підключає `gallery.css` після activity styles.
+- Video cards, document lightbox, downloads, contact і header блоки залишено на місці.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20e` і кеш service worker до `v0.6.20e-r1`.
+
 ## 0.6.20d
 
 **Четвертий безпечний крок розділення `css/styles.css`.**
