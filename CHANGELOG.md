@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c1
+
+**Контроль перед рефакторингом `app.js`.**
+
+- Додано `scripts/check-content.js` для перевірки валідності JSON, локальних файлів із JSON, HTML/CSS/manifest/service worker посилань.
+- Додано npm-команду `npm run check:content`.
+- Додано GitHub Action `Content check`, щоб перевірка запускалась на push/PR.
+- Оновлено build-версію до `0.6.19c1` і кеш service worker до `v0.6.19c1-r1`.
+
 ## 0.6.19b
 
 **Чистка контентного техборгу.**

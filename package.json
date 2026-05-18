@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "check:content": "node scripts/check-content.js"
+  }
+}

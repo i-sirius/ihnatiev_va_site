@@ -43,6 +43,35 @@
 
 Для продакшн-входу підготовлено схему GitHub OAuth через Cloudflare Worker proxy `https://decap.iva.net.ua`. Детальна інструкція: [docs/admin-auth.md](docs/admin-auth.md).
 
+## Перевірка контенту
+
+Перед рефакторингом або публікацією бажано запускати:
+
+```powershell
+npm run check:content
+```
+
+Якщо на Windows-машині ще немає Node/npm, можна запустити локальний дубль:
+
+```powershell
+.\scripts\check-content.ps1
+```
+
+Якщо Windows блокує запуск `.ps1`, використати:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-content.ps1
+```
+
+Скрипт перевіряє:
+- валідність JSON і `manifest.webmanifest`;
+- наявність файлів, згаданих у JSON-маніфестах галерей і завантажень;
+- локальні `href`, `src`, `action` у HTML;
+- локальні `url(...)` у CSS;
+- іконки manifest і файли APP_SHELL у `sw.js`.
+
+Та сама перевірка запускається автоматично через GitHub Actions на push/PR.
+
 ## Як оновити контент
 
 ### 1. Змінити текст на головній
