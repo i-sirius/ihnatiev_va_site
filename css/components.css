@@ -1,0 +1,85 @@
+.button-link,
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--button-bg) 70%, var(--liquid-glass-border));
+  background: var(--liquid-glass-active-bg);
+  color: var(--button-text);
+  text-decoration: none;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: var(--liquid-glass-active-shadow);
+  backdrop-filter: blur(12px) saturate(1.16);
+  -webkit-backdrop-filter: blur(12px) saturate(1.16);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.button-link:hover,
+button:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--gold-glass-border) 62%, var(--liquid-glass-border));
+  background: var(--action-glass-hover-bg);
+  color: var(--button-text);
+  transform: translateY(-1px);
+  box-shadow: var(--action-glass-hover-shadow);
+  backdrop-filter: blur(14px) saturate(1.18);
+  -webkit-backdrop-filter: blur(14px) saturate(1.18);
+}
+
+.button-link:focus-visible,
+button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--gold-glass-border) 82%, var(--liquid-glass-border));
+  outline-offset: 3px;
+  box-shadow: var(--liquid-glass-hover-shadow);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+footer {
+  padding: 20px 22px max(20px, env(safe-area-inset-bottom));
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.86rem;
+}
+
+[data-footer] {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12rem;
+  line-height: 1.25;
+}
+
+.footer-owner {
+  font-size: 1em;
+}
+
+.footer-build {
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.78em;
+  color: var(--muted);
+  opacity: 0.82;
+  letter-spacing: 0.08em;
+}
+
+.footer-counter-value {
+  color: var(--primary-dark);
+  font-weight: 800;
+}

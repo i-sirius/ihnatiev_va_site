@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.20b
+
+**Другий безпечний крок розділення `css/styles.css`.**
+
+- Винесено базові правила глобальних кнопок `.button-link` і `button` у `css/components.css`.
+- Винесено базові стилі футера, build-версії та footer counter у `css/components.css`.
+- `css/styles.css` підключає `components.css` після theme/base/layout, а складні contact/download/gallery/header блоки залишено на місці.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20b` і кеш service worker до `v0.6.20b-r1`.
+
 ## 0.6.20a
 
 **Перший безпечний крок розділення `css/styles.css`.**
