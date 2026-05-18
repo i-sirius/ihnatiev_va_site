@@ -82,9 +82,9 @@ html[data-theme="dark"] .site-header::after {
   margin: 0 0 4px;
   padding-left: 238px;
   padding-right: 238px;
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: 1.5rem;
+  font-weight: 520;
+  letter-spacing: 0.015em;
   max-height: 140px;
   overflow: hidden;
   transition:
@@ -121,7 +121,7 @@ html[data-theme="dark"] .site-header::after {
   color: var(--primary);
   font-family: var(--font-ui);
   font-size: 0.84rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.055em;
   text-transform: uppercase;
   font-weight: 600;
   margin: 0 8px;
@@ -923,7 +923,7 @@ body[data-page] .site-header.is-compact .site-header-socials {
 body[data-page="home"] .site-header h1 {
   display: block;
   margin-bottom: 10px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -944,7 +944,7 @@ html[data-theme="dark"] body[data-page] .site-header h1::after {
 body[data-page]:not([data-page="home"]) .site-header h1 {
   display: block;
   margin-bottom: 10px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -1207,7 +1207,7 @@ html[data-theme="dark"] .theme-toggle-track {
     color: var(--muted);
     font-size: clamp(0.56rem, 2.35vw, 0.76rem);
     line-height: 1.22;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.055em;
     overflow-wrap: normal;
     word-break: keep-all;
     hyphens: none;
@@ -1823,11 +1823,11 @@ html[data-theme="dark"] .theme-toggle-track {
   }
 
   body[data-page]:not([data-page="home"]) .site-header h1 {
-    letter-spacing: 0.035em;
+    letter-spacing: 0.025em;
   }
 
   body[data-page="home"] .site-header h1 {
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
   }
 }
 

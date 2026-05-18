@@ -125,8 +125,8 @@ html[data-theme="dark"] .download-row::before {
 .download-link-text {
   min-width: 0;
   overflow-wrap: anywhere;
-  font-family: var(--font-display);
-  font-optical-sizing: auto;
+  font-family: var(--font-ui);
+  line-height: 1.36;
 }
 
 .download-link-action {
@@ -264,8 +264,8 @@ html[data-theme="dark"] .download-group-main {
 .download-group-title {
   margin: 0;
   color: var(--primary-dark);
-  font-size: 1.02rem;
-  letter-spacing: 0.12em;
+  font-size: 1rem;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 
@@ -317,7 +317,7 @@ html[data-theme="dark"] .download-subgroup {
 
 .download-subgroup-title {
   font-size: 0.9rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 

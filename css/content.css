@@ -182,7 +182,7 @@ html[data-theme="dark"] .about-photo-link {
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-size: 1rem;
-  line-height: 1.68;
+  line-height: 1.76;
 }
 
 .about-text p {
@@ -345,6 +345,7 @@ html[data-theme="dark"] .about-details summary {
   margin: 0;
   padding: 0 22px 8px;
   padding-top: 10px;
+  line-height: 1.62;
   overflow-wrap: anywhere;
   word-break: break-word;
 }

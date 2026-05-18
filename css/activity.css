@@ -43,4 +43,5 @@
   color: var(--muted);
   font-family: var(--font-display);
   font-optical-sizing: auto;
+  line-height: 1.58;
 }
