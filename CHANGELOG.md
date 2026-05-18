@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.20j
+
+**Десятий безпечний крок розділення `css/styles.css` і старт стилізованої типографіки.**
+
+- Винесено shared droplet/lens і action-glass hover/focus правила у `css/effects.css`.
+- `css/styles.css` підключає `effects.css` після contact styles; header/layout блоки залишено на місці.
+- Додано CSS-змінні `--font-body` і `--font-display`.
+- Для `h1`/`h2` увімкнено системний display-шрифт Georgia/serif без зовнішніх CDN-залежностей.
+- Додано новий CSS-файл в APP_SHELL service worker.
+- Оновлено build-версію до `0.6.20j` і кеш service worker до `v0.6.20j-r1`.
+
 ## 0.6.20i
 
 **Дев'ятий безпечний крок розділення `css/styles.css`.**

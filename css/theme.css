@@ -1,4 +1,6 @@
 :root {
+  --font-body: "Segoe UI", Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
   --bg: #f4f1ea;
   --bg-soft: #ece7dd;
   --text: #282420;
