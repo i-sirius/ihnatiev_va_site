@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.19c14
+
+**Тринадцятий малий рефакторинг `app.js`.**
+
+- Винесено page applicators, menu labels/active state, details rendering і page image helpers у `js/page-content.js`.
+- `app.js` залишає wrapper-и для передачі залежностей у сторінковий модуль.
+- Додано новий JS-файл у HTML-сторінки та APP_SHELL service worker.
+- Оновлено build-версію до `0.6.19c14` і кеш service worker до `v0.6.19c14-r1`.
+
 ## 0.6.19c13
 
 **Дванадцятий малий рефакторинг `app.js`.**
