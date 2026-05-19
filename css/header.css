@@ -2274,8 +2274,8 @@ html[data-theme="dark"] .theme-toggle-track {
     bottom: auto;
     left: max(16px, env(safe-area-inset-left));
     display: grid;
-    grid-template-columns: 22px 34px;
-    grid-template-rows: 30px auto;
+    grid-template-columns: 24px 46px;
+    grid-template-rows: 40px auto;
     grid-template-areas:
       "home logo"
       "label label";
@@ -2283,9 +2283,9 @@ html[data-theme="dark"] .theme-toggle-track {
     justify-content: center;
     column-gap: 7px;
     row-gap: 2px;
-    width: 126px;
-    height: 66px;
-    padding: 8px 12px 7px;
+    width: 140px;
+    height: 76px;
+    padding: 9px 14px 8px;
     border: 1px solid color-mix(in srgb, var(--border) 64%, var(--liquid-glass-border));
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.66);
@@ -2301,9 +2301,9 @@ html[data-theme="dark"] .theme-toggle-track {
     grid-area: logo;
     align-self: center;
     justify-self: start;
-    width: 34px;
-    max-width: 34px;
-    flex: 0 0 34px;
+    width: 46px;
+    max-width: 46px;
+    flex: 0 0 46px;
     transform: none;
   }
 
@@ -2315,7 +2315,7 @@ html[data-theme="dark"] .theme-toggle-track {
     justify-content: center;
     min-width: 0;
     font-family: var(--font-ui);
-    font-size: 0.57rem;
+    font-size: 0.58rem;
     font-weight: 750;
     line-height: 1.05;
     letter-spacing: 0.02em;
@@ -2330,9 +2330,9 @@ html[data-theme="dark"] .theme-toggle-track {
     display: block;
     align-self: center;
     justify-self: end;
-    width: 22px;
-    height: 22px;
-    flex: 0 0 22px;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
     border: 0;
     border-radius: 0;
     background:
@@ -2359,6 +2359,12 @@ html[data-theme="dark"] .theme-toggle-track {
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23E8DDD2' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round' d='M4 11.4 12 4l8 7.4M6.5 10.2V20h4.1v-5.2h2.8V20h4.1v-9.8'/%3E%3C/svg%3E")
       center / contain no-repeat;
     opacity: 1;
+  }
+
+  .site-header.is-home-in-brand:not(.is-compact) .site-header-controls {
+    top: 50%;
+    right: max(14px, env(safe-area-inset-right));
+    transform: translateY(-50%);
   }
 }
 
