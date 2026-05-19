@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.23c
+
+**Виніс простих текстів Downloads/Contact.**
+
+- Додано `files/content/pages.json` для заголовків, intro й базових label-ів сторінок `Завантаження` та `Контакти` українською й англійською.
+- Downloads і Contact рендерять fallback з `config.js`, а потім оновлюють сторінкові тексти з JSON без перенесення складних validation-повідомлень.
+- Contact form тепер може брати phone/subject labels і Formspree subject із сторінкового JSON.
+- Додано CMS-колекцію `Сторінки` для редагування цих простих текстів.
+- `check-content` тепер перевіряє структуру `pages.json`; файл додано в service worker precache і CMS checklist.
+- Оновлено build-версію до `0.6.23c` і кеш service worker до `v0.6.23c-r1`.
+
 ## 0.6.23b
 
 **Виніс простих текстів розділів діяльності.**

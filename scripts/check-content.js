@@ -262,9 +262,65 @@ function checkActivitiesContent(relativePath) {
   });
 }
 
+function checkPagesContent(relativePath) {
+  const payload = readJson(relativePath);
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    fail(`${relativePath}: expected an object with uk/en page content`);
+    return;
+  }
+
+  ["uk", "en"].forEach((locale) => {
+    const pages = payload[locale];
+    if (!pages || typeof pages !== "object" || Array.isArray(pages)) {
+      fail(`${relativePath}: missing ${locale} pages object`);
+      return;
+    }
+
+    const downloads = pages.downloads;
+    if (!downloads || typeof downloads !== "object" || Array.isArray(downloads)) {
+      fail(`${relativePath}: missing ${locale}.downloads object`);
+    } else {
+      ["pageTitle", "heading"].forEach((key) => {
+        if (!isNonEmptyString(downloads[key])) {
+          fail(`${relativePath}: ${locale}.downloads.${key} must be a non-empty string`);
+        }
+      });
+    }
+
+    const contact = pages.contact;
+    if (!contact || typeof contact !== "object" || Array.isArray(contact)) {
+      fail(`${relativePath}: missing ${locale}.contact object`);
+      return;
+    }
+
+    ["pageTitle", "heading", "intro", "formSubject"].forEach((key) => {
+      if (!isNonEmptyString(contact[key])) {
+        fail(`${relativePath}: ${locale}.contact.${key} must be a non-empty string`);
+      }
+    });
+
+    if (!contact.socials || !isNonEmptyString(contact.socials.title)) {
+      fail(`${relativePath}: ${locale}.contact.socials.title must be a non-empty string`);
+    }
+
+    const fields = contact.fields;
+    if (!fields || typeof fields !== "object" || Array.isArray(fields)) {
+      fail(`${relativePath}: ${locale}.contact.fields must be an object`);
+      return;
+    }
+
+    ["name", "email", "phone", "subject", "message", "submit"].forEach((key) => {
+      if (!isNonEmptyString(fields[key])) {
+        fail(`${relativePath}: ${locale}.contact.fields.${key} must be a non-empty string`);
+      }
+    });
+  });
+}
+
 function checkKnownContentManifests() {
   checkHomeContent("files/content/home.json");
   checkActivitiesContent("files/content/activities.json");
+  checkPagesContent("files/content/pages.json");
   checkPhotoManifest("files/media/activity1/photos.json");
   checkPhotoManifest("files/media/activity2/photos.json");
   checkPhotoManifest("files/media/activity3/photos.json");

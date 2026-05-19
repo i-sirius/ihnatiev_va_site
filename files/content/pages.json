@@ -1,0 +1,50 @@
+{
+  "uk": {
+    "downloads": {
+      "pageTitle": "Завантаження",
+      "heading": "Матеріали для завантаження",
+      "intro": ""
+    },
+    "contact": {
+      "pageTitle": "Контакти",
+      "heading": "Контакти",
+      "intro": "З радістю відповім на ваші питання або запити. Заповніть поля нижче, будь ласка.",
+      "socials": {
+        "title": "Мої соціальні мережі:"
+      },
+      "fields": {
+        "name": "Ім'я",
+        "email": "Email",
+        "phone": "Телефон",
+        "subject": "Тема",
+        "message": "Повідомлення",
+        "submit": "Надіслати"
+      },
+      "formSubject": "Нове повідомлення із сайту"
+    }
+  },
+  "en": {
+    "downloads": {
+      "pageTitle": "Downloads",
+      "heading": "Materials for Download",
+      "intro": "Monographs, articles, and educational materials are available here."
+    },
+    "contact": {
+      "pageTitle": "Contacts",
+      "heading": "Contacts",
+      "intro": "I will be glad to answer your questions or requests. Please fill out the fields below.",
+      "socials": {
+        "title": "My social networks:"
+      },
+      "fields": {
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "subject": "Subject",
+        "message": "Message",
+        "submit": "Send"
+      },
+      "formSubject": "New message from the website"
+    }
+  }
+}

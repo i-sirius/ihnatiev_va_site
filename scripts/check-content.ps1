@@ -231,6 +231,61 @@ function Test-ActivitiesContentManifest {
   }
 }
 
+function Test-PagesContentManifest {
+  param([string]$RelativePath)
+  $Payload = Read-JsonFile $RelativePath
+  if (-not $Payload) {
+    return
+  }
+
+  foreach ($Locale in @("uk", "en")) {
+    $Pages = $Payload.$Locale
+    if (-not $Pages) {
+      Add-CheckError "${RelativePath}: missing ${Locale} pages object"
+      continue
+    }
+
+    $Downloads = $Pages.downloads
+    if (-not $Downloads) {
+      Add-CheckError "${RelativePath}: missing ${Locale}.downloads object"
+    } else {
+      foreach ($Key in @("pageTitle", "heading")) {
+        if (-not (Test-NonEmptyString $Downloads.$Key)) {
+          Add-CheckError "${RelativePath}: ${Locale}.downloads.${Key} must be a non-empty string"
+        }
+      }
+    }
+
+    $Contact = $Pages.contact
+    if (-not $Contact) {
+      Add-CheckError "${RelativePath}: missing ${Locale}.contact object"
+      continue
+    }
+
+    foreach ($Key in @("pageTitle", "heading", "intro", "formSubject")) {
+      if (-not (Test-NonEmptyString $Contact.$Key)) {
+        Add-CheckError "${RelativePath}: ${Locale}.contact.${Key} must be a non-empty string"
+      }
+    }
+
+    if (-not $Contact.socials -or -not (Test-NonEmptyString $Contact.socials.title)) {
+      Add-CheckError "${RelativePath}: ${Locale}.contact.socials.title must be a non-empty string"
+    }
+
+    $Fields = $Contact.fields
+    if (-not $Fields) {
+      Add-CheckError "${RelativePath}: ${Locale}.contact.fields must be an object"
+      continue
+    }
+
+    foreach ($Key in @("name", "email", "phone", "subject", "message", "submit")) {
+      if (-not (Test-NonEmptyString $Fields.$Key)) {
+        Add-CheckError "${RelativePath}: ${Locale}.contact.fields.${Key} must be a non-empty string"
+      }
+    }
+  }
+}
+
 function Resolve-SourceRelativeReference {
   param(
     [string]$SourceFile,
@@ -266,6 +321,7 @@ foreach ($File in $AllFiles) {
 
 Test-HomeContentManifest "files/content/home.json"
 Test-ActivitiesContentManifest "files/content/activities.json"
+Test-PagesContentManifest "files/content/pages.json"
 Test-PhotoManifest "files/media/activity1/photos.json"
 Test-PhotoManifest "files/media/activity2/photos.json"
 Test-PhotoManifest "files/media/activity3/photos.json"

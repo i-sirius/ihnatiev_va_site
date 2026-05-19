@@ -371,11 +371,10 @@
     }
   }
 
-  function applyDownloadsPage({
+  function renderDownloadsPageChrome({
     site = window.SITE || {},
     pageType,
-    setText = () => {},
-    loadDownloadsGroups = () => {}
+    setText = () => {}
   } = {}) {
     if (pageType !== "downloads") {
       return;
@@ -390,6 +389,19 @@
       downloadsIntro.textContent = intro;
       downloadsIntro.hidden = !intro.trim();
     }
+  }
+
+  function applyDownloadsPage({
+    site = window.SITE || {},
+    pageType,
+    setText = () => {},
+    loadDownloadsGroups = () => {}
+  } = {}) {
+    if (pageType !== "downloads") {
+      return;
+    }
+
+    renderDownloadsPageChrome({ site, pageType, setText });
     loadDownloadsGroups("files/downloads/files.json", "[data-downloads-groups]", site.downloads.groups || null);
   }
 
@@ -471,6 +483,7 @@
     applyGlobalContent,
     applyMenuLabels,
     initDetailsInteractions,
+    renderDownloadsPageChrome,
     renderActivitySummaries,
     renderActivityResearchLinks,
     renderParagraphs,

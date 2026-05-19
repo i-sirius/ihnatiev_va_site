@@ -142,6 +142,50 @@
     });
   }
 
+  function applyPageTextChrome() {
+    window.SitePageContent?.renderDownloadsPageChrome({
+      site: SITE,
+      pageType,
+      setText
+    });
+    window.SitePageContent?.applyContactPage({
+      pageType,
+      site: SITE,
+      setText,
+      escapeHtml,
+      getSocialIconMarkup
+    });
+    window.SiteHeaderUi?.syncHomeTitleLayout?.();
+  }
+
+  function loadPagesContent() {
+    const loadPages = window.SiteContentLoader?.loadPagesContent;
+    if (typeof loadPages !== "function") {
+      return;
+    }
+
+    const contentLocale = SITE.currentLocale || SITE.defaultLocale || "uk";
+    loadPages({
+      locale: contentLocale,
+      fallbackSite: SITE
+    }).then((pages) => {
+      const activeLocale = SITE.currentLocale || SITE.defaultLocale || "uk";
+      if (activeLocale !== contentLocale) {
+        return;
+      }
+
+      if (pages.downloads) {
+        SITE.downloads = pages.downloads;
+      }
+
+      if (pages.contact) {
+        SITE.contact = pages.contact;
+      }
+
+      applyPageTextChrome();
+    });
+  }
+
   function initDownloadPreviewTriggers() {
     const lightbox = ensureDocumentLightbox();
 
@@ -253,6 +297,7 @@
       activityId
     });
     loadActivitiesContent();
+    loadPagesContent();
     window.SiteMobileNavigation?.init();
     window.SiteHeaderUi?.initBrand({
       site: SITE,

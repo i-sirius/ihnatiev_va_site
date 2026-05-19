@@ -136,6 +136,83 @@ collections:
                     fields:
                       - { label: "Alt text", name: alt, widget: string }
 
+  - name: pages_content
+    label: "Сторінки"
+    files:
+      - name: pages
+        label: "Завантаження і контакти"
+        file: files/content/pages.json
+        format: json
+        fields:
+          - label: "Українська"
+            name: uk
+            widget: object
+            fields:
+              - label: "Завантаження"
+                name: downloads
+                widget: object
+                fields:
+                  - { label: "Title", name: pageTitle, widget: string }
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Intro", name: intro, widget: text, required: false }
+              - label: "Контакти"
+                name: contact
+                widget: object
+                fields:
+                  - { label: "Title", name: pageTitle, widget: string }
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Intro", name: intro, widget: text }
+                  - label: "Соціальні мережі"
+                    name: socials
+                    widget: object
+                    fields:
+                      - { label: "Заголовок", name: title, widget: string }
+                  - label: "Поля форми"
+                    name: fields
+                    widget: object
+                    fields:
+                      - { label: "Ім'я", name: name, widget: string }
+                      - { label: "Email", name: email, widget: string }
+                      - { label: "Телефон", name: phone, widget: string }
+                      - { label: "Тема", name: subject, widget: string }
+                      - { label: "Повідомлення", name: message, widget: string }
+                      - { label: "Submit", name: submit, widget: string }
+                  - { label: "Тема листа Formspree", name: formSubject, widget: string }
+          - label: "English"
+            name: en
+            widget: object
+            fields:
+              - label: "Downloads"
+                name: downloads
+                widget: object
+                fields:
+                  - { label: "Title", name: pageTitle, widget: string }
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Intro", name: intro, widget: text, required: false }
+              - label: "Contacts"
+                name: contact
+                widget: object
+                fields:
+                  - { label: "Title", name: pageTitle, widget: string }
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Intro", name: intro, widget: text }
+                  - label: "Social links"
+                    name: socials
+                    widget: object
+                    fields:
+                      - { label: "Heading", name: title, widget: string }
+                  - label: "Form fields"
+                    name: fields
+                    widget: object
+                    fields:
+                      - { label: "Name", name: name, widget: string }
+                      - { label: "Email", name: email, widget: string }
+                      - { label: "Phone", name: phone, widget: string }
+                      - { label: "Subject", name: subject, widget: string }
+                      - { label: "Message", name: message, widget: string }
+                      - { label: "Submit", name: submit, widget: string }
+                  - { label: "Formspree email subject", name: formSubject, widget: string }
+
   - name: gallery_activity1
     label: "Галерея: Наукова активність"
     media_folder: files/media/activity1

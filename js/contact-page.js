@@ -15,11 +15,11 @@
     setText("[data-contact-title]", site.contact.pageTitle);
     setText("[data-contact-heading]", site.contact.heading);
     setText("[data-contact-socials-title]", site.contact.socials?.title || "Мої соціальні мережі:");
-    setText("[data-contact-intro]", contactUi.intro || site.contact.intro || "");
+    setText("[data-contact-intro]", site.contact.intro || contactUi.intro || "");
     setText("[data-contact-name-label]", site.contact.fields.name);
     setText("[data-contact-email-label]", site.contact.fields.email);
-    setText("[data-contact-phone-label]", contactUi.phone || "Телефон");
-    setText("[data-contact-subject-label]", contactUi.subject || "Тема");
+    setText("[data-contact-phone-label]", site.contact.fields.phone || contactUi.phone || "Телефон");
+    setText("[data-contact-subject-label]", site.contact.fields.subject || contactUi.subject || "Тема");
     setText("[data-contact-message-label]", site.contact.fields.message);
     setText("[data-contact-submit]", site.contact.fields.submit);
 
@@ -165,7 +165,8 @@
 
     form.action = site.contact.formAction;
     if (hiddenSubjectField) {
-      hiddenSubjectField.value = contactUi.formSubject || "Нове повідомлення із сайту";
+      hiddenSubjectField.value =
+        site.contact.formSubject || contactUi.formSubject || "Нове повідомлення із сайту";
     }
 
     noteName.textContent = contactUi.required || "Обов'язково для заповнення";

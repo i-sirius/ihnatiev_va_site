@@ -192,6 +192,53 @@
       .catch(() => fallbackActivities);
   }
 
+  function normalizePagesContent(payload, locale = "uk", fallbackSite = {}) {
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      return {};
+    }
+
+    const localizedPages = payload[locale] || payload.uk || {};
+    if (!localizedPages || typeof localizedPages !== "object" || Array.isArray(localizedPages)) {
+      return {};
+    }
+
+    const downloads = localizedPages.downloads && typeof localizedPages.downloads === "object"
+      ? {
+          ...(fallbackSite.downloads || {}),
+          ...localizedPages.downloads
+        }
+      : fallbackSite.downloads;
+    const localizedContact = localizedPages.contact && typeof localizedPages.contact === "object"
+      ? localizedPages.contact
+      : null;
+    const contact = localizedContact
+      ? {
+          ...(fallbackSite.contact || {}),
+          ...localizedContact,
+          socials: {
+            ...(fallbackSite.contact?.socials || {}),
+            ...(localizedContact.socials || {})
+          },
+          fields: {
+            ...(fallbackSite.contact?.fields || {}),
+            ...(localizedContact.fields || {})
+          }
+        }
+      : fallbackSite.contact;
+
+    return { downloads, contact };
+  }
+
+  function loadPagesContent({
+    path = "files/content/pages.json",
+    locale = "uk",
+    fallbackSite = {}
+  } = {}) {
+    return fetchJson(path)
+      .then((payload) => normalizePagesContent(payload, locale, fallbackSite))
+      .catch(() => ({}));
+  }
+
   window.SiteContentLoader = {
     fetchJson,
     filterAvailableImages,
@@ -200,6 +247,7 @@
     loadDownloadsGroups,
     loadFileList,
     loadHomeContent,
+    loadPagesContent,
     normalizeJsonList
   };
 })();
