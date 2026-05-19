@@ -43,6 +43,8 @@
 
 Для продакшн-входу підготовлено схему GitHub OAuth через Cloudflare Worker proxy `https://decap.iva.net.ua`. Детальна інструкція: [docs/admin-auth.md](docs/admin-auth.md).
 
+Для ручної перевірки local backend, login-flow і тестових CMS-змін є окремий чеклист: [docs/admin-test-checklist.md](docs/admin-test-checklist.md).
+
 ## Перевірка контенту
 
 Перед рефакторингом або публікацією бажано запускати:

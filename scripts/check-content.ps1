@@ -4,6 +4,7 @@ $Root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $Errors = New-Object System.Collections.Generic.List[string]
 $JsonCount = 0
 $ReferenceCount = 0
+$AdminPathCount = 0
 
 function Add-CheckError {
   param([string]$Message)
@@ -74,6 +75,11 @@ function Test-LocalReference {
   if (-not (Test-Path -LiteralPath (Get-RepoPath $Clean))) {
     Add-CheckError "${SourceFile}: missing local file `"$Reference`" ($Context)"
   }
+}
+
+function Unquote-YamlValue {
+  param([string]$Value)
+  ($Value.Trim() -replace "^[""']", "" -replace "[""']$", "")
 }
 
 function Get-JsonList {
@@ -229,9 +235,45 @@ foreach ($Match in [regex]::Matches($ServiceWorker, "[""'](\./[^""']+)[""']")) {
   }
 }
 
+$AdminConfigPath = "admin/config.yml"
+if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
+  Add-CheckError "${AdminConfigPath}: missing Decap CMS config"
+} else {
+  $AdminConfig = Get-Content -Raw -Encoding UTF8 (Get-RepoPath $AdminConfigPath)
+  $RequiredPatterns = @(
+    @{ Pattern = "(?m)^\s*name:\s*github\s*$"; Message = "backend.name must be github" },
+    @{ Pattern = "(?m)^\s*repo:\s*i-sirius/ihnatiev_va_site\s*$"; Message = "backend.repo must target i-sirius/ihnatiev_va_site" },
+    @{ Pattern = "(?m)^\s*branch:\s*main\s*$"; Message = "backend.branch must be main" },
+    @{ Pattern = "(?m)^\s*base_url:\s*https://decap\.iva\.net\.ua\s*$"; Message = "backend.base_url must use the OAuth proxy" },
+    @{ Pattern = "(?m)^\s*auth_endpoint:\s*/auth\s*$"; Message = "backend.auth_endpoint must be /auth" },
+    @{ Pattern = "(?m)^\s*local_backend:\s*true\s*$"; Message = "local_backend must stay enabled for local CMS testing" },
+    @{ Pattern = "(?m)^\s*publish_mode:\s*editorial_workflow\s*$"; Message = "publish_mode must be editorial_workflow" }
+  )
+
+  foreach ($Rule in $RequiredPatterns) {
+    if ($AdminConfig -notmatch $Rule.Pattern) {
+      Add-CheckError "${AdminConfigPath}: $($Rule.Message)"
+    }
+  }
+
+  foreach ($Match in [regex]::Matches($AdminConfig, "(?m)^\s*(file|media_folder|public_folder):\s*([^#\r\n]+)")) {
+    $Key = $Match.Groups[1].Value
+    $Value = Unquote-YamlValue $Match.Groups[2].Value
+
+    if (-not $Value -or (Test-VirtualReference $Value)) {
+      continue
+    }
+
+    $script:AdminPathCount += 1
+    if (-not (Test-Path -LiteralPath (Get-RepoPath $Value))) {
+      Add-CheckError "${AdminConfigPath}: missing ${Key} path `"$Value`""
+    }
+  }
+}
+
 if ($Errors.Count) {
   Write-Error ("Content check failed:`n- " + ($Errors -join "`n- "))
   exit 1
 }
 
-Write-Host "Content check passed: $JsonCount JSON files parsed, $ReferenceCount local references checked."
+Write-Host "Content check passed: $JsonCount JSON files parsed, $ReferenceCount local references checked, $AdminPathCount admin paths checked."

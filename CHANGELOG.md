@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.22b
+
+**Контроль Decap CMS-конфіга.**
+
+- `check-content` тепер перевіряє базові налаштування `admin/config.yml`: GitHub backend, repo, OAuth proxy, `local_backend`, `publish_mode` і локальні CMS-шляхи.
+- Додано локальний PowerShell-аналог цієї перевірки, щоб CI і Windows-перевірка ловили однакові помилки.
+- Додано `files/media/uploads/.gitkeep`, щоб загальний CMS upload folder існував у репозиторії.
+- Додано чеклист `docs/admin-test-checklist.md` для local backend і продакшн OAuth-перевірки.
+- Оновлено build-версію до `0.6.22b` і кеш service worker до `v0.6.22b-r1`.
+
 ## 0.6.22a
 
 **Баланс home-brand і правих перемикачів.**

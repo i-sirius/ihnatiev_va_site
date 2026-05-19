@@ -7,7 +7,8 @@ const root = process.cwd();
 const errors = [];
 const checked = {
   json: 0,
-  references: 0
+  references: 0,
+  adminPaths: 0
 };
 
 const SKIP_DIRS = new Set([".git", "node_modules"]);
@@ -273,12 +274,60 @@ function checkServiceWorkerShell() {
   }
 }
 
+function unquoteYamlValue(value) {
+  return String(value || "")
+    .trim()
+    .replace(/^["']|["']$/g, "");
+}
+
+function checkAdminConfig() {
+  const sourceFile = "admin/config.yml";
+
+  if (!existsRelative(sourceFile)) {
+    fail(`${sourceFile}: missing Decap CMS config`);
+    return;
+  }
+
+  const source = fs.readFileSync(fromRoot(sourceFile), "utf8");
+  const requiredPatterns = [
+    [/^\s*name:\s*github\s*$/m, "backend.name must be github"],
+    [/^\s*repo:\s*i-sirius\/ihnatiev_va_site\s*$/m, "backend.repo must target i-sirius/ihnatiev_va_site"],
+    [/^\s*branch:\s*main\s*$/m, "backend.branch must be main"],
+    [/^\s*base_url:\s*https:\/\/decap\.iva\.net\.ua\s*$/m, "backend.base_url must use the OAuth proxy"],
+    [/^\s*auth_endpoint:\s*\/auth\s*$/m, "backend.auth_endpoint must be /auth"],
+    [/^\s*local_backend:\s*true\s*$/m, "local_backend must stay enabled for local CMS testing"],
+    [/^\s*publish_mode:\s*editorial_workflow\s*$/m, "publish_mode must be editorial_workflow"]
+  ];
+
+  requiredPatterns.forEach(([pattern, message]) => {
+    if (!pattern.test(source)) {
+      fail(`${sourceFile}: ${message}`);
+    }
+  });
+
+  const pathPattern = /^\s*(file|media_folder|public_folder):\s*([^#\r\n]+)/gm;
+  for (const match of source.matchAll(pathPattern)) {
+    const key = match[1];
+    const value = unquoteYamlValue(match[2]);
+
+    if (!value || isExternalOrVirtual(value)) {
+      continue;
+    }
+
+    checked.adminPaths += 1;
+    if (!existsRelative(value)) {
+      fail(`${sourceFile}: missing ${key} path "${value}"`);
+    }
+  }
+}
+
 checkJsonFiles();
 checkKnownContentManifests();
 checkHtmlLocalLinks();
 checkCssUrls();
 checkManifest();
 checkServiceWorkerShell();
+checkAdminConfig();
 
 if (errors.length) {
   console.error("Content check failed:");
@@ -287,5 +336,5 @@ if (errors.length) {
 }
 
 console.log(
-  `Content check passed: ${checked.json} JSON files parsed, ${checked.references} local references checked.`
+  `Content check passed: ${checked.json} JSON files parsed, ${checked.references} local references checked, ${checked.adminPaths} admin paths checked.`
 );
