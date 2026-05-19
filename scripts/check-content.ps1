@@ -195,6 +195,42 @@ function Test-HomeContentManifest {
   }
 }
 
+function Test-ActivitiesContentManifest {
+  param([string]$RelativePath)
+  $Payload = Read-JsonFile $RelativePath
+  if (-not $Payload) {
+    return
+  }
+
+  foreach ($Locale in @("uk", "en")) {
+    $Activities = $Payload.$Locale
+    if (-not $Activities) {
+      Add-CheckError "${RelativePath}: missing ${Locale} activities object"
+      continue
+    }
+
+    foreach ($Id in @("1", "2", "3")) {
+      $Activity = $Activities.$Id
+      if (-not $Activity) {
+        Add-CheckError "${RelativePath}: missing ${Locale}.${Id} activity object"
+        continue
+      }
+
+      foreach ($Key in @("name", "cardDescription")) {
+        if (-not (Test-NonEmptyString $Activity.$Key)) {
+          Add-CheckError "${RelativePath}: ${Locale}.${Id}.${Key} must be a non-empty string"
+        }
+      }
+
+      if (-not $Activity.heroImage) {
+        Add-CheckError "${RelativePath}: ${Locale}.${Id}.heroImage must be an object"
+      } elseif (-not (Test-NonEmptyString $Activity.heroImage.alt)) {
+        Add-CheckError "${RelativePath}: ${Locale}.${Id}.heroImage.alt must be a non-empty string"
+      }
+    }
+  }
+}
+
 function Resolve-SourceRelativeReference {
   param(
     [string]$SourceFile,
@@ -229,6 +265,7 @@ foreach ($File in $AllFiles) {
 }
 
 Test-HomeContentManifest "files/content/home.json"
+Test-ActivitiesContentManifest "files/content/activities.json"
 Test-PhotoManifest "files/media/activity1/photos.json"
 Test-PhotoManifest "files/media/activity2/photos.json"
 Test-PhotoManifest "files/media/activity3/photos.json"

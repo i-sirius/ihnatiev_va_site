@@ -140,6 +140,16 @@
     });
   }
 
+  function renderActivitySummaries({
+    site = window.SITE || {},
+    setText = () => {}
+  } = {}) {
+    Object.entries(site.activities || {}).forEach(([id, activity]) => {
+      setText(`[data-activity-name='${id}']`, activity.name);
+      setText(`[data-activity-card-description='${id}']`, activity.cardDescription);
+    });
+  }
+
   function renderActivityResearchLinks({
     activity,
     activityId,
@@ -246,11 +256,7 @@
     setText("[data-activity-videos-heading]", site.ui?.activitySections?.videos || "Відео");
     setText("[data-activity-photos-heading]", site.ui?.activitySections?.photos || "Фото");
     setText("[data-activity-files-heading]", site.ui?.activitySections?.files || "Файли");
-
-    Object.entries(site.activities).forEach(([id, activity]) => {
-      setText(`[data-activity-name='${id}']`, activity.name);
-      setText(`[data-activity-card-description='${id}']`, activity.cardDescription);
-    });
+    renderActivitySummaries({ site, setText });
 
     const footerElement = document.querySelector("[data-footer]");
     const buildVersion = site.meta.buildVersion
@@ -279,6 +285,36 @@
     }
   }
 
+  function applyActivityChrome({
+    site = window.SITE || {},
+    pageType,
+    activityId,
+    homeFallbackImage,
+    setText = () => {},
+    initActivityHeroLightbox = () => {}
+  } = {}) {
+    if (pageType !== "activity" || !activityId) {
+      return null;
+    }
+
+    const activity = site.activities?.[activityId];
+    if (!activity) {
+      return null;
+    }
+
+    document.title = activity.name;
+    setText("[data-activity-page-title]", activity.name);
+    setText("[data-activity-page-heading]", activity.name);
+
+    const heroImage = {
+      src: `files/media/activity${activityId}/hero.jpg`,
+      alt: activity.heroImage?.alt || activity.name
+    };
+    updateImage("[data-activity-hero-image]", heroImage, homeFallbackImage);
+    initActivityHeroLightbox(heroImage);
+    return activity;
+  }
+
   function applyActivityPage({
     site = window.SITE || {},
     pageType,
@@ -301,16 +337,14 @@
       return;
     }
 
-    document.title = activity.name;
-    setText("[data-activity-page-title]", activity.name);
-    setText("[data-activity-page-heading]", activity.name);
-
-    const heroImage = {
-      src: `files/media/activity${activityId}/hero.jpg`,
-      alt: activity.heroImage?.alt || activity.name
-    };
-    updateImage("[data-activity-hero-image]", heroImage, homeFallbackImage);
-    initActivityHeroLightbox(heroImage);
+    applyActivityChrome({
+      site,
+      pageType,
+      activityId,
+      homeFallbackImage,
+      setText,
+      initActivityHeroLightbox
+    });
 
     renderParagraphs({
       selector: "[data-activity-paragraphs]",
@@ -430,12 +464,14 @@
 
   window.SitePageContent = {
     applyActiveMenuState,
+    applyActivityChrome,
     applyActivityPage,
     applyContactPage,
     applyDownloadsPage,
     applyGlobalContent,
     applyMenuLabels,
     initDetailsInteractions,
+    renderActivitySummaries,
     renderActivityResearchLinks,
     renderParagraphs,
     updateImage

@@ -222,8 +222,49 @@ function checkHomeContent(relativePath) {
   });
 }
 
+function checkActivitiesContent(relativePath) {
+  const payload = readJson(relativePath);
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    fail(`${relativePath}: expected an object with uk/en activity content`);
+    return;
+  }
+
+  ["uk", "en"].forEach((locale) => {
+    const activities = payload[locale];
+    if (!activities || typeof activities !== "object" || Array.isArray(activities)) {
+      fail(`${relativePath}: missing ${locale} activities object`);
+      return;
+    }
+
+    ["1", "2", "3"].forEach((id) => {
+      const activity = activities[id];
+      if (!activity || typeof activity !== "object" || Array.isArray(activity)) {
+        fail(`${relativePath}: missing ${locale}.${id} activity object`);
+        return;
+      }
+
+      ["name", "cardDescription"].forEach((key) => {
+        if (!isNonEmptyString(activity[key])) {
+          fail(`${relativePath}: ${locale}.${id}.${key} must be a non-empty string`);
+        }
+      });
+
+      if (
+        !activity.heroImage ||
+        typeof activity.heroImage !== "object" ||
+        Array.isArray(activity.heroImage)
+      ) {
+        fail(`${relativePath}: ${locale}.${id}.heroImage must be an object`);
+      } else if (!isNonEmptyString(activity.heroImage.alt)) {
+        fail(`${relativePath}: ${locale}.${id}.heroImage.alt must be a non-empty string`);
+      }
+    });
+  });
+}
+
 function checkKnownContentManifests() {
   checkHomeContent("files/content/home.json");
+  checkActivitiesContent("files/content/activities.json");
   checkPhotoManifest("files/media/activity1/photos.json");
   checkPhotoManifest("files/media/activity2/photos.json");
   checkPhotoManifest("files/media/activity3/photos.json");

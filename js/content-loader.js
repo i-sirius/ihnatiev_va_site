@@ -149,9 +149,53 @@
       .catch(() => fallbackHome);
   }
 
+  function normalizeActivitiesContent(payload, locale = "uk", fallbackActivities = {}) {
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      return fallbackActivities;
+    }
+
+    const localizedActivities = payload[locale] || payload.uk || {};
+    if (
+      !localizedActivities ||
+      typeof localizedActivities !== "object" ||
+      Array.isArray(localizedActivities)
+    ) {
+      return fallbackActivities;
+    }
+
+    return Object.entries(fallbackActivities).reduce((activities, [id, fallbackActivity]) => {
+      const localizedActivity = localizedActivities[id] || {};
+      if (!localizedActivity || typeof localizedActivity !== "object" || Array.isArray(localizedActivity)) {
+        activities[id] = fallbackActivity;
+        return activities;
+      }
+
+      activities[id] = {
+        ...fallbackActivity,
+        ...localizedActivity,
+        heroImage: {
+          ...(fallbackActivity.heroImage || {}),
+          ...(localizedActivity.heroImage || {})
+        }
+      };
+      return activities;
+    }, {});
+  }
+
+  function loadActivitiesContent({
+    path = "files/content/activities.json",
+    locale = "uk",
+    fallbackActivities = {}
+  } = {}) {
+    return fetchJson(path)
+      .then((payload) => normalizeActivitiesContent(payload, locale, fallbackActivities))
+      .catch(() => fallbackActivities);
+  }
+
   window.SiteContentLoader = {
     fetchJson,
     filterAvailableImages,
+    loadActivitiesContent,
     loadActivityGallery,
     loadDownloadsGroups,
     loadFileList,

@@ -1,0 +1,48 @@
+{
+  "uk": {
+    "1": {
+      "name": "Наукова активність",
+      "cardDescription": "Дослідження з питань некласичної філософії та філософії релігії",
+      "heroImage": {
+        "alt": "Наукова діяльність (Віталій Ігнатьєв)"
+      }
+    },
+    "2": {
+      "name": "Освітня діяльність",
+      "cardDescription": "Викладач філософії в Донецькому національному медичному університеті у м. Кропивницький",
+      "heroImage": {
+        "alt": "Освітній процес (Віталій Ігнатьєв)"
+      }
+    },
+    "3": {
+      "name": "Священнослужіння",
+      "cardDescription": "Священник, протоієрей Свято-Покровського Храму у м. Кропивницький",
+      "heroImage": {
+        "alt": "Священнослужіння (Віталій Ігнатьєв)"
+      }
+    }
+  },
+  "en": {
+    "1": {
+      "name": "Research Activity",
+      "cardDescription": "Research in non-classical philosophy and philosophy of religion",
+      "heroImage": {
+        "alt": "Research activity (Vitalii Ihnatiev)"
+      }
+    },
+    "2": {
+      "name": "Educational Activity",
+      "cardDescription": "Lecturer in philosophy at Donetsk National Medical University in Kropyvnytskyi",
+      "heroImage": {
+        "alt": "Educational activity (Vitalii Ihnatiev)"
+      }
+    },
+    "3": {
+      "name": "Priestly Ministry",
+      "cardDescription": "Priest, Archpriest of the Holy Protection Church in Kropyvnytskyi",
+      "heroImage": {
+        "alt": "Priestly ministry (Vitalii Ihnatiev)"
+      }
+    }
+  }
+}

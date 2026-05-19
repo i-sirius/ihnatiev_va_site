@@ -98,6 +98,50 @@
     });
   }
 
+  function applyActivityTextChrome() {
+    window.SitePageContent?.renderActivitySummaries({
+      site: SITE,
+      setText
+    });
+    window.SitePageContent?.applyActivityChrome({
+      site: SITE,
+      pageType,
+      activityId,
+      homeFallbackImage,
+      setText,
+      initActivityHeroLightbox
+    });
+    window.SitePageContent?.applyMenuLabels({
+      site: SITE
+    });
+    window.SitePageContent?.applyActiveMenuState({
+      pageType,
+      activityId
+    });
+    window.SiteHeaderUi?.syncHomeTitleLayout?.();
+  }
+
+  function loadActivitiesContent() {
+    const loadActivities = window.SiteContentLoader?.loadActivitiesContent;
+    if (typeof loadActivities !== "function") {
+      return;
+    }
+
+    const contentLocale = SITE.currentLocale || SITE.defaultLocale || "uk";
+    loadActivities({
+      locale: contentLocale,
+      fallbackActivities: SITE.activities || {}
+    }).then((activities) => {
+      const activeLocale = SITE.currentLocale || SITE.defaultLocale || "uk";
+      if (activeLocale !== contentLocale) {
+        return;
+      }
+
+      SITE.activities = activities;
+      applyActivityTextChrome();
+    });
+  }
+
   function initDownloadPreviewTriggers() {
     const lightbox = ensureDocumentLightbox();
 
@@ -208,6 +252,7 @@
       pageType,
       activityId
     });
+    loadActivitiesContent();
     window.SiteMobileNavigation?.init();
     window.SiteHeaderUi?.initBrand({
       site: SITE,

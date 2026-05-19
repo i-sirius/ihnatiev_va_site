@@ -53,6 +53,89 @@ collections:
                 field: { label: "Paragraph", name: paragraph, widget: text }
               - { label: "Activities block heading", name: activitiesHeading, widget: string }
 
+  - name: activities_content
+    label: "Розділи діяльності"
+    files:
+      - name: activities
+        label: "Назви та короткі описи"
+        file: files/content/activities.json
+        format: json
+        fields:
+          - label: "Українська"
+            name: uk
+            widget: object
+            fields:
+              - label: "Наукова активність"
+                name: "1"
+                widget: object
+                fields:
+                  - { label: "Назва", name: name, widget: string }
+                  - { label: "Короткий опис картки", name: cardDescription, widget: text }
+                  - label: "Hero image"
+                    name: heroImage
+                    widget: object
+                    fields:
+                      - { label: "Alt-текст", name: alt, widget: string }
+              - label: "Освітня діяльність"
+                name: "2"
+                widget: object
+                fields:
+                  - { label: "Назва", name: name, widget: string }
+                  - { label: "Короткий опис картки", name: cardDescription, widget: text }
+                  - label: "Hero image"
+                    name: heroImage
+                    widget: object
+                    fields:
+                      - { label: "Alt-текст", name: alt, widget: string }
+              - label: "Священнослужіння"
+                name: "3"
+                widget: object
+                fields:
+                  - { label: "Назва", name: name, widget: string }
+                  - { label: "Короткий опис картки", name: cardDescription, widget: text }
+                  - label: "Hero image"
+                    name: heroImage
+                    widget: object
+                    fields:
+                      - { label: "Alt-текст", name: alt, widget: string }
+          - label: "English"
+            name: en
+            widget: object
+            fields:
+              - label: "Research Activity"
+                name: "1"
+                widget: object
+                fields:
+                  - { label: "Name", name: name, widget: string }
+                  - { label: "Short card description", name: cardDescription, widget: text }
+                  - label: "Hero image"
+                    name: heroImage
+                    widget: object
+                    fields:
+                      - { label: "Alt text", name: alt, widget: string }
+              - label: "Educational Activity"
+                name: "2"
+                widget: object
+                fields:
+                  - { label: "Name", name: name, widget: string }
+                  - { label: "Short card description", name: cardDescription, widget: text }
+                  - label: "Hero image"
+                    name: heroImage
+                    widget: object
+                    fields:
+                      - { label: "Alt text", name: alt, widget: string }
+              - label: "Priestly Ministry"
+                name: "3"
+                widget: object
+                fields:
+                  - { label: "Name", name: name, widget: string }
+                  - { label: "Short card description", name: cardDescription, widget: text }
+                  - label: "Hero image"
+                    name: heroImage
+                    widget: object
+                    fields:
+                      - { label: "Alt text", name: alt, widget: string }
+
   - name: gallery_activity1
     label: "Галерея: Наукова активність"
     media_folder: files/media/activity1
