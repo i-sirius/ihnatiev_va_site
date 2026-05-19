@@ -390,6 +390,10 @@ function checkPublicationsContent(relativePath) {
       if (!Number.isInteger(year) || year < 1900 || year > 2100) {
         fail(`${relativePath}: items[${index}].year must be a year between 1900 and 2100`);
       }
+
+      if (year === 1984 && /ISSN\s+1984-6754/i.test(item.text || "")) {
+        fail(`${relativePath}: items[${index}].year looks like the ISSN 1984-6754, not the publication year`);
+      }
     }
 
     if (item.type !== undefined && !knownTypes.has(item.type)) {

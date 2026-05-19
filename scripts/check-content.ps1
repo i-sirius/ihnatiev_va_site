@@ -349,6 +349,10 @@ function Test-PublicationsContentManifest {
       if (-not [int]::TryParse([string]$Item.year, [ref]$Year) -or $Year -lt 1900 -or $Year -gt 2100) {
         Add-CheckError "${RelativePath}: items[$Index].year must be a year between 1900 and 2100"
       }
+
+      if ($Year -eq 1984 -and ([string]$Item.text) -match "ISSN\s+1984-6754") {
+        Add-CheckError "${RelativePath}: items[$Index].year looks like the ISSN 1984-6754, not the publication year"
+      }
     }
 
     if ($null -ne $Item.type -and $KnownTypes -notcontains $Item.type) {
