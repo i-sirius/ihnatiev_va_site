@@ -329,6 +329,16 @@
       );
     };
 
+    const updateHeaderUnderlap = (currentScrollY, compactOnThreshold, compactOffThreshold) => {
+      const underlapRange = Math.max(compactOnThreshold - compactOffThreshold, 1);
+      const rawProgress = (currentScrollY - compactOffThreshold) / underlapRange;
+      const underlapProgress = Math.min(Math.max(rawProgress, 0), 1);
+
+      header.style.setProperty("--header-underlap-progress", underlapProgress.toFixed(3));
+      header.style.setProperty("--header-underlap-blur", `${(underlapProgress * 18).toFixed(1)}px`);
+      header.classList.toggle("is-over-content", currentScrollY > compactOffThreshold);
+    };
+
     const syncHeaderState = () => {
       const currentScrollY = window.scrollY;
       const compactOnThreshold = window.innerWidth <= 900 ? 104 : 144;
@@ -341,6 +351,7 @@
         isCompact = false;
       }
 
+      updateHeaderUnderlap(currentScrollY, compactOnThreshold, compactOffThreshold);
       header.classList.toggle("is-compact", isCompact);
       updateHeaderOffset();
 

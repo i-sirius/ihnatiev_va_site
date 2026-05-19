@@ -1,4 +1,6 @@
 .site-header {
+  --header-underlap-progress: 0;
+  --header-underlap-blur: 0px;
   position: sticky;
   top: 0;
   z-index: 30;
@@ -13,7 +15,8 @@
     radial-gradient(circle at 82% 64%, rgba(80, 104, 96, 0.08) 0 2px, transparent 3px),
     linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(239, 235, 226, 0.78));
   overflow: hidden;
-  backdrop-filter: blur(0);
+  backdrop-filter: blur(var(--header-underlap-blur)) saturate(1.08);
+  -webkit-backdrop-filter: blur(var(--header-underlap-blur)) saturate(1.08);
   transition:
     padding 0.28s ease,
     box-shadow 0.28s ease,
@@ -47,6 +50,25 @@
   opacity: 0.48;
 }
 
+.site-header.is-over-content {
+  border-bottom-color: color-mix(in srgb, var(--border) 78%, var(--primary));
+  box-shadow:
+    0 8px 22px rgb(40 34 28 / calc(var(--header-underlap-progress) * 0.1)),
+    inset 0 -1px 0 rgb(255 255 255 / calc(var(--header-underlap-progress) * 0.22));
+}
+
+.site-header.is-over-content::after {
+  background:
+    linear-gradient(
+      135deg,
+      rgb(255 255 255 / calc(var(--header-underlap-progress) * 0.18)),
+      rgb(239 235 226 / calc(var(--header-underlap-progress) * 0.22))
+    ),
+    radial-gradient(circle at 14% 36%, rgba(80, 104, 96, 0.11) 0 2px, transparent 3px),
+    radial-gradient(circle at 86% 66%, rgba(80, 104, 96, 0.11) 0 2px, transparent 3px);
+  opacity: calc(0.48 + var(--header-underlap-progress) * 0.24);
+}
+
 html[data-theme="dark"] .site-header {
   background:
     radial-gradient(circle at 18% 32%, rgba(145, 175, 164, 0.1) 0 2px, transparent 3px),
@@ -69,6 +91,25 @@ html[data-theme="dark"] .site-header::after {
     radial-gradient(circle at 78% 62%, rgba(145, 175, 164, 0.14) 0 2px, transparent 3px);
   background-size: 54px 54px;
   opacity: 0.36;
+}
+
+html[data-theme="dark"] .site-header.is-over-content {
+  border-bottom-color: color-mix(in srgb, var(--border) 76%, var(--primary));
+  box-shadow:
+    0 8px 22px rgb(0 0 0 / calc(var(--header-underlap-progress) * 0.22)),
+    inset 0 -1px 0 rgb(255 244 210 / calc(var(--header-underlap-progress) * 0.08));
+}
+
+html[data-theme="dark"] .site-header.is-over-content::after {
+  background:
+    linear-gradient(
+      135deg,
+      rgb(39 47 46 / calc(var(--header-underlap-progress) * 0.2)),
+      rgb(31 38 37 / calc(var(--header-underlap-progress) * 0.24))
+    ),
+    radial-gradient(circle at 18% 32%, rgba(145, 175, 164, 0.14) 0 2px, transparent 3px),
+    radial-gradient(circle at 78% 62%, rgba(145, 175, 164, 0.14) 0 2px, transparent 3px);
+  opacity: calc(0.36 + var(--header-underlap-progress) * 0.22);
 }
 
 .site-header h1,
@@ -547,6 +588,7 @@ html[data-theme="dark"] .language-toggle-option.is-active {
   padding-top: max(8px, env(safe-area-inset-top));
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .site-header.is-compact::before {
