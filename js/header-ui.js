@@ -319,6 +319,8 @@
     let stateLockUntil = 0;
     let stateLockScrollY = window.scrollY;
     let lastEvaluatedScrollY = window.scrollY;
+    let transitionStateTimer = 0;
+    const transitionStateMs = 360;
 
     const updateHeaderOffset = () => {
       document.documentElement.style.setProperty(
@@ -343,8 +345,20 @@
       updateHeaderOffset();
 
       if (previousState !== isCompact) {
+        if (transitionStateTimer) {
+          window.clearTimeout(transitionStateTimer);
+        }
+
+        header.classList.remove("is-expanding-header", "is-collapsing-header");
+        header.classList.add(isCompact ? "is-collapsing-header" : "is-expanding-header");
+        transitionStateTimer = window.setTimeout(() => {
+          header.classList.remove("is-expanding-header", "is-collapsing-header");
+          transitionStateTimer = 0;
+          updateHeaderOffset();
+        }, transitionStateMs);
+
         stateLockScrollY = currentScrollY;
-        stateLockUntil = window.performance.now() + 420;
+        stateLockUntil = window.performance.now() + transitionStateMs + 80;
       }
 
       ticking = false;

@@ -96,6 +96,24 @@ html[data-theme="dark"] .site-header::after {
     font-size 0.28s ease;
 }
 
+.site-header.is-expanding-header h1 {
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
+.site-header.is-expanding-header nav,
+.site-header.is-expanding-header .site-header-socials {
+  transform: translateY(2px);
+}
+
+.site-header.is-collapsing-header h1,
+.site-header.is-collapsing-header .site-header-socials {
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
 .site-header nav {
   --contact-droplet-x: 0px;
   --contact-droplet-y: 0px;
