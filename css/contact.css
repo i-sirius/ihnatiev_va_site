@@ -7,11 +7,11 @@ form {
 body[data-page="contact"] .panel {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
-  gap: 10px 16px;
+  gap: 12px 18px;
   align-items: start;
   width: min(760px, calc(100% - 32px));
   margin: 22px auto 20px;
-  padding: 18px 22px 18px;
+  padding: 20px 22px 20px;
 }
 
 body[data-page="contact"] .panel h2 {
@@ -30,11 +30,11 @@ body[data-page="contact"] .panel > p {
 .contact-socials {
   grid-column: 1 / -1;
   min-width: 0;
-  margin-bottom: 12px;
-  padding: 12px 14px 13px;
-  border: 1px solid color-mix(in srgb, var(--border) 88%, var(--primary));
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(244, 239, 231, 0.52));
+  margin-bottom: 10px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--border) 82%, var(--primary));
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(244, 239, 231, 0.42));
 }
 
 html[data-theme="dark"] .contact-socials {
@@ -236,23 +236,24 @@ html[data-theme="dark"] .contact-social-button {
 .contact-form-divider {
   grid-column: 1 / -1;
   height: 1px;
-  margin: 10px 0 2px;
+  margin: 8px 0 0;
   background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--border) 92%, var(--primary)), transparent);
+  opacity: 0.72;
 }
 
 .contact-form-intro {
   grid-column: 1 / -1;
-  margin: 2px 0 2px;
+  margin: 0 0 2px;
   color: var(--primary-dark);
-  font-size: 0.98rem;
-  font-weight: 700;
-  line-height: 1.42;
+  font-size: 0.96rem;
+  font-weight: 650;
+  line-height: 1.48;
 }
 
 body[data-page="contact"] form[data-contact-form] {
   grid-column: 1 / -1;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 12px;
+  gap: 10px 14px;
   align-items: start;
 }
 
@@ -266,7 +267,7 @@ body[data-page="contact"] form[data-contact-form] > button {
 
 label {
   display: grid;
-  gap: 4px;
+  gap: 5px;
   color: var(--primary-dark);
   font-weight: 600;
 }
@@ -305,7 +306,8 @@ body[data-page="contact"] .field-label {
 .field-ok,
 .contact-counter {
   font-family: var(--font-ui);
-  font-size: 0.92rem;
+  font-size: 0.84rem;
+  line-height: 1.28;
   color: var(--muted);
 }
 
@@ -339,7 +341,7 @@ body[data-page="contact"] .contact-limit-counter.is-exhausted {
 input,
 textarea {
   width: 100%;
-  padding: 10px 12px;
+  padding: 11px 12px;
   border-radius: 12px;
   border: 1px solid var(--input-border);
   background: var(--input-bg);
@@ -384,7 +386,7 @@ textarea {
 .contact-split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 12px;
+  gap: 10px;
   align-items: stretch;
 }
 
@@ -396,9 +398,10 @@ textarea {
   margin-top: calc(1.65em + 4px);
   padding: 0 2px;
   color: var(--muted);
-  font-weight: 700;
-  font-size: 1.04rem;
+  font-weight: 600;
+  font-size: 0.98rem;
   line-height: 1;
+  opacity: 0.78;
 }
 
 body[data-page="contact"] textarea {
@@ -410,9 +413,15 @@ body[data-page="contact"] textarea {
 
 body[data-page="contact"] button[type="submit"] {
   justify-self: end;
-  min-width: 196px;
+  min-width: 176px;
   padding-top: 10px;
   padding-bottom: 10px;
+  letter-spacing: 0.06em;
+}
+
+body[data-page="contact"] button[type="submit"]:disabled {
+  background: color-mix(in srgb, var(--button-bg) 54%, var(--panel-bg));
+  border-color: color-mix(in srgb, var(--border) 82%, transparent);
 }
 
 .helper-text {
