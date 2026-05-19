@@ -132,7 +132,7 @@ html[data-theme="dark"] .video-gallery::after {
   padding: 0 0 16px;
   overflow: hidden;
   align-items: stretch;
-  font-family: var(--font-ui);
+  font-family: "YouTube Sans", Roboto, Arial, sans-serif;
 }
 
 .video-card:hover {
@@ -170,9 +170,9 @@ html[data-theme="dark"] .video-gallery::after {
 .video-card h3 {
   margin: 14px 16px 12px;
   flex: 1;
-  font-family: var(--font-ui);
+  font-family: "YouTube Sans", Roboto, Arial, sans-serif;
   font-size: 1rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.38;
   letter-spacing: 0;
 }
@@ -185,6 +185,7 @@ html[data-theme="dark"] .video-gallery::after {
   grid-column: 1 / -1;
   margin: -2px 0 2px;
   color: var(--muted);
+  font-family: "YouTube Sans", Roboto, Arial, sans-serif;
   font-size: 0.95rem;
   line-height: 1.55;
   text-align: center;
@@ -210,6 +211,7 @@ html[data-theme="dark"] .video-gallery::after {
   min-height: 48px;
   padding-left: 78px;
   padding-right: 78px;
+  font-family: "YouTube Sans", Roboto, Arial, sans-serif;
   text-align: center;
   white-space: normal;
 }
@@ -231,10 +233,10 @@ html[data-theme="dark"] .video-gallery::after {
     linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(85, 109, 100, 0.28));
   border-color: color-mix(in srgb, var(--button-bg) 44%, var(--liquid-glass-border));
   color: var(--primary-dark);
-  font-family: var(--font-ui);
-  font-size: 0.84rem;
-  font-weight: 750;
-  letter-spacing: 0.035em;
+  font-family: "YouTube Sans", Roboto, Arial, sans-serif;
+  font-size: 0.83rem;
+  font-weight: 700;
+  letter-spacing: 0.018em;
   text-transform: uppercase;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.44);
 }
