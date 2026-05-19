@@ -371,11 +371,14 @@
     const brand = header.querySelector(".site-brand-link");
 
     if (brand) {
+      const homeLabel = site.ui?.header?.home || site.menu?.home || "Головна";
+
       brand.href = pageType === "home" ? "#top" : "index.html";
+      brand.dataset.homeLabel = homeLabel;
       brand.title =
         pageType === "home"
           ? site.ui?.header?.backToTop || "Нагору сторінки"
-          : site.ui?.header?.home || site.menu?.home || "Головна";
+          : homeLabel;
     }
 
     if (brand && pageType === "home" && !brand.dataset.scrollTopBound) {
