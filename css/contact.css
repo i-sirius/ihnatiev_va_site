@@ -22,6 +22,8 @@ body[data-page="contact"] .panel h2 {
 body[data-page="contact"] .panel > p {
   margin: 0;
   align-self: center;
+  font-family: var(--font-ui);
+  font-optical-sizing: initial;
   line-height: 1.5;
 }
 

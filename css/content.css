@@ -179,6 +179,8 @@ html[data-theme="dark"] .about-photo-link {
 .about-text {
   flex: 1;
   min-width: 0;
+  font-family: var(--font-content);
+  font-optical-sizing: auto;
   font-size: 1rem;
   line-height: 1.76;
 }
@@ -343,6 +345,8 @@ html[data-theme="dark"] .about-details summary {
   margin: 0;
   padding: 0 22px 8px;
   padding-top: 10px;
+  font-family: var(--font-content);
+  font-optical-sizing: auto;
   line-height: 1.62;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -351,6 +355,8 @@ html[data-theme="dark"] .about-details summary {
 .about-details-copy {
   padding: 10px 22px 20px;
   padding-right: 22px;
+  font-family: var(--font-content);
+  font-optical-sizing: auto;
 }
 
 .about-details-copy p {

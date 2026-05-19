@@ -41,5 +41,7 @@
   margin: 0;
   flex: 1;
   color: var(--muted);
+  font-family: var(--font-content);
+  font-optical-sizing: auto;
   line-height: 1.58;
 }

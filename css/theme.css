@@ -15,8 +15,9 @@
 }
 
 :root {
-  --font-body: "Literata", Constantia, "Palatino Linotype", Georgia, "Times New Roman", serif;
-  --font-ui: "Literata", Constantia, "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --font-body: "Manrope", "Segoe UI", Arial, sans-serif;
+  --font-ui: "Manrope", "Segoe UI", Arial, sans-serif;
+  --font-content: "Literata", Constantia, "Palatino Linotype", Georgia, "Times New Roman", serif;
   --font-display: Constantia, "Palatino Linotype", Georgia, "Times New Roman", serif;
   --bg: #f4f1ea;
   --bg-soft: #ece7dd;

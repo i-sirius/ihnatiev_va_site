@@ -33,5 +33,7 @@ main {
 }
 
 .panel > p {
+  font-family: var(--font-content);
+  font-optical-sizing: auto;
   line-height: 1.62;
 }
