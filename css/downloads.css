@@ -1,11 +1,11 @@
 .download-list {
   list-style: none;
-  margin: 18px 0 0;
+  margin: 16px 0 0;
   padding: 0;
 }
 
 .download-list li + li {
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .download-row {
@@ -14,8 +14,8 @@
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  gap: 12px;
-  border-radius: 14px;
+  gap: 10px;
+  border-radius: 12px;
   border: 1px solid var(--download-row-border);
   background: var(--download-row-bg);
   color: var(--primary-dark);
@@ -31,10 +31,10 @@
   z-index: -1;
   border-radius: inherit;
   background:
-    radial-gradient(circle at 18% 10%, rgba(255, 255, 255, 0.54), transparent 34%),
-    radial-gradient(circle at 86% 88%, rgba(196, 151, 57, 0.16), transparent 44%),
-    linear-gradient(120deg, transparent 0 24%, rgba(255, 255, 255, 0.28) 44%, transparent 66%),
-    color-mix(in srgb, var(--download-row-hover-border) 12%, transparent);
+    radial-gradient(circle at 18% 10%, rgba(255, 255, 255, 0.42), transparent 34%),
+    radial-gradient(circle at 86% 88%, rgba(196, 151, 57, 0.1), transparent 44%),
+    linear-gradient(120deg, transparent 0 26%, rgba(255, 255, 255, 0.2) 44%, transparent 66%),
+    color-mix(in srgb, var(--download-row-hover-border) 9%, transparent);
   opacity: 0;
   transform: translateX(-58%) scaleX(0.42);
   transform-origin: left center;
@@ -65,7 +65,7 @@ html[data-theme="dark"] .download-row::before {
   flex: 1 1 auto;
   display: flex;
   align-items: center;
-  padding: 14px 0 14px 16px;
+  padding: 12px 0 12px 14px;
   border: 0;
   background: transparent;
   color: inherit;
@@ -84,7 +84,7 @@ html[data-theme="dark"] .download-row::before {
 .download-link-main {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   min-width: 0;
   flex: 1 1 auto;
 }
@@ -93,9 +93,9 @@ html[data-theme="dark"] .download-row::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
   background: color-mix(in srgb, var(--primary) 14%, var(--panel-bg));
   border: 1px solid color-mix(in srgb, var(--primary) 26%, var(--border));
   flex: 0 0 auto;
@@ -147,7 +147,7 @@ html[data-theme="dark"] .download-row::before {
   line-height: 1;
   flex: 0 0 auto;
   text-decoration: none;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
@@ -159,8 +159,8 @@ html[data-theme="dark"] .download-row::before {
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
-  padding: 10px 14px 10px 0;
+  gap: 8px;
+  padding: 9px 12px 9px 0;
   flex: 0 0 auto;
   flex-wrap: wrap;
 }
@@ -169,18 +169,18 @@ html[data-theme="dark"] .download-row::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 38px;
-  padding: 0 14px;
+  min-height: 36px;
+  padding: 0 13px;
   border-radius: 999px;
   background: var(--button-bg);
   border: 1px solid transparent;
   color: var(--button-text);
   text-decoration: none;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.055em;
   text-transform: uppercase;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 13px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -200,15 +200,15 @@ html[data-theme="dark"] .download-link-action {
 .download-row:hover,
 .download-row:focus-within {
   color: var(--primary-dark);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   background: var(--download-row-hover-bg);
   border-color: var(--download-row-hover-border);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
 }
 
 .download-row:hover::before,
 .download-row:focus-within::before {
-  opacity: 0.78;
+  opacity: 0.66;
   transform: translateX(0) scaleX(1);
 }
 
@@ -242,19 +242,19 @@ html[data-theme="dark"] .download-row:focus-within .download-link-action {
 
 .downloads-groups {
   display: grid;
-  gap: 22px;
+  gap: 20px;
 }
 
 .download-group {
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 
 .download-group-main {
-  padding: 18px 18px 20px;
-  border: 1px solid color-mix(in srgb, var(--border) 92%, var(--primary));
-  border-radius: 22px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(247, 243, 235, 0.62));
+  padding: 16px 18px 18px;
+  border: 1px solid color-mix(in srgb, var(--border) 86%, var(--primary));
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(247, 243, 235, 0.5));
 }
 
 html[data-theme="dark"] .download-group-main {
@@ -264,25 +264,25 @@ html[data-theme="dark"] .download-group-main {
 .download-group-title {
   margin: 0;
   color: var(--primary-dark);
-  font-size: 1rem;
-  letter-spacing: 0.09em;
+  font-size: 0.94rem;
+  letter-spacing: 0.075em;
   text-transform: uppercase;
 }
 
 .download-subgroups {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .download-subgroup {
-  border: 1px solid color-mix(in srgb, var(--border) 62%, var(--liquid-glass-border));
-  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--border) 72%, var(--liquid-glass-border));
+  border-radius: 14px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 42%),
     color-mix(in srgb, var(--panel-bg) 64%, transparent);
   box-shadow:
-    0 10px 22px rgba(40, 34, 28, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    0 6px 16px rgba(40, 34, 28, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
   backdrop-filter: blur(10px) saturate(1.06);
   -webkit-backdrop-filter: blur(10px) saturate(1.06);
   overflow: hidden;
@@ -298,9 +298,9 @@ html[data-theme="dark"] .download-subgroup {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  font-weight: 700;
+  gap: 10px;
+  padding: 12px 14px;
+  font-weight: 650;
   color: var(--primary-dark);
   transition:
     background 0.2s ease,
@@ -316,22 +316,22 @@ html[data-theme="dark"] .download-subgroup {
 }
 
 .download-subgroup-title {
-  font-size: 0.9rem;
-  letter-spacing: 0.06em;
+  font-size: 0.86rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .download-subgroup-toggle {
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
   flex: 0 0 auto;
   border: 1px solid color-mix(in srgb, var(--button-bg) 42%, var(--liquid-glass-border));
   background: var(--liquid-glass-active-bg);
   color: var(--button-text);
   box-shadow:
-    0 6px 14px rgba(40, 34, 28, 0.1),
+    0 4px 10px rgba(40, 34, 28, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.38);
   backdrop-filter: blur(10px) saturate(1.14);
   -webkit-backdrop-filter: blur(10px) saturate(1.14);
@@ -372,7 +372,7 @@ html[data-theme="dark"] .download-subgroup {
 }
 
 .download-subgroup-body {
-  padding: 0 14px 14px;
+  padding: 0 12px 12px;
 }
 
 .download-group-empty {
