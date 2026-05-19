@@ -817,8 +817,8 @@ html[data-theme="dark"] .site-header.is-compact .theme-toggle-thumb {
   .site-header.is-compact .site-header-controls {
     top: 50%;
     right: max(8px, env(safe-area-inset-right));
-    grid-template-columns: 34px;
-    grid-template-rows: repeat(2, 34px);
+    grid-template-columns: repeat(2, 34px);
+    grid-template-rows: 34px;
     gap: 4px;
     transform: translateY(-50%);
   }
@@ -890,8 +890,8 @@ html[data-theme="dark"] .site-header.is-compact .theme-toggle-thumb {
   .site-header.is-compact .site-header-controls {
     top: 50%;
     right: max(8px, env(safe-area-inset-right));
-    grid-template-columns: repeat(2, 44px);
-    grid-template-rows: 44px;
+    grid-template-columns: 44px;
+    grid-template-rows: repeat(2, 44px);
     gap: 4px;
     transform: translateY(-50%);
   }
