@@ -198,6 +198,22 @@
         );
       };
 
+      const resetLens = () => {
+        pendingTarget = null;
+
+        if (lensFrame) {
+          window.cancelAnimationFrame(lensFrame);
+          lensFrame = 0;
+        }
+
+        if (lensMotionTimer) {
+          window.clearTimeout(lensMotionTimer);
+          lensMotionTimer = 0;
+        }
+
+        clearLens();
+      };
+
       const getLensTarget = (target) => {
         const card = target?.closest?.(".video-card");
         if (card && gallery.contains(card)) {
@@ -282,6 +298,8 @@
         });
         gallery.addEventListener("focusout", clearLens);
         window.addEventListener("resize", () => requestLens(), { passive: true });
+        window.addEventListener("scroll", resetLens, { passive: true });
+        window.addEventListener("site:layout-shift", resetLens);
         gallery.dataset.videoLensBound = "true";
       }
 

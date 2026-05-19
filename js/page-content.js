@@ -112,6 +112,8 @@
 
       details.dataset.enhanced = "true";
       details.addEventListener("toggle", () => {
+        window.dispatchEvent(new CustomEvent("site:layout-shift"));
+
         if (details.open) {
           return;
         }

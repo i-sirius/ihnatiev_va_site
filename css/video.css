@@ -219,6 +219,7 @@ html[data-theme="dark"] .video-gallery::after {
 .video-card-link {
   position: relative;
   z-index: 4;
+  isolation: isolate;
   overflow: visible;
   width: calc(100% - 32px);
   min-height: 48px;
@@ -239,6 +240,8 @@ html[data-theme="dark"] .video-gallery::after {
   letter-spacing: 0.018em;
   text-transform: uppercase;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.44);
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .video-card:hover .video-card-link,
@@ -253,7 +256,7 @@ html[data-theme="dark"] .video-gallery::after {
   box-shadow:
     0 7px 14px rgba(40, 34, 28, 0.06),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  transform: translateY(-1px);
+  transform: translate3d(0, -1px, 0);
   backdrop-filter: blur(10px) saturate(1.08);
   -webkit-backdrop-filter: blur(10px) saturate(1.08);
 }
@@ -299,7 +302,8 @@ html[data-theme="dark"] .video-card-link {
   height: 34px;
   border-radius: 10px;
   background: #ff0033;
-  transform: translateY(-50%);
+  transform: translate3d(0, -50%, 0);
+  backface-visibility: hidden;
 }
 
 .video-card-link-icon::before {
@@ -325,6 +329,9 @@ html[data-theme="dark"] .video-card-link {
   line-height: 1.15;
   transform-origin: center;
   transition: opacity 0.18s ease;
+  color: inherit;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .video-card:hover .video-card-link-copy,
