@@ -673,7 +673,24 @@ html[data-theme="dark"] .language-toggle-option.is-active {
 .site-header.is-compact .language-toggle {
   width: 34px;
   height: 34px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   gap: 0;
+}
+
+.site-header.is-compact .theme-toggle:hover:not(:disabled),
+.site-header.is-compact .theme-toggle:focus-visible,
+.site-header.is-compact .language-toggle:hover,
+.site-header.is-compact .language-toggle:focus-within {
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .site-header.is-compact .site-header-controls {
@@ -704,6 +721,9 @@ html[data-theme="dark"] .language-toggle-option.is-active {
 .site-header.is-compact .language-toggle-options {
   gap: 0;
   border-radius: 999px;
+  overflow: hidden;
+  clip-path: circle(50% at 50% 50%);
+  background-clip: padding-box;
 }
 
 .site-header.is-compact .language-toggle-option {
@@ -734,6 +754,9 @@ html[data-theme="dark"] .language-toggle-option.is-active {
   box-shadow: var(--liquid-glass-shadow);
   backdrop-filter: blur(12px) saturate(1.12);
   -webkit-backdrop-filter: blur(12px) saturate(1.12);
+  overflow: hidden;
+  clip-path: circle(50% at 50% 50%);
+  background-clip: padding-box;
 }
 
 .site-header.is-compact .language-toggle-options,
@@ -1889,11 +1912,25 @@ html[data-theme="dark"] .theme-toggle-track {
   .site-header.is-compact .theme-toggle {
     width: 44px;
     height: 44px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .site-header.is-compact .language-toggle {
     width: 44px;
     height: 44px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .site-header.is-compact .theme-toggle-label,
@@ -1905,6 +1942,9 @@ html[data-theme="dark"] .theme-toggle-track {
     width: 44px;
     height: 44px;
     padding: 0;
+    overflow: hidden;
+    clip-path: circle(50% at 50% 50%);
+    background-clip: padding-box;
   }
 
   .site-header.is-compact .language-toggle-option {
@@ -1923,6 +1963,9 @@ html[data-theme="dark"] .theme-toggle-track {
     width: 44px;
     height: 44px;
     padding: 0;
+    overflow: hidden;
+    clip-path: circle(50% at 50% 50%);
+    background-clip: padding-box;
   }
 
   .site-header.is-compact .theme-toggle-track-icon {

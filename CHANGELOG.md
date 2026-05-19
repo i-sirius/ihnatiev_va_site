@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.21u
+
+**Жорстке кругле clipping для compact-перемикачів.**
+
+- Для compact language/theme controls додано `overflow: hidden`, `clip-path: circle(...)` і `background-clip`, щоб glass/backdrop-шари не малювали квадратні куточки.
+- У compact-режимі сам `button.theme-toggle` примусово лишається прозорим у normal/hover/focus станах.
+- Оновлено build-версію до `0.6.21u` і кеш service worker до `v0.6.21u-r1`.
+
 ## 0.6.21t
 
 **Hotfix залишкової glass-підкладки compact controls.**
