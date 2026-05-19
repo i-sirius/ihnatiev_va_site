@@ -447,6 +447,11 @@ body[data-page="contact"] button[type="submit"]:disabled {
     grid-template-columns: 1fr;
   }
 
+  .contact-social-button {
+    min-height: 56px;
+    padding: 10px 12px;
+  }
+
   .contact-split {
     grid-template-columns: 1fr;
   }
@@ -457,12 +462,12 @@ body[data-page="contact"] button[type="submit"]:disabled {
 
   body[data-page="contact"] .panel {
     width: min(920px, calc(100% - 24px));
-    padding: 24px;
+    padding: 20px;
   }
 
   body[data-page="contact"] form[data-contact-form] {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   body[data-page="contact"] form[data-contact-form] > label:nth-of-type(2),

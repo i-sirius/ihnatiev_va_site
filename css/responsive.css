@@ -1,7 +1,13 @@
 @media (max-width: 900px) {
   .panel {
     width: min(920px, calc(100% - 24px));
-    padding: 24px;
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .panel h2 {
+    margin-bottom: 16px;
+    font-size: 1.32rem;
   }
 
   .gallery {
@@ -23,7 +29,8 @@
   }
 
   .about-text {
-    font-size: 1rem;
+    font-size: 0.98rem;
+    line-height: 1.58;
   }
 
   .activity-cards,
@@ -49,7 +56,7 @@
 
   .about-details-copy,
   .about-details-list {
-    padding-right: 22px;
+    padding-right: 0;
   }
 
   .gallery-lightbox {
@@ -89,6 +96,19 @@
     margin-top: 8px;
     font-size: 0.82rem;
     line-height: 1.35;
+  }
+}
+
+@media (max-width: 520px) {
+  .panel {
+    width: calc(100% - 20px);
+    margin: 20px auto;
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+
+  .panel h2 {
+    font-size: 1.24rem;
   }
 }
 

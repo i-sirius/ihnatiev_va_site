@@ -393,19 +393,23 @@ html[data-theme="dark"] .download-subgroup {
 }
 
 @media (max-width: 900px) {
+  .download-group-main {
+    padding: 14px;
+    border-radius: 16px;
+  }
 
   .download-row {
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .download-preview-trigger {
-    padding: 14px 16px 0;
+    padding: 12px 14px 0;
   }
 
   .download-actions {
     width: 100%;
-    padding: 0 16px 16px;
+    padding: 0 14px 14px;
     justify-content: stretch;
   }
 
