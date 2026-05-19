@@ -14,6 +14,45 @@ media_folder: files/media/uploads
 public_folder: files/media/uploads
 
 collections:
+  - name: home_content
+    label: "Головна сторінка"
+    files:
+      - name: home
+        label: "Тексти головної сторінки"
+        file: files/content/home.json
+        format: json
+        fields:
+          - label: "Українська"
+            name: uk
+            widget: object
+            fields:
+              - { label: "Заголовок блоку про автора", name: aboutHeading, widget: string }
+              - label: "Фото автора"
+                name: aboutImage
+                widget: object
+                fields:
+                  - { label: "Опис для доступності", name: alt, widget: string }
+              - label: "Абзаци про автора"
+                name: aboutParagraphs
+                widget: list
+                field: { label: "Абзац", name: paragraph, widget: text }
+              - { label: "Заголовок блоку діяльності", name: activitiesHeading, widget: string }
+          - label: "English"
+            name: en
+            widget: object
+            fields:
+              - { label: "About block heading", name: aboutHeading, widget: string }
+              - label: "Author photo"
+                name: aboutImage
+                widget: object
+                fields:
+                  - { label: "Accessible description", name: alt, widget: string }
+              - label: "About paragraphs"
+                name: aboutParagraphs
+                widget: list
+                field: { label: "Paragraph", name: paragraph, widget: text }
+              - { label: "Activities block heading", name: activitiesHeading, widget: string }
+
   - name: gallery_activity1
     label: "Галерея: Наукова активність"
     media_folder: files/media/activity1

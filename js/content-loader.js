@@ -113,12 +113,49 @@
       });
   }
 
+  function normalizeHomeContent(payload, locale = "uk", fallbackHome = {}) {
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      return fallbackHome;
+    }
+
+    const localizedHome = payload[locale] || payload.uk || {};
+    if (!localizedHome || typeof localizedHome !== "object" || Array.isArray(localizedHome)) {
+      return fallbackHome;
+    }
+
+    const nextHome = {
+      ...fallbackHome,
+      ...localizedHome,
+      aboutImage: {
+        ...(fallbackHome.aboutImage || {}),
+        ...(localizedHome.aboutImage || {})
+      }
+    };
+
+    if (!Array.isArray(localizedHome.aboutParagraphs)) {
+      nextHome.aboutParagraphs = fallbackHome.aboutParagraphs;
+    }
+
+    return nextHome;
+  }
+
+  function loadHomeContent({
+    path = "files/content/home.json",
+    locale = "uk",
+    fallbackHome = {}
+  } = {}) {
+    return fetchJson(path)
+      .then((payload) => normalizeHomeContent(payload, locale, fallbackHome))
+      .catch(() => fallbackHome);
+  }
+
   window.SiteContentLoader = {
     fetchJson,
     filterAvailableImages,
     loadActivityGallery,
     loadDownloadsGroups,
     loadFileList,
+    loadHomeContent,
     normalizeJsonList
   };
 })();

@@ -179,7 +179,51 @@ function checkDownloads(relativePath) {
   });
 }
 
+function isNonEmptyString(value) {
+  return typeof value === "string" && Boolean(value.trim());
+}
+
+function checkHomeContent(relativePath) {
+  const payload = readJson(relativePath);
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    fail(`${relativePath}: expected an object with uk/en home content`);
+    return;
+  }
+
+  ["uk", "en"].forEach((locale) => {
+    const home = payload[locale];
+    if (!home || typeof home !== "object" || Array.isArray(home)) {
+      fail(`${relativePath}: missing ${locale} content object`);
+      return;
+    }
+
+    ["aboutHeading", "activitiesHeading"].forEach((key) => {
+      if (!isNonEmptyString(home[key])) {
+        fail(`${relativePath}: ${locale}.${key} must be a non-empty string`);
+      }
+    });
+
+    if (!home.aboutImage || typeof home.aboutImage !== "object" || Array.isArray(home.aboutImage)) {
+      fail(`${relativePath}: ${locale}.aboutImage must be an object`);
+    } else if (!isNonEmptyString(home.aboutImage.alt)) {
+      fail(`${relativePath}: ${locale}.aboutImage.alt must be a non-empty string`);
+    }
+
+    if (!Array.isArray(home.aboutParagraphs) || !home.aboutParagraphs.length) {
+      fail(`${relativePath}: ${locale}.aboutParagraphs must be a non-empty array`);
+      return;
+    }
+
+    home.aboutParagraphs.forEach((paragraph, index) => {
+      if (!isNonEmptyString(paragraph)) {
+        fail(`${relativePath}: ${locale}.aboutParagraphs[${index}] must be a non-empty string`);
+      }
+    });
+  });
+}
+
 function checkKnownContentManifests() {
+  checkHomeContent("files/content/home.json");
   checkPhotoManifest("files/media/activity1/photos.json");
   checkPhotoManifest("files/media/activity2/photos.json");
   checkPhotoManifest("files/media/activity3/photos.json");

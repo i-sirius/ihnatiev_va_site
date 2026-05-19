@@ -1,0 +1,30 @@
+{
+  "uk": {
+    "aboutHeading": "Про мене",
+    "aboutImage": {
+      "alt": "Фото Віталія Ігнатьєва"
+    },
+    "aboutParagraphs": [
+      "Закінчив філософський факультет Київського державного університету імені Тараса Шевченка і отримав кваліфікацію спеціаліста за спеціальністю «філософ, викладач філософських дисциплін».",
+      "У 2010 р. в Інституті вищої освіти АПН України захистив кандидатську дисертацію на тему: «Націософія в дискурсі філософських парадигм».",
+      "У 2013 р. присвоєно вчене звання доцента кафедри суспільно-політичних наук, глобалістики та соціальних комунікацій.",
+      "У 2025 р. завершив навчання в докторантурі Рівненського державного гуманітарного університету за спеціальністю 031 «Релігієзнавство».",
+      "За результатами дослідження вийшла з друку монографія: «Ісихазм у контексті некласичної філософсько-релігійної парадигми»."
+    ],
+    "activitiesHeading": "Моя діяльність"
+  },
+  "en": {
+    "aboutHeading": "About Me",
+    "aboutImage": {
+      "alt": "Photo of Vitalii Ihnatiev"
+    },
+    "aboutParagraphs": [
+      "He graduated from the Faculty of Philosophy at Taras Shevchenko National University of Kyiv and obtained the qualification of a Specialist in Philosophy (Philosopher, Lecturer in Philosophical Disciplines).",
+      "In 2010, he defended his PhD dissertation at the Institute of Higher Education of the Academy of Pedagogical Sciences of Ukraine on the topic “Natiosophy in the Discourse of Philosophical Paradigms.”",
+      "In 2013, he was awarded the academic title of Associate Professor of the Department of Socio-Political Sciences, Global Studies, and Social Communications.",
+      "In 2025, he completed his doctoral studies at Rivne State University for the Humanities, specialty 031 “Religious Studies.”",
+      "As a result of the research, the monograph “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm” was published."
+    ],
+    "activitiesHeading": "My Activities"
+  }
+}

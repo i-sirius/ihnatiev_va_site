@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.23a
+
+**Перший виніс home-контенту з `config.js`.**
+
+- Додано `files/content/home.json` з home/about текстами українською й англійською.
+- Головна сторінка рендерить fallback з `config.js`, а потім підтягує JSON-контент без ламання старої схеми.
+- Додано CMS-колекцію для редагування заголовків, alt-тексту фото й абзаців блоку про автора.
+- `check-content` тепер перевіряє структуру `home.json`; файл додано в service worker precache і CMS checklist.
+- Оновлено build-версію до `0.6.23a` і кеш service worker до `v0.6.23a-r1`.
+
 ## 0.6.22b
 
 **Контроль Decap CMS-конфіга.**

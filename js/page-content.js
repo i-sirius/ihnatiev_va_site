@@ -123,6 +123,23 @@
     });
   }
 
+  function renderHomeContent({
+    home = {},
+    site = window.SITE || {},
+    setText = () => {},
+    initHomeAboutLightbox = () => {}
+  } = {}) {
+    setText("[data-home-about-heading]", home.aboutHeading);
+    setText("[data-home-activities-heading]", home.activitiesHeading);
+    updateImage("[data-home-about-image]", home.aboutImage);
+    initHomeAboutLightbox(home.aboutImage);
+    renderParagraphs({
+      selector: "[data-home-about-paragraphs]",
+      paragraphs: home.aboutParagraphs,
+      site
+    });
+  }
+
   function renderActivityResearchLinks({
     activity,
     activityId,
@@ -190,16 +207,41 @@
     document.documentElement.lang = site.currentLocale || site.defaultLocale || "uk";
     setText("[data-site-title]", site.meta.siteTitle);
     setText("[data-site-subtitle]", site.meta.homeSubtitle);
-    setText("[data-home-about-heading]", site.home.aboutHeading);
-    setText("[data-home-activities-heading]", site.home.activitiesHeading);
     setText("[data-activity-card-link]", site.ui?.buttons?.open || "Перейти");
-    updateImage("[data-home-about-image]", site.home.aboutImage);
-    initHomeAboutLightbox(site.home.aboutImage);
-    renderParagraphs({
-      selector: "[data-home-about-paragraphs]",
-      paragraphs: site.home.aboutParagraphs,
-      site
+
+    const fallbackHome = site.home || {};
+    renderHomeContent({
+      home: fallbackHome,
+      site,
+      setText,
+      initHomeAboutLightbox
     });
+
+    if (pageType === "home") {
+      const contentLocale = site.currentLocale || site.defaultLocale || "uk";
+      const loadHomeContent = window.SiteContentLoader?.loadHomeContent;
+
+      if (typeof loadHomeContent === "function") {
+        loadHomeContent({
+          locale: contentLocale,
+          fallbackHome
+        }).then((homeContent) => {
+          const activeLocale = site.currentLocale || site.defaultLocale || "uk";
+          if (activeLocale !== contentLocale) {
+            return;
+          }
+
+          site.home = homeContent;
+          renderHomeContent({
+            home: homeContent,
+            site,
+            setText,
+            initHomeAboutLightbox
+          });
+          initDetailsInteractions();
+        });
+      }
+    }
 
     setText("[data-activity-videos-heading]", site.ui?.activitySections?.videos || "Відео");
     setText("[data-activity-photos-heading]", site.ui?.activitySections?.photos || "Фото");

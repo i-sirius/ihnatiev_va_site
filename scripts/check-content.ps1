@@ -150,6 +150,51 @@ function Test-DownloadsManifest {
   }
 }
 
+function Test-NonEmptyString {
+  param($Value)
+  return ($Value -is [string] -and $Value.Trim())
+}
+
+function Test-HomeContentManifest {
+  param([string]$RelativePath)
+  $Payload = Read-JsonFile $RelativePath
+  if (-not $Payload) {
+    return
+  }
+
+  foreach ($Locale in @("uk", "en")) {
+    $HomeContent = $Payload.$Locale
+    if (-not $HomeContent) {
+      Add-CheckError "${RelativePath}: missing ${Locale} content object"
+      continue
+    }
+
+    foreach ($Key in @("aboutHeading", "activitiesHeading")) {
+      if (-not (Test-NonEmptyString $HomeContent.$Key)) {
+        Add-CheckError "${RelativePath}: ${Locale}.${Key} must be a non-empty string"
+      }
+    }
+
+    if (-not $HomeContent.aboutImage) {
+      Add-CheckError "${RelativePath}: ${Locale}.aboutImage must be an object"
+    } elseif (-not (Test-NonEmptyString $HomeContent.aboutImage.alt)) {
+      Add-CheckError "${RelativePath}: ${Locale}.aboutImage.alt must be a non-empty string"
+    }
+
+    $Paragraphs = @($HomeContent.aboutParagraphs)
+    if (-not $Paragraphs.Count) {
+      Add-CheckError "${RelativePath}: ${Locale}.aboutParagraphs must be a non-empty array"
+      continue
+    }
+
+    for ($Index = 0; $Index -lt $Paragraphs.Count; $Index++) {
+      if (-not (Test-NonEmptyString $Paragraphs[$Index])) {
+        Add-CheckError "${RelativePath}: ${Locale}.aboutParagraphs[$Index] must be a non-empty string"
+      }
+    }
+  }
+}
+
 function Resolve-SourceRelativeReference {
   param(
     [string]$SourceFile,
@@ -183,6 +228,7 @@ foreach ($File in $AllFiles) {
   }
 }
 
+Test-HomeContentManifest "files/content/home.json"
 Test-PhotoManifest "files/media/activity1/photos.json"
 Test-PhotoManifest "files/media/activity2/photos.json"
 Test-PhotoManifest "files/media/activity3/photos.json"
