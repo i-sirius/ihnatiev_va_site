@@ -132,6 +132,7 @@ html[data-theme="dark"] .video-gallery::after {
   padding: 0 0 16px;
   overflow: hidden;
   align-items: stretch;
+  font-family: var(--font-ui);
 }
 
 .video-card:hover {
@@ -169,6 +170,11 @@ html[data-theme="dark"] .video-gallery::after {
 .video-card h3 {
   margin: 14px 16px 12px;
   flex: 1;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.38;
+  letter-spacing: 0;
 }
 
 .video-status-text {
@@ -225,6 +231,11 @@ html[data-theme="dark"] .video-gallery::after {
     linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(85, 109, 100, 0.28));
   border-color: color-mix(in srgb, var(--button-bg) 44%, var(--liquid-glass-border));
   color: var(--primary-dark);
+  font-family: var(--font-ui);
+  font-size: 0.84rem;
+  font-weight: 750;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.44);
 }
 
@@ -311,13 +322,13 @@ html[data-theme="dark"] .video-card-link {
   min-width: 0;
   line-height: 1.15;
   transform-origin: center;
-  transition: transform 0.22s ease, letter-spacing 0.22s ease;
+  transition: opacity 0.18s ease;
 }
 
 .video-card:hover .video-card-link-copy,
 .video-card:focus-visible .video-card-link-copy,
 .video-card:focus-within .video-card-link-copy {
-  transform: scale(1.035);
+  opacity: 0.96;
 }
 
 .video-card-link-label,
@@ -329,8 +340,8 @@ html[data-theme="dark"] .video-card-link {
   margin-top: 3px;
   color: inherit;
   font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: 500;
+  letter-spacing: 0;
   text-transform: none;
   opacity: 0.78;
 }
