@@ -389,13 +389,14 @@ textarea {
 .contact-split-separator {
   display: grid;
   place-items: center;
-  align-self: stretch;
+  align-self: start;
+  min-height: 48px;
+  margin-top: calc(1.65em + 4px);
   padding: 0 2px;
   color: var(--muted);
   font-weight: 700;
   font-size: 1.04rem;
   line-height: 1;
-  transform: translateY(2px);
 }
 
 body[data-page="contact"] textarea {
