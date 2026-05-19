@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.21m
+
+**Cache hygiene для локальних шрифтів.**
+
+- Прибрано font-файли й OFL license txt з `APP_SHELL`, щоб service worker install не тягнув майже мегабайтний Literata одразу.
+- Шрифти залишаються кешованими через runtime cache pattern для `ttf/woff/woff2/otf`, коли браузер реально їх запитує.
+- Критичний shell сайту залишено у precache без зміни офлайн-логіки сторінок.
+- Оновлено build-версію до `0.6.21m` і кеш service worker до `v0.6.21m-r1`.
+
 ## 0.6.21l
 
 **Mobile-pass після візуального полегшення.**
