@@ -324,6 +324,8 @@ function checkPublicationsContent(relativePath) {
     return;
   }
 
+  const knownTypes = new Set(["article", "conference", "monograph", "teaching", "other"]);
+
   ["uk", "en"].forEach((locale) => {
     const labels = payload[locale];
     if (!labels || typeof labels !== "object" || Array.isArray(labels)) {
@@ -336,6 +338,32 @@ function checkPublicationsContent(relativePath) {
         fail(`${relativePath}: ${locale}.${key} must be a non-empty string`);
       }
     });
+
+    [
+      "searchLabel",
+      "searchPlaceholder",
+      "yearLabel",
+      "typeLabel",
+      "allYearsLabel",
+      "allTypesLabel",
+      "emptyLabel"
+    ].forEach((key) => {
+      if (labels[key] !== undefined && !isNonEmptyString(labels[key])) {
+        fail(`${relativePath}: ${locale}.${key} must be a non-empty string when present`);
+      }
+    });
+
+    if (labels.typeLabels !== undefined) {
+      if (!labels.typeLabels || typeof labels.typeLabels !== "object" || Array.isArray(labels.typeLabels)) {
+        fail(`${relativePath}: ${locale}.typeLabels must be an object when present`);
+      } else {
+        knownTypes.forEach((type) => {
+          if (!isNonEmptyString(labels.typeLabels[type])) {
+            fail(`${relativePath}: ${locale}.typeLabels.${type} must be a non-empty string`);
+          }
+        });
+      }
+    }
   });
 
   if (!Array.isArray(payload.items) || !payload.items.length) {
@@ -344,8 +372,28 @@ function checkPublicationsContent(relativePath) {
   }
 
   payload.items.forEach((item, index) => {
-    if (!isNonEmptyString(item)) {
-      fail(`${relativePath}: items[${index}] must be a non-empty string`);
+    if (isNonEmptyString(item)) {
+      return;
+    }
+
+    if (!item || typeof item !== "object" || Array.isArray(item)) {
+      fail(`${relativePath}: items[${index}] must be a string or object`);
+      return;
+    }
+
+    if (!isNonEmptyString(item.text)) {
+      fail(`${relativePath}: items[${index}].text must be a non-empty string`);
+    }
+
+    if (item.year !== undefined && item.year !== null) {
+      const year = Number(item.year);
+      if (!Number.isInteger(year) || year < 1900 || year > 2100) {
+        fail(`${relativePath}: items[${index}].year must be a year between 1900 and 2100`);
+      }
+    }
+
+    if (item.type !== undefined && !knownTypes.has(item.type)) {
+      fail(`${relativePath}: items[${index}].type must be one of ${Array.from(knownTypes).join(", ")}`);
     }
   });
 }

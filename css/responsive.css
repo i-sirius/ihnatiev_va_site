@@ -59,6 +59,19 @@
     padding-right: 0;
   }
 
+  .about-publications-tools {
+    grid-template-columns: 1fr;
+    padding-inline: 16px;
+  }
+
+  .about-publications-list {
+    padding-inline: 16px;
+  }
+
+  .about-publications-list li {
+    grid-template-columns: 1fr;
+  }
+
   .gallery-lightbox {
     padding: 48px 14px 20px;
     place-items: start center;

@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.23e",
+    buildVersion: "0.6.23f",
     buildDate: "180526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",

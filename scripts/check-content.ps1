@@ -293,6 +293,8 @@ function Test-PublicationsContentManifest {
     return
   }
 
+  $KnownTypes = @("article", "conference", "monograph", "teaching", "other")
+
   foreach ($Locale in @("uk", "en")) {
     $Labels = $Payload.$Locale
     if (-not $Labels) {
@@ -305,6 +307,20 @@ function Test-PublicationsContentManifest {
         Add-CheckError "${RelativePath}: ${Locale}.${Key} must be a non-empty string"
       }
     }
+
+    foreach ($Key in @("searchLabel", "searchPlaceholder", "yearLabel", "typeLabel", "allYearsLabel", "allTypesLabel", "emptyLabel")) {
+      if ($null -ne $Labels.$Key -and -not (Test-NonEmptyString $Labels.$Key)) {
+        Add-CheckError "${RelativePath}: ${Locale}.${Key} must be a non-empty string when present"
+      }
+    }
+
+    if ($null -ne $Labels.typeLabels) {
+      foreach ($Type in $KnownTypes) {
+        if (-not (Test-NonEmptyString $Labels.typeLabels.$Type)) {
+          Add-CheckError "${RelativePath}: ${Locale}.typeLabels.${Type} must be a non-empty string"
+        }
+      }
+    }
   }
 
   $Items = @($Payload.items)
@@ -314,8 +330,29 @@ function Test-PublicationsContentManifest {
   }
 
   for ($Index = 0; $Index -lt $Items.Count; $Index++) {
-    if (-not (Test-NonEmptyString $Items[$Index])) {
-      Add-CheckError "${RelativePath}: items[$Index] must be a non-empty string"
+    $Item = $Items[$Index]
+    if (Test-NonEmptyString $Item) {
+      continue
+    }
+
+    if (-not $Item -or $Item -is [string]) {
+      Add-CheckError "${RelativePath}: items[$Index] must be a string or object"
+      continue
+    }
+
+    if (-not (Test-NonEmptyString $Item.text)) {
+      Add-CheckError "${RelativePath}: items[$Index].text must be a non-empty string"
+    }
+
+    if ($null -ne $Item.year) {
+      $Year = 0
+      if (-not [int]::TryParse([string]$Item.year, [ref]$Year) -or $Year -lt 1900 -or $Year -gt 2100) {
+        Add-CheckError "${RelativePath}: items[$Index].year must be a year between 1900 and 2100"
+      }
+    }
+
+    if ($null -ne $Item.type -and $KnownTypes -notcontains $Item.type) {
+      Add-CheckError "${RelativePath}: items[$Index].type must be one of $($KnownTypes -join ', ')"
     }
   }
 }

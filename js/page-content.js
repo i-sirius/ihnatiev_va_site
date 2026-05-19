@@ -1,4 +1,6 @@
 (() => {
+  const publicationTypeOrder = ["monograph", "article", "conference", "teaching", "other"];
+
   function updateImage(selector, image, fallbackImage = null) {
     const source = image || fallbackImage;
     if (!source) {
@@ -17,6 +19,112 @@
         };
       }
     });
+  }
+
+  function escapeHtml(value = "") {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function normalizePublicationItem(item) {
+    if (typeof item === "string") {
+      return { text: item, year: "", type: "other" };
+    }
+
+    if (!item || typeof item !== "object") {
+      return null;
+    }
+
+    const text = item.text || item.item || "";
+    if (!text) {
+      return null;
+    }
+
+    return {
+      text,
+      year: item.year || "",
+      type: item.type || "other"
+    };
+  }
+
+  function getPublicationTypeLabel(type, labels = {}) {
+    return labels[type] || labels.other || type || "";
+  }
+
+  function renderPublicationTools(paragraph, items) {
+    const years = [...new Set(items.map((item) => item.year).filter(Boolean))]
+      .sort((a, b) => Number(b) - Number(a));
+    const types = [...new Set(items.map((item) => item.type).filter(Boolean))]
+      .sort((a, b) => publicationTypeOrder.indexOf(a) - publicationTypeOrder.indexOf(b));
+    const typeLabels = paragraph.typeLabels || {};
+
+    const yearOptions = years
+      .map((year) => `<option value="${escapeHtml(year)}">${escapeHtml(year)}</option>`)
+      .join("");
+    const typeOptions = types
+      .map((type) => {
+        const label = getPublicationTypeLabel(type, typeLabels);
+        return `<option value="${escapeHtml(type)}">${escapeHtml(label)}</option>`;
+      })
+      .join("");
+
+    return `
+      <div class="about-publications-tools" data-publication-tools>
+        <label class="about-publications-field">
+          <span>${escapeHtml(paragraph.searchLabel || "Пошук")}</span>
+          <input
+            type="search"
+            data-publication-search
+            placeholder="${escapeHtml(paragraph.searchPlaceholder || "")}"
+            autocomplete="off"
+          >
+        </label>
+        <label class="about-publications-field">
+          <span>${escapeHtml(paragraph.yearLabel || "Рік")}</span>
+          <select data-publication-year>
+            <option value="">${escapeHtml(paragraph.allYearsLabel || "Усі роки")}</option>
+            ${yearOptions}
+          </select>
+        </label>
+        <label class="about-publications-field">
+          <span>${escapeHtml(paragraph.typeLabel || "Тип")}</span>
+          <select data-publication-type>
+            <option value="">${escapeHtml(paragraph.allTypesLabel || "Усі типи")}</option>
+            ${typeOptions}
+          </select>
+        </label>
+      </div>
+    `;
+  }
+
+  function renderPublicationItems(paragraph, items) {
+    const typeLabels = paragraph.typeLabels || {};
+
+    return items
+      .map((item) => {
+        const typeLabel = getPublicationTypeLabel(item.type, typeLabels);
+        const searchText = [item.text, item.year, item.type, typeLabel].filter(Boolean).join(" ");
+
+        return `
+          <li
+            data-publication-item
+            data-publication-year="${escapeHtml(item.year)}"
+            data-publication-type="${escapeHtml(item.type)}"
+            data-publication-search="${escapeHtml(searchText.toLocaleLowerCase())}"
+          >
+            <span class="about-publication-meta">
+              ${item.year ? `<span>${escapeHtml(item.year)}</span>` : ""}
+              ${typeLabel ? `<span>${escapeHtml(typeLabel)}</span>` : ""}
+            </span>
+            <span class="about-publication-text">${escapeHtml(item.text)}</span>
+          </li>
+        `;
+      })
+      .join("");
   }
 
   function renderParagraphs({
@@ -41,15 +149,28 @@
           }
 
           if (paragraph?.type === "details") {
-            const items = Array.isArray(paragraph.items)
-              ? paragraph.items.map((item) => `<li>${item}</li>`).join("")
+            const publicationItems = Array.isArray(paragraph.items)
+              ? paragraph.items.map(normalizePublicationItem).filter(Boolean)
+              : [];
+            const isPublicationList =
+              paragraph.variant === "publications" && publicationItems.length;
+            const items = isPublicationList
+              ? renderPublicationItems(paragraph, publicationItems)
+              : Array.isArray(paragraph.items)
+                ? paragraph.items.map((item) => `<li>${item}</li>`).join("")
+                : "";
+            const tools = isPublicationList
+              ? renderPublicationTools(paragraph, publicationItems)
+              : "";
+            const emptyMessage = isPublicationList
+              ? `<p class="about-publications-empty" data-publication-empty hidden>${escapeHtml(paragraph.emptyLabel || "Нічого не знайдено")}</p>`
               : "";
             const description = paragraph.description
               ? `<p class="about-details-description">${paragraph.description}</p>`
               : "";
 
             return `
-              <details class="about-details">
+              <details class="about-details${isPublicationList ? " about-details-publications" : ""}">
                 <summary>
                   <span class="about-details-summary-text">${paragraph.summary || defaultDetailsSummary}</span>
                   <span class="about-details-arrow" aria-hidden="true">
@@ -59,7 +180,9 @@
                 </summary>
                 <div class="about-details-body">
                   ${description}
-                  <ol class="about-details-list">${items}</ol>
+                  ${tools}
+                  <ol class="about-details-list${isPublicationList ? " about-publications-list" : ""}">${items}</ol>
+                  ${emptyMessage}
                 </div>
               </details>
             `;
@@ -104,8 +227,58 @@
     });
   }
 
+  function initPublicationFilters(details) {
+    if (!details.classList.contains("about-details-publications") || details.dataset.publicationsReady === "true") {
+      return;
+    }
+
+    const searchInput = details.querySelector("[data-publication-search]");
+    const yearSelect = details.querySelector("[data-publication-year]");
+    const typeSelect = details.querySelector("[data-publication-type]");
+    const items = Array.from(details.querySelectorAll("[data-publication-item]"));
+    const emptyMessage = details.querySelector("[data-publication-empty]");
+
+    if (!items.length) {
+      return;
+    }
+
+    const applyFilters = () => {
+      const query = (searchInput?.value || "").trim().toLocaleLowerCase();
+      const year = yearSelect?.value || "";
+      const type = typeSelect?.value || "";
+      let visibleCount = 0;
+
+      items.forEach((item) => {
+        const matchesQuery = !query || item.dataset.publicationSearch?.includes(query);
+        const matchesYear = !year || item.dataset.publicationYear === year;
+        const matchesType = !type || item.dataset.publicationType === type;
+        const isVisible = matchesQuery && matchesYear && matchesType;
+
+        item.hidden = !isVisible;
+        if (isVisible) {
+          visibleCount += 1;
+        }
+      });
+
+      if (emptyMessage) {
+        emptyMessage.hidden = visibleCount > 0;
+      }
+
+      window.requestAnimationFrame(() => {
+        window.dispatchEvent(new CustomEvent("site:layout-shift"));
+      });
+    };
+
+    searchInput?.addEventListener("input", applyFilters);
+    yearSelect?.addEventListener("change", applyFilters);
+    typeSelect?.addEventListener("change", applyFilters);
+    details.dataset.publicationsReady = "true";
+  }
+
   function initDetailsInteractions() {
     document.querySelectorAll(".about-details").forEach((details) => {
+      initPublicationFilters(details);
+
       if (details.dataset.enhanced === "true") {
         return;
       }

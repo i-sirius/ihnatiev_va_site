@@ -239,18 +239,50 @@
       .catch(() => ({}));
   }
 
+  function normalizePublicationsItems(items, fallbackItems = []) {
+    const sourceItems = Array.isArray(items) ? items : fallbackItems;
+
+    if (!Array.isArray(sourceItems)) {
+      return [];
+    }
+
+    return sourceItems
+      .map((item) => {
+        if (typeof item === "string") {
+          return { text: item };
+        }
+
+        if (!item || typeof item !== "object") {
+          return null;
+        }
+
+        const text = item.text || item.item || "";
+        if (!text) {
+          return null;
+        }
+
+        return {
+          text,
+          year: item.year || "",
+          type: item.type || "other"
+        };
+      })
+      .filter(Boolean);
+  }
+
   function normalizePublicationsContent(payload, locale = "uk", fallbackPublications = {}) {
     if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
       return fallbackPublications;
     }
 
     const localizedLabels = payload[locale] || payload.uk || {};
-    const items = Array.isArray(payload.items) ? payload.items : fallbackPublications.items;
+    const items = normalizePublicationsItems(payload.items, fallbackPublications.items);
 
     return {
       ...fallbackPublications,
       ...localizedLabels,
-      items: Array.isArray(items) ? items : fallbackPublications.items
+      variant: "publications",
+      items: items.length ? items : normalizePublicationsItems(fallbackPublications.items)
     };
   }
 

@@ -227,17 +227,61 @@ collections:
             fields:
               - { label: "Заголовок списку", name: summary, widget: string }
               - { label: "Опис списку", name: description, widget: string }
+              - { label: "Label: пошук", name: searchLabel, widget: string }
+              - { label: "Placeholder пошуку", name: searchPlaceholder, widget: string }
+              - { label: "Label: рік", name: yearLabel, widget: string }
+              - { label: "Label: тип", name: typeLabel, widget: string }
+              - { label: "Усі роки", name: allYearsLabel, widget: string }
+              - { label: "Усі типи", name: allTypesLabel, widget: string }
+              - { label: "Порожній результат", name: emptyLabel, widget: string }
+              - label: "Назви типів"
+                name: typeLabels
+                widget: object
+                fields:
+                  - { label: "Стаття", name: article, widget: string }
+                  - { label: "Конференція", name: conference, widget: string }
+                  - { label: "Монографія", name: monograph, widget: string }
+                  - { label: "Навчальні матеріали", name: teaching, widget: string }
+                  - { label: "Інше", name: other, widget: string }
           - label: "English"
             name: en
             widget: object
             fields:
               - { label: "List heading", name: summary, widget: string }
               - { label: "List description", name: description, widget: string }
+              - { label: "Search label", name: searchLabel, widget: string }
+              - { label: "Search placeholder", name: searchPlaceholder, widget: string }
+              - { label: "Year label", name: yearLabel, widget: string }
+              - { label: "Type label", name: typeLabel, widget: string }
+              - { label: "All years", name: allYearsLabel, widget: string }
+              - { label: "All types", name: allTypesLabel, widget: string }
+              - { label: "Empty result", name: emptyLabel, widget: string }
+              - label: "Type labels"
+                name: typeLabels
+                widget: object
+                fields:
+                  - { label: "Article", name: article, widget: string }
+                  - { label: "Conference", name: conference, widget: string }
+                  - { label: "Monograph", name: monograph, widget: string }
+                  - { label: "Teaching materials", name: teaching, widget: string }
+                  - { label: "Other", name: other, widget: string }
           - label: "Публікації"
             name: items
             widget: list
-            summary: "{{fields.item}}"
-            field: { label: "Публікація", name: item, widget: text }
+            summary: "{{fields.year}} · {{fields.type}} · {{fields.text}}"
+            fields:
+              - { label: "Текст", name: text, widget: text }
+              - { label: "Рік", name: year, widget: number, value_type: int, min: 1900, max: 2100, required: false }
+              - label: "Тип"
+                name: type
+                widget: select
+                default: other
+                options:
+                  - { label: "Стаття", value: article }
+                  - { label: "Конференція", value: conference }
+                  - { label: "Монографія", value: monograph }
+                  - { label: "Навчальні матеріали", value: teaching }
+                  - { label: "Інше", value: other }
 
   - name: gallery_activity1
     label: "Галерея: Наукова активність"
