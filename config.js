@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.21z",
+    buildVersion: "0.6.22",
     buildDate: "180526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -346,6 +346,7 @@
     },
     header: {
       socialsLabel: "Соціальні мережі",
+      homePage: "Головна сторінка",
       backToTop: "Нагору сторінки"
     },
     contact: {
@@ -656,6 +657,7 @@ const SITE_EN = {
     },
     header: {
       socialsLabel: "Social media",
+      homePage: "Home page",
       backToTop: "Back to top"
     },
     contact: {

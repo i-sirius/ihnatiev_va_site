@@ -284,52 +284,78 @@
   }
 
   function syncHomeTitleLayout(header = document.querySelector(".site-header")) {
-    if (!header || document.body.dataset.page !== "home" || header.classList.contains("is-compact")) {
+    if (!header) {
       return;
     }
+
+    const viewportWidth = Math.round(window.innerWidth || document.documentElement.clientWidth || 0);
+    const previousViewportWidth = Number(header.dataset.headerLayoutWidth || 0);
+    const widthUnchanged = Math.abs(previousViewportWidth - viewportWidth) < 1;
+    const keepHomeInBrand = header.classList.contains("is-home-in-brand") && widthUnchanged;
+
+    if (header.classList.contains("is-compact")) {
+      return;
+    }
+
+    header.dataset.headerLayoutWidth = String(viewportWidth);
+
+    if (keepHomeInBrand) {
+      if (document.body.dataset.page === "home") {
+        header.classList.add("is-title-split");
+      } else {
+        header.classList.remove("is-title-split");
+      }
+
+      return;
+    }
+
+    header.classList.remove("is-home-in-brand");
 
     const title = header.querySelector("h1");
     const nav = header.querySelector("nav");
     const titleText = title?.querySelector("[data-site-title]");
     const separator = title?.querySelector(".site-title-separator");
     const subtitle = title?.querySelector("[data-site-subtitle]");
+    const isHomePage = document.body.dataset.page === "home";
 
-    if (!title || !titleText || !subtitle) {
+    if (!isHomePage) {
       header.classList.remove("is-title-split");
-      return;
     }
 
-    header.classList.remove("is-title-split");
+    let titleOverflows = false;
 
-    const titleStyles = window.getComputedStyle(title);
-    const availableWidth =
-      title.clientWidth -
-      Number.parseFloat(titleStyles.paddingLeft || "0") -
-      Number.parseFloat(titleStyles.paddingRight || "0");
+    if (isHomePage && title && titleText && subtitle) {
+      header.classList.remove("is-title-split");
 
-    if (availableWidth <= 0) {
-      return;
+      const titleStyles = window.getComputedStyle(title);
+      const availableWidth =
+        title.clientWidth -
+        Number.parseFloat(titleStyles.paddingLeft || "0") -
+        Number.parseFloat(titleStyles.paddingRight || "0");
+
+      if (availableWidth > 0) {
+        const probe = document.createElement("span");
+        probe.style.position = "absolute";
+        probe.style.left = "-9999px";
+        probe.style.top = "0";
+        probe.style.visibility = "hidden";
+        probe.style.whiteSpace = "nowrap";
+        probe.style.fontFamily = titleStyles.fontFamily;
+        probe.style.fontSize = titleStyles.fontSize;
+        probe.style.fontWeight = titleStyles.fontWeight;
+        probe.style.letterSpacing = titleStyles.letterSpacing;
+        probe.style.lineHeight = titleStyles.lineHeight;
+        probe.style.textTransform = titleStyles.textTransform;
+        probe.textContent = `${titleText.textContent || ""}${separator?.textContent || " -"} ${subtitle.textContent || ""}`;
+
+        document.body.appendChild(probe);
+        const requiredWidth = probe.getBoundingClientRect().width;
+        probe.remove();
+
+        titleOverflows = requiredWidth > availableWidth + 1;
+      }
     }
 
-    const probe = document.createElement("span");
-    probe.style.position = "absolute";
-    probe.style.left = "-9999px";
-    probe.style.top = "0";
-    probe.style.visibility = "hidden";
-    probe.style.whiteSpace = "nowrap";
-    probe.style.fontFamily = titleStyles.fontFamily;
-    probe.style.fontSize = titleStyles.fontSize;
-    probe.style.fontWeight = titleStyles.fontWeight;
-    probe.style.letterSpacing = titleStyles.letterSpacing;
-    probe.style.lineHeight = titleStyles.lineHeight;
-    probe.style.textTransform = titleStyles.textTransform;
-    probe.textContent = `${titleText.textContent || ""}${separator?.textContent || " -"} ${subtitle.textContent || ""}`;
-
-    document.body.appendChild(probe);
-    const requiredWidth = probe.getBoundingClientRect().width;
-    probe.remove();
-
-    const titleOverflows = requiredWidth > availableWidth + 1;
     let navOverflows = false;
 
     if (nav) {
@@ -355,8 +381,13 @@
       navOverflows = navAvailableWidth > 0 && navRequiredWidth > navAvailableWidth + 1;
     }
 
-    const shouldSplitTitle = window.innerWidth <= 1180 || titleOverflows || navOverflows;
-    header.classList.toggle("is-title-split", shouldSplitTitle);
+    const shouldMoveHomeToBrand = viewportWidth <= 1360 || titleOverflows || navOverflows;
+
+    header.classList.toggle("is-home-in-brand", shouldMoveHomeToBrand);
+
+    if (isHomePage) {
+      header.classList.toggle("is-title-split", shouldMoveHomeToBrand || titleOverflows || navOverflows);
+    }
   }
 
   function initHeaderScrollState({
@@ -371,14 +402,15 @@
     const brand = header.querySelector(".site-brand-link");
 
     if (brand) {
-      const homeLabel = site.ui?.header?.home || site.menu?.home || "Головна";
+      const homeActionLabel = site.ui?.header?.home || site.menu?.home || "Головна";
+      const homePageLabel = site.ui?.header?.homePage || homeActionLabel;
 
       brand.href = pageType === "home" ? "#top" : "index.html";
-      brand.dataset.homeLabel = homeLabel;
+      brand.dataset.homeLabel = homePageLabel;
       brand.title =
         pageType === "home"
           ? site.ui?.header?.backToTop || "Нагору сторінки"
-          : homeLabel;
+          : homeActionLabel;
     }
 
     if (brand && pageType === "home" && !brand.dataset.scrollTopBound) {
