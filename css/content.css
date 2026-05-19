@@ -496,7 +496,7 @@ html[data-theme="dark"] .about-details-content[open] > summary {
 
 .about-publications-list li {
   display: grid;
-  grid-template-columns: minmax(74px, max-content) minmax(0, 1fr);
+  grid-template-columns: 96px minmax(0, 1fr);
   gap: 10px;
   align-items: start;
   counter-increment: publication-list;
@@ -519,15 +519,19 @@ html[data-theme="dark"] .about-details-content[open] > summary {
 .about-publication-meta {
   display: grid;
   grid-template-columns: 1fr;
+  width: 100%;
   gap: 5px;
   align-content: start;
-  justify-items: start;
+  justify-items: stretch;
 }
 
 .about-publication-meta span {
   display: inline-flex;
+  width: 100%;
+  box-sizing: border-box;
   min-height: 22px;
   align-items: center;
+  justify-content: center;
   padding: 3px 7px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--primary) 9%, transparent);
@@ -535,8 +539,11 @@ html[data-theme="dark"] .about-details-content[open] > summary {
   font-family: var(--font-ui);
   font-size: 0.74rem;
   font-weight: 700;
+  line-height: 1.08;
   letter-spacing: 0.02em;
-  white-space: nowrap;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .about-publication-text {
