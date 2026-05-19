@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.21t
+
+**Hotfix залишкової glass-підкладки compact controls.**
+
+- Вимкнено `::before/::after` droplet-шари для `.site-header-controls` у compact-header.
+- Прибрано залишкові куточки спільної підкладки між language і theme controls.
+- Оновлено build-версію до `0.6.21t` і кеш service worker до `v0.6.21t-r1`.
+
 ## 0.6.21s
 
 **Дворядкове середнє меню і круглі compact-перемикачі.**
