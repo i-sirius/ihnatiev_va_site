@@ -2265,6 +2265,8 @@ html[data-theme="dark"] .theme-toggle-track {
 @media (min-width: 901px) {
   body[data-page] .site-header.is-home-in-brand:not(.is-compact) h1 {
     width: min(760px, calc(100% - 300px));
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 0;
     padding-right: 0;
   }
