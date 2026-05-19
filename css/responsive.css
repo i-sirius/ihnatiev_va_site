@@ -15,6 +15,16 @@
   }
 }
 
+@media (min-width: 901px) and (max-width: 1080px) {
+  .about-publications-tools {
+    grid-template-columns: minmax(0, 1fr) minmax(132px, 0.42fr);
+  }
+
+  .about-publications-field:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 900px) {
   .about-container {
     flex-direction: column;
