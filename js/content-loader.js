@@ -239,6 +239,31 @@
       .catch(() => ({}));
   }
 
+  function normalizePublicationsContent(payload, locale = "uk", fallbackPublications = {}) {
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      return fallbackPublications;
+    }
+
+    const localizedLabels = payload[locale] || payload.uk || {};
+    const items = Array.isArray(payload.items) ? payload.items : fallbackPublications.items;
+
+    return {
+      ...fallbackPublications,
+      ...localizedLabels,
+      items: Array.isArray(items) ? items : fallbackPublications.items
+    };
+  }
+
+  function loadPublicationsContent({
+    path = "files/content/publications.json",
+    locale = "uk",
+    fallbackPublications = {}
+  } = {}) {
+    return fetchJson(path)
+      .then((payload) => normalizePublicationsContent(payload, locale, fallbackPublications))
+      .catch(() => fallbackPublications);
+  }
+
   window.SiteContentLoader = {
     fetchJson,
     filterAvailableImages,
@@ -248,6 +273,7 @@
     loadFileList,
     loadHomeContent,
     loadPagesContent,
+    loadPublicationsContent,
     normalizeJsonList
   };
 })();

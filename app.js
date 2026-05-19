@@ -186,6 +186,56 @@
     });
   }
 
+  function getResearchPublicationsDetails() {
+    const researchDescription = SITE.activities?.[1]?.pageDescription;
+    if (!Array.isArray(researchDescription)) {
+      return null;
+    }
+
+    return researchDescription.find((paragraph) => paragraph?.type === "details") || null;
+  }
+
+  function renderCurrentActivityParagraphs() {
+    const activity = SITE.activities?.[activityId];
+    if (pageType !== "activity" || !activity?.pageDescription) {
+      return;
+    }
+
+    window.SitePageContent?.renderParagraphs({
+      selector: "[data-activity-paragraphs]",
+      paragraphs: activity.pageDescription,
+      site: SITE
+    });
+    window.SitePageContent?.initDetailsInteractions();
+  }
+
+  function loadPublicationsContent() {
+    if (pageType !== "activity" || activityId !== "1") {
+      return;
+    }
+
+    const loadPublications = window.SiteContentLoader?.loadPublicationsContent;
+    const fallbackPublications = getResearchPublicationsDetails();
+    if (typeof loadPublications !== "function" || !fallbackPublications) {
+      return;
+    }
+
+    const contentLocale = SITE.currentLocale || SITE.defaultLocale || "uk";
+    loadPublications({
+      locale: contentLocale,
+      fallbackPublications
+    }).then((publications) => {
+      const activeLocale = SITE.currentLocale || SITE.defaultLocale || "uk";
+      const publicationsDetails = getResearchPublicationsDetails();
+      if (activeLocale !== contentLocale || !publicationsDetails) {
+        return;
+      }
+
+      Object.assign(publicationsDetails, publications);
+      renderCurrentActivityParagraphs();
+    });
+  }
+
   function initDownloadPreviewTriggers() {
     const lightbox = ensureDocumentLightbox();
 
@@ -298,6 +348,7 @@
     });
     loadActivitiesContent();
     loadPagesContent();
+    loadPublicationsContent();
     window.SiteMobileNavigation?.init();
     window.SiteHeaderUi?.initBrand({
       site: SITE,

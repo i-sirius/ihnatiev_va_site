@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.23d
+
+**Виніс списку наукових праць.**
+
+- Додано `files/content/publications.json` зі summary/description і 85 пунктами списку наукових праць.
+- Сторінка наукової активності рендерить fallback зі старого `config.js`, а потім оновлює тільки publications-details із JSON без повторного запуску галереї чи YouTube.
+- Додано CMS-колекцію `Наукові праці` для редагування заголовка, опису й пунктів списку.
+- `check-content` тепер перевіряє структуру `publications.json`; файл додано в service worker precache і CMS checklist.
+- Оновлено build-версію до `0.6.23d` і кеш service worker до `v0.6.23d-r1`.
+
 ## 0.6.23c
 
 **Виніс простих текстів Downloads/Contact.**

@@ -286,6 +286,40 @@ function Test-PagesContentManifest {
   }
 }
 
+function Test-PublicationsContentManifest {
+  param([string]$RelativePath)
+  $Payload = Read-JsonFile $RelativePath
+  if (-not $Payload) {
+    return
+  }
+
+  foreach ($Locale in @("uk", "en")) {
+    $Labels = $Payload.$Locale
+    if (-not $Labels) {
+      Add-CheckError "${RelativePath}: missing ${Locale} labels object"
+      continue
+    }
+
+    foreach ($Key in @("summary", "description")) {
+      if (-not (Test-NonEmptyString $Labels.$Key)) {
+        Add-CheckError "${RelativePath}: ${Locale}.${Key} must be a non-empty string"
+      }
+    }
+  }
+
+  $Items = @($Payload.items)
+  if (-not $Items.Count) {
+    Add-CheckError "${RelativePath}: items must be a non-empty array"
+    return
+  }
+
+  for ($Index = 0; $Index -lt $Items.Count; $Index++) {
+    if (-not (Test-NonEmptyString $Items[$Index])) {
+      Add-CheckError "${RelativePath}: items[$Index] must be a non-empty string"
+    }
+  }
+}
+
 function Resolve-SourceRelativeReference {
   param(
     [string]$SourceFile,
@@ -322,6 +356,7 @@ foreach ($File in $AllFiles) {
 Test-HomeContentManifest "files/content/home.json"
 Test-ActivitiesContentManifest "files/content/activities.json"
 Test-PagesContentManifest "files/content/pages.json"
+Test-PublicationsContentManifest "files/content/publications.json"
 Test-PhotoManifest "files/media/activity1/photos.json"
 Test-PhotoManifest "files/media/activity2/photos.json"
 Test-PhotoManifest "files/media/activity3/photos.json"

@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.6.23c-r1";
+const CACHE_NAME = "ihnatiev-site-v0.6.23d-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -27,6 +27,7 @@ const APP_SHELL = [
   "./files/content/home.json",
   "./files/content/activities.json",
   "./files/content/pages.json",
+  "./files/content/publications.json",
   "./js/site-utils.js",
   "./js/gallery-lightbox.js",
   "./js/gallery-renderer.js",

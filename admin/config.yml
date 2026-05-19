@@ -213,6 +213,32 @@ collections:
                       - { label: "Submit", name: submit, widget: string }
                   - { label: "Formspree email subject", name: formSubject, widget: string }
 
+  - name: publications_content
+    label: "Наукові праці"
+    files:
+      - name: publications
+        label: "Список наукових праць"
+        file: files/content/publications.json
+        format: json
+        fields:
+          - label: "Українська"
+            name: uk
+            widget: object
+            fields:
+              - { label: "Заголовок списку", name: summary, widget: string }
+              - { label: "Опис списку", name: description, widget: string }
+          - label: "English"
+            name: en
+            widget: object
+            fields:
+              - { label: "List heading", name: summary, widget: string }
+              - { label: "List description", name: description, widget: string }
+          - label: "Публікації"
+            name: items
+            widget: list
+            summary: "{{fields.item}}"
+            field: { label: "Публікація", name: item, widget: text }
+
   - name: gallery_activity1
     label: "Галерея: Наукова активність"
     media_folder: files/media/activity1

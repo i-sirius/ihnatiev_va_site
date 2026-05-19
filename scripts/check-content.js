@@ -317,10 +317,44 @@ function checkPagesContent(relativePath) {
   });
 }
 
+function checkPublicationsContent(relativePath) {
+  const payload = readJson(relativePath);
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    fail(`${relativePath}: expected an object with uk/en labels and publication items`);
+    return;
+  }
+
+  ["uk", "en"].forEach((locale) => {
+    const labels = payload[locale];
+    if (!labels || typeof labels !== "object" || Array.isArray(labels)) {
+      fail(`${relativePath}: missing ${locale} labels object`);
+      return;
+    }
+
+    ["summary", "description"].forEach((key) => {
+      if (!isNonEmptyString(labels[key])) {
+        fail(`${relativePath}: ${locale}.${key} must be a non-empty string`);
+      }
+    });
+  });
+
+  if (!Array.isArray(payload.items) || !payload.items.length) {
+    fail(`${relativePath}: items must be a non-empty array`);
+    return;
+  }
+
+  payload.items.forEach((item, index) => {
+    if (!isNonEmptyString(item)) {
+      fail(`${relativePath}: items[${index}] must be a non-empty string`);
+    }
+  });
+}
+
 function checkKnownContentManifests() {
   checkHomeContent("files/content/home.json");
   checkActivitiesContent("files/content/activities.json");
   checkPagesContent("files/content/pages.json");
+  checkPublicationsContent("files/content/publications.json");
   checkPhotoManifest("files/media/activity1/photos.json");
   checkPhotoManifest("files/media/activity2/photos.json");
   checkPhotoManifest("files/media/activity3/photos.json");
