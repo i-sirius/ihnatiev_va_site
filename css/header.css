@@ -2431,6 +2431,27 @@ html[data-theme="dark"] .site-header.is-compact .site-header-controls {
   box-shadow: none;
 }
 
+html[data-theme="dark"] .site-header.is-compact .site-brand-link {
+  border-color: color-mix(in srgb, var(--border) 48%, var(--liquid-glass-border));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+    color-mix(in srgb, var(--liquid-glass-bg) 60%, transparent);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 244, 210, 0.1);
+}
+
+@media (min-width: 1181px) {
+  .site-header.is-compact .site-header-controls {
+    top: 50%;
+    right: max(10px, env(safe-area-inset-right));
+    grid-template-columns: repeat(2, 34px);
+    grid-template-rows: 34px;
+    gap: 6px;
+    transform: translateY(-50%);
+  }
+}
+
 @media (max-width: 430px) {
   .mobile-nav-host nav {
     min-height: 72px;
