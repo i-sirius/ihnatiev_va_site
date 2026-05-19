@@ -283,6 +283,54 @@
       .join("");
   }
 
+  function syncHomeTitleLayout(header = document.querySelector(".site-header")) {
+    if (!header || document.body.dataset.page !== "home" || header.classList.contains("is-compact")) {
+      return;
+    }
+
+    const title = header.querySelector("h1");
+    const titleText = title?.querySelector("[data-site-title]");
+    const separator = title?.querySelector(".site-title-separator");
+    const subtitle = title?.querySelector("[data-site-subtitle]");
+
+    if (!title || !titleText || !subtitle) {
+      header.classList.remove("is-title-split");
+      return;
+    }
+
+    header.classList.remove("is-title-split");
+
+    const titleStyles = window.getComputedStyle(title);
+    const availableWidth =
+      title.clientWidth -
+      Number.parseFloat(titleStyles.paddingLeft || "0") -
+      Number.parseFloat(titleStyles.paddingRight || "0");
+
+    if (availableWidth <= 0) {
+      return;
+    }
+
+    const probe = document.createElement("span");
+    probe.style.position = "absolute";
+    probe.style.left = "-9999px";
+    probe.style.top = "0";
+    probe.style.visibility = "hidden";
+    probe.style.whiteSpace = "nowrap";
+    probe.style.fontFamily = titleStyles.fontFamily;
+    probe.style.fontSize = titleStyles.fontSize;
+    probe.style.fontWeight = titleStyles.fontWeight;
+    probe.style.letterSpacing = titleStyles.letterSpacing;
+    probe.style.lineHeight = titleStyles.lineHeight;
+    probe.style.textTransform = titleStyles.textTransform;
+    probe.textContent = `${titleText.textContent || ""}${separator?.textContent || " -"} ${subtitle.textContent || ""}`;
+
+    document.body.appendChild(probe);
+    const requiredWidth = probe.getBoundingClientRect().width;
+    probe.remove();
+
+    header.classList.toggle("is-title-split", requiredWidth > availableWidth + 1);
+  }
+
   function initHeaderScrollState({
     site = window.SITE || {},
     pageType = document.body.dataset.page
@@ -309,6 +357,8 @@
       });
       brand.dataset.scrollTopBound = "true";
     }
+
+    syncHomeTitleLayout(header);
 
     if (header.dataset.scrollStateReady === "true") {
       return;
@@ -353,6 +403,7 @@
 
       updateHeaderUnderlap(currentScrollY, compactOnThreshold, compactOffThreshold);
       header.classList.toggle("is-compact", isCompact);
+      syncHomeTitleLayout(header);
       updateHeaderOffset();
 
       if (previousState !== isCompact) {
@@ -426,6 +477,7 @@
     initLanguageToggle,
     initScrollState: initHeaderScrollState,
     initSocials: initHeaderSocials,
-    initThemeToggle
+    initThemeToggle,
+    syncHomeTitleLayout
   };
 })();
