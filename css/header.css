@@ -1397,9 +1397,8 @@ html[data-theme="dark"] .theme-toggle-track {
 
   .mobile-nav-host nav.is-condensed-labels a::after {
     max-width: 100%;
-    font-family: "Arial Narrow", "Segoe UI Condensed", "Segoe UI", Arial, sans-serif;
+    font-family: var(--font-ui);
     font-size: clamp(0.58rem, 1.65vw, 0.72rem);
-    font-stretch: condensed;
   }
 
   .mobile-nav-host nav.is-icons-only a {

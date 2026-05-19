@@ -179,8 +179,6 @@ html[data-theme="dark"] .about-photo-link {
 .about-text {
   flex: 1;
   min-width: 0;
-  font-family: var(--font-display);
-  font-optical-sizing: auto;
   font-size: 1rem;
   line-height: 1.76;
 }
