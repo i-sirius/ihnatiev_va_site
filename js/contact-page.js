@@ -84,6 +84,7 @@
     const okPhone = document.querySelector("[data-ok-phone]");
     const emailMark = document.querySelector("[data-mark-email]");
     const phoneMark = document.querySelector("[data-mark-phone]");
+    const touchedFields = new WeakSet();
 
     function ensureLimitCounter(
       field,
@@ -273,6 +274,10 @@
       field.classList.add("field-limit-hit");
     }
 
+    function hasInteractedWithField(field) {
+      return touchedFields.has(field) || field.value.trim().length > 0;
+    }
+
     const limitedFields = [
       nameField,
       emailField,
@@ -327,6 +332,12 @@
       const messageValid = messageLength >= 25;
       const remaining = Math.max(25 - messageLength, 0);
       const formIsReady = hasName && hasSubject && hasValidContact && messageValid;
+      const hasNameInteraction = hasInteractedWithField(nameField);
+      const hasSubjectInteraction = hasInteractedWithField(subjectField);
+      const hasEmailInteraction = hasInteractedWithField(emailField);
+      const hasPhoneInteraction = hasInteractedWithField(phoneField);
+      const hasContactInteraction = hasEmailInteraction || hasPhoneInteraction;
+      const hasMessageInteraction = hasInteractedWithField(messageField);
 
       emailField.setCustomValidity("");
       phoneField.setCustomValidity("");
@@ -346,9 +357,9 @@
         }
       }
 
-      noteName.hidden = hasName;
+      noteName.hidden = hasName || !hasNameInteraction;
       okName.hidden = !hasName;
-      noteSubject.hidden = hasSubject;
+      noteSubject.hidden = hasSubject || !hasSubjectInteraction;
       okSubject.hidden = !hasSubject;
 
       emailMark.hidden = hasValidContact;
@@ -359,7 +370,7 @@
         okEmail.hidden = false;
       } else {
         okEmail.hidden = true;
-        noteEmail.hidden = false;
+        noteEmail.hidden = !hasContactInteraction;
         noteEmail.textContent = phoneValid
           ? currentContactUi.emailOptionalBecausePhone || "Необов'язково, бо телефон уже вказано"
           : hasEmail
@@ -372,7 +383,7 @@
         okPhone.hidden = false;
       } else {
         okPhone.hidden = true;
-        notePhone.hidden = false;
+        notePhone.hidden = !hasContactInteraction;
         notePhone.textContent = emailValid
           ? currentContactUi.phoneOptionalBecauseEmail || "Необов'язково, бо email уже вказано"
           : hasPhone
@@ -384,7 +395,7 @@
         noteMessage.hidden = true;
         okMessage.hidden = false;
       } else {
-        noteMessage.hidden = false;
+        noteMessage.hidden = !hasMessageInteraction;
         okMessage.hidden = true;
         noteMessage.textContent =
           messageLength > 0
@@ -399,8 +410,18 @@
     }
 
     [nameField, emailField, phoneField, subjectField, messageField].forEach((field) => {
-      field.addEventListener("input", updateContactState);
-      field.addEventListener("change", updateContactState);
+      field.addEventListener("input", () => {
+        touchedFields.add(field);
+        updateContactState();
+      });
+      field.addEventListener("change", () => {
+        touchedFields.add(field);
+        updateContactState();
+      });
+      field.addEventListener("blur", () => {
+        touchedFields.add(field);
+        updateContactState();
+      });
     });
 
     limitedFields.forEach((field) => {

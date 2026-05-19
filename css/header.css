@@ -83,7 +83,7 @@ html[data-theme="dark"] .site-header::after {
   padding-left: 238px;
   padding-right: 238px;
   font-size: 1.5rem;
-  font-weight: 520;
+  font-weight: 600;
   letter-spacing: 0.015em;
   max-height: 140px;
   overflow: hidden;
