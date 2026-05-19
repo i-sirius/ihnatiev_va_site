@@ -289,6 +289,7 @@
     }
 
     const title = header.querySelector("h1");
+    const nav = header.querySelector("nav");
     const titleText = title?.querySelector("[data-site-title]");
     const separator = title?.querySelector(".site-title-separator");
     const subtitle = title?.querySelector("[data-site-subtitle]");
@@ -328,7 +329,34 @@
     const requiredWidth = probe.getBoundingClientRect().width;
     probe.remove();
 
-    header.classList.toggle("is-title-split", requiredWidth > availableWidth + 1);
+    const titleOverflows = requiredWidth > availableWidth + 1;
+    let navOverflows = false;
+
+    if (nav) {
+      const navStyles = window.getComputedStyle(nav);
+      const navAvailableWidth =
+        nav.clientWidth -
+        Number.parseFloat(navStyles.paddingLeft || "0") -
+        Number.parseFloat(navStyles.paddingRight || "0");
+      const navRequiredWidth = Array.from(nav.querySelectorAll("a"))
+        .filter((link) => window.getComputedStyle(link).display !== "none")
+        .reduce((total, link) => {
+          const linkStyles = window.getComputedStyle(link);
+          const rect = link.getBoundingClientRect();
+
+          return (
+            total +
+            rect.width +
+            Number.parseFloat(linkStyles.marginLeft || "0") +
+            Number.parseFloat(linkStyles.marginRight || "0")
+          );
+        }, 0);
+
+      navOverflows = navAvailableWidth > 0 && navRequiredWidth > navAvailableWidth + 1;
+    }
+
+    const shouldSplitTitle = window.innerWidth <= 1180 || titleOverflows || navOverflows;
+    header.classList.toggle("is-title-split", shouldSplitTitle);
   }
 
   function initHeaderScrollState({
