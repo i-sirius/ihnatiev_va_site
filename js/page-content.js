@@ -117,8 +117,8 @@
             data-publication-search="${escapeHtml(searchText.toLocaleLowerCase())}"
           >
             <span class="about-publication-meta">
-              ${item.year ? `<span>${escapeHtml(item.year)}</span>` : ""}
-              ${typeLabel ? `<span>${escapeHtml(typeLabel)}</span>` : ""}
+              ${item.year ? `<button type="button" data-publication-filter-year="${escapeHtml(item.year)}" aria-label="Filter publications by ${escapeHtml(item.year)}">${escapeHtml(item.year)}</button>` : ""}
+              ${typeLabel ? `<button type="button" data-publication-filter-type="${escapeHtml(item.type)}" aria-label="Filter publications by ${escapeHtml(typeLabel)}">${escapeHtml(typeLabel)}</button>` : ""}
             </span>
             <span class="about-publication-text">${escapeHtml(item.text)}</span>
           </li>
@@ -272,6 +272,36 @@
     searchInput?.addEventListener("input", applyFilters);
     yearSelect?.addEventListener("change", applyFilters);
     typeSelect?.addEventListener("change", applyFilters);
+    details.addEventListener("click", (event) => {
+      const yearButton = event.target.closest("[data-publication-filter-year]");
+      const typeButton = event.target.closest("[data-publication-filter-type]");
+
+      if (!yearButton && !typeButton) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (searchInput) {
+        searchInput.value = "";
+      }
+
+      if (yearButton && yearSelect) {
+        yearSelect.value = yearButton.dataset.publicationFilterYear || "";
+        if (typeSelect) {
+          typeSelect.value = "";
+        }
+      }
+
+      if (typeButton && typeSelect) {
+        typeSelect.value = typeButton.dataset.publicationFilterType || "";
+        if (yearSelect) {
+          yearSelect.value = "";
+        }
+      }
+
+      applyFilters();
+    });
     details.dataset.publicationsReady = "true";
   }
 

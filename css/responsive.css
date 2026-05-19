@@ -69,7 +69,19 @@
   }
 
   .about-publications-list li {
-    grid-template-columns: 1fr;
+    padding: 48px 14px 12px;
+  }
+
+  .about-publications-list li::before {
+    top: 16px;
+    left: 16px;
+  }
+
+  .about-publication-meta {
+    top: 12px;
+    right: 14px;
+    width: min(210px, calc(100% - 58px));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .gallery-lightbox {
