@@ -356,8 +356,13 @@ collections:
             widget: list
             collapsed: true
             summary: "{{fields.src}}"
+            hint: "У кнопках Decap: Choose different file = обрати/замінити фото; Remove file = прибрати фото з цього запису."
             fields:
-              - { label: "Зображення", name: src, widget: image }
+              - label: "Зображення"
+                name: src
+                widget: image
+                choose_url: false
+                hint: "Оберіть або завантажте фото з медіатеки. Вставлення URL вимкнено, щоб зберігати локальний файл у репозиторії."
               - { label: "Опис для доступності", name: alt, widget: string, required: false }
 
   - name: gallery_activity2
@@ -376,8 +381,13 @@ collections:
             widget: list
             collapsed: true
             summary: "{{fields.src}}"
+            hint: "У кнопках Decap: Choose different file = обрати/замінити фото; Remove file = прибрати фото з цього запису."
             fields:
-              - { label: "Зображення", name: src, widget: image }
+              - label: "Зображення"
+                name: src
+                widget: image
+                choose_url: false
+                hint: "Оберіть або завантажте фото з медіатеки. Вставлення URL вимкнено, щоб зберігати локальний файл у репозиторії."
               - { label: "Опис для доступності", name: alt, widget: string, required: false }
 
   - name: gallery_activity3
@@ -396,8 +406,13 @@ collections:
             widget: list
             collapsed: true
             summary: "{{fields.src}}"
+            hint: "У кнопках Decap: Choose different file = обрати/замінити фото; Remove file = прибрати фото з цього запису."
             fields:
-              - { label: "Зображення", name: src, widget: image }
+              - label: "Зображення"
+                name: src
+                widget: image
+                choose_url: false
+                hint: "Оберіть або завантажте фото з медіатеки. Вставлення URL вимкнено, щоб зберігати локальний файл у репозиторії."
               - { label: "Опис для доступності", name: alt, widget: string, required: false }
 
   - name: activity2_files
@@ -416,8 +431,13 @@ collections:
             widget: list
             collapsed: true
             summary: "{{fields.href}}"
+            hint: "У кнопках Decap: Choose different file = обрати/замінити файл; Remove file = прибрати файл з цього запису."
             fields:
-              - { label: "Файл", name: href, widget: file }
+              - label: "Файл"
+                name: href
+                widget: file
+                choose_url: false
+                hint: "Оберіть або завантажте локальний файл. Вставлення URL вимкнено, щоб матеріали залишались у репозиторії."
               - label: "Назва"
                 name: label
                 widget: object
@@ -441,8 +461,14 @@ collections:
             widget: list
             collapsed: true
             summary: "{{fields.href}}"
+            hint: "У кнопках Decap: Choose different file = обрати/замінити файл; Remove file = прибрати файл з цього запису."
             fields:
-              - { label: "Файл", name: href, widget: file, required: false }
+              - label: "Файл"
+                name: href
+                widget: file
+                required: false
+                choose_url: false
+                hint: "Оберіть PDF/документ із медіатеки. Можна залишити порожнім, якщо замість файла показується кнопка запиту книги."
               - label: "Назва"
                 name: label
                 widget: object
@@ -500,8 +526,13 @@ collections:
                 widget: list
                 collapsed: true
                 summary: "{{fields.href}}"
+                hint: "У кнопках Decap: Choose different file = обрати/замінити файл; Remove file = прибрати файл з цього запису."
                 fields:
-                  - { label: "Файл", name: href, widget: file }
+                  - label: "Файл"
+                    name: href
+                    widget: file
+                    choose_url: false
+                    hint: "Оберіть або завантажте локальний файл. Вставлення URL вимкнено, щоб матеріали залишались у репозиторії."
                   - label: "Назва"
                     name: label
                     widget: object
