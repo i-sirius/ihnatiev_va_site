@@ -24,7 +24,7 @@ Build version:
 
 ## Production OAuth
 
-- [ ] `https://decap.iva.net.ua` відповідає.
+- [ ] `https://decap-auth.pollux-twin.workers.dev` відповідає.
 - [ ] `https://iva.net.ua/admin/` відкривається.
 - [ ] Login через GitHub успішний.
 - [ ] Editorial workflow створює зміну в GitHub.

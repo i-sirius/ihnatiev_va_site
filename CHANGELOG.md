@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.24b
+
+**Hotfix OAuth proxy для адмін-панелі.**
+
+- Decap CMS переведено з доменного proxy `https://decap.iva.net.ua` на робочий Cloudflare Workers endpoint `https://decap-auth.pollux-twin.workers.dev` через проблему з nameserver-ами домену.
+- `check-content` тепер перевіряє активний Workers OAuth proxy і зберігає `auth_endpoint: /auth`.
+- Оновлено адмін-чеклист, smoke-test report і OAuth-документацію під новий proxy endpoint.
+- Оновлено build-версію до `0.6.24b` і кеш service worker до `v0.6.24b-r1`.
+
 ## 0.6.24a
 
 **Admin end-to-end protocol і сильніші CMS-перевірки.**

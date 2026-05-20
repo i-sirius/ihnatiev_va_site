@@ -538,7 +538,10 @@ function checkAdminConfig() {
     [/^\s*name:\s*github\s*$/m, "backend.name must be github"],
     [/^\s*repo:\s*i-sirius\/ihnatiev_va_site\s*$/m, "backend.repo must target i-sirius/ihnatiev_va_site"],
     [/^\s*branch:\s*main\s*$/m, "backend.branch must be main"],
-    [/^\s*base_url:\s*https:\/\/decap\.iva\.net\.ua\s*$/m, "backend.base_url must use the OAuth proxy"],
+    [
+      /^\s*base_url:\s*https:\/\/decap-auth\.pollux-twin\.workers\.dev\s*$/m,
+      "backend.base_url must use the active OAuth proxy"
+    ],
     [/^\s*auth_endpoint:\s*\/auth\s*$/m, "backend.auth_endpoint must be /auth"],
     [/^\s*local_backend:\s*true\s*$/m, "local_backend must stay enabled for local CMS testing"],
     [/^\s*publish_mode:\s*editorial_workflow\s*$/m, "publish_mode must be editorial_workflow"]
