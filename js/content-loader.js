@@ -264,7 +264,8 @@
         return {
           text,
           year: item.year || "",
-          type: item.type || "other"
+          type: item.type || "other",
+          file: typeof item.file === "string" ? item.file : ""
         };
       })
       .filter(Boolean);

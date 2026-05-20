@@ -131,7 +131,8 @@ function checkCmsMediaPath(relativePath, value, context, expectedPrefix) {
     "files/media/activity2/files/media/activity2",
     "files/media/activity3/files/media/activity3",
     "files/activity2/files/activity2",
-    "files/downloads/files/downloads"
+    "files/downloads/files/downloads",
+    "files/publications/files/publications"
   ].forEach((duplicatePath) => {
     if (normalized.includes(duplicatePath)) {
       fail(`${relativePath}: ${context} contains duplicated CMS media path "${duplicatePath}"`);
@@ -141,6 +142,32 @@ function checkCmsMediaPath(relativePath, value, context, expectedPrefix) {
   if (expectedPrefix && !normalized.startsWith(expectedPrefix)) {
     fail(`${relativePath}: ${context} must use root-relative path "${expectedPrefix}..."`);
   }
+}
+
+function checkPublicationFileReference(relativePath, value, context) {
+  if (value === undefined || value === null || String(value).trim() === "") {
+    return;
+  }
+
+  if (typeof value !== "string") {
+    fail(`${relativePath}: ${context} must be a string when present`);
+    return;
+  }
+
+  const normalized = value.trim().replace(/\\/g, "/");
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(normalized) || normalized.startsWith("//")) {
+    fail(`${relativePath}: ${context} must be a local file, not an external URL`);
+    return;
+  }
+
+  checkCmsMediaPath(relativePath, normalized, context, "/files/publications/");
+
+  const cleanPath = stripUrlParts(normalized);
+  if (!/\.(pdf|doc|docx)$/i.test(cleanPath)) {
+    fail(`${relativePath}: ${context} must use .pdf, .doc, or .docx`);
+  }
+
+  checkReference(relativePath, normalized, context);
 }
 
 function checkJsonFiles() {
@@ -462,6 +489,10 @@ function checkPublicationsContent(relativePath) {
     if (item.type !== undefined && !knownTypes.has(item.type)) {
       fail(`${relativePath}: items[${index}].type must be one of ${Array.from(knownTypes).join(", ")}`);
     }
+
+    if (item.file !== undefined) {
+      checkPublicationFileReference(relativePath, item.file, `items[${index}].file`);
+    }
   });
 }
 
@@ -735,7 +766,9 @@ function checkAdminConfig() {
     ["media_folder", "files/activity2"],
     ["public_folder", "/files/activity2"],
     ["media_folder", "files/downloads"],
-    ["public_folder", "/files/downloads"]
+    ["public_folder", "/files/downloads"],
+    ["media_folder", "files/publications"],
+    ["public_folder", "/files/publications"]
   ].forEach(([key, value]) => {
     checkAdminLine(sourceFile, source, key, value, `missing CMS ${key} "${value}"`);
   });
@@ -748,6 +781,10 @@ function checkAdminConfig() {
     [/\^\$\|\^\(19\|20\|21\)\\\\d\{2\}\$/m, "publications year field must allow empty or 4-digit years"],
     [/^\s*name:\s*type\s*$/m, "publications items must expose type field"],
     [/^\s*widget:\s*select\s*$/m, "publications type field must stay a select widget"],
+    [/^\s*name:\s*file\s*$/m, "publications items must expose optional file field"],
+    [/\bname:\s*file\b[\s\S]*?\bwidget:\s*file\b/m, "publications file field must stay a file widget"],
+    [/\bname:\s*file\b[\s\S]*?\brequired:\s*false\b/m, "publications file field must stay optional"],
+    [/\bname:\s*file\b[\s\S]*?\bchoose_url:\s*false\b/m, "publications file field must keep choose_url disabled"],
     [/\bvalue:\s*article\b/m, "publications type options must include article"],
     [/\bvalue:\s*conference\b/m, "publications type options must include conference"],
     [/\bvalue:\s*monograph\b/m, "publications type options must include monograph"],

@@ -113,7 +113,8 @@ function Test-CmsMediaPath {
     "files/media/activity2/files/media/activity2",
     "files/media/activity3/files/media/activity3",
     "files/activity2/files/activity2",
-    "files/downloads/files/downloads"
+    "files/downloads/files/downloads",
+    "files/publications/files/publications"
   )) {
     if ($Normalized.Contains($DuplicatePath)) {
       Add-CheckError "${RelativePath}: ${Context} contains duplicated CMS media path `"$DuplicatePath`""
@@ -123,6 +124,38 @@ function Test-CmsMediaPath {
   if ($ExpectedPrefix -and -not $Normalized.StartsWith($ExpectedPrefix)) {
     Add-CheckError "${RelativePath}: ${Context} must use root-relative path `"${ExpectedPrefix}...`""
   }
+}
+
+function Test-PublicationFileReference {
+  param(
+    [string]$RelativePath,
+    $Value,
+    [string]$Context
+  )
+
+  if ($null -eq $Value -or ([string]$Value).Trim() -eq "") {
+    return
+  }
+
+  if ($Value -isnot [string]) {
+    Add-CheckError "${RelativePath}: ${Context} must be a string when present"
+    return
+  }
+
+  $Normalized = ([string]$Value).Trim() -replace "\\", "/"
+  if ($Normalized -match "^[a-z][a-z0-9+.-]*://" -or $Normalized.StartsWith("//")) {
+    Add-CheckError "${RelativePath}: ${Context} must be a local file, not an external URL"
+    return
+  }
+
+  Test-CmsMediaPath $RelativePath $Normalized $Context "/files/publications/"
+
+  $CleanPath = Remove-UrlParts $Normalized
+  if ($CleanPath -notmatch "\.(pdf|doc|docx)$") {
+    Add-CheckError "${RelativePath}: ${Context} must use .pdf, .doc, or .docx"
+  }
+
+  Test-LocalReference $RelativePath $Normalized $Context
 }
 
 function Unquote-YamlValue {
@@ -451,6 +484,10 @@ function Test-PublicationsContentManifest {
     if ($null -ne $Item.type -and $KnownTypes -notcontains $Item.type) {
       Add-CheckError "${RelativePath}: items[$Index].type must be one of $($KnownTypes -join ', ')"
     }
+
+    if ($null -ne $Item.file) {
+      Test-PublicationFileReference $RelativePath $Item.file "items[$Index].file"
+    }
   }
 }
 
@@ -676,7 +713,9 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     @{ Key = "media_folder"; Value = "files/activity2" },
     @{ Key = "public_folder"; Value = "/files/activity2" },
     @{ Key = "media_folder"; Value = "files/downloads" },
-    @{ Key = "public_folder"; Value = "/files/downloads" }
+    @{ Key = "public_folder"; Value = "/files/downloads" },
+    @{ Key = "media_folder"; Value = "files/publications" },
+    @{ Key = "public_folder"; Value = "/files/publications" }
   )) {
     Test-AdminLine $AdminConfigPath $AdminConfig $Folder.Key $Folder.Value "missing CMS $($Folder.Key) `"$($Folder.Value)`""
   }
@@ -689,6 +728,10 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     @{ Pattern = "\^\$\|\^\(19\|20\|21\)\\\\d\{2\}\$"; Message = "publications year field must allow empty or 4-digit years" },
     @{ Pattern = "(?m)^\s*name:\s*type\s*$"; Message = "publications items must expose type field" },
     @{ Pattern = "(?m)^\s*widget:\s*select\s*$"; Message = "publications type field must stay a select widget" },
+    @{ Pattern = "(?m)^\s*name:\s*file\s*$"; Message = "publications items must expose optional file field" },
+    @{ Pattern = "(?ms)\bname:\s*file\b.*?\bwidget:\s*file\b"; Message = "publications file field must stay a file widget" },
+    @{ Pattern = "(?ms)\bname:\s*file\b.*?\brequired:\s*false\b"; Message = "publications file field must stay optional" },
+    @{ Pattern = "(?ms)\bname:\s*file\b.*?\bchoose_url:\s*false\b"; Message = "publications file field must keep choose_url disabled" },
     @{ Pattern = "(?m)\bvalue:\s*article\b"; Message = "publications type options must include article" },
     @{ Pattern = "(?m)\bvalue:\s*conference\b"; Message = "publications type options must include conference" },
     @{ Pattern = "(?m)\bvalue:\s*monograph\b"; Message = "publications type options must include monograph" },

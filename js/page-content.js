@@ -47,7 +47,8 @@
     return {
       text,
       year: item.year || "",
-      type: item.type || "other"
+      type: item.type || "other",
+      file: typeof item.file === "string" ? item.file : ""
     };
   }
 
@@ -103,11 +104,17 @@
 
   function renderPublicationItems(paragraph, items) {
     const typeLabels = paragraph.typeLabels || {};
+    const fileLabel =
+      paragraph.fileLabel ||
+      (window.SITE?.currentLocale === "en" ? "Download file" : "Завантажити файл");
 
     return items
       .map((item) => {
         const typeLabel = getPublicationTypeLabel(item.type, typeLabels);
         const searchText = [item.text, item.year, item.type, typeLabel].filter(Boolean).join(" ");
+        const fileLink = item.file
+          ? `<a class="about-publication-file" href="${escapeHtml(item.file)}" target="_blank" rel="noopener noreferrer">${escapeHtml(fileLabel)}</a>`
+          : "";
 
         return `
           <li
@@ -121,6 +128,7 @@
               ${typeLabel ? `<button type="button" data-publication-filter-type="${escapeHtml(item.type)}" aria-label="Filter publications by ${escapeHtml(typeLabel)}">${escapeHtml(typeLabel)}</button>` : ""}
             </span>
             <span class="about-publication-text">${escapeHtml(item.text)}</span>
+            ${fileLink}
           </li>
         `;
       })
