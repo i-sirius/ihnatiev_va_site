@@ -267,15 +267,15 @@ html[data-theme="dark"] .about-details summary {
 
 .about-details-arrow {
   display: inline-grid;
-  grid-template-columns: 28px minmax(0, 1fr) 28px;
   align-items: center;
   justify-items: center;
   justify-content: center;
+  place-items: center;
   width: auto;
   min-width: 176px;
   max-width: 100%;
   min-height: 40px;
-  padding: 7px 12px;
+  padding: 8px 16px;
   justify-self: end;
   border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--button-bg) 56%, var(--liquid-glass-border));
@@ -297,14 +297,23 @@ html[data-theme="dark"] .about-details summary {
   align-items: center;
   justify-items: center;
   justify-content: center;
-  grid-column: 1;
-  width: 22px;
-  height: 22px;
-  border-radius: 999px;
-  background: color-mix(in srgb, rgba(255, 255, 255, 0.42) 72%, var(--button-bg));
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 1;
+  width: 34%;
+  min-width: 54px;
+  max-width: 72px;
+  border-radius: 11px 0 0 11px;
+  border-right: 1px solid color-mix(in srgb, rgba(255, 255, 255, 0.48) 62%, var(--liquid-glass-border));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 54%),
+    color-mix(in srgb, var(--button-bg) 72%, rgba(255, 255, 255, 0.2));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.42),
-    0 3px 9px rgba(25, 47, 41, 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset -1px 0 0 rgba(255, 255, 255, 0.1);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .about-details-arrow-icon::before {
@@ -320,7 +329,7 @@ html[data-theme="dark"] .about-details summary {
 .about-details-arrow-label {
   position: relative;
   display: inline-grid;
-  grid-column: 2;
+  z-index: 2;
   justify-items: center;
   width: 112px;
   max-width: 100%;
@@ -346,6 +355,13 @@ html[data-theme="dark"] .about-details summary {
 
 .about-details[open] .about-details-arrow-label::before {
   content: attr(data-close-label);
+}
+
+.about-details[open] .about-details-arrow-icon {
+  border-right-color: color-mix(in srgb, var(--gold-glass-border) 52%, var(--liquid-glass-border));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 54%),
+    color-mix(in srgb, var(--gold-glass-border) 46%, var(--button-bg));
 }
 
 .about-details[open] .about-details-arrow-icon::before {
