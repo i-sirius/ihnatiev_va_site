@@ -437,7 +437,7 @@ function Test-PublicationsContentManifest {
       Add-CheckError "${RelativePath}: items[$Index].text must be a non-empty string"
     }
 
-    if ($null -ne $Item.year) {
+    if ($null -ne $Item.year -and ([string]$Item.year).Trim() -ne "") {
       $Year = 0
       if (-not [int]::TryParse([string]$Item.year, [ref]$Year) -or $Year -lt 1900 -or $Year -gt 2100) {
         Add-CheckError "${RelativePath}: items[$Index].year must be a year between 1900 and 2100"
@@ -685,6 +685,8 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     @{ Pattern = "(?m)^\s*name:\s*items\s*$"; Message = "publications collection must expose items list" },
     @{ Pattern = "(?m)\bname:\s*text\b"; Message = "publications items must expose text field" },
     @{ Pattern = "(?m)\bname:\s*year\b"; Message = "publications items must expose year field" },
+    @{ Pattern = "(?ms)\bname:\s*year\b.*?\bwidget:\s*string\b"; Message = "publications year field must stay a string widget" },
+    @{ Pattern = "\^\$\|\^\(19\|20\|21\)\\\\d\{2\}\$"; Message = "publications year field must allow empty or 4-digit years" },
     @{ Pattern = "(?m)^\s*name:\s*type\s*$"; Message = "publications items must expose type field" },
     @{ Pattern = "(?m)^\s*widget:\s*select\s*$"; Message = "publications type field must stay a select widget" },
     @{ Pattern = "(?m)\bvalue:\s*article\b"; Message = "publications type options must include article" },

@@ -282,7 +282,14 @@ collections:
             summary: "{{fields.year}} · {{fields.type}} · {{fields.text}}"
             fields:
               - { label: "Текст", name: text, widget: text, hint: "Повний бібліографічний опис одним текстовим полем." }
-              - { label: "Рік", name: year, widget: number, value_type: int, min: 1900, max: 2100, required: false, hint: "Вказуйте рік публікації. Не копіюйте сюди цифри з ISSN/ISBN." }
+              - label: "Рік"
+                name: year
+                widget: string
+                required: false
+                hint: "Вкажіть 4 цифри року або залиште порожнім, якщо рік ще невідомий. Не копіюйте сюди цифри з ISSN/ISBN."
+                pattern:
+                  - "^$|^(19|20|21)\\d{2}$"
+                  - "Рік має бути порожнім або складатися з 4 цифр."
               - label: "Тип"
                 name: type
                 widget: select

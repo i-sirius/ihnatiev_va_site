@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.26c
+
+**Hotfix Decap save для списку праць.**
+
+- У CMS-колекції наукових праць поле року переведено з необов'язкового number widget на string із перевіркою `порожньо або 4 цифри`, щоб Decap не падав на записах із невідомим роком.
+- Поточну структуру `publications.json` не змінено; сайт і `check-content` надалі приймають числові, текстові або порожні роки.
+- Для `/admin/` додано явний favicon link, щоб прибрати зайвий `favicon.ico 404` із Console під час діагностики.
+- Оновлено build-версію до `0.6.26c` і кеш service worker до `v0.6.26c-r1`.
+
 ## 0.6.26b
 
 **Hotfix Decap media paths і save regression.**

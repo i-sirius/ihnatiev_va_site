@@ -448,7 +448,7 @@ function checkPublicationsContent(relativePath) {
       fail(`${relativePath}: items[${index}].text must be a non-empty string`);
     }
 
-    if (item.year !== undefined && item.year !== null) {
+    if (item.year !== undefined && item.year !== null && String(item.year).trim() !== "") {
       const year = Number(item.year);
       if (!Number.isInteger(year) || year < 1900 || year > 2100) {
         fail(`${relativePath}: items[${index}].year must be a year between 1900 and 2100`);
@@ -744,6 +744,8 @@ function checkAdminConfig() {
     [/^\s*name:\s*items\s*$/m, "publications collection must expose items list"],
     [/\bname:\s*text\b/m, "publications items must expose text field"],
     [/\bname:\s*year\b/m, "publications items must expose year field"],
+    [/\bname:\s*year\b[\s\S]*?\bwidget:\s*string\b/m, "publications year field must stay a string widget"],
+    [/\^\$\|\^\(19\|20\|21\)\\\\d\{2\}\$/m, "publications year field must allow empty or 4-digit years"],
     [/^\s*name:\s*type\s*$/m, "publications items must expose type field"],
     [/^\s*widget:\s*select\s*$/m, "publications type field must stay a select widget"],
     [/\bvalue:\s*article\b/m, "publications type options must include article"],
