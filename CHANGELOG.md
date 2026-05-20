@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.24d
+
+**Hotfix BOM після першого Decap publish.**
+
+- Після реального Decap CMS publish прибрано UTF-8 BOM із JSON-файлів, які зламали GitHub Action `Content check`.
+- `check-content` тепер перед `JSON.parse()` прибирає тільки початковий `\uFEFF`, але окремо падає з явною помилкою, якщо JSON містить BOM.
+- PowerShell-перевірку синхронізовано з JS-перевіркою, щоб локальний Windows-check ловив той самий випадок.
+- Оновлено build-версію до `0.6.24d` і кеш service worker до `v0.6.24d-r1`.
+
 ## 0.6.24c
 
 **Повернення OAuth proxy на домен `decap.iva.net.ua`.**

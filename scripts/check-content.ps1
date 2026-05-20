@@ -5,6 +5,8 @@ $Errors = New-Object System.Collections.Generic.List[string]
 $JsonCount = 0
 $ReferenceCount = 0
 $AdminPathCount = 0
+$BomCount = 0
+$ReportedBomFiles = New-Object System.Collections.Generic.HashSet[string]
 
 function Add-CheckError {
   param([string]$Message)
@@ -43,7 +45,16 @@ function Read-JsonFile {
   $script:JsonCount += 1
 
   try {
-    return Get-Content -Raw -Encoding UTF8 (Get-RepoPath $RelativePath) | ConvertFrom-Json
+    $Content = Get-Content -Raw -Encoding UTF8 (Get-RepoPath $RelativePath)
+    if ($Content.Length -gt 0 -and [int][char]$Content[0] -eq 0xFEFF) {
+      $Content = $Content.Substring(1)
+      if ($script:ReportedBomFiles.Add($RelativePath)) {
+        $script:BomCount += 1
+        Add-CheckError "${RelativePath}: contains UTF-8 BOM; save as UTF-8 without BOM"
+      }
+    }
+
+    return $Content | ConvertFrom-Json
   } catch {
     Add-CheckError "${RelativePath}: invalid JSON ($($_.Exception.Message))"
     return $null

@@ -8,10 +8,12 @@ const errors = [];
 const checked = {
   json: 0,
   references: 0,
-  adminPaths: 0
+  adminPaths: 0,
+  bom: 0
 };
 
 const SKIP_DIRS = new Set([".git", "node_modules"]);
+const reportedBomFiles = new Set();
 
 function toPosix(value) {
   return value.replace(/\\/g, "/");
@@ -58,7 +60,17 @@ function fail(message) {
 function readJson(relativePath) {
   checked.json += 1;
   try {
-    return JSON.parse(fs.readFileSync(fromRoot(relativePath), "utf8"));
+    let source = fs.readFileSync(fromRoot(relativePath), "utf8");
+    if (source.startsWith("\uFEFF")) {
+      source = source.replace(/^\uFEFF/, "");
+      if (!reportedBomFiles.has(relativePath)) {
+        checked.bom += 1;
+        reportedBomFiles.add(relativePath);
+        fail(`${relativePath}: contains UTF-8 BOM; save as UTF-8 without BOM`);
+      }
+    }
+
+    return JSON.parse(source);
   } catch (error) {
     fail(`${relativePath}: invalid JSON (${error.message})`);
     return null;
