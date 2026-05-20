@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.25a
+
+**Audit залишкового контенту `config.js`.**
+
+- Додано `docs/config-content-audit.md` з картою секцій `config.js`, їхнім CMS-статусом і ризиками подальшого винесення.
+- Розділено залишки на вже CMS-ready, безпечні наступні кандидати, тимчасові fallback-и та runtime/system config.
+- Наступним найменш ризиковим пакетом рекомендовано винесення social/profile links у JSON/CMS без зміни OAuth, DNS, дизайну чи структури наявних колекцій.
+- Оновлено build-версію до `0.6.25a` і кеш service worker до `v0.6.25a-r1`.
+
 ## 0.6.24g
 
 **Hotfix розділювача кнопки details.**
