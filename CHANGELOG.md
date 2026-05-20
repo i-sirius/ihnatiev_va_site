@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.26a
+
+**Базовий SEO foundation.**
+
+- Публічні HTML-сторінки отримали унікальні статичні title/description, canonical URL, Open Graph і Twitter/X card meta-теги.
+- Для головної сторінки додано обережний JSON-LD `Person` із наявними profile/social посиланнями без надмірних schema-полів.
+- Додано `robots.txt`, `sitemap.xml` лише з публічними сторінками та `docs/seo-audit.md`; `/admin/` лишено поза індексацією через `noindex,nofollow`.
+- Оновлено build-версію до `0.6.26a` і кеш service worker до `v0.6.26a-r1`.
+
 ## 0.6.25d
 
 **Українські підказки для Decap file/image полів.**
