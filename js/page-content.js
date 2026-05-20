@@ -250,6 +250,23 @@
       return;
     }
 
+    const scrollToPublicationTools = () => {
+      const target = details.querySelector("[data-publication-tools]") || details;
+      const headerOffsetValue = getComputedStyle(document.documentElement)
+        .getPropertyValue("--site-header-offset")
+        .trim();
+      const headerOffset = Number.parseFloat(headerOffsetValue) || 0;
+      const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      const top = target.getBoundingClientRect().top + window.scrollY - headerOffset - 12;
+
+      window.requestAnimationFrame(() => {
+        window.scrollTo({
+          top: Math.max(0, top),
+          behavior: prefersReducedMotion ? "auto" : "smooth"
+        });
+      });
+    };
+
     const applyFilters = () => {
       const query = (searchInput?.value || "").trim().toLocaleLowerCase();
       const year = yearSelect?.value || "";
@@ -278,8 +295,14 @@
     };
 
     searchInput?.addEventListener("input", applyFilters);
-    yearSelect?.addEventListener("change", applyFilters);
-    typeSelect?.addEventListener("change", applyFilters);
+    yearSelect?.addEventListener("change", () => {
+      applyFilters();
+      scrollToPublicationTools();
+    });
+    typeSelect?.addEventListener("change", () => {
+      applyFilters();
+      scrollToPublicationTools();
+    });
     details.addEventListener("click", (event) => {
       const yearButton = event.target.closest("[data-publication-filter-year]");
       const typeButton = event.target.closest("[data-publication-filter-type]");
@@ -309,6 +332,7 @@
       }
 
       applyFilters();
+      scrollToPublicationTools();
     });
     details.dataset.publicationsReady = "true";
   }

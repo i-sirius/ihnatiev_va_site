@@ -444,12 +444,17 @@ body[data-page="contact"] button[type="submit"]:disabled {
   }
 
   .contact-socials-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .contact-social-button {
+    min-width: 0;
     min-height: 56px;
     padding: 10px 12px;
+  }
+
+  .contact-social-label {
+    overflow-wrap: anywhere;
   }
 
   .contact-split {
@@ -478,5 +483,11 @@ body[data-page="contact"] button[type="submit"]:disabled {
   body[data-page="contact"] button[type="submit"] {
     justify-self: stretch;
     min-width: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .contact-socials-list {
+    grid-template-columns: 1fr;
   }
 }
