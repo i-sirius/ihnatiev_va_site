@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.25b
+
+**Виніс social/profile links у CMS JSON.**
+
+- Додано `files/content/social-links.json` як канонічний JSON для YouTube, Facebook, Telegram, Web of Science, ORCID і Google Scholar.
+- Шапка, контакти й профільні посилання наукового розділу тепер можуть оновлюватися з JSON, зберігаючи fallback зі старих списків у `config.js`.
+- Додано CMS-колекцію `Профільні посилання` та перевірку структури social-links у JS/PowerShell content check.
+- Оновлено build-версію до `0.6.25b` і кеш service worker до `v0.6.25b-r1`.
+
 ## 0.6.25a
 
 **Audit залишкового контенту `config.js`.**

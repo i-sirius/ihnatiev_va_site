@@ -296,6 +296,65 @@
       .catch(() => fallbackPublications);
   }
 
+  function getLocalizedLabel(value, locale = "uk", fallback = "") {
+    if (typeof value === "string") {
+      return value || fallback;
+    }
+
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      return value[locale] || value.uk || value.en || fallback;
+    }
+
+    return fallback;
+  }
+
+  function normalizeSocialLinksContent(payload, locale = "uk", fallbackLinks = []) {
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      return fallbackLinks;
+    }
+
+    const links = normalizeJsonList(payload, ["links", "items"]);
+    if (!links.length) {
+      return fallbackLinks;
+    }
+
+    const fallbackById = new Map(
+      (Array.isArray(fallbackLinks) ? fallbackLinks : [])
+        .filter((item) => item?.id)
+        .map((item) => [item.id, item])
+    );
+    const normalizedLinks = links
+      .map((item) => {
+        if (!item || typeof item !== "object" || Array.isArray(item) || !item.id) {
+          return null;
+        }
+
+        if (item.enabled === false) {
+          return null;
+        }
+
+        const fallback = fallbackById.get(item.id) || {};
+        return {
+          id: item.id,
+          label: getLocalizedLabel(item.label, locale, fallback.label || item.id),
+          href: typeof item.href === "string" ? item.href : fallback.href || ""
+        };
+      })
+      .filter(Boolean);
+
+    return normalizedLinks;
+  }
+
+  function loadSocialLinksContent({
+    path = "files/content/social-links.json",
+    locale = "uk",
+    fallbackLinks = []
+  } = {}) {
+    return fetchJson(path)
+      .then((payload) => normalizeSocialLinksContent(payload, locale, fallbackLinks))
+      .catch(() => fallbackLinks);
+  }
+
   window.SiteContentLoader = {
     fetchJson,
     filterAvailableImages,
@@ -306,6 +365,7 @@
     loadHomeContent,
     loadPagesContent,
     loadPublicationsContent,
+    loadSocialLinksContent,
     normalizeJsonList
   };
 })();

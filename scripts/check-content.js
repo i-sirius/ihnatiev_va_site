@@ -195,6 +195,19 @@ function isNonEmptyString(value) {
   return typeof value === "string" && Boolean(value.trim());
 }
 
+function isHttpUrl(value) {
+  if (!isNonEmptyString(value)) {
+    return true;
+  }
+
+  try {
+    const parsedUrl = new URL(value);
+    return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 function checkHomeContent(relativePath) {
   const payload = readJson(relativePath);
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
@@ -414,11 +427,75 @@ function checkPublicationsContent(relativePath) {
   });
 }
 
+function checkSocialLinksContent(relativePath) {
+  const payload = readJson(relativePath);
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    fail(`${relativePath}: expected an object with links array`);
+    return;
+  }
+
+  const knownIds = new Set([
+    "youtube",
+    "facebook",
+    "telegram",
+    "webofscience",
+    "orcid",
+    "googlescholar"
+  ]);
+  const seenIds = new Set();
+  const links = normalizeList(payload, ["links", "items"]);
+
+  if (!links.length) {
+    fail(`${relativePath}: links must be a non-empty array`);
+    return;
+  }
+
+  links.forEach((link, index) => {
+    if (!link || typeof link !== "object" || Array.isArray(link)) {
+      fail(`${relativePath}: links[${index}] must be an object`);
+      return;
+    }
+
+    if (!knownIds.has(link.id)) {
+      fail(`${relativePath}: links[${index}].id must be one of ${Array.from(knownIds).join(", ")}`);
+    } else if (seenIds.has(link.id)) {
+      fail(`${relativePath}: links[${index}].id duplicates "${link.id}"`);
+    } else {
+      seenIds.add(link.id);
+    }
+
+    if (!link.label || typeof link.label !== "object" || Array.isArray(link.label)) {
+      fail(`${relativePath}: links[${index}].label must be an object`);
+    } else {
+      ["uk", "en"].forEach((locale) => {
+        if (!isNonEmptyString(link.label[locale])) {
+          fail(`${relativePath}: links[${index}].label.${locale} must be a non-empty string`);
+        }
+      });
+    }
+
+    if (link.href !== undefined && typeof link.href !== "string") {
+      fail(`${relativePath}: links[${index}].href must be a string when present`);
+    } else if (!isHttpUrl(link.href || "")) {
+      fail(`${relativePath}: links[${index}].href must be an http(s) URL or empty`);
+    }
+
+    if (link.enabled !== undefined && typeof link.enabled !== "boolean") {
+      fail(`${relativePath}: links[${index}].enabled must be boolean when present`);
+    }
+
+    if (link.description !== undefined && typeof link.description !== "string") {
+      fail(`${relativePath}: links[${index}].description must be a string when present`);
+    }
+  });
+}
+
 function checkKnownContentManifests() {
   checkHomeContent("files/content/home.json");
   checkActivitiesContent("files/content/activities.json");
   checkPagesContent("files/content/pages.json");
   checkPublicationsContent("files/content/publications.json");
+  checkSocialLinksContent("files/content/social-links.json");
   checkPhotoManifest("files/media/activity1/photos.json");
   checkPhotoManifest("files/media/activity2/photos.json");
   checkPhotoManifest("files/media/activity3/photos.json");
@@ -585,6 +662,7 @@ function checkAdminConfig() {
     "activities_content",
     "pages_content",
     "publications_content",
+    "social_links",
     "gallery_activity1",
     "gallery_activity2",
     "gallery_activity3",
@@ -597,6 +675,7 @@ function checkAdminConfig() {
     "files/content/activities.json",
     "files/content/pages.json",
     "files/content/publications.json",
+    "files/content/social-links.json",
     "files/media/activity1/photos.json",
     "files/media/activity2/photos.json",
     "files/media/activity3/photos.json",

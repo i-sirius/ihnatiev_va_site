@@ -283,6 +283,45 @@ collections:
                   - { label: "Навчальні матеріали", value: teaching }
                   - { label: "Інше", value: other }
 
+  - name: social_links
+    label: "Профільні посилання"
+    files:
+      - name: social_links
+        label: "Посилання для шапки та контактів"
+        file: files/content/social-links.json
+        format: json
+        fields:
+          - label: "Посилання"
+            name: links
+            widget: list
+            summary: "{{fields.id}} · {{fields.href}}"
+            hint: "Ці посилання використовуються в іконках шапки, на сторінці контактів і в профільних кнопках наукового розділу."
+            fields:
+              - label: "Тип посилання"
+                name: id
+                widget: select
+                hint: "Не змінюйте тип без потреби: від нього залежить іконка."
+                options:
+                  - { label: "YouTube", value: youtube }
+                  - { label: "Facebook", value: facebook }
+                  - { label: "Telegram", value: telegram }
+                  - { label: "Web of Science", value: webofscience }
+                  - { label: "ORCID", value: orcid }
+                  - { label: "Google Scholar", value: googlescholar }
+              - label: "Назва"
+                name: label
+                widget: object
+                fields:
+                  - { label: "Українською", name: uk, widget: string }
+                  - { label: "English", name: en, widget: string }
+              - label: "URL"
+                name: href
+                widget: string
+                required: false
+                hint: "Для YouTube порожній URL автоматично бере channel ID із системного config.js."
+              - { label: "Показувати", name: enabled, widget: boolean, default: true }
+              - { label: "Нотатка для редактора", name: description, widget: string, required: false }
+
   - name: gallery_activity1
     label: "Галерея: Наукова активність"
     media_folder: files/media/activity1

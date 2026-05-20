@@ -158,6 +158,57 @@
     window.SiteHeaderUi?.syncHomeTitleLayout?.();
   }
 
+  function applySocialLinksChrome() {
+    window.SiteHeaderUi?.initSocials({
+      site: SITE,
+      getSocialIconMarkup
+    });
+    window.SitePageContent?.renderActivityResearchLinks({
+      activity: SITE.activities?.[activityId],
+      activityId,
+      pageType,
+      site: SITE,
+      escapeHtml,
+      getSocialIconMarkup
+    });
+    window.SitePageContent?.applyContactPage({
+      pageType,
+      site: SITE,
+      setText,
+      escapeHtml,
+      getSocialIconMarkup
+    });
+    window.SiteLiquidEffects?.initDroplets();
+  }
+
+  function loadSocialLinksContent() {
+    const loadSocialLinks = window.SiteContentLoader?.loadSocialLinksContent;
+    if (typeof loadSocialLinks !== "function") {
+      return;
+    }
+
+    const contentLocale = SITE.currentLocale || SITE.defaultLocale || "uk";
+    const fallbackLinks = Array.isArray(SITE.meta?.headerLinks)
+      ? SITE.meta.headerLinks
+      : [];
+    loadSocialLinks({
+      locale: contentLocale,
+      fallbackLinks
+    }).then((links) => {
+      const activeLocale = SITE.currentLocale || SITE.defaultLocale || "uk";
+      if (activeLocale !== contentLocale || !Array.isArray(links)) {
+        return;
+      }
+
+      SITE.meta.headerLinks = links;
+      SITE.contact.socials = {
+        ...(SITE.contact.socials || {}),
+        items: links
+      };
+      applySocialLinksChrome();
+    });
+  }
+
   function loadPagesContent() {
     const loadPages = window.SiteContentLoader?.loadPagesContent;
     if (typeof loadPages !== "function") {
@@ -348,6 +399,7 @@
     });
     loadActivitiesContent();
     loadPagesContent();
+    loadSocialLinksContent();
     loadPublicationsContent();
     window.SiteMobileNavigation?.init();
     window.SiteHeaderUi?.initBrand({

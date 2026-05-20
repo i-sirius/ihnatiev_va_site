@@ -1,0 +1,64 @@
+{
+  "links": [
+    {
+      "id": "youtube",
+      "label": {
+        "uk": "YouTube",
+        "en": "YouTube"
+      },
+      "href": "",
+      "enabled": true,
+      "description": "YouTube channel link. Empty href falls back to the configured channel ID."
+    },
+    {
+      "id": "facebook",
+      "label": {
+        "uk": "Facebook",
+        "en": "Facebook"
+      },
+      "href": "http://facebook.com/va.ignatyev",
+      "enabled": true,
+      "description": "Facebook profile"
+    },
+    {
+      "id": "telegram",
+      "label": {
+        "uk": "Telegram",
+        "en": "Telegram"
+      },
+      "href": "https://t.me/iva_net_ua",
+      "enabled": true,
+      "description": "Telegram profile"
+    },
+    {
+      "id": "webofscience",
+      "label": {
+        "uk": "Web of Science",
+        "en": "Web of Science"
+      },
+      "href": "https://www.webofscience.com/wos/author/record/ADR-7609-2022",
+      "enabled": true,
+      "description": "Web of Science author profile"
+    },
+    {
+      "id": "orcid",
+      "label": {
+        "uk": "ORCID",
+        "en": "ORCID"
+      },
+      "href": "https://orcid.org/0000-0002-0635-6580",
+      "enabled": true,
+      "description": "ORCID profile"
+    },
+    {
+      "id": "googlescholar",
+      "label": {
+        "uk": "Google Академія",
+        "en": "Google Scholar"
+      },
+      "href": "https://scholar.google.com/citations?user=A79MaIoAAAAJ",
+      "enabled": true,
+      "description": "Google Scholar profile"
+    }
+  ]
+}

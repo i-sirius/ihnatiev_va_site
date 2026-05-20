@@ -194,6 +194,15 @@ function Test-NonEmptyString {
   return ($Value -is [string] -and $Value.Trim())
 }
 
+function Test-HttpUrlOrEmpty {
+  param($Value)
+  if (-not (Test-NonEmptyString $Value)) {
+    return $true
+  }
+
+  return ([string]$Value -match "^https?://")
+}
+
 function Test-HomeContentManifest {
   param([string]$RelativePath)
   $Payload = Read-JsonFile $RelativePath
@@ -400,6 +409,61 @@ function Test-PublicationsContentManifest {
   }
 }
 
+function Test-SocialLinksContentManifest {
+  param([string]$RelativePath)
+  $Payload = Read-JsonFile $RelativePath
+  if (-not $Payload) {
+    return
+  }
+
+  $KnownIds = @("youtube", "facebook", "telegram", "webofscience", "orcid", "googlescholar")
+  $SeenIds = New-Object System.Collections.Generic.HashSet[string]
+  $Links = Get-JsonList $Payload @("links", "items")
+
+  if (-not $Links.Count) {
+    Add-CheckError "${RelativePath}: links must be a non-empty array"
+    return
+  }
+
+  for ($Index = 0; $Index -lt $Links.Count; $Index++) {
+    $Link = $Links[$Index]
+    if (-not $Link -or $Link -is [string]) {
+      Add-CheckError "${RelativePath}: links[$Index] must be an object"
+      continue
+    }
+
+    if ($KnownIds -notcontains $Link.id) {
+      Add-CheckError "${RelativePath}: links[$Index].id must be one of $($KnownIds -join ', ')"
+    } elseif (-not $SeenIds.Add([string]$Link.id)) {
+      Add-CheckError "${RelativePath}: links[$Index].id duplicates `"$($Link.id)`""
+    }
+
+    if (-not $Link.label) {
+      Add-CheckError "${RelativePath}: links[$Index].label must be an object"
+    } else {
+      foreach ($Locale in @("uk", "en")) {
+        if (-not (Test-NonEmptyString $Link.label.$Locale)) {
+          Add-CheckError "${RelativePath}: links[$Index].label.${Locale} must be a non-empty string"
+        }
+      }
+    }
+
+    if ($null -ne $Link.href -and $Link.href -isnot [string]) {
+      Add-CheckError "${RelativePath}: links[$Index].href must be a string when present"
+    } elseif (-not (Test-HttpUrlOrEmpty $Link.href)) {
+      Add-CheckError "${RelativePath}: links[$Index].href must be an http(s) URL or empty"
+    }
+
+    if ($null -ne $Link.enabled -and $Link.enabled -isnot [bool]) {
+      Add-CheckError "${RelativePath}: links[$Index].enabled must be boolean when present"
+    }
+
+    if ($null -ne $Link.description -and $Link.description -isnot [string]) {
+      Add-CheckError "${RelativePath}: links[$Index].description must be a string when present"
+    }
+  }
+}
+
 function Resolve-SourceRelativeReference {
   param(
     [string]$SourceFile,
@@ -437,6 +501,7 @@ Test-HomeContentManifest "files/content/home.json"
 Test-ActivitiesContentManifest "files/content/activities.json"
 Test-PagesContentManifest "files/content/pages.json"
 Test-PublicationsContentManifest "files/content/publications.json"
+Test-SocialLinksContentManifest "files/content/social-links.json"
 Test-PhotoManifest "files/media/activity1/photos.json"
 Test-PhotoManifest "files/media/activity2/photos.json"
 Test-PhotoManifest "files/media/activity3/photos.json"
@@ -529,6 +594,7 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     "activities_content",
     "pages_content",
     "publications_content",
+    "social_links",
     "gallery_activity1",
     "gallery_activity2",
     "gallery_activity3",
@@ -543,6 +609,7 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     "files/content/activities.json",
     "files/content/pages.json",
     "files/content/publications.json",
+    "files/content/social-links.json",
     "files/media/activity1/photos.json",
     "files/media/activity2/photos.json",
     "files/media/activity3/photos.json",
