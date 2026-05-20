@@ -16,6 +16,7 @@ public_folder: files/media/uploads
 collections:
   - name: home_content
     label: "Головна сторінка"
+    description: "Короткі тексти головної сторінки. Довгі біографічні блоки краще змінювати обережно."
     files:
       - name: home
         label: "Тексти головної сторінки"
@@ -35,6 +36,9 @@ collections:
               - label: "Абзаци про автора"
                 name: aboutParagraphs
                 widget: list
+                collapsed: true
+                summary: "{{fields.paragraph}}"
+                hint: "Один абзац = один пункт списку. HTML тут не потрібен."
                 field: { label: "Абзац", name: paragraph, widget: text }
               - { label: "Заголовок блоку діяльності", name: activitiesHeading, widget: string }
           - label: "English"
@@ -50,11 +54,15 @@ collections:
               - label: "About paragraphs"
                 name: aboutParagraphs
                 widget: list
+                collapsed: true
+                summary: "{{fields.paragraph}}"
+                hint: "One paragraph per item. HTML is not needed here."
                 field: { label: "Paragraph", name: paragraph, widget: text }
               - { label: "Activities block heading", name: activitiesHeading, widget: string }
 
   - name: activities_content
     label: "Розділи діяльності"
+    description: "Назви, короткі описи карток і alt-тексти hero-зображень. Повні тексти сторінок тут не редагуються."
     files:
       - name: activities
         label: "Назви та короткі описи"
@@ -70,34 +78,34 @@ collections:
                 widget: object
                 fields:
                   - { label: "Назва", name: name, widget: string }
-                  - { label: "Короткий опис картки", name: cardDescription, widget: text }
+                  - { label: "Короткий опис картки", name: cardDescription, widget: text, hint: "Короткий текст для картки на головній сторінці." }
                   - label: "Hero image"
                     name: heroImage
                     widget: object
                     fields:
-                      - { label: "Alt-текст", name: alt, widget: string }
+                      - { label: "Alt-текст", name: alt, widget: string, hint: "Опис зображення для доступності, без HTML." }
               - label: "Освітня діяльність"
                 name: "2"
                 widget: object
                 fields:
                   - { label: "Назва", name: name, widget: string }
-                  - { label: "Короткий опис картки", name: cardDescription, widget: text }
+                  - { label: "Короткий опис картки", name: cardDescription, widget: text, hint: "Короткий текст для картки на головній сторінці." }
                   - label: "Hero image"
                     name: heroImage
                     widget: object
                     fields:
-                      - { label: "Alt-текст", name: alt, widget: string }
+                      - { label: "Alt-текст", name: alt, widget: string, hint: "Опис зображення для доступності, без HTML." }
               - label: "Священнослужіння"
                 name: "3"
                 widget: object
                 fields:
                   - { label: "Назва", name: name, widget: string }
-                  - { label: "Короткий опис картки", name: cardDescription, widget: text }
+                  - { label: "Короткий опис картки", name: cardDescription, widget: text, hint: "Короткий текст для картки на головній сторінці." }
                   - label: "Hero image"
                     name: heroImage
                     widget: object
                     fields:
-                      - { label: "Alt-текст", name: alt, widget: string }
+                      - { label: "Alt-текст", name: alt, widget: string, hint: "Опис зображення для доступності, без HTML." }
           - label: "English"
             name: en
             widget: object
@@ -107,37 +115,38 @@ collections:
                 widget: object
                 fields:
                   - { label: "Name", name: name, widget: string }
-                  - { label: "Short card description", name: cardDescription, widget: text }
+                  - { label: "Short card description", name: cardDescription, widget: text, hint: "Short text for the home page card." }
                   - label: "Hero image"
                     name: heroImage
                     widget: object
                     fields:
-                      - { label: "Alt text", name: alt, widget: string }
+                      - { label: "Alt text", name: alt, widget: string, hint: "Accessible image description, no HTML." }
               - label: "Educational Activity"
                 name: "2"
                 widget: object
                 fields:
                   - { label: "Name", name: name, widget: string }
-                  - { label: "Short card description", name: cardDescription, widget: text }
+                  - { label: "Short card description", name: cardDescription, widget: text, hint: "Short text for the home page card." }
                   - label: "Hero image"
                     name: heroImage
                     widget: object
                     fields:
-                      - { label: "Alt text", name: alt, widget: string }
+                      - { label: "Alt text", name: alt, widget: string, hint: "Accessible image description, no HTML." }
               - label: "Priestly Ministry"
                 name: "3"
                 widget: object
                 fields:
                   - { label: "Name", name: name, widget: string }
-                  - { label: "Short card description", name: cardDescription, widget: text }
+                  - { label: "Short card description", name: cardDescription, widget: text, hint: "Short text for the home page card." }
                   - label: "Hero image"
                     name: heroImage
                     widget: object
                     fields:
-                      - { label: "Alt text", name: alt, widget: string }
+                      - { label: "Alt text", name: alt, widget: string, hint: "Accessible image description, no HTML." }
 
   - name: pages_content
     label: "Сторінки"
+    description: "Прості тексти сторінок Завантаження і Контакти. Соціальні URL редагуються окремо у Профільних посиланнях."
     files:
       - name: pages
         label: "Завантаження і контакти"
@@ -154,7 +163,7 @@ collections:
                 fields:
                   - { label: "Title", name: pageTitle, widget: string }
                   - { label: "Heading", name: heading, widget: string }
-                  - { label: "Intro", name: intro, widget: text, required: false }
+                  - { label: "Intro", name: intro, widget: text, required: false, hint: "Можна залишити порожнім." }
               - label: "Контакти"
                 name: contact
                 widget: object
@@ -166,7 +175,7 @@ collections:
                     name: socials
                     widget: object
                     fields:
-                      - { label: "Заголовок", name: title, widget: string }
+                      - { label: "Заголовок", name: title, widget: string, hint: "Це тільки заголовок блоку. Самі URL редагуються в колекції Профільні посилання." }
                   - label: "Поля форми"
                     name: fields
                     widget: object
@@ -177,7 +186,7 @@ collections:
                       - { label: "Тема", name: subject, widget: string }
                       - { label: "Повідомлення", name: message, widget: string }
                       - { label: "Submit", name: submit, widget: string }
-                  - { label: "Тема листа Formspree", name: formSubject, widget: string }
+                  - { label: "Тема листа Formspree", name: formSubject, widget: string, hint: "Ця тема підставляється у приховане поле форми." }
           - label: "English"
             name: en
             widget: object
@@ -188,7 +197,7 @@ collections:
                 fields:
                   - { label: "Title", name: pageTitle, widget: string }
                   - { label: "Heading", name: heading, widget: string }
-                  - { label: "Intro", name: intro, widget: text, required: false }
+                  - { label: "Intro", name: intro, widget: text, required: false, hint: "Can be left empty." }
               - label: "Contacts"
                 name: contact
                 widget: object
@@ -200,7 +209,7 @@ collections:
                     name: socials
                     widget: object
                     fields:
-                      - { label: "Heading", name: title, widget: string }
+                      - { label: "Heading", name: title, widget: string, hint: "This is only the block heading. URLs are edited in Profile links." }
                   - label: "Form fields"
                     name: fields
                     widget: object
@@ -211,10 +220,11 @@ collections:
                       - { label: "Subject", name: subject, widget: string }
                       - { label: "Message", name: message, widget: string }
                       - { label: "Submit", name: submit, widget: string }
-                  - { label: "Formspree email subject", name: formSubject, widget: string }
+                  - { label: "Formspree email subject", name: formSubject, widget: string, hint: "Used as the hidden email subject for the contact form." }
 
   - name: publications_content
     label: "Наукові праці"
+    description: "Список праць і прості labels фільтрів. Рік має бути роком публікації, не частиною ISSN."
     files:
       - name: publications
         label: "Список наукових праць"
@@ -268,14 +278,16 @@ collections:
           - label: "Публікації"
             name: items
             widget: list
+            collapsed: true
             summary: "{{fields.year}} · {{fields.type}} · {{fields.text}}"
             fields:
-              - { label: "Текст", name: text, widget: text }
-              - { label: "Рік", name: year, widget: number, value_type: int, min: 1900, max: 2100, required: false }
+              - { label: "Текст", name: text, widget: text, hint: "Повний бібліографічний опис одним текстовим полем." }
+              - { label: "Рік", name: year, widget: number, value_type: int, min: 1900, max: 2100, required: false, hint: "Вказуйте рік публікації. Не копіюйте сюди цифри з ISSN/ISBN." }
               - label: "Тип"
                 name: type
                 widget: select
                 default: other
+                hint: "Тип використовується для фільтрації на сайті."
                 options:
                   - { label: "Стаття", value: article }
                   - { label: "Конференція", value: conference }
@@ -285,6 +297,7 @@ collections:
 
   - name: social_links
     label: "Профільні посилання"
+    description: "URL-и для іконок шапки, контактної сторінки та профільних кнопок наукового розділу."
     files:
       - name: social_links
         label: "Посилання для шапки та контактів"
@@ -294,7 +307,8 @@ collections:
           - label: "Посилання"
             name: links
             widget: list
-            summary: "{{fields.id}} · {{fields.href}}"
+            collapsed: true
+            summary: "{{fields.id}} · {{fields.label.uk}}"
             hint: "Ці посилання використовуються в іконках шапки, на сторінці контактів і в профільних кнопках наукового розділу."
             fields:
               - label: "Тип посилання"
@@ -311,6 +325,7 @@ collections:
               - label: "Назва"
                 name: label
                 widget: object
+                hint: "Цей текст використовується для aria-label, title і підписів у контактах."
                 fields:
                   - { label: "Українською", name: uk, widget: string }
                   - { label: "English", name: en, widget: string }
@@ -319,11 +334,15 @@ collections:
                 widget: string
                 required: false
                 hint: "Для YouTube порожній URL автоматично бере channel ID із системного config.js."
-              - { label: "Показувати", name: enabled, widget: boolean, default: true }
+                pattern:
+                  - "^$|^https?://.+"
+                  - "URL має бути порожнім або починатися з http:// чи https://"
+              - { label: "Показувати", name: enabled, widget: boolean, default: true, hint: "Вимкнене посилання не показується на сайті, але залишається в JSON." }
               - { label: "Нотатка для редактора", name: description, widget: string, required: false }
 
   - name: gallery_activity1
     label: "Галерея: Наукова активність"
+    description: "Зображення галереї на сторінці наукової активності."
     media_folder: files/media/activity1
     public_folder: files/media/activity1
     files:
@@ -335,6 +354,7 @@ collections:
           - label: "Фото"
             name: images
             widget: list
+            collapsed: true
             summary: "{{fields.src}}"
             fields:
               - { label: "Зображення", name: src, widget: image }
@@ -342,6 +362,7 @@ collections:
 
   - name: gallery_activity2
     label: "Галерея: Освітня діяльність"
+    description: "Зображення галереї на сторінці освітньої діяльності."
     media_folder: files/media/activity2
     public_folder: files/media/activity2
     files:
@@ -353,6 +374,7 @@ collections:
           - label: "Фото"
             name: images
             widget: list
+            collapsed: true
             summary: "{{fields.src}}"
             fields:
               - { label: "Зображення", name: src, widget: image }
@@ -360,6 +382,7 @@ collections:
 
   - name: gallery_activity3
     label: "Галерея: Священнослужіння"
+    description: "Зображення галереї на сторінці священнослужіння."
     media_folder: files/media/activity3
     public_folder: files/media/activity3
     files:
@@ -371,6 +394,7 @@ collections:
           - label: "Фото"
             name: images
             widget: list
+            collapsed: true
             summary: "{{fields.src}}"
             fields:
               - { label: "Зображення", name: src, widget: image }
@@ -378,6 +402,7 @@ collections:
 
   - name: activity2_files
     label: "Файли: Освітня діяльність"
+    description: "Файли, що показуються в розділі освітньої діяльності."
     media_folder: files/activity2
     public_folder: files/activity2
     files:
@@ -389,6 +414,7 @@ collections:
           - label: "Файли"
             name: files
             widget: list
+            collapsed: true
             summary: "{{fields.href}}"
             fields:
               - { label: "Файл", name: href, widget: file }
@@ -401,6 +427,7 @@ collections:
 
   - name: downloads
     label: "Завантаження"
+    description: "Монографії та статті для сторінки Завантаження."
     media_folder: files/downloads
     public_folder: files/downloads
     files:
@@ -412,6 +439,7 @@ collections:
           - label: "Монографії"
             name: monographs
             widget: list
+            collapsed: true
             summary: "{{fields.href}}"
             fields:
               - { label: "Файл", name: href, widget: file, required: false }
@@ -426,7 +454,13 @@ collections:
                 widget: object
                 required: false
                 fields:
-                  - { label: "Режим", name: mode, widget: string, default: contact }
+                  - label: "Режим"
+                    name: mode
+                    widget: select
+                    default: contact
+                    hint: "Поки підтримується тільки contact: кнопка веде до форми контактів."
+                    options:
+                      - { label: "Запит через контакти", value: contact }
                   - label: "Текст кнопки"
                     name: label
                     widget: object
@@ -452,6 +486,7 @@ collections:
           - label: "Статті"
             name: articles
             widget: list
+            collapsed: true
             summary: "{{fields.title.uk}}"
             fields:
               - label: "Назва групи"
@@ -463,6 +498,7 @@ collections:
               - label: "Файли"
                 name: files
                 widget: list
+                collapsed: true
                 summary: "{{fields.href}}"
                 fields:
                   - { label: "Файл", name: href, widget: file }
