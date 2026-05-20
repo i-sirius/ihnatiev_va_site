@@ -267,15 +267,15 @@ html[data-theme="dark"] .about-details summary {
 
 .about-details-arrow {
   display: inline-grid;
+  grid-template-columns: 52px minmax(0, 1fr);
   align-items: center;
   justify-items: center;
   justify-content: center;
-  place-items: center;
   width: auto;
-  min-width: 176px;
+  min-width: 190px;
   max-width: 100%;
   min-height: 40px;
-  padding: 8px 16px;
+  padding: 0 16px 0 0;
   justify-self: end;
   border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--button-bg) 56%, var(--liquid-glass-border));
@@ -297,12 +297,13 @@ html[data-theme="dark"] .about-details summary {
   align-items: center;
   justify-items: center;
   justify-content: center;
-  position: absolute;
-  inset: 0 auto 0 0;
+  grid-column: 1;
+  align-self: stretch;
+  justify-self: stretch;
   z-index: 1;
-  width: 34%;
-  min-width: 54px;
-  max-width: 72px;
+  width: auto;
+  min-width: 0;
+  max-width: none;
   border-radius: 11px 0 0 11px;
   border-right: 1px solid color-mix(in srgb, rgba(255, 255, 255, 0.48) 62%, var(--liquid-glass-border));
   background:
@@ -329,9 +330,10 @@ html[data-theme="dark"] .about-details summary {
 .about-details-arrow-label {
   position: relative;
   display: inline-grid;
+  grid-column: 2;
   z-index: 2;
   justify-items: center;
-  width: 112px;
+  width: 100%;
   max-width: 100%;
   font-size: 0.76rem;
   font-weight: 700;
