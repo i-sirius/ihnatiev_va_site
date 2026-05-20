@@ -444,7 +444,7 @@ function Test-PublicationsContentManifest {
       }
     }
 
-    foreach ($Key in @("searchLabel", "searchPlaceholder", "yearLabel", "typeLabel", "allYearsLabel", "allTypesLabel", "emptyLabel")) {
+    foreach ($Key in @("searchLabel", "searchPlaceholder", "yearLabel", "typeLabel", "allYearsLabel", "allTypesLabel", "fileLabel", "emptyLabel")) {
       if ($null -ne $Labels.$Key -and -not (Test-NonEmptyString $Labels.$Key)) {
         Add-CheckError "${RelativePath}: ${Locale}.${Key} must be a non-empty string when present"
       }

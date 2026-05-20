@@ -15,7 +15,8 @@
     "typeLabel": "Тип",
     "allTypesLabel": "Усі типи",
     "description": "Кандидат філософських наук Ігнатьєв В. А.",
-    "allYearsLabel": "Усі роки"
+    "allYearsLabel": "Усі роки",
+    "fileLabel": "Завантажити файл"
   },
   "en": {
     "summary": "List of academic publications (85 items)",
@@ -33,7 +34,8 @@
     "typeLabel": "Type",
     "allTypesLabel": "All types",
     "description": "PhD in Philosophy, V. A. Ihnatiev",
-    "allYearsLabel": "All years"
+    "allYearsLabel": "All years",
+    "fileLabel": "Download file"
   },
   "items": [
     {

@@ -245,6 +245,7 @@ collections:
               - { label: "Label: тип", name: typeLabel, widget: string }
               - { label: "Усі роки", name: allYearsLabel, widget: string }
               - { label: "Усі типи", name: allTypesLabel, widget: string }
+              - { label: "Кнопка файла", name: fileLabel, widget: string, hint: "Текст кнопки для прикріпленого файла праці." }
               - { label: "Порожній результат", name: emptyLabel, widget: string }
               - label: "Назви типів"
                 name: typeLabels
@@ -267,6 +268,7 @@ collections:
               - { label: "Type label", name: typeLabel, widget: string }
               - { label: "All years", name: allYearsLabel, widget: string }
               - { label: "All types", name: allTypesLabel, widget: string }
+              - { label: "File button", name: fileLabel, widget: string, hint: "Button text for an attached publication file." }
               - { label: "Empty result", name: emptyLabel, widget: string }
               - label: "Type labels"
                 name: typeLabels

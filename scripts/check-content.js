@@ -437,6 +437,7 @@ function checkPublicationsContent(relativePath) {
       "typeLabel",
       "allYearsLabel",
       "allTypesLabel",
+      "fileLabel",
       "emptyLabel"
     ].forEach((key) => {
       if (labels[key] !== undefined && !isNonEmptyString(labels[key])) {
