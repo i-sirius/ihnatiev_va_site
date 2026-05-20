@@ -14,6 +14,18 @@ const checked = {
 
 const SKIP_DIRS = new Set([".git", "node_modules"]);
 const reportedBomFiles = new Set();
+const SITE_ORIGIN = "https://iva.net.ua";
+const SITEMAP_URL = `${SITE_ORIGIN}/sitemap.xml`;
+const PUBLIC_HTML_PAGES = [
+  ["index.html", `${SITE_ORIGIN}/`],
+  ["activity1.html", `${SITE_ORIGIN}/activity1.html`],
+  ["activity2.html", `${SITE_ORIGIN}/activity2.html`],
+  ["activity3.html", `${SITE_ORIGIN}/activity3.html`],
+  ["downloads.html", `${SITE_ORIGIN}/downloads.html`],
+  ["contact.html", `${SITE_ORIGIN}/contact.html`]
+];
+const EXPECTED_SITEMAP_URLS = PUBLIC_HTML_PAGES.map(([, url]) => url);
+const TECHNICAL_URL_PATTERN = /(?:localhost|127\.0\.0\.1|github\.io|githubusercontent\.com)/i;
 
 function toPosix(value) {
   return value.replace(/\\/g, "/");
@@ -661,6 +673,298 @@ function checkServiceWorkerShell() {
   }
 }
 
+function readText(relativePath) {
+  return fs.readFileSync(fromRoot(relativePath), "utf8");
+}
+
+function checkNoBom(relativePath) {
+  if (readText(relativePath).startsWith("\uFEFF")) {
+    fail(`${relativePath}: contains UTF-8 BOM; save as UTF-8 without BOM`);
+  }
+}
+
+function getHtmlAttribute(tag, attribute) {
+  const pattern = new RegExp(`\\b${escapeRegExp(attribute)}\\s*=\\s*["']([^"']*)["']`, "i");
+  const match = tag.match(pattern);
+  return match ? match[1] : "";
+}
+
+function getHtmlTags(source, tagName) {
+  return Array.from(source.matchAll(new RegExp(`<${tagName}\\b[^>]*>`, "gi")), (match) => match[0]);
+}
+
+function getMetaContent(source, attribute, value) {
+  const expectedValue = value.toLowerCase();
+  const tag = getHtmlTags(source, "meta").find((metaTag) => {
+    return getHtmlAttribute(metaTag, attribute).toLowerCase() === expectedValue;
+  });
+  return tag ? getHtmlAttribute(tag, "content") : "";
+}
+
+function getCanonicalUrl(source) {
+  const canonicalTags = getHtmlTags(source, "link").filter((tag) => {
+    return getHtmlAttribute(tag, "rel").toLowerCase().split(/\s+/).includes("canonical");
+  });
+  return {
+    count: canonicalTags.length,
+    value: canonicalTags.length ? getHtmlAttribute(canonicalTags[0], "href") : ""
+  };
+}
+
+function validatePublicUrl(sourceFile, value, context, expectedUrl = "") {
+  if (!value) {
+    fail(`${sourceFile}: missing ${context}`);
+    return;
+  }
+
+  if (!value.startsWith(`${SITE_ORIGIN}/`) && value !== `${SITE_ORIGIN}/`) {
+    fail(`${sourceFile}: ${context} must use ${SITE_ORIGIN}`);
+  }
+
+  if (value.startsWith("http://")) {
+    fail(`${sourceFile}: ${context} must not use http://`);
+  }
+
+  if (TECHNICAL_URL_PATTERN.test(value)) {
+    fail(`${sourceFile}: ${context} must not use localhost, GitHub Pages, or technical URLs`);
+  }
+
+  if (value.includes("/admin/")) {
+    fail(`${sourceFile}: ${context} must not point to /admin/`);
+  }
+
+  if (expectedUrl && value !== expectedUrl) {
+    fail(`${sourceFile}: ${context} must be ${expectedUrl}`);
+  }
+}
+
+function checkSiteImageReference(sourceFile, value, context) {
+  if (!value) {
+    return;
+  }
+
+  if (TECHNICAL_URL_PATTERN.test(value) || value.startsWith("http://")) {
+    fail(`${sourceFile}: ${context} must not use a technical or http:// URL`);
+    return;
+  }
+
+  if (value.startsWith(`${SITE_ORIGIN}/`)) {
+    checkReference(sourceFile, value.slice(SITE_ORIGIN.length + 1), context);
+  } else if (!isExternalOrVirtual(value)) {
+    checkReference(sourceFile, resolveFromSource(sourceFile, value), context);
+  }
+}
+
+function checkPublicHtmlSeo() {
+  PUBLIC_HTML_PAGES.forEach(([sourceFile, expectedUrl]) => {
+    if (!existsRelative(sourceFile)) {
+      fail(`${sourceFile}: missing public HTML page`);
+      return;
+    }
+
+    const source = readText(sourceFile);
+    const titleCount = (source.match(/<title\b[^>]*>/gi) || []).length;
+    if (titleCount !== 1) {
+      fail(`${sourceFile}: expected exactly one <title>, found ${titleCount}`);
+    }
+
+    if (!getMetaContent(source, "name", "description")) {
+      fail(`${sourceFile}: missing meta description`);
+    }
+
+    const canonical = getCanonicalUrl(source);
+    if (canonical.count !== 1) {
+      fail(`${sourceFile}: expected exactly one canonical link, found ${canonical.count}`);
+    }
+    validatePublicUrl(sourceFile, canonical.value, "canonical URL", expectedUrl);
+
+    ["og:title", "og:description", "og:type", "og:url"].forEach((property) => {
+      if (!getMetaContent(source, "property", property)) {
+        fail(`${sourceFile}: missing ${property}`);
+      }
+    });
+
+    const ogUrl = getMetaContent(source, "property", "og:url");
+    validatePublicUrl(sourceFile, ogUrl, "og:url", canonical.value || expectedUrl);
+
+    const ogImage = getMetaContent(source, "property", "og:image");
+    if (ogImage) {
+      checkSiteImageReference(sourceFile, ogImage, "og:image");
+    }
+
+    const twitterTags = getHtmlTags(source, "meta").filter((tag) => getHtmlAttribute(tag, "name").toLowerCase().startsWith("twitter:"));
+    if (twitterTags.length) {
+      ["twitter:card", "twitter:title", "twitter:description"].forEach((name) => {
+        if (!getMetaContent(source, "name", name)) {
+          fail(`${sourceFile}: missing ${name}`);
+        }
+      });
+
+      const twitterImage = getMetaContent(source, "name", "twitter:image");
+      if (twitterImage) {
+        checkSiteImageReference(sourceFile, twitterImage, "twitter:image");
+      }
+    }
+
+    const robots = getMetaContent(source, "name", "robots").toLowerCase();
+    if (robots.includes("noindex")) {
+      fail(`${sourceFile}: public page must not include noindex`);
+    }
+  });
+}
+
+function checkAdminSeo() {
+  const sourceFile = "admin/index.html";
+  if (!existsRelative(sourceFile)) {
+    fail(`${sourceFile}: missing admin HTML page`);
+    return;
+  }
+
+  const source = readText(sourceFile);
+  const robots = getMetaContent(source, "name", "robots").toLowerCase().replace(/\s+/g, "");
+  if (!robots.includes("noindex") || !robots.includes("nofollow")) {
+    fail(`${sourceFile}: admin page must include noindex,nofollow`);
+  }
+
+  if (/property=["']og:/i.test(source) || /type=["']application\/ld\+json["']/i.test(source)) {
+    fail(`${sourceFile}: admin page must not expose Open Graph or JSON-LD public metadata`);
+  }
+}
+
+function checkRobotsTxt() {
+  const sourceFile = "robots.txt";
+  if (!existsRelative(sourceFile)) {
+    fail(`${sourceFile}: missing robots.txt`);
+    return;
+  }
+
+  checkNoBom(sourceFile);
+  const source = readText(sourceFile);
+  if (!source.includes(`Sitemap: ${SITEMAP_URL}`)) {
+    fail(`${sourceFile}: missing Sitemap: ${SITEMAP_URL}`);
+  }
+
+  if (!/^\s*Disallow:\s*\/admin\/?\s*$/im.test(source)) {
+    fail(`${sourceFile}: must disallow /admin/`);
+  }
+
+  if (/^\s*Disallow:\s*\/\s*$/im.test(source)) {
+    fail(`${sourceFile}: must not block the public site root`);
+  }
+}
+
+function checkSitemapXml() {
+  const sourceFile = "sitemap.xml";
+  if (!existsRelative(sourceFile)) {
+    fail(`${sourceFile}: missing sitemap.xml`);
+    return;
+  }
+
+  checkNoBom(sourceFile);
+  const source = readText(sourceFile);
+  if (!/<urlset\b[^>]*xmlns=["']http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9["']/i.test(source)) {
+    fail(`${sourceFile}: missing sitemap urlset namespace`);
+  }
+
+  if (source.includes("/admin/") || TECHNICAL_URL_PATTERN.test(source) || /<loc>\s*http:\/\//i.test(source)) {
+    fail(`${sourceFile}: must not contain /admin/, technical URLs, or http:// URLs`);
+  }
+
+  const urls = Array.from(source.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/gi), (match) => match[1]);
+  const duplicates = urls.filter((url, index) => urls.indexOf(url) !== index);
+  if (duplicates.length) {
+    fail(`${sourceFile}: duplicated URLs: ${Array.from(new Set(duplicates)).join(", ")}`);
+  }
+
+  EXPECTED_SITEMAP_URLS.forEach((url) => {
+    if (!urls.includes(url)) {
+      fail(`${sourceFile}: missing ${url}`);
+    }
+  });
+
+  urls.forEach((url) => {
+    if (!EXPECTED_SITEMAP_URLS.includes(url)) {
+      fail(`${sourceFile}: unexpected URL ${url}`);
+    }
+  });
+
+  for (const match of source.matchAll(/<lastmod>\s*([^<\s]+)\s*<\/lastmod>/gi)) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(match[1])) {
+      fail(`${sourceFile}: invalid lastmod date "${match[1]}"`);
+    }
+  }
+}
+
+function checkHomeJsonLd() {
+  const sourceFile = "index.html";
+  const source = readText(sourceFile);
+  const scriptMatch = source.match(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i);
+  if (!scriptMatch) {
+    fail(`${sourceFile}: missing JSON-LD Person data`);
+    return;
+  }
+
+  let payload = null;
+  try {
+    payload = JSON.parse(scriptMatch[1]);
+  } catch (error) {
+    fail(`${sourceFile}: invalid JSON-LD (${error.message})`);
+    return;
+  }
+
+  if (payload["@type"] !== "Person") {
+    fail(`${sourceFile}: JSON-LD @type must be Person`);
+  }
+
+  validatePublicUrl(sourceFile, payload.url || "", "JSON-LD url", `${SITE_ORIGIN}/`);
+  checkSiteImageReference(sourceFile, payload.image || "", "JSON-LD image");
+
+  const sameAs = Array.isArray(payload.sameAs) ? payload.sameAs : [];
+  if (!sameAs.length) {
+    fail(`${sourceFile}: JSON-LD sameAs must include profile links`);
+  }
+
+  sameAs.forEach((url, index) => {
+    if (typeof url !== "string" || !/^https?:\/\//i.test(url)) {
+      fail(`${sourceFile}: JSON-LD sameAs[${index}] must be an http(s) URL`);
+      return;
+    }
+
+    if (TECHNICAL_URL_PATTERN.test(url)) {
+      fail(`${sourceFile}: JSON-LD sameAs[${index}] must not use technical URLs`);
+    }
+  });
+
+  const socialLinks = readJson("files/content/social-links.json");
+  const links = Array.isArray(socialLinks?.links) ? socialLinks.links : [];
+  links.forEach((link, index) => {
+    if (!link || typeof link !== "object") {
+      return;
+    }
+
+    const href = typeof link.href === "string" ? link.href.trim() : "";
+    if (!href) {
+      return;
+    }
+
+    if (link.enabled === false && sameAs.includes(href)) {
+      fail(`${sourceFile}: JSON-LD sameAs must not include disabled social link "${href}"`);
+    }
+
+    if (link.enabled !== false && !sameAs.includes(href)) {
+      fail(`${sourceFile}: JSON-LD sameAs should include enabled social link "${href}" (social-links.json links[${index}])`);
+    }
+  });
+}
+
+function checkSeoFoundation() {
+  checkPublicHtmlSeo();
+  checkAdminSeo();
+  checkRobotsTxt();
+  checkSitemapXml();
+  checkHomeJsonLd();
+}
+
 function unquoteYamlValue(value) {
   return String(value || "")
     .trim()
@@ -815,6 +1119,7 @@ checkCssUrls();
 checkManifest();
 checkServiceWorkerShell();
 checkAdminConfig();
+checkSeoFoundation();
 
 if (errors.length) {
   console.error("Content check failed:");

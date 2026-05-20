@@ -63,3 +63,61 @@ No broader schema types were added in this package.
 - Add analytics only after a privacy/consent decision.
 - Consider richer schema for publications, downloads, and PDFs later.
 - Add SEO-specific metadata for important downloadable PDFs if needed.
+
+## 0.6.27a Validation
+
+Checked pages:
+
+- `index.html`
+- `activity1.html`
+- `activity2.html`
+- `activity3.html`
+- `downloads.html`
+- `contact.html`
+- `admin/index.html`
+
+Public page status:
+
+- each public page has exactly one `<title>`;
+- each public page has `meta name="description"`;
+- each public page has an absolute canonical URL on `https://iva.net.ua`;
+- each public page has Open Graph title, description, type, URL, and image;
+- each public page has Twitter/X card metadata;
+- `og:url` matches the page canonical URL;
+- `og:image` / `twitter:image` point to existing local files;
+- public pages do not include accidental `noindex`.
+
+Admin status:
+
+- `admin/index.html` has `noindex,nofollow`;
+- `/admin/` is not present in `sitemap.xml`;
+- admin does not expose Open Graph or JSON-LD public metadata.
+
+Robots and sitemap status:
+
+- `robots.txt` exists at the site root;
+- `robots.txt` includes `Sitemap: https://iva.net.ua/sitemap.xml`;
+- `robots.txt` disallows `/admin/` but does not block the public root;
+- `sitemap.xml` exists at the site root;
+- `sitemap.xml` includes only the six public URLs;
+- `sitemap.xml` does not include `/admin/`, localhost, `127.0.0.1`, GitHub Pages URLs, `http://`, or duplicates;
+- `lastmod` is not used yet, so there is no manual update policy to maintain.
+
+Structured data status:
+
+- home page JSON-LD parses as valid JSON;
+- JSON-LD uses the conservative `Person` type;
+- `url` and `image` point to `https://iva.net.ua`;
+- `sameAs` uses existing real profile/social links and excludes disabled links.
+
+Automation added:
+
+- `scripts/check-content.js` and `scripts/check-content.ps1` now check the SEO foundation: public meta tags, canonical and OG URLs, image references, admin `noindex`, robots, sitemap, and home JSON-LD.
+
+Future work:
+
+- verify Google Search Console ownership;
+- decide whether to add Google Analytics or another privacy-aware analytics option;
+- expand schema.org only where the source data is reliable;
+- add SEO treatment for important PDF/download materials;
+- prepare richer social preview images if needed.

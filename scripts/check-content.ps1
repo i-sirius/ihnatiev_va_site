@@ -7,6 +7,18 @@ $ReferenceCount = 0
 $AdminPathCount = 0
 $BomCount = 0
 $ReportedBomFiles = New-Object System.Collections.Generic.HashSet[string]
+$SiteOrigin = "https://iva.net.ua"
+$SitemapUrl = "$SiteOrigin/sitemap.xml"
+$PublicHtmlPages = @(
+  @{ Path = "index.html"; Url = "$SiteOrigin/" },
+  @{ Path = "activity1.html"; Url = "$SiteOrigin/activity1.html" },
+  @{ Path = "activity2.html"; Url = "$SiteOrigin/activity2.html" },
+  @{ Path = "activity3.html"; Url = "$SiteOrigin/activity3.html" },
+  @{ Path = "downloads.html"; Url = "$SiteOrigin/downloads.html" },
+  @{ Path = "contact.html"; Url = "$SiteOrigin/contact.html" }
+)
+$ExpectedSitemapUrls = @($PublicHtmlPages | ForEach-Object { $_.Url })
+$TechnicalUrlPattern = "(localhost|127\.0\.0\.1|github\.io|githubusercontent\.com)"
 
 function Add-CheckError {
   param([string]$Message)
@@ -157,6 +169,351 @@ function Test-PublicationFileReference {
   }
 
   Test-LocalReference $RelativePath $Normalized $Context
+}
+
+function Read-TextFile {
+  param([string]$RelativePath)
+  Get-Content -Raw -Encoding UTF8 (Get-RepoPath $RelativePath)
+}
+
+function Test-NoBom {
+  param([string]$RelativePath)
+  $Content = Read-TextFile $RelativePath
+  if ($Content.Length -gt 0 -and [int][char]$Content[0] -eq 0xFEFF) {
+    Add-CheckError "${RelativePath}: contains UTF-8 BOM; save as UTF-8 without BOM"
+  }
+}
+
+function Get-HtmlAttribute {
+  param(
+    [string]$Tag,
+    [string]$Attribute
+  )
+
+  $Match = [regex]::Match($Tag, "\b$([regex]::Escape($Attribute))\s*=\s*[""']([^""']*)[""']", "IgnoreCase")
+  if ($Match.Success) {
+    return $Match.Groups[1].Value
+  }
+
+  return ""
+}
+
+function Get-HtmlTags {
+  param(
+    [string]$Source,
+    [string]$TagName
+  )
+
+  @([regex]::Matches($Source, "<$TagName\b[^>]*>", "IgnoreCase") | ForEach-Object { $_.Value })
+}
+
+function Get-MetaContent {
+  param(
+    [string]$Source,
+    [string]$Attribute,
+    [string]$Value
+  )
+
+  $ExpectedValue = $Value.ToLowerInvariant()
+  foreach ($Tag in Get-HtmlTags $Source "meta") {
+    if ((Get-HtmlAttribute $Tag $Attribute).ToLowerInvariant() -eq $ExpectedValue) {
+      return Get-HtmlAttribute $Tag "content"
+    }
+  }
+
+  return ""
+}
+
+function Get-CanonicalUrl {
+  param([string]$Source)
+
+  $CanonicalTags = @()
+  foreach ($Tag in Get-HtmlTags $Source "link") {
+    $RelValues = (Get-HtmlAttribute $Tag "rel").ToLowerInvariant() -split "\s+"
+    if ($RelValues -contains "canonical") {
+      $CanonicalTags += $Tag
+    }
+  }
+
+  return @{
+    Count = $CanonicalTags.Count
+    Value = if ($CanonicalTags.Count) { Get-HtmlAttribute $CanonicalTags[0] "href" } else { "" }
+  }
+}
+
+function Test-PublicUrl {
+  param(
+    [string]$SourceFile,
+    [string]$Value,
+    [string]$Context,
+    [string]$ExpectedUrl = ""
+  )
+
+  if (-not $Value) {
+    Add-CheckError "${SourceFile}: missing ${Context}"
+    return
+  }
+
+  if (-not $Value.StartsWith("$SiteOrigin/") -and $Value -ne "$SiteOrigin/") {
+    Add-CheckError "${SourceFile}: ${Context} must use ${SiteOrigin}"
+  }
+
+  if ($Value.StartsWith("http://")) {
+    Add-CheckError "${SourceFile}: ${Context} must not use http://"
+  }
+
+  if ($Value -match $TechnicalUrlPattern) {
+    Add-CheckError "${SourceFile}: ${Context} must not use localhost, GitHub Pages, or technical URLs"
+  }
+
+  if ($Value.Contains("/admin/")) {
+    Add-CheckError "${SourceFile}: ${Context} must not point to /admin/"
+  }
+
+  if ($ExpectedUrl -and $Value -ne $ExpectedUrl) {
+    Add-CheckError "${SourceFile}: ${Context} must be ${ExpectedUrl}"
+  }
+}
+
+function Test-SiteImageReference {
+  param(
+    [string]$SourceFile,
+    [string]$Value,
+    [string]$Context
+  )
+
+  if (-not $Value) {
+    return
+  }
+
+  if ($Value -match $TechnicalUrlPattern -or $Value.StartsWith("http://")) {
+    Add-CheckError "${SourceFile}: ${Context} must not use a technical or http:// URL"
+    return
+  }
+
+  if ($Value.StartsWith("$SiteOrigin/")) {
+    Test-LocalReference $SourceFile $Value.Substring($SiteOrigin.Length + 1) $Context
+  } elseif (-not (Test-VirtualReference $Value)) {
+    Test-LocalReference $SourceFile (Resolve-SourceRelativeReference $SourceFile $Value) $Context
+  }
+}
+
+function Test-PublicHtmlSeo {
+  foreach ($Page in $PublicHtmlPages) {
+    $SourceFile = $Page.Path
+    $ExpectedUrl = $Page.Url
+    if (-not (Test-Path -LiteralPath (Get-RepoPath $SourceFile))) {
+      Add-CheckError "${SourceFile}: missing public HTML page"
+      continue
+    }
+
+    $Source = Read-TextFile $SourceFile
+    $TitleCount = @([regex]::Matches($Source, "<title\b[^>]*>", "IgnoreCase")).Count
+    if ($TitleCount -ne 1) {
+      Add-CheckError "${SourceFile}: expected exactly one <title>, found ${TitleCount}"
+    }
+
+    if (-not (Get-MetaContent $Source "name" "description")) {
+      Add-CheckError "${SourceFile}: missing meta description"
+    }
+
+    $Canonical = Get-CanonicalUrl $Source
+    if ($Canonical.Count -ne 1) {
+      Add-CheckError "${SourceFile}: expected exactly one canonical link, found $($Canonical.Count)"
+    }
+    Test-PublicUrl $SourceFile $Canonical.Value "canonical URL" $ExpectedUrl
+
+    foreach ($Property in @("og:title", "og:description", "og:type", "og:url")) {
+      if (-not (Get-MetaContent $Source "property" $Property)) {
+        Add-CheckError "${SourceFile}: missing ${Property}"
+      }
+    }
+
+    $OgUrl = Get-MetaContent $Source "property" "og:url"
+    $ExpectedOgUrl = if ($Canonical.Value) { $Canonical.Value } else { $ExpectedUrl }
+    Test-PublicUrl $SourceFile $OgUrl "og:url" $ExpectedOgUrl
+
+    $OgImage = Get-MetaContent $Source "property" "og:image"
+    if ($OgImage) {
+      Test-SiteImageReference $SourceFile $OgImage "og:image"
+    }
+
+    $TwitterTags = @(Get-HtmlTags $Source "meta" | Where-Object { (Get-HtmlAttribute $_ "name").ToLowerInvariant().StartsWith("twitter:") })
+    if ($TwitterTags.Count) {
+      foreach ($Name in @("twitter:card", "twitter:title", "twitter:description")) {
+        if (-not (Get-MetaContent $Source "name" $Name)) {
+          Add-CheckError "${SourceFile}: missing ${Name}"
+        }
+      }
+
+      $TwitterImage = Get-MetaContent $Source "name" "twitter:image"
+      if ($TwitterImage) {
+        Test-SiteImageReference $SourceFile $TwitterImage "twitter:image"
+      }
+    }
+
+    $Robots = (Get-MetaContent $Source "name" "robots").ToLowerInvariant()
+    if ($Robots.Contains("noindex")) {
+      Add-CheckError "${SourceFile}: public page must not include noindex"
+    }
+  }
+}
+
+function Test-AdminSeo {
+  $SourceFile = "admin/index.html"
+  if (-not (Test-Path -LiteralPath (Get-RepoPath $SourceFile))) {
+    Add-CheckError "${SourceFile}: missing admin HTML page"
+    return
+  }
+
+  $Source = Read-TextFile $SourceFile
+  $Robots = ((Get-MetaContent $Source "name" "robots").ToLowerInvariant() -replace "\s+", "")
+  if (-not $Robots.Contains("noindex") -or -not $Robots.Contains("nofollow")) {
+    Add-CheckError "${SourceFile}: admin page must include noindex,nofollow"
+  }
+
+  if ($Source -match "property=[""']og:" -or $Source -match "type=[""']application/ld\+json[""']") {
+    Add-CheckError "${SourceFile}: admin page must not expose Open Graph or JSON-LD public metadata"
+  }
+}
+
+function Test-RobotsTxt {
+  $SourceFile = "robots.txt"
+  if (-not (Test-Path -LiteralPath (Get-RepoPath $SourceFile))) {
+    Add-CheckError "${SourceFile}: missing robots.txt"
+    return
+  }
+
+  Test-NoBom $SourceFile
+  $Source = Read-TextFile $SourceFile
+  if (-not $Source.Contains("Sitemap: $SitemapUrl")) {
+    Add-CheckError "${SourceFile}: missing Sitemap: ${SitemapUrl}"
+  }
+
+  if ($Source -notmatch "(?im)^\s*Disallow:\s*/admin/?\s*$") {
+    Add-CheckError "${SourceFile}: must disallow /admin/"
+  }
+
+  if ($Source -match "(?im)^\s*Disallow:\s*/\s*$") {
+    Add-CheckError "${SourceFile}: must not block the public site root"
+  }
+}
+
+function Test-SitemapXml {
+  $SourceFile = "sitemap.xml"
+  if (-not (Test-Path -LiteralPath (Get-RepoPath $SourceFile))) {
+    Add-CheckError "${SourceFile}: missing sitemap.xml"
+    return
+  }
+
+  Test-NoBom $SourceFile
+  $Source = Read-TextFile $SourceFile
+  if ($Source -notmatch "<urlset\b[^>]*xmlns=[""']http://www\.sitemaps\.org/schemas/sitemap/0\.9[""']") {
+    Add-CheckError "${SourceFile}: missing sitemap urlset namespace"
+  }
+
+  if ($Source.Contains("/admin/") -or $Source -match $TechnicalUrlPattern -or $Source -match "(?i)<loc>\s*http://") {
+    Add-CheckError "${SourceFile}: must not contain /admin/, technical URLs, or http:// URLs"
+  }
+
+  $Urls = @([regex]::Matches($Source, "<loc>\s*([^<\s]+)\s*</loc>", "IgnoreCase") | ForEach-Object { $_.Groups[1].Value })
+  $DuplicateUrls = @($Urls | Group-Object | Where-Object { $_.Count -gt 1 } | ForEach-Object { $_.Name })
+  if ($DuplicateUrls.Count) {
+    Add-CheckError "${SourceFile}: duplicated URLs: $($DuplicateUrls -join ', ')"
+  }
+
+  foreach ($Url in $ExpectedSitemapUrls) {
+    if ($Urls -notcontains $Url) {
+      Add-CheckError "${SourceFile}: missing ${Url}"
+    }
+  }
+
+  foreach ($Url in $Urls) {
+    if ($ExpectedSitemapUrls -notcontains $Url) {
+      Add-CheckError "${SourceFile}: unexpected URL ${Url}"
+    }
+  }
+
+  foreach ($Match in [regex]::Matches($Source, "<lastmod>\s*([^<\s]+)\s*</lastmod>", "IgnoreCase")) {
+    if ($Match.Groups[1].Value -notmatch "^\d{4}-\d{2}-\d{2}$") {
+      Add-CheckError "${SourceFile}: invalid lastmod date `"$($Match.Groups[1].Value)`""
+    }
+  }
+}
+
+function Test-HomeJsonLd {
+  $SourceFile = "index.html"
+  $Source = Read-TextFile $SourceFile
+  $Match = [regex]::Match($Source, "<script\b[^>]*type=[""']application/ld\+json[""'][^>]*>([\s\S]*?)</script>", "IgnoreCase")
+  if (-not $Match.Success) {
+    Add-CheckError "${SourceFile}: missing JSON-LD Person data"
+    return
+  }
+
+  try {
+    $Payload = $Match.Groups[1].Value | ConvertFrom-Json
+  } catch {
+    Add-CheckError "${SourceFile}: invalid JSON-LD ($($_.Exception.Message))"
+    return
+  }
+
+  if ($Payload.'@type' -ne "Person") {
+    Add-CheckError "${SourceFile}: JSON-LD @type must be Person"
+  }
+
+  Test-PublicUrl $SourceFile ([string]$Payload.url) "JSON-LD url" "$SiteOrigin/"
+  Test-SiteImageReference $SourceFile ([string]$Payload.image) "JSON-LD image"
+
+  $SameAs = @($Payload.sameAs)
+  if (-not $SameAs.Count) {
+    Add-CheckError "${SourceFile}: JSON-LD sameAs must include profile links"
+  }
+
+  for ($Index = 0; $Index -lt $SameAs.Count; $Index += 1) {
+    $Url = [string]$SameAs[$Index]
+    if ($Url -notmatch "^https?://") {
+      Add-CheckError "${SourceFile}: JSON-LD sameAs[$Index] must be an http(s) URL"
+      continue
+    }
+
+    if ($Url -match $TechnicalUrlPattern) {
+      Add-CheckError "${SourceFile}: JSON-LD sameAs[$Index] must not use technical URLs"
+    }
+  }
+
+  $SocialLinks = Read-JsonFile "files/content/social-links.json"
+  $Links = @($SocialLinks.links)
+  for ($Index = 0; $Index -lt $Links.Count; $Index += 1) {
+    $Link = $Links[$Index]
+    if ($null -eq $Link) {
+      continue
+    }
+
+    $Href = ""
+    if ($null -ne $Link.href) {
+      $Href = ([string]$Link.href).Trim()
+    }
+
+    if (-not $Href) {
+      continue
+    }
+
+    if ($Link.enabled -eq $false -and $SameAs -contains $Href) {
+      Add-CheckError "${SourceFile}: JSON-LD sameAs must not include disabled social link `"$Href`""
+    }
+
+    if ($Link.enabled -ne $false -and $SameAs -notcontains $Href) {
+      Add-CheckError "${SourceFile}: JSON-LD sameAs should include enabled social link `"$Href`" (social-links.json links[$Index])"
+    }
+  }
+}
+
+function Test-SeoFoundation {
+  Test-PublicHtmlSeo
+  Test-AdminSeo
+  Test-RobotsTxt
+  Test-SitemapXml
+  Test-HomeJsonLd
 }
 
 function Unquote-YamlValue {
@@ -754,6 +1111,8 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     }
   }
 }
+
+Test-SeoFoundation
 
 if ($Errors.Count) {
   Write-Error ("Content check failed:`n- " + ($Errors -join "`n- "))

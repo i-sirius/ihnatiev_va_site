@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.27a
+
+**Контроль SEO foundation і підготовка Search Console.**
+
+- Посилено `check-content` для перевірки canonical/OG/Twitter metadata, admin `noindex`, `robots.txt`, `sitemap.xml` і JSON-LD на головній сторінці.
+- Додано інструкцію `docs/search-console-setup.md` для підключення Google Search Console і подання sitemap.
+- Оновлено `docs/seo-audit.md` секцією `0.6.27a validation` зі станом публічних сторінок, robots/sitemap, admin noindex і JSON-LD.
+- Оновлено build-версію до `0.6.27a` і кеш service worker до `v0.6.27a-r1`.
+
 ## 0.6.26h
 
 **Стабілізація вкладень праць і мобільного UX.**
