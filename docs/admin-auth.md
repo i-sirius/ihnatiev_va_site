@@ -6,10 +6,10 @@
 https://iva.net.ua/admin/
 ```
 
-Для GitHub login потрібен OAuth proxy. Через проблему з nameserver-ами домену `iva.net.ua` тимчасово використовується прямий Cloudflare Workers endpoint:
+Для GitHub login потрібен OAuth proxy. Після переносу nameserver-ів `iva.net.ua` на Cloudflare активним endpoint-ом є custom domain:
 
 ```text
-https://decap-auth.pollux-twin.workers.dev
+https://decap.iva.net.ua
 ```
 
 У `admin/config.yml` має бути:
@@ -20,7 +20,7 @@ backend:
   repo: i-sirius/ihnatiev_va_site
   branch: main
   site_domain: iva.net.ua
-  base_url: https://decap-auth.pollux-twin.workers.dev
+  base_url: https://decap.iva.net.ua
   auth_endpoint: /auth
 ```
 
@@ -28,8 +28,8 @@ backend:
 
 У GitHub OAuth App мають бути вказані:
 
-- `Homepage URL`: `https://decap-auth.pollux-twin.workers.dev`
-- `Authorization callback URL`: `https://decap-auth.pollux-twin.workers.dev/callback`
+- `Homepage URL`: `https://decap.iva.net.ua`
+- `Authorization callback URL`: `https://decap.iva.net.ua/callback`
 
 Потрібно зберегти:
 
@@ -52,7 +52,7 @@ npx wrangler secret put GITHUB_OAUTH_SECRET
 - `GITHUB_OAUTH_ID` = GitHub OAuth App Client ID
 - `GITHUB_OAUTH_SECRET` = GitHub OAuth App Client Secret
 
-Якщо пізніше nameserver-и `iva.net.ua` будуть виправлені, можна повернути custom domain `https://decap.iva.net.ua`, але тоді треба одночасно оновити:
+Якщо доведеться тимчасово повернутися до прямого `workers.dev` endpoint, треба одночасно оновити:
 
 - `admin/config.yml`;
 - GitHub OAuth App URLs;
@@ -75,7 +75,7 @@ npx wrangler secret put GITHUB_OAUTH_SECRET
 
 ## Перевірка
 
-1. Відкрити `https://decap-auth.pollux-twin.workers.dev`.
+1. Відкрити `https://decap.iva.net.ua`.
 2. Переконатися, що Worker відповідає.
 3. Відкрити `https://iva.net.ua/admin/`.
 4. Натиснути `Login with GitHub`.

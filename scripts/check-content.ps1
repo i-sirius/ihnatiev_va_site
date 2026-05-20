@@ -487,7 +487,7 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     @{ Pattern = "(?m)^\s*name:\s*github\s*$"; Message = "backend.name must be github" },
     @{ Pattern = "(?m)^\s*repo:\s*i-sirius/ihnatiev_va_site\s*$"; Message = "backend.repo must target i-sirius/ihnatiev_va_site" },
     @{ Pattern = "(?m)^\s*branch:\s*main\s*$"; Message = "backend.branch must be main" },
-    @{ Pattern = "(?m)^\s*base_url:\s*https://decap-auth\.pollux-twin\.workers\.dev\s*$"; Message = "backend.base_url must use the active OAuth proxy" },
+    @{ Pattern = "(?m)^\s*base_url:\s*https://decap\.iva\.net\.ua\s*$"; Message = "backend.base_url must use the active OAuth proxy" },
     @{ Pattern = "(?m)^\s*auth_endpoint:\s*/auth\s*$"; Message = "backend.auth_endpoint must be /auth" },
     @{ Pattern = "(?m)^\s*local_backend:\s*true\s*$"; Message = "local_backend must stay enabled for local CMS testing" },
     @{ Pattern = "(?m)^\s*publish_mode:\s*editorial_workflow\s*$"; Message = "publish_mode must be editorial_workflow" }

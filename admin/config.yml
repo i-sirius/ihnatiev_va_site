@@ -3,7 +3,7 @@ backend:
   repo: i-sirius/ihnatiev_va_site
   branch: main
   site_domain: iva.net.ua
-  base_url: https://decap-auth.pollux-twin.workers.dev
+  base_url: https://decap.iva.net.ua
   auth_endpoint: /auth
 
 # Enables local CMS testing with the Decap local proxy.

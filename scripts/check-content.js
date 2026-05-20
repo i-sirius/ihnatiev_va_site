@@ -539,7 +539,7 @@ function checkAdminConfig() {
     [/^\s*repo:\s*i-sirius\/ihnatiev_va_site\s*$/m, "backend.repo must target i-sirius/ihnatiev_va_site"],
     [/^\s*branch:\s*main\s*$/m, "backend.branch must be main"],
     [
-      /^\s*base_url:\s*https:\/\/decap-auth\.pollux-twin\.workers\.dev\s*$/m,
+      /^\s*base_url:\s*https:\/\/decap\.iva\.net\.ua\s*$/m,
       "backend.base_url must use the active OAuth proxy"
     ],
     [/^\s*auth_endpoint:\s*\/auth\s*$/m, "backend.auth_endpoint must be /auth"],

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.24c
+
+**Повернення OAuth proxy на домен `decap.iva.net.ua`.**
+
+- Decap CMS повернено з прямого Workers endpoint на custom domain `https://decap.iva.net.ua` після рішення перенести NS `iva.net.ua` на Cloudflare.
+- `check-content` знову перевіряє доменний OAuth proxy разом із `auth_endpoint: /auth`.
+- Оновлено OAuth-документацію, admin smoke-test протокол і шаблон звіту під доменний endpoint.
+- Оновлено build-версію до `0.6.24c` і кеш service worker до `v0.6.24c-r1`.
+
 ## 0.6.24b
 
 **Hotfix OAuth proxy для адмін-панелі.**

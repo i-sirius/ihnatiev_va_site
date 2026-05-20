@@ -77,7 +77,7 @@
 1. Перевірити, що OAuth proxy відповідає:
 
    ```text
-   https://decap-auth.pollux-twin.workers.dev
+   https://decap.iva.net.ua
    ```
 
 2. Відкрити production CMS:
