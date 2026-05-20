@@ -11,7 +11,7 @@ local_backend: true
 
 publish_mode: editorial_workflow
 media_folder: files/media/uploads
-public_folder: files/media/uploads
+public_folder: /files/media/uploads
 
 collections:
   - name: home_content
@@ -344,7 +344,7 @@ collections:
     label: "Галерея: Наукова активність"
     description: "Зображення галереї на сторінці наукової активності."
     media_folder: files/media/activity1
-    public_folder: files/media/activity1
+    public_folder: /files/media/activity1
     files:
       - name: photos
         label: "Фото"
@@ -369,7 +369,7 @@ collections:
     label: "Галерея: Освітня діяльність"
     description: "Зображення галереї на сторінці освітньої діяльності."
     media_folder: files/media/activity2
-    public_folder: files/media/activity2
+    public_folder: /files/media/activity2
     files:
       - name: photos
         label: "Фото"
@@ -394,7 +394,7 @@ collections:
     label: "Галерея: Священнослужіння"
     description: "Зображення галереї на сторінці священнослужіння."
     media_folder: files/media/activity3
-    public_folder: files/media/activity3
+    public_folder: /files/media/activity3
     files:
       - name: photos
         label: "Фото"
@@ -419,7 +419,7 @@ collections:
     label: "Файли: Освітня діяльність"
     description: "Файли, що показуються в розділі освітньої діяльності."
     media_folder: files/activity2
-    public_folder: files/activity2
+    public_folder: /files/activity2
     files:
       - name: files
         label: "Файли"
@@ -449,7 +449,7 @@ collections:
     label: "Завантаження"
     description: "Монографії та статті для сторінки Завантаження."
     media_folder: files/downloads
-    public_folder: files/downloads
+    public_folder: /files/downloads
     files:
       - name: files
         label: "Матеріали для завантаження"

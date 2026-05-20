@@ -24,7 +24,7 @@ function fromRoot(...parts) {
 }
 
 function existsRelative(relativePath) {
-  const normalized = stripUrlParts(relativePath).replace(/^\.\//, "");
+  const normalized = stripUrlParts(relativePath).replace(/^\.\//, "").replace(/^\/+/, "");
   return fs.existsSync(fromRoot(normalized));
 }
 
@@ -116,6 +116,33 @@ function checkReference(sourceFile, referencedPath, context) {
   }
 }
 
+function checkCmsMediaPath(relativePath, value, context, expectedPrefix) {
+  if (!value) {
+    return;
+  }
+
+  const normalized = String(value).replace(/\\/g, "/");
+  if (normalized.startsWith("admin/") || normalized.startsWith("/admin/")) {
+    fail(`${relativePath}: ${context} must not point into admin/`);
+  }
+
+  [
+    "files/media/activity1/files/media/activity1",
+    "files/media/activity2/files/media/activity2",
+    "files/media/activity3/files/media/activity3",
+    "files/activity2/files/activity2",
+    "files/downloads/files/downloads"
+  ].forEach((duplicatePath) => {
+    if (normalized.includes(duplicatePath)) {
+      fail(`${relativePath}: ${context} contains duplicated CMS media path "${duplicatePath}"`);
+    }
+  });
+
+  if (expectedPrefix && !normalized.startsWith(expectedPrefix)) {
+    fail(`${relativePath}: ${context} must use root-relative path "${expectedPrefix}..."`);
+  }
+}
+
 function checkJsonFiles() {
   for (const absolutePath of walk()) {
     const relativePath = relativeToRoot(absolutePath);
@@ -144,9 +171,12 @@ function normalizeList(payload, keys) {
 function checkPhotoManifest(relativePath) {
   const payload = readJson(relativePath);
   const images = normalizeList(payload, ["images", "photos"]);
+  const activityMatch = relativePath.match(/^files\/media\/activity(\d+)\/photos\.json$/);
+  const expectedPrefix = activityMatch ? `/files/media/activity${activityMatch[1]}/` : "";
 
   images.forEach((image, index) => {
     if (image && image.src) {
+      checkCmsMediaPath(relativePath, image.src, `images[${index}].src`, expectedPrefix);
       checkReference(relativePath, image.src, `images[${index}].src`);
     }
   });
@@ -158,6 +188,7 @@ function checkActivityFiles(relativePath) {
 
   files.forEach((file, index) => {
     if (file && file.href) {
+      checkCmsMediaPath(relativePath, file.href, `files[${index}].href`, "/files/activity2/");
       checkReference(relativePath, file.href, `files[${index}].href`);
     }
   });
@@ -172,6 +203,7 @@ function checkDownloads(relativePath) {
   const monographs = Array.isArray(payload.monographs) ? payload.monographs : [];
   monographs.forEach((file, index) => {
     if (file && file.href) {
+      checkCmsMediaPath(relativePath, file.href, `monographs[${index}].href`, "/files/downloads/");
       checkReference(relativePath, file.href, `monographs[${index}].href`);
     }
   });
@@ -181,6 +213,12 @@ function checkDownloads(relativePath) {
     const files = Array.isArray(group.files) ? group.files : [];
     files.forEach((file, fileIndex) => {
       if (file && file.href) {
+        checkCmsMediaPath(
+          relativePath,
+          file.href,
+          `articles[${groupIndex}].files[${fileIndex}].href`,
+          "/files/downloads/"
+        );
         checkReference(
           relativePath,
           file.href,
@@ -687,17 +725,17 @@ function checkAdminConfig() {
 
   [
     ["media_folder", "files/media/uploads"],
-    ["public_folder", "files/media/uploads"],
+    ["public_folder", "/files/media/uploads"],
     ["media_folder", "files/media/activity1"],
-    ["public_folder", "files/media/activity1"],
+    ["public_folder", "/files/media/activity1"],
     ["media_folder", "files/media/activity2"],
-    ["public_folder", "files/media/activity2"],
+    ["public_folder", "/files/media/activity2"],
     ["media_folder", "files/media/activity3"],
-    ["public_folder", "files/media/activity3"],
+    ["public_folder", "/files/media/activity3"],
     ["media_folder", "files/activity2"],
-    ["public_folder", "files/activity2"],
+    ["public_folder", "/files/activity2"],
     ["media_folder", "files/downloads"],
-    ["public_folder", "files/downloads"]
+    ["public_folder", "/files/downloads"]
   ].forEach(([key, value]) => {
     checkAdminLine(sourceFile, source, key, value, `missing CMS ${key} "${value}"`);
   });

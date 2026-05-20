@@ -15,7 +15,9 @@ function Add-CheckError {
 
 function Get-RepoPath {
   param([string]$RelativePath)
-  Join-Path $Root ($RelativePath -replace "/", [IO.Path]::DirectorySeparatorChar)
+  $Normalized = $RelativePath -replace "^\./", ""
+  $Normalized = $Normalized.TrimStart("/", "\")
+  Join-Path $Root ($Normalized -replace "/", [IO.Path]::DirectorySeparatorChar)
 }
 
 function Remove-UrlParts {
@@ -78,6 +80,7 @@ function Test-LocalReference {
   } catch {}
 
   $Clean = $Clean -replace "^\./", ""
+  $Clean = $Clean.TrimStart("/", "\")
   if (-not $Clean -or $Clean -eq ".") {
     return
   }
@@ -85,6 +88,40 @@ function Test-LocalReference {
   $script:ReferenceCount += 1
   if (-not (Test-Path -LiteralPath (Get-RepoPath $Clean))) {
     Add-CheckError "${SourceFile}: missing local file `"$Reference`" ($Context)"
+  }
+}
+
+function Test-CmsMediaPath {
+  param(
+    [string]$RelativePath,
+    [string]$Value,
+    [string]$Context,
+    [string]$ExpectedPrefix
+  )
+
+  if (-not $Value) {
+    return
+  }
+
+  $Normalized = ([string]$Value) -replace "\\", "/"
+  if ($Normalized.StartsWith("admin/") -or $Normalized.StartsWith("/admin/")) {
+    Add-CheckError "${RelativePath}: ${Context} must not point into admin/"
+  }
+
+  foreach ($DuplicatePath in @(
+    "files/media/activity1/files/media/activity1",
+    "files/media/activity2/files/media/activity2",
+    "files/media/activity3/files/media/activity3",
+    "files/activity2/files/activity2",
+    "files/downloads/files/downloads"
+  )) {
+    if ($Normalized.Contains($DuplicatePath)) {
+      Add-CheckError "${RelativePath}: ${Context} contains duplicated CMS media path `"$DuplicatePath`""
+    }
+  }
+
+  if ($ExpectedPrefix -and -not $Normalized.StartsWith($ExpectedPrefix)) {
+    Add-CheckError "${RelativePath}: ${Context} must use root-relative path `"${ExpectedPrefix}...`""
   }
 }
 
@@ -144,9 +181,14 @@ function Test-PhotoManifest {
   param([string]$RelativePath)
   $Payload = Read-JsonFile $RelativePath
   $Images = Get-JsonList $Payload @("images", "photos")
+  $ExpectedPrefix = ""
+  if ($RelativePath -match "^files/media/activity(\d+)/photos\.json$") {
+    $ExpectedPrefix = "/files/media/activity$($Matches[1])/"
+  }
 
   for ($Index = 0; $Index -lt $Images.Count; $Index++) {
     if ($Images[$Index].src) {
+      Test-CmsMediaPath $RelativePath $Images[$Index].src "images[$Index].src" $ExpectedPrefix
       Test-LocalReference $RelativePath $Images[$Index].src "images[$Index].src"
     }
   }
@@ -159,6 +201,7 @@ function Test-FileManifest {
 
   for ($Index = 0; $Index -lt $Files.Count; $Index++) {
     if ($Files[$Index].href) {
+      Test-CmsMediaPath $RelativePath $Files[$Index].href "files[$Index].href" "/files/activity2/"
       Test-LocalReference $RelativePath $Files[$Index].href "files[$Index].href"
     }
   }
@@ -174,6 +217,7 @@ function Test-DownloadsManifest {
   $Monographs = @($Payload.monographs)
   for ($Index = 0; $Index -lt $Monographs.Count; $Index++) {
     if ($Monographs[$Index].href) {
+      Test-CmsMediaPath $RelativePath $Monographs[$Index].href "monographs[$Index].href" "/files/downloads/"
       Test-LocalReference $RelativePath $Monographs[$Index].href "monographs[$Index].href"
     }
   }
@@ -183,6 +227,7 @@ function Test-DownloadsManifest {
     $Files = @($Groups[$GroupIndex].files)
     for ($FileIndex = 0; $FileIndex -lt $Files.Count; $FileIndex++) {
       if ($Files[$FileIndex].href) {
+        Test-CmsMediaPath $RelativePath $Files[$FileIndex].href "articles[$GroupIndex].files[$FileIndex].href" "/files/downloads/"
         Test-LocalReference $RelativePath $Files[$FileIndex].href "articles[$GroupIndex].files[$FileIndex].href"
       }
     }
@@ -621,17 +666,17 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
 
   foreach ($Folder in @(
     @{ Key = "media_folder"; Value = "files/media/uploads" },
-    @{ Key = "public_folder"; Value = "files/media/uploads" },
+    @{ Key = "public_folder"; Value = "/files/media/uploads" },
     @{ Key = "media_folder"; Value = "files/media/activity1" },
-    @{ Key = "public_folder"; Value = "files/media/activity1" },
+    @{ Key = "public_folder"; Value = "/files/media/activity1" },
     @{ Key = "media_folder"; Value = "files/media/activity2" },
-    @{ Key = "public_folder"; Value = "files/media/activity2" },
+    @{ Key = "public_folder"; Value = "/files/media/activity2" },
     @{ Key = "media_folder"; Value = "files/media/activity3" },
-    @{ Key = "public_folder"; Value = "files/media/activity3" },
+    @{ Key = "public_folder"; Value = "/files/media/activity3" },
     @{ Key = "media_folder"; Value = "files/activity2" },
-    @{ Key = "public_folder"; Value = "files/activity2" },
+    @{ Key = "public_folder"; Value = "/files/activity2" },
     @{ Key = "media_folder"; Value = "files/downloads" },
-    @{ Key = "public_folder"; Value = "files/downloads" }
+    @{ Key = "public_folder"; Value = "/files/downloads" }
   )) {
     Test-AdminLine $AdminConfigPath $AdminConfig $Folder.Key $Folder.Value "missing CMS $($Folder.Key) `"$($Folder.Value)`""
   }

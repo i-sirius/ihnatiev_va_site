@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.26b
+
+**Hotfix Decap media paths і save regression.**
+
+- CMS-managed media/file значення у JSON переведено на root-relative шляхи `/files/...`, щоб Decap preview не шукав їх відносно `/admin/`.
+- `public_folder` для Decap media/file колекцій зроблено root-relative, а `media_folder` лишено repo-relative, щоб Decap не складав дубльовані шляхи на кшталт `files/media/activity1/files/media/activity1`.
+- `check-content` посилено перевірками проти `admin/`-шляхів, дубльованих media path і не root-relative CMS media/file значень.
+- Оновлено build-версію до `0.6.26b` і кеш service worker до `v0.6.26b-r1`.
+
 ## 0.6.26a
 
 **Базовий SEO foundation.**
