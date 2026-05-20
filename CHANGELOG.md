@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.24a
+
+**Admin end-to-end protocol і сильніші CMS-перевірки.**
+
+- Оновлено адмін-чеклист до покрокового local/prod smoke-test протоколу з preflight, тестовими CMS-правками й post-check.
+- Додано `docs/admin-smoke-test-report.md` як шаблон звіту для ручної перевірки Decap CMS/OAuth.
+- `check-content` тепер перевіряє очікувані CMS-колекції, file-backed JSON, media/public folders і ключові поля/опції колекції наукових праць.
+- Оновлено build-версію до `0.6.24a` і кеш service worker до `v0.6.24a-r1`.
+
 ## 0.6.23l
 
 **Hotfix фільтрів списку праць на середній ширині.**

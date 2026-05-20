@@ -82,6 +82,34 @@ function Unquote-YamlValue {
   ($Value.Trim() -replace "^[""']", "" -replace "[""']$", "")
 }
 
+function Test-AdminLine {
+  param(
+    [string]$SourceFile,
+    [string]$Source,
+    [string]$Key,
+    [string]$Value,
+    [string]$Message
+  )
+
+  $Pattern = "(?m)^\s*$([regex]::Escape($Key)):\s*$([regex]::Escape($Value))\s*$"
+  if ($Source -notmatch $Pattern) {
+    Add-CheckError "${SourceFile}: $Message"
+  }
+}
+
+function Test-AdminCollection {
+  param(
+    [string]$SourceFile,
+    [string]$Source,
+    [string]$Name
+  )
+
+  $Pattern = "(?m)^\s*-\s*name:\s*$([regex]::Escape($Name))\s*$"
+  if ($Source -notmatch $Pattern) {
+    Add-CheckError "${SourceFile}: missing CMS collection `"$Name`""
+  }
+}
+
 function Get-JsonList {
   param(
     $Payload,
@@ -482,6 +510,68 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     $script:AdminPathCount += 1
     if (-not (Test-Path -LiteralPath (Get-RepoPath $Value))) {
       Add-CheckError "${AdminConfigPath}: missing ${Key} path `"$Value`""
+    }
+  }
+
+  foreach ($Name in @(
+    "home_content",
+    "activities_content",
+    "pages_content",
+    "publications_content",
+    "gallery_activity1",
+    "gallery_activity2",
+    "gallery_activity3",
+    "activity2_files",
+    "downloads"
+  )) {
+    Test-AdminCollection $AdminConfigPath $AdminConfig $Name
+  }
+
+  foreach ($RelativePath in @(
+    "files/content/home.json",
+    "files/content/activities.json",
+    "files/content/pages.json",
+    "files/content/publications.json",
+    "files/media/activity1/photos.json",
+    "files/media/activity2/photos.json",
+    "files/media/activity3/photos.json",
+    "files/activity2/files.json",
+    "files/downloads/files.json"
+  )) {
+    Test-AdminLine $AdminConfigPath $AdminConfig "file" $RelativePath "missing CMS file-backed entry `"$RelativePath`""
+  }
+
+  foreach ($Folder in @(
+    @{ Key = "media_folder"; Value = "files/media/uploads" },
+    @{ Key = "public_folder"; Value = "files/media/uploads" },
+    @{ Key = "media_folder"; Value = "files/media/activity1" },
+    @{ Key = "public_folder"; Value = "files/media/activity1" },
+    @{ Key = "media_folder"; Value = "files/media/activity2" },
+    @{ Key = "public_folder"; Value = "files/media/activity2" },
+    @{ Key = "media_folder"; Value = "files/media/activity3" },
+    @{ Key = "public_folder"; Value = "files/media/activity3" },
+    @{ Key = "media_folder"; Value = "files/activity2" },
+    @{ Key = "public_folder"; Value = "files/activity2" },
+    @{ Key = "media_folder"; Value = "files/downloads" },
+    @{ Key = "public_folder"; Value = "files/downloads" }
+  )) {
+    Test-AdminLine $AdminConfigPath $AdminConfig $Folder.Key $Folder.Value "missing CMS $($Folder.Key) `"$($Folder.Value)`""
+  }
+
+  foreach ($Rule in @(
+    @{ Pattern = "(?m)^\s*name:\s*items\s*$"; Message = "publications collection must expose items list" },
+    @{ Pattern = "(?m)\bname:\s*text\b"; Message = "publications items must expose text field" },
+    @{ Pattern = "(?m)\bname:\s*year\b"; Message = "publications items must expose year field" },
+    @{ Pattern = "(?m)^\s*name:\s*type\s*$"; Message = "publications items must expose type field" },
+    @{ Pattern = "(?m)^\s*widget:\s*select\s*$"; Message = "publications type field must stay a select widget" },
+    @{ Pattern = "(?m)\bvalue:\s*article\b"; Message = "publications type options must include article" },
+    @{ Pattern = "(?m)\bvalue:\s*conference\b"; Message = "publications type options must include conference" },
+    @{ Pattern = "(?m)\bvalue:\s*monograph\b"; Message = "publications type options must include monograph" },
+    @{ Pattern = "(?m)\bvalue:\s*teaching\b"; Message = "publications type options must include teaching" },
+    @{ Pattern = "(?m)\bvalue:\s*other\b"; Message = "publications type options must include other" }
+  )) {
+    if ($AdminConfig -notmatch $Rule.Pattern) {
+      Add-CheckError "${AdminConfigPath}: $($Rule.Message)"
     }
   }
 }

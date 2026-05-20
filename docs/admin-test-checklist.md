@@ -1,82 +1,98 @@
 # Перевірка адмін-панелі
 
-Цей чеклист потрібен після змін у `admin/config.yml`, OAuth proxy або CMS-редагованих JSON-файлах.
+Цей протокол потрібен після змін у `admin/config.yml`, JSON-контенті, OAuth proxy або CMS-колекціях. Автоматичні пункти можна виконати з репозиторію; OAuth/login частину потрібно пройти вручну у браузері.
 
-## Локальна перевірка без GitHub OAuth
+## 1. Preflight
 
-1. Встановити Decap local backend proxy:
-
-   ```powershell
-   npm install -g @decapcms/proxy-server
-   ```
-
-2. Запустити proxy з кореня репозиторію:
-
-   ```powershell
-   npx decap-server
-   ```
-
-3. В іншому терміналі підняти статичний сервер сайту, наприклад:
-
-   ```powershell
-   python -m http.server 8080
-   ```
-
-4. Відкрити:
-
-   ```text
-   http://localhost:8080/admin/
-   ```
-
-5. Перевірити, що відкриваються колекції:
-
-   - `Головна сторінка`;
-   - `Розділи діяльності`;
-   - `Сторінки`;
-   - `Наукові праці`;
-   - `Галерея: Наукова активність`;
-   - `Галерея: Освітня діяльність`;
-   - `Галерея: Священнослужіння`;
-   - `Файли: Освітня діяльність`;
-   - `Завантаження`.
-
-6. Зробити тестову зміну в чернетці або локально:
-
-   - змінити один абзац або alt-текст у `Головна сторінка`;
-   - змінити короткий опис однієї картки у `Розділи діяльності`;
-   - змінити intro або label поля у `Сторінки`;
-   - змінити один пункт, рік або тип у `Наукові праці`;
-   - додати/змінити alt у фото;
-   - додати тестовий файл в освітні матеріали;
-   - додати тестовий запис у downloads.
-
-7. Після тесту запустити:
+1. Переконатися, що робоча гілка актуальна і немає випадкових незбережених змін.
+2. Запустити локальну перевірку контенту:
 
    ```powershell
    powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-content.ps1
    ```
 
-8. На сторінці наукової активності перевірити, що пошук і фільтри списку праць працюють після CMS-зміни.
+3. Якщо доступний Node.js, додатково запустити CI-версію:
 
+   ```powershell
+   npm run check:content
+   ```
+
+4. Перевірити, що скрипти підтверджують:
+
+   - валідність JSON і `manifest.webmanifest`;
+   - існування локальних HTML/CSS/service worker посилань;
+   - базові GitHub/OAuth налаштування Decap CMS;
+   - наявність усіх очікуваних CMS-колекцій;
+   - наявність усіх `file`, `media_folder` і `public_folder` шляхів;
+   - поля `text`, `year`, `type` і типові опції колекції наукових праць.
+
+## 2. Local Backend Smoke Test
+
+1. Запустити Decap local backend proxy з кореня репозиторію:
+
+   ```powershell
+   npx decap-server
+   ```
+
+2. В іншому терміналі підняти статичний сервер сайту:
+
+   ```powershell
+   python -m http.server 8080
+   ```
+
+3. Відкрити:
+
+   ```text
+   http://localhost:8080/admin/
+   ```
+
+4. Перевірити, що відкриваються колекції:
+
+   - `home_content`;
+   - `activities_content`;
+   - `pages_content`;
+   - `publications_content`;
+   - `gallery_activity1`;
+   - `gallery_activity2`;
+   - `gallery_activity3`;
+   - `activity2_files`;
+   - `downloads`.
+
+5. Зробити по одній безпечній тестовій зміні:
+
+   - у `home_content` змінити alt-текст або один короткий абзац;
+   - в `activities_content` змінити короткий опис однієї картки;
+   - у `pages_content` змінити intro або label поля;
+   - у `publications_content` змінити текст, рік або тип одного запису;
+   - у будь-якій gallery-колекції змінити alt-текст фото;
+   - в `activity2_files` або `downloads` перевірити відкриття форми редагування без обов'язкового додавання нового файла.
+
+6. Зберегти зміни через CMS і переглянути `git diff`.
+7. Запустити `check-content.ps1` ще раз.
+8. Відкрити сайт локально і перевірити сторінки, яких торкались зміни.
 9. Якщо тестові зміни не мають лишатися в репозиторії, прибрати їх перед комітом.
 
-## Продакшн-перевірка з GitHub OAuth
+## 3. Production OAuth Smoke Test
 
-1. Переконатися, що `https://decap.iva.net.ua` відповідає.
-2. Відкрити `https://iva.net.ua/admin/`.
-3. Натиснути `Login with GitHub`.
-4. Перевірити, що після авторизації видно CMS-колекції.
-5. Створити мінімальну тестову чернетку через editorial workflow.
-6. Переконатися, що CMS створює зміни в репозиторії.
-7. Після merge/publish перевірити GitHub Action `Content check`.
+1. Перевірити, що OAuth proxy відповідає:
 
-## Що має ловити автоматична перевірка
+   ```text
+   https://decap.iva.net.ua
+   ```
 
-Скрипт `check-content` тепер перевіряє не лише JSON/HTML/CSS/service worker, а й базові речі Decap CMS:
+2. Відкрити production CMS:
 
-- наявність `admin/config.yml`;
-- GitHub backend і репозиторій;
-- OAuth proxy `https://decap.iva.net.ua`;
-- `local_backend: true`;
-- `publish_mode: editorial_workflow`;
-- існування всіх `file`, `media_folder` і `public_folder` шляхів із CMS-конфіга.
+   ```text
+   https://iva.net.ua/admin/
+   ```
+
+3. Натиснути `Login with GitHub` і пройти авторизацію.
+4. Переконатися, що після login видно ті самі 9 колекцій.
+5. Створити мінімальну тестову зміну через editorial workflow.
+6. Перевірити, що CMS створює зміну в GitHub.
+7. Після publish/merge перевірити GitHub Action `Content check`.
+8. Переконатися на сайті, що зміна відображається або успішно прибрана.
+
+## 4. Звіт
+
+Результат ручної перевірки фіксується у `docs/admin-smoke-test-report.md`: дата, середовище, які колекції відкрились, які тестові зміни зроблено, чи пройшов `Content check`, і які проблеми знайдено.

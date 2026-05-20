@@ -507,6 +507,24 @@ function unquoteYamlValue(value) {
     .replace(/^["']|["']$/g, "");
 }
 
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function checkAdminLine(sourceFile, source, key, value, message) {
+  const pattern = new RegExp(`^\\s*${escapeRegExp(key)}:\\s*${escapeRegExp(value)}\\s*$`, "m");
+  if (!pattern.test(source)) {
+    fail(`${sourceFile}: ${message}`);
+  }
+}
+
+function checkAdminCollection(sourceFile, source, name) {
+  const pattern = new RegExp(`^\\s*-\\s*name:\\s*${escapeRegExp(name)}\\s*$`, "m");
+  if (!pattern.test(source)) {
+    fail(`${sourceFile}: missing CMS collection "${name}"`);
+  }
+}
+
 function checkAdminConfig() {
   const sourceFile = "admin/config.yml";
 
@@ -546,6 +564,66 @@ function checkAdminConfig() {
       fail(`${sourceFile}: missing ${key} path "${value}"`);
     }
   }
+
+  [
+    "home_content",
+    "activities_content",
+    "pages_content",
+    "publications_content",
+    "gallery_activity1",
+    "gallery_activity2",
+    "gallery_activity3",
+    "activity2_files",
+    "downloads"
+  ].forEach((name) => checkAdminCollection(sourceFile, source, name));
+
+  [
+    "files/content/home.json",
+    "files/content/activities.json",
+    "files/content/pages.json",
+    "files/content/publications.json",
+    "files/media/activity1/photos.json",
+    "files/media/activity2/photos.json",
+    "files/media/activity3/photos.json",
+    "files/activity2/files.json",
+    "files/downloads/files.json"
+  ].forEach((relativePath) => {
+    checkAdminLine(sourceFile, source, "file", relativePath, `missing CMS file-backed entry "${relativePath}"`);
+  });
+
+  [
+    ["media_folder", "files/media/uploads"],
+    ["public_folder", "files/media/uploads"],
+    ["media_folder", "files/media/activity1"],
+    ["public_folder", "files/media/activity1"],
+    ["media_folder", "files/media/activity2"],
+    ["public_folder", "files/media/activity2"],
+    ["media_folder", "files/media/activity3"],
+    ["public_folder", "files/media/activity3"],
+    ["media_folder", "files/activity2"],
+    ["public_folder", "files/activity2"],
+    ["media_folder", "files/downloads"],
+    ["public_folder", "files/downloads"]
+  ].forEach(([key, value]) => {
+    checkAdminLine(sourceFile, source, key, value, `missing CMS ${key} "${value}"`);
+  });
+
+  [
+    [/^\s*name:\s*items\s*$/m, "publications collection must expose items list"],
+    [/\bname:\s*text\b/m, "publications items must expose text field"],
+    [/\bname:\s*year\b/m, "publications items must expose year field"],
+    [/^\s*name:\s*type\s*$/m, "publications items must expose type field"],
+    [/^\s*widget:\s*select\s*$/m, "publications type field must stay a select widget"],
+    [/\bvalue:\s*article\b/m, "publications type options must include article"],
+    [/\bvalue:\s*conference\b/m, "publications type options must include conference"],
+    [/\bvalue:\s*monograph\b/m, "publications type options must include monograph"],
+    [/\bvalue:\s*teaching\b/m, "publications type options must include teaching"],
+    [/\bvalue:\s*other\b/m, "publications type options must include other"]
+  ].forEach(([pattern, message]) => {
+    if (!pattern.test(source)) {
+      fail(`${sourceFile}: ${message}`);
+    }
+  });
 }
 
 checkJsonFiles();
