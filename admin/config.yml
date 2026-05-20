@@ -226,7 +226,7 @@ collections:
     label: "Наукові праці"
     description: "Список праць і прості labels фільтрів. Рік має бути роком публікації, не частиною ISSN."
     media_folder: ../publications
-    public_folder: /files/publications
+    public_folder: files/publications
     files:
       - name: publications
         label: "Список наукових праць"
@@ -308,7 +308,7 @@ collections:
                 widget: file
                 required: false
                 choose_url: false
-                hint: "Необов'язково. Додавайте файл тільки якщо є право публікувати його на сайті. Файли зберігаються в /files/publications/."
+                hint: "Необов'язково. Додавайте файл тільки якщо є право публікувати його на сайті. Файли зберігаються в files/publications/."
 
   - name: social_links
     label: "Профільні посилання"

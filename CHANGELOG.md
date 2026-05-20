@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.26f
+
+**Hotfix site-relative шляхів вкладень праць.**
+
+- Шлях вкладення у `publications.json` переведено з `/files/publications/...` на site-relative `files/publications/...`.
+- `public_folder` для Decap-вкладень праць синхронізовано з цією політикою, щоб наступні upload-и записували шлях без початкового `/`.
+- `check-content` тепер приймає тільки `files/publications/...` для файлів праць і продовжує ловити відсутні файли, зовнішні URL, `admin/` та дубльовані `files/.../files/...`.
+- Оновлено build-версію до `0.6.26f` і кеш service worker до `v0.6.26f-r1`.
+
 ## 0.6.26e
 
 **Hotfix upload-шляху файлів наукових праць.**

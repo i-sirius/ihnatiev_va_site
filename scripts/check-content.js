@@ -161,7 +161,7 @@ function checkPublicationFileReference(relativePath, value, context) {
     return;
   }
 
-  checkCmsMediaPath(relativePath, normalized, context, "/files/publications/");
+  checkCmsMediaPath(relativePath, normalized, context, "files/publications/");
 
   const cleanPath = stripUrlParts(normalized);
   if (!/\.(pdf|doc|docx)$/i.test(cleanPath)) {
@@ -778,7 +778,7 @@ function checkAdminConfig() {
     ["media_folder", "files/downloads"],
     ["public_folder", "/files/downloads"],
     ["media_folder", "../publications"],
-    ["public_folder", "/files/publications"]
+    ["public_folder", "files/publications"]
   ].forEach(([key, value]) => {
     checkAdminLine(sourceFile, source, key, value, `missing CMS ${key} "${value}"`);
   });

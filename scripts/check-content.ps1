@@ -149,7 +149,7 @@ function Test-PublicationFileReference {
     return
   }
 
-  Test-CmsMediaPath $RelativePath $Normalized $Context "/files/publications/"
+  Test-CmsMediaPath $RelativePath $Normalized $Context "files/publications/"
 
   $CleanPath = Remove-UrlParts $Normalized
   if ($CleanPath -notmatch "\.(pdf|doc|docx)$") {
@@ -726,7 +726,7 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     @{ Key = "media_folder"; Value = "files/downloads" },
     @{ Key = "public_folder"; Value = "/files/downloads" },
     @{ Key = "media_folder"; Value = "../publications" },
-    @{ Key = "public_folder"; Value = "/files/publications" }
+    @{ Key = "public_folder"; Value = "files/publications" }
   )) {
     Test-AdminLine $AdminConfigPath $AdminConfig $Folder.Key $Folder.Value "missing CMS $($Folder.Key) `"$($Folder.Value)`""
   }
