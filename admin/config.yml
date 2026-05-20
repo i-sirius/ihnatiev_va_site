@@ -225,7 +225,7 @@ collections:
   - name: publications_content
     label: "Наукові праці"
     description: "Список праць і прості labels фільтрів. Рік має бути роком публікації, не частиною ISSN."
-    media_folder: files/publications
+    media_folder: ../publications
     public_folder: /files/publications
     files:
       - name: publications

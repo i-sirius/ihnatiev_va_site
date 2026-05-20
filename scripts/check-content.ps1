@@ -114,7 +114,8 @@ function Test-CmsMediaPath {
     "files/media/activity3/files/media/activity3",
     "files/activity2/files/activity2",
     "files/downloads/files/downloads",
-    "files/publications/files/publications"
+    "files/publications/files/publications",
+    "files/content/files/publications"
   )) {
     if ($Normalized.Contains($DuplicatePath)) {
       Add-CheckError "${RelativePath}: ${Context} contains duplicated CMS media path `"$DuplicatePath`""
@@ -176,6 +177,15 @@ function Test-AdminLine {
   if ($Source -notmatch $Pattern) {
     Add-CheckError "${SourceFile}: $Message"
   }
+}
+
+function Resolve-AdminMediaPath {
+  param([string]$Value)
+  if ($Value.StartsWith("../")) {
+    return "files/" + $Value.Substring(3)
+  }
+
+  return $Value
 }
 
 function Test-AdminCollection {
@@ -666,7 +676,8 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     }
 
     $script:AdminPathCount += 1
-    if (-not (Test-Path -LiteralPath (Get-RepoPath $Value))) {
+    $PathToCheck = Resolve-AdminMediaPath $Value
+    if (-not (Test-Path -LiteralPath (Get-RepoPath $PathToCheck))) {
       Add-CheckError "${AdminConfigPath}: missing ${Key} path `"$Value`""
     }
   }
@@ -714,7 +725,7 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     @{ Key = "public_folder"; Value = "/files/activity2" },
     @{ Key = "media_folder"; Value = "files/downloads" },
     @{ Key = "public_folder"; Value = "/files/downloads" },
-    @{ Key = "media_folder"; Value = "files/publications" },
+    @{ Key = "media_folder"; Value = "../publications" },
     @{ Key = "public_folder"; Value = "/files/publications" }
   )) {
     Test-AdminLine $AdminConfigPath $AdminConfig $Folder.Key $Folder.Value "missing CMS $($Folder.Key) `"$($Folder.Value)`""

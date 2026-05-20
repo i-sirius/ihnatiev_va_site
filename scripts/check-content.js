@@ -132,7 +132,8 @@ function checkCmsMediaPath(relativePath, value, context, expectedPrefix) {
     "files/media/activity3/files/media/activity3",
     "files/activity2/files/activity2",
     "files/downloads/files/downloads",
-    "files/publications/files/publications"
+    "files/publications/files/publications",
+    "files/content/files/publications"
   ].forEach((duplicatePath) => {
     if (normalized.includes(duplicatePath)) {
       fail(`${relativePath}: ${context} contains duplicated CMS media path "${duplicatePath}"`);
@@ -676,6 +677,14 @@ function checkAdminLine(sourceFile, source, key, value, message) {
   }
 }
 
+function resolveAdminMediaPath(value) {
+  if (value.startsWith("../")) {
+    return `files/${value.slice(3)}`;
+  }
+
+  return value;
+}
+
 function checkAdminCollection(sourceFile, source, name) {
   const pattern = new RegExp(`^\\s*-\\s*name:\\s*${escapeRegExp(name)}\\s*$`, "m");
   if (!pattern.test(source)) {
@@ -721,7 +730,8 @@ function checkAdminConfig() {
     }
 
     checked.adminPaths += 1;
-    if (!existsRelative(value)) {
+    const pathToCheck = resolveAdminMediaPath(value);
+    if (!existsRelative(pathToCheck)) {
       fail(`${sourceFile}: missing ${key} path "${value}"`);
     }
   }
@@ -767,7 +777,7 @@ function checkAdminConfig() {
     ["public_folder", "/files/activity2"],
     ["media_folder", "files/downloads"],
     ["public_folder", "/files/downloads"],
-    ["media_folder", "files/publications"],
+    ["media_folder", "../publications"],
     ["public_folder", "/files/publications"]
   ].forEach(([key, value]) => {
     checkAdminLine(sourceFile, source, key, value, `missing CMS ${key} "${value}"`);

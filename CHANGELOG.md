@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.26e
+
+**Hotfix upload-шляху файлів наукових праць.**
+
+- Виправлено `media_folder` для вкладень праць у Decap: файли з `publications.json` тепер завантажуються в `files/publications/`, а не в помилкову вкладену папку `files/content/files/publications/`.
+- PDF, доданий через CMS для праці про філософську антропологію, перенесено у фактичну папку, на яку вже посилається JSON: `/files/publications/`.
+- `check-content` додатково ловить помилковий шлях `files/content/files/publications`, щоб повторний upload-regression не пройшов непоміченим.
+- Оновлено build-версію до `0.6.26e` і кеш service worker до `v0.6.26e-r1`.
+
 ## 0.6.26d
 
 **Опціональні файли для наукових праць.**
