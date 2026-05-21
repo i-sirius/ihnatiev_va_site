@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.28d
+
+**Hotfix мобільної сітки посилань у контактах.**
+
+- One-column fallback контактних social/profile links перенесено нижче за ширину iPhone SE 3, щоб типовий 375px mobile viewport лишався у сітці 2 в ряд.
+- Мобільні contact-кнопки трохи ущільнено за gap, padding і розміром тексту, щоб `Web of Science` та `Google Академія` не ламали двоколонковий вигляд.
+- Оновлено build-версію до `0.6.28d` і кеш service worker до `v0.6.28d-r1`.
+
 ## 0.6.28c
 
 **Hotfix ініціалізації контенту в legacy Chrome.**

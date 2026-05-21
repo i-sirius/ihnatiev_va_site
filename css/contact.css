@@ -450,9 +450,11 @@ body[data-page="contact"] button[type="submit"]:disabled {
   }
 
   .contact-social-button {
+    gap: 8px;
     min-width: 0;
     min-height: 56px;
-    padding: 10px 12px;
+    padding: 10px 8px;
+    font-size: 0.96rem;
   }
 
   .contact-social-label {
@@ -488,7 +490,7 @@ body[data-page="contact"] button[type="submit"]:disabled {
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 340px) {
   .contact-socials-list {
     grid-template-columns: 1fr;
   }
