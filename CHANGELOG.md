@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.27b
+
+**Фіксація Search Console і дата білда у футері.**
+
+- У документації зафіксовано підтвердження Google Search Console для Domain property `iva.net.ua` через Cloudflare DNS TXT і подання sitemap.
+- Додано перевірені через URL Inspection публічні сторінки та нагадування повторно переглянути Sitemaps, Page indexing і Search results після появи даних.
+- Дату білда у футері оновлено до `210526`, щоб вона показувалась після назви версії поточного пакета.
+- Оновлено build-версію до `0.6.27b` і кеш service worker до `v0.6.27b-r1`.
+
 ## 0.6.27a
 
 **Контроль SEO foundation і підготовка Search Console.**

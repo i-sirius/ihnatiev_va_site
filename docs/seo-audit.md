@@ -116,8 +116,42 @@ Automation added:
 
 Future work:
 
-- verify Google Search Console ownership;
+- monitor Google Search Console reports after verification;
 - decide whether to add Google Analytics or another privacy-aware analytics option;
 - expand schema.org only where the source data is reliable;
 - add SEO treatment for important PDF/download materials;
 - prepare richer social preview images if needed.
+
+## 0.6.27b Search Console Verification
+
+Google Search Console status:
+
+- property: `iva.net.ua` as a `Domain property`;
+- ownership verification: Google DNS TXT record added through Cloudflare;
+- keep the Google TXT record in DNS so verification stays valid;
+- sitemap submitted and checked: `https://iva.net.ua/sitemap.xml`.
+
+URL Inspection was run and indexing requests were sent for:
+
+- `https://iva.net.ua/`
+- `https://iva.net.ua/activity1.html`
+- `https://iva.net.ua/activity2.html`
+- `https://iva.net.ua/activity3.html`
+- `https://iva.net.ua/downloads.html`
+- `https://iva.net.ua/contact.html`
+
+The home page inspection reported:
+
+- URL is on Google / indexed;
+- crawling is allowed;
+- page fetch succeeded;
+- indexing is allowed;
+- HTTPS is valid.
+
+Admin remains outside public SEO flow:
+
+- `admin/index.html` keeps `noindex,nofollow`;
+- `/admin/` must not be added to `sitemap.xml`;
+- `/admin/` should not be submitted for indexing.
+
+Search Console reports can populate gradually. Recheck Sitemaps, Page indexing, Performance / Search results, and URL Inspection for key public pages after 3-7 days.

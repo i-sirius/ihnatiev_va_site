@@ -1,8 +1,32 @@
 # Google Search Console Setup
 
-Version: `0.6.27a`
+Version: `0.6.27b`
 
 This checklist prepares `https://iva.net.ua` for Google Search Console after the basic SEO foundation is in place.
+
+## Status / Поточний стан
+
+Search Console is already connected:
+
+- `Domain property` for `iva.net.ua` is verified;
+- ownership was verified through the Google TXT record added in Cloudflare DNS;
+- keep the Google TXT record in DNS so ownership verification remains valid;
+- sitemap was submitted and checked: `https://iva.net.ua/sitemap.xml`;
+- public URLs were checked with URL Inspection and indexing requests were sent for:
+  - `https://iva.net.ua/`
+  - `https://iva.net.ua/activity1.html`
+  - `https://iva.net.ua/activity2.html`
+  - `https://iva.net.ua/activity3.html`
+  - `https://iva.net.ua/downloads.html`
+  - `https://iva.net.ua/contact.html`
+- the home page inspection confirmed that the URL is on Google, crawling and indexing are allowed, page loading succeeded, and HTTPS works.
+
+Check again after 3-7 days:
+
+- Sitemaps status;
+- Page indexing reports;
+- Performance / Search results data;
+- URL Inspection for the key public pages.
 
 ## 1. Open Search Console
 
@@ -63,4 +87,4 @@ If Google has not indexed a page yet, request indexing after confirming the live
 - Indexing can take time after sitemap submission.
 - A sitemap is a strong hint for Google, not a guarantee of indexing.
 - `/admin/` should not be submitted for indexing. It has `noindex,nofollow` in `admin/index.html` and is excluded from `sitemap.xml`.
-- Future SEO work can add Search Console verification status, analytics decisions, richer schema.org data, PDF/download metadata, and stronger social preview images.
+- Future SEO work can track Search Console reports, analytics decisions, richer schema.org data, PDF/download metadata, and stronger social preview images.
