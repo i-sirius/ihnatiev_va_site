@@ -1,6 +1,34 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
   const pageType = document.body.dataset.page;
   const activityId = document.body.dataset.activityId;
+  const legacyDebugEnabled = /(?:^|[?&])debug=legacy(?:[=&]|$)/.test(window.location.search);
+
+  function logLegacyStep(step) {
+    if (
+      legacyDebugEnabled &&
+      window.console &&
+      typeof window.console.info === "function"
+    ) {
+      window.console.info(`[legacy-init] ${step}`);
+    }
+  }
+
+  logLegacyStep("app DOMContentLoaded");
+
+  if (typeof SITE === "undefined") {
+    logLegacyStep("config.js did not expose SITE; content bootstrap stopped");
+    return;
+  }
+
+  if (!window.SiteUtils) {
+    logLegacyStep("site-utils.js is unavailable; content bootstrap stopped");
+    return;
+  }
+
+  if (legacyDebugEnabled) {
+    window.SiteLegacyDebugLog = logLegacyStep;
+  }
+
   const { escapeHtml, getLocalizedValue, setText } = window.SiteUtils;
   const themeAssets = {
     light: "files/media/logo-light.png",
@@ -407,6 +435,8 @@
   }
 
   function applyAllContent() {
+    logLegacyStep("apply config fallback content");
+
     if (window.SitePageContent) {
       window.SitePageContent.applyGlobalContent({
         site: SITE,
@@ -495,7 +525,10 @@
 
   if (window.SiteMenuLoader) {
     window.SiteMenuLoader.load({
-      onComplete: applyAllContent
+      onComplete: () => {
+        logLegacyStep("menu HTML loaded");
+        applyAllContent();
+      }
     });
   }
   applyAllContent();

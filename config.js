@@ -2,7 +2,7 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.6.28b",
+    buildVersion: "0.6.28c",
     buildDate: "210526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -731,7 +731,7 @@ function mergeSiteLocale(base, override) {
   }
 
   if (!isPlainObject(base) || !isPlainObject(override)) {
-    return override ?? base;
+    return override === null || typeof override === "undefined" ? base : override;
   }
 
   const result = { ...base };

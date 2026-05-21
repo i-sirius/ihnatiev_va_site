@@ -6,6 +6,8 @@
 
 The first confirmed problem device is iPad Air 1 with iOS 12 Safari. It is the main real-device check for this pass, while the audit also looks for risks in older WebKit, Android WebView/Chrome, and older desktop Chromium/Edge engines.
 
+Chrome 79 and older legacy Chromium became a second confirmed diagnostic target in `0.6.28c`: the home page could keep the technical placeholder `Основний текст буде підставлено з config.js.` when the content bootstrap stopped before the `config.js` fallback render.
+
 ## JS audit
 
 The public JavaScript sweep covered `app.js`, `js/*.js`, and the early inline head script in the public HTML pages.
@@ -21,7 +23,6 @@ Not found in the audited public JS after the pass:
 
 - `Object.fromEntries`;
 - `Promise.allSettled`;
-- `structuredClone`;
 - dynamic `import()`;
 - `Array.prototype.at`;
 - `ResizeObserver`;
@@ -33,6 +34,12 @@ Applied in `0.6.28a`:
 - replaced `replaceAll()` with regex replacements and document preview `replaceChildren()` with `textContent`;
 - added a plain fetch fallback when `AbortController` is unavailable;
 - removed public runtime reliance on Promise `.finally()`.
+- kept the `structuredClone` call in `config.js` behind a `typeof` feature check with JSON cloning as its old-browser fallback.
+
+Follow-up in `0.6.28c`:
+
+- removed a remaining nullish coalescing expression from `config.js`; Chrome 79 cannot parse it, so `SITE` never initialized and `app.js` could not reach the home fallback render;
+- `?debug=legacy` now writes concise console milestones for app boot, config fallback rendering, menu loading, and home JSON/fallback rendering without adding visible production UI.
 
 The source still uses normal project-era ES2015+ syntax such as `const`, arrow functions, template literals, destructuring, spread, and `Object.entries`. That is acceptable for the iOS 12 target, but a much older browser family would need a separate transpiled legacy build rather than another small hand patch.
 
@@ -72,6 +79,8 @@ Every public page runs a small early feature test before CSS is loaded. If the b
 
 The same mode can be forced for diagnostics with `?debug=legacy`, for example on a local or production public page. It does not show any debug UI to normal visitors. Liquid droplet and video lens JS do not initialize under `no-modern-effects`.
 
+In `0.6.28c`, the same query flag also emits `[legacy-init]` console steps. If `app DOMContentLoaded` appears but `home content rendered from config fallback` does not, check the first script parser/runtime error above it.
+
 ## Real-device checks
 
 Start with these public pages on iPad Air 1 / iOS 12 Safari:
@@ -82,6 +91,8 @@ Start with these public pages on iPad Air 1 / iOS 12 Safari:
 4. `activity3.html`: hero photo, profile link, and gallery.
 5. `downloads.html`: grouped downloads, document preview fallback, and download buttons.
 6. `contact.html`: contact form, compact social/profile links, and validation messages.
+
+For Chrome 79 or an older Chromium emulator, start with `index.html?debug=legacy` and confirm the home placeholder is replaced before checking `activity1.html`, `downloads.html`, and `contact.html`.
 
 On a Mac, Safari Web Inspector can attach to the old iPad and reveal parser/runtime errors. Without a Mac, compare the normal page and `?debug=legacy` mode, and record the first visible failure: missing menu, unbounded photo, unreadable panel, broken download action, or script error shown by the browser console if available.
 

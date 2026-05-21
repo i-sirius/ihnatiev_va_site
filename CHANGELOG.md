@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.28c
+
+**Hotfix ініціалізації контенту в legacy Chrome.**
+
+- Прибрано залишковий nullish coalescing із `config.js`, який зупиняв його парсинг у Chrome 79 і не давав home-сторінці замінити технічний placeholder на fallback-контент.
+- `?debug=legacy` тепер пише в console короткі етапи app/content bootstrap: DOM ready, config fallback, завантаження меню та home JSON/fallback.
+- Legacy audit доповнено Chrome 79 / legacy Chromium симптомом і перевіркою home/activity/downloads/contact сторінок після правки.
+- Оновлено build-версію до `0.6.28c` і кеш service worker до `v0.6.28c-r1`.
+
 ## 0.6.28b
 
 **Hotfix legacy-підкладок і контрасту мобільних controls.**

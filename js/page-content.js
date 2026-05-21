@@ -482,6 +482,9 @@
       setText,
       initHomeAboutLightbox
     });
+    if (window.SiteLegacyDebugLog) {
+      window.SiteLegacyDebugLog("home content rendered from config fallback");
+    }
 
     if (pageType === "home") {
       const contentLocale = site.currentLocale || site.defaultLocale || "uk";
@@ -505,6 +508,9 @@
             setText,
             initHomeAboutLightbox
           });
+          if (window.SiteLegacyDebugLog) {
+            window.SiteLegacyDebugLog("home content rendered from JSON or JSON fallback");
+          }
           initDetailsInteractions();
         });
       }
