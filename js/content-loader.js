@@ -31,7 +31,7 @@
       images.map(
         (image) =>
           new Promise((resolve) => {
-            if (!image?.src) {
+            if (!image || !image.src) {
               resolve(null);
               return;
             }
@@ -66,8 +66,9 @@
         renderGallery(selector, []);
         return [];
       })
-      .finally(() => {
+      .then((availableImages) => {
         setActivityGalleryPromise(null);
+        return availableImages;
       });
 
     setActivityGalleryPromise(galleryPromise);
@@ -211,16 +212,17 @@
     const localizedContact = localizedPages.contact && typeof localizedPages.contact === "object"
       ? localizedPages.contact
       : null;
+    const fallbackContact = fallbackSite.contact || {};
     const contact = localizedContact
       ? {
-          ...(fallbackSite.contact || {}),
+          ...fallbackContact,
           ...localizedContact,
           socials: {
-            ...(fallbackSite.contact?.socials || {}),
+            ...(fallbackContact.socials || {}),
             ...(localizedContact.socials || {})
           },
           fields: {
-            ...(fallbackSite.contact?.fields || {}),
+            ...(fallbackContact.fields || {}),
             ...(localizedContact.fields || {})
           }
         }
@@ -321,7 +323,7 @@
 
     const fallbackById = new Map(
       (Array.isArray(fallbackLinks) ? fallbackLinks : [])
-        .filter((item) => item?.id)
+        .filter((item) => item && item.id)
         .map((item) => [item.id, item])
     );
     const normalizedLinks = links

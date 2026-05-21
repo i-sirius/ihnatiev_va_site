@@ -9,6 +9,7 @@ body[data-page="contact"] .panel {
   grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
   gap: 12px 18px;
   align-items: start;
+  width: calc(100% - 32px);
   width: min(760px, calc(100% - 32px));
   margin: 22px auto 20px;
   padding: 20px 22px 20px;
@@ -79,6 +80,7 @@ html[data-theme="dark"] .contact-socials {
     linear-gradient(135deg, rgba(255, 255, 255, 0.56), color-mix(in srgb, var(--social-accent) 10%, transparent)),
     color-mix(in srgb, var(--panel-bg) 58%, transparent);
   text-decoration: none;
+  font-size: 1.08rem;
   font-size: clamp(1.02rem, 1.8vw, 1.18rem);
   font-weight: 800;
   letter-spacing: 0;

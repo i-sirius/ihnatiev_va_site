@@ -8,20 +8,33 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <script>
-    (() => {
+    (function () {
+      var root = document.documentElement;
+      var forceLegacy = /(?:^|[?&])debug=legacy(?:[=&]|$)/.test(window.location.search);
+      var supportsModernEffects =
+        window.CSS &&
+        typeof window.CSS.supports === "function" &&
+        window.CSS.supports("color", "color-mix(in srgb, #000 50%, #fff)") &&
+        window.CSS.supports("width", "min(20px, 40px)") &&
+        window.CSS.supports("font-size", "clamp(1rem, 2vw, 2rem)");
+
+      if (forceLegacy || !supportsModernEffects) {
+        root.className += (root.className ? " " : "") + "legacy-browser no-modern-effects";
+      }
+
       try {
-        const savedTheme = localStorage.getItem("site-theme");
-        const savedLocale = localStorage.getItem("site-locale");
+        var savedTheme = localStorage.getItem("site-theme");
+        var savedLocale = localStorage.getItem("site-locale");
         if (savedTheme) {
-          document.documentElement.setAttribute("data-theme", savedTheme);
+          root.setAttribute("data-theme", savedTheme);
         }
         if (savedLocale) {
-          document.documentElement.lang = savedLocale;
+          root.lang = savedLocale;
         }
-      } catch {
+      } catch (error) {
         // Ignore storage access issues before the app boots.
       }
-    })();
+    }());
   </script>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="files/media/logo-light.png" />

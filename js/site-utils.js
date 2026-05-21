@@ -11,11 +11,11 @@
 
   function escapeHtml(value) {
     return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;");
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
   }
 
   function getLocalizedValue(value, fallback = "") {
@@ -31,10 +31,13 @@
       const site = window.SITE || {};
       const locale = site.currentLocale || site.defaultLocale || "uk";
       const defaultLocale = site.defaultLocale || "uk";
+      const stringValue = Object.values(value).find((item) => typeof item === "string");
       const localizedValue =
-        value[locale] ??
-        value[defaultLocale] ??
-        Object.values(value).find((item) => typeof item === "string");
+        value[locale] != null
+          ? value[locale]
+          : value[defaultLocale] != null
+            ? value[defaultLocale]
+            : stringValue;
       return typeof localizedValue === "string" ? localizedValue : fallback;
     }
 

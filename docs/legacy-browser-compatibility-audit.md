@@ -1,0 +1,87 @@
+# Legacy browser compatibility audit
+
+## Support target
+
+`0.6.28a` treats legacy browser support as a readable fallback target. Older browsers do not need to reproduce every Liquid Glass, lens, blur, hover, or animation detail, but public pages should remain usable: navigation and text stay available, photos keep bounded sizes, and activities, downloads, publications, and contacts can be reached.
+
+The first confirmed problem device is iPad Air 1 with iOS 12 Safari. It is the main real-device check for this pass, while the audit also looks for risks in older WebKit, Android WebView/Chrome, and older desktop Chromium/Edge engines.
+
+## JS audit
+
+The public JavaScript sweep covered `app.js`, `js/*.js`, and the early inline head script in the public HTML pages.
+
+Found during the audit:
+
+- optional chaining in public modules, which is a parse-time failure for iOS 12 Safari;
+- nullish coalescing and `replaceAll()` in `js/site-utils.js`;
+- `replaceChildren()` in document preview actions;
+- an `AbortController` assumption and Promise `.finally()` usage in public async flows.
+
+Not found in the audited public JS after the pass:
+
+- `Object.fromEntries`;
+- `Promise.allSettled`;
+- `structuredClone`;
+- dynamic `import()`;
+- `Array.prototype.at`;
+- `ResizeObserver`;
+- `IntersectionObserver`.
+
+Applied in `0.6.28a`:
+
+- removed optional chaining and nullish coalescing from public JS loaded by the site;
+- replaced `replaceAll()` with regex replacements and document preview `replaceChildren()` with `textContent`;
+- added a plain fetch fallback when `AbortController` is unavailable;
+- removed public runtime reliance on Promise `.finally()`.
+
+The source still uses normal project-era ES2015+ syntax such as `const`, arrow functions, template literals, destructuring, spread, and `Object.entries`. That is acceptable for the iOS 12 target, but a much older browser family would need a separate transpiled legacy build rather than another small hand patch.
+
+## CSS audit
+
+Layout and visual CSS uses modern features heavily:
+
+- `min()`, `max()`, and `clamp()`;
+- `color-mix()`;
+- grid and flex layouts with `gap`;
+- `aspect-ratio`;
+- `backdrop-filter` and `-webkit-backdrop-filter`;
+- sticky header/details behavior and glass/lens layers.
+
+The sweep did not find `dvh`, `svh`, `lvh`, or `:has()` in the current CSS.
+
+Applied in `0.6.28a`:
+
+- `.panel` receives a plain `calc()` width and simple border/background before modern `min()` and glass declarations;
+- the about/activity photo column receives a fixed width fallback before `clamp()`, so an unsupported `clamp()` does not let the photo dominate a flex row;
+- contact/profile button font sizes and the contact panel width receive simple fallbacks before their modern values;
+- the legacy mode reduces blur/lens layers and uses ordinary panel/card backgrounds;
+- the legacy mode replaces the missing about-row flex gap with explicit spacing and lets gallery images use natural height.
+
+## Legacy mode
+
+Every public page runs a small early feature test before CSS is loaded. If the browser cannot report support for the current `color-mix()`, `min()`, and `clamp()` baseline, `<html>` receives:
+
+- `legacy-browser`;
+- `no-modern-effects`.
+
+The same mode can be forced for diagnostics with `?debug=legacy`, for example on a local or production public page. It does not show any debug UI to normal visitors. Liquid droplet and video lens JS do not initialize under `no-modern-effects`.
+
+## Real-device checks
+
+Start with these public pages on iPad Air 1 / iOS 12 Safari:
+
+1. `index.html`: header, about photo, activity cards, language/theme controls, and bottom navigation.
+2. `activity1.html`: hero photo, publications details/filtering, publication attachment button, gallery, video fallback, and menu.
+3. `activity2.html`: hero photo, educational files, preview/download actions, and gallery.
+4. `activity3.html`: hero photo, profile link, and gallery.
+5. `downloads.html`: grouped downloads, document preview fallback, and download buttons.
+6. `contact.html`: contact form, compact social/profile links, and validation messages.
+
+On a Mac, Safari Web Inspector can attach to the old iPad and reveal parser/runtime errors. Without a Mac, compare the normal page and `?debug=legacy` mode, and record the first visible failure: missing menu, unbounded photo, unreadable panel, broken download action, or script error shown by the browser console if available.
+
+## Remaining risks
+
+- The legacy mode is a fallback layer, not a full compatibility build.
+- Some decorative modern CSS declarations remain intentionally untouched; unsupported declarations should be skipped in favor of the new simpler fallbacks.
+- Browsers that cannot parse the remaining ES2015+ JavaScript may still need a dedicated build or a smaller static-navigation fallback in a future package.
+- Final confidence for iOS 12 requires real-device verification on the confirmed iPad.

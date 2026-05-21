@@ -40,7 +40,7 @@
 
     const label = toggle.querySelector("[data-language-toggle-label]");
     const optionsWrap = toggle.querySelector("[data-language-toggle-options]");
-    const languageUi = site.ui?.language || {};
+    const languageUi = site.ui && site.ui.language ? site.ui.language : {};
 
     if (label) {
       const currentLocaleCode =
@@ -48,7 +48,9 @@
           ? "УКР"
           : site.currentLocale === "en"
             ? "EN"
-            : site.currentLocale?.toUpperCase();
+            : site.currentLocale
+              ? site.currentLocale.toUpperCase()
+              : "";
       label.textContent = `${languageUi.label || "Мова"}: ${currentLocaleCode || ""}`;
     }
 
@@ -61,10 +63,10 @@
       optionsWrap.innerHTML = supportedLocales
         .map((locale) => {
           const optionLabel =
-            getLocalizedValue(languageUi.options?.[locale], locale.toUpperCase()) ||
+            getLocalizedValue(languageUi.options && languageUi.options[locale], locale.toUpperCase()) ||
             locale.toUpperCase();
           const localeName =
-            getLocalizedValue(languageUi.names?.[locale], locale.toUpperCase()) ||
+            getLocalizedValue(languageUi.names && languageUi.names[locale], locale.toUpperCase()) ||
             locale.toUpperCase();
           const localeFlagClass = locale === "uk" ? "is-uk" : locale === "en" ? "is-en" : "";
           const isActive = locale === site.currentLocale;
@@ -138,7 +140,7 @@
     const toggleLabel = toggle.querySelector("[data-theme-toggle-label]");
 
     function updateThemeToggleLabel(currentTheme) {
-      const themeUi = site.ui?.theme || {};
+      const themeUi = site.ui && site.ui.theme ? site.ui.theme : {};
       const nextTheme = currentTheme === "dark" ? "light" : "dark";
       const currentThemeIcon = currentTheme === "dark" ? "🌙" : "☀️";
       const currentThemeText =
@@ -220,7 +222,10 @@
       header.appendChild(brand);
     }
 
-    const brandLabel = site.meta?.homeTitle || site.meta?.siteTitle || "Ігнатьєв Віталій";
+    const brandLabel =
+      site.meta && (site.meta.homeTitle || site.meta.siteTitle)
+        ? site.meta.homeTitle || site.meta.siteTitle
+        : "Ігнатьєв Віталій";
     brand.setAttribute("aria-label", brandLabel);
     const image = brand.querySelector("[data-site-brand-logo]");
     if (image) {
@@ -233,7 +238,7 @@
     getSocialIconMarkup = () => ""
   } = {}) {
     const header = document.querySelector(".site-header");
-    const title = header?.querySelector("h1");
+    const title = header && header.querySelector("h1");
     if (!header || !title) {
       return;
     }
@@ -241,7 +246,7 @@
     const defaultYoutubeHref = site.youtubeChannelId
       ? `https://www.youtube.com/channel/${site.youtubeChannelId}`
       : "";
-    const socials = Array.isArray(site.meta?.headerLinks)
+    const socials = site.meta && Array.isArray(site.meta.headerLinks)
       ? site.meta.headerLinks
       : [];
     const activeSocials = socials
@@ -254,7 +259,9 @@
     let socialBar = header.querySelector(".site-header-socials");
 
     if (!activeSocials.length) {
-      socialBar?.remove();
+      if (socialBar) {
+        socialBar.remove();
+      }
       return;
     }
 
@@ -264,7 +271,8 @@
       title.insertAdjacentElement("afterend", socialBar);
     }
 
-    socialBar.setAttribute("aria-label", site.ui?.header?.socialsLabel || "Соціальні мережі");
+    const headerUi = site.ui && site.ui.header ? site.ui.header : {};
+    socialBar.setAttribute("aria-label", headerUi.socialsLabel || "Соціальні мережі");
     socialBar.innerHTML = activeSocials
       .map(
         (item) => `
@@ -313,9 +321,9 @@
 
     const title = header.querySelector("h1");
     const nav = header.querySelector("nav");
-    const titleText = title?.querySelector("[data-site-title]");
-    const separator = title?.querySelector(".site-title-separator");
-    const subtitle = title?.querySelector("[data-site-subtitle]");
+    const titleText = title && title.querySelector("[data-site-title]");
+    const separator = title && title.querySelector(".site-title-separator");
+    const subtitle = title && title.querySelector("[data-site-subtitle]");
     const isHomePage = document.body.dataset.page === "home";
 
     if (!isHomePage) {
@@ -346,7 +354,7 @@
         probe.style.letterSpacing = titleStyles.letterSpacing;
         probe.style.lineHeight = titleStyles.lineHeight;
         probe.style.textTransform = titleStyles.textTransform;
-        probe.textContent = `${titleText.textContent || ""}${separator?.textContent || " -"} ${subtitle.textContent || ""}`;
+        probe.textContent = `${titleText.textContent || ""}${separator && separator.textContent ? separator.textContent : " -"} ${subtitle.textContent || ""}`;
 
         document.body.appendChild(probe);
         const requiredWidth = probe.getBoundingClientRect().width;
@@ -402,14 +410,16 @@
     const brand = header.querySelector(".site-brand-link");
 
     if (brand) {
-      const homeActionLabel = site.ui?.header?.home || site.menu?.home || "Головна";
-      const homePageLabel = site.ui?.header?.homePage || homeActionLabel;
+      const headerUi = site.ui && site.ui.header ? site.ui.header : {};
+      const menu = site.menu || {};
+      const homeActionLabel = headerUi.home || menu.home || "Головна";
+      const homePageLabel = headerUi.homePage || homeActionLabel;
 
       brand.href = pageType === "home" ? "#top" : "index.html";
       brand.dataset.homeLabel = homePageLabel;
       brand.title =
         pageType === "home"
-          ? site.ui?.header?.backToTop || "Нагору сторінки"
+          ? headerUi.backToTop || "Нагору сторінки"
           : homeActionLabel;
     }
 

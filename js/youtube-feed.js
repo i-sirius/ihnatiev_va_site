@@ -16,6 +16,16 @@
   }
 
   function fetchWithTimeout(url, responseParser, timeoutMs = 4500) {
+    if (!window.AbortController) {
+      return fetch(url).then((response) => {
+        if (!response.ok) {
+          throw new Error(`Request failed for ${url}`);
+        }
+
+        return responseParser(response);
+      });
+    }
+
     const controller = new AbortController();
     const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
 
@@ -27,9 +37,16 @@
 
         return responseParser(response);
       })
-      .finally(() => {
-        window.clearTimeout(timeoutId);
-      });
+      .then(
+        (result) => {
+          window.clearTimeout(timeoutId);
+          return result;
+        },
+        (error) => {
+          window.clearTimeout(timeoutId);
+          throw error;
+        }
+      );
   }
 
   function fetchYoutubeFeedXml(channelId) {
@@ -40,7 +57,7 @@
     const attempts = [
       () =>
         fetchWithTimeout(getUrl, (response) => response.json()).then((payload) => {
-          if (typeof payload?.contents === "string" && payload.contents.trim()) {
+          if (payload && typeof payload.contents === "string" && payload.contents.trim()) {
             return payload.contents;
           }
 
@@ -63,6 +80,10 @@
     getLocalizedValue = (value, fallback = "") => value || fallback,
     escapeHtml = (value) => String(value)
   } = {}) {
+    function getVideoUi() {
+      return site.ui && site.ui.video ? site.ui.video : {};
+    }
+
     function getFallbackVideos(channelId) {
       if (Array.isArray(site.youtubeFallbackVideos) && site.youtubeFallbackVideos.length) {
         return site.youtubeFallbackVideos;
@@ -70,11 +91,11 @@
 
       return [
         {
-          title: site.ui?.video?.playlist || "Плейлист каналу",
+          title: getVideoUi().playlist || "Плейлист каналу",
           url: "https://youtube.com/playlist?list=PLJiTnA91mVyQTsyn7L64mxggDWd4H63gH&si=PLaUlRCYsZ0n6Mfo"
         },
         {
-          title: site.ui?.video?.openChannel || "Відкрити канал",
+          title: getVideoUi().openChannel || "Відкрити канал",
           url: channelId ? `https://www.youtube.com/channel/${channelId}` : "https://www.youtube.com"
         }
       ];
@@ -85,13 +106,14 @@
         return;
       }
 
-      const watchLabel = site.ui?.video?.watch || "ДИВИТИСЬ";
-      const fallbackTitle = site.ui?.video?.fallbackTitle || "YouTube";
-      const viewsLabel = site.ui?.video?.views || "переглядів";
+      const videoUi = getVideoUi();
+      const watchLabel = videoUi.watch || "ДИВИТИСЬ";
+      const fallbackTitle = videoUi.fallbackTitle || "YouTube";
+      const viewsLabel = videoUi.views || "переглядів";
 
       document.querySelectorAll(selector).forEach((element) => {
         element.innerHTML = videos
-          .filter((video) => video?.url)
+          .filter((video) => video && video.url)
           .map((video) => {
             const title = getLocalizedValue(video.title, fallbackTitle);
             const url = escapeHtml(video.url);
@@ -132,11 +154,11 @@
     }
 
     function renderFallbackLinks(videos) {
-      const fallbackTitle = site.ui?.video?.fallbackTitle || "YouTube";
+      const fallbackTitle = getVideoUi().fallbackTitle || "YouTube";
 
       document.querySelectorAll(selector).forEach((element) => {
         element.innerHTML = videos
-          .filter((video) => video?.url)
+          .filter((video) => video && video.url)
           .map((video) => {
             const title = getLocalizedValue(video.title, fallbackTitle);
             const url = escapeHtml(video.url);
@@ -159,7 +181,7 @@
         statusText === ""
           ? ""
           : statusText ||
-            site.ui?.video?.fallbackText ||
+            getVideoUi().fallbackText ||
             "Канал доступний за посиланням нижче.";
 
       document.querySelectorAll(selector).forEach((element) => {
@@ -214,8 +236,8 @@
         }
 
         const parsed = JSON.parse(raw);
-        const updatedAt = Number(parsed?.updatedAt) || 0;
-        const videos = Array.isArray(parsed?.videos) ? parsed.videos.slice(0, 6) : [];
+        const updatedAt = Number(parsed && parsed.updatedAt) || 0;
+        const videos = parsed && Array.isArray(parsed.videos) ? parsed.videos.slice(0, 6) : [];
 
         return {
           videos,
@@ -254,9 +276,16 @@
       return Array.from(xml.querySelectorAll("entry"))
         .slice(0, 6)
         .map((item) => {
+          const namespacedVideoIdNode = item.getElementsByTagName("yt:videoId")[0];
+          const videoIdNode = item.getElementsByTagName("videoId")[0];
+          const titleNode = item.querySelector("title");
+          const namespacedStatisticsNode = item.getElementsByTagName("media:statistics")[0];
+          const statisticsNode = item.getElementsByTagName("statistics")[0];
           const videoId =
-            item.getElementsByTagName("yt:videoId")[0]?.textContent?.trim() ||
-            item.getElementsByTagName("videoId")[0]?.textContent?.trim();
+            (namespacedVideoIdNode && namespacedVideoIdNode.textContent
+              ? namespacedVideoIdNode.textContent.trim()
+              : "") ||
+            (videoIdNode && videoIdNode.textContent ? videoIdNode.textContent.trim() : "");
 
           if (!videoId) {
             return null;
@@ -264,14 +293,14 @@
 
           return {
             title:
-              item.querySelector("title")?.textContent?.trim() ||
-              site.ui?.video?.fallbackTitle ||
+              (titleNode && titleNode.textContent ? titleNode.textContent.trim() : "") ||
+              getVideoUi().fallbackTitle ||
               "YouTube video",
             thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
             url: `https://www.youtube.com/watch?v=${videoId}`,
             viewCount:
-              item.getElementsByTagName("media:statistics")[0]?.getAttribute("views") ||
-              item.getElementsByTagName("statistics")[0]?.getAttribute("views") ||
+              (namespacedStatisticsNode && namespacedStatisticsNode.getAttribute("views")) ||
+              (statisticsNode && statisticsNode.getAttribute("views")) ||
               null
           };
         })
@@ -299,11 +328,11 @@
           return;
         }
 
-        renderStatus(site.ui?.video?.cachedText, {
+        renderStatus(getVideoUi().cachedText, {
           loading: true
         });
       } else if (fallbackVideos.length) {
-        renderFallback(channelId, site.ui?.video?.updating, {
+        renderFallback(channelId, getVideoUi().updating, {
           loading: true
         });
       } else {
@@ -319,21 +348,26 @@
             renderStatus("");
             renderVideoCards(videos);
           } else if (cachedVideos.length) {
-            renderStatus(site.ui?.video?.cachedFallbackText || site.ui?.video?.cachedText);
+            renderStatus(getVideoUi().cachedFallbackText || getVideoUi().cachedText);
           } else if (!cachedVideos.length) {
-            renderFallback(channelId, site.ui?.video?.fallbackText);
+            renderFallback(channelId, getVideoUi().fallbackText);
           }
         })
         .catch(() => {
           if (cachedVideos.length) {
-            renderStatus(site.ui?.video?.cachedFallbackText || site.ui?.video?.cachedText);
+            renderStatus(getVideoUi().cachedFallbackText || getVideoUi().cachedText);
           } else {
-            renderFallback(channelId, site.ui?.video?.fallbackText);
+            renderFallback(channelId, getVideoUi().fallbackText);
           }
         })
-        .finally(() => {
-          youtubeFeedLoading = false;
-        });
+        .then(
+          () => {
+            youtubeFeedLoading = false;
+          },
+          () => {
+            youtubeFeedLoading = false;
+          }
+        );
     }
 
     return {

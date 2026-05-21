@@ -25,16 +25,16 @@
       document.body.appendChild(lightbox);
     }
 
-    const galleryUi = site.ui?.gallery || {};
-    lightbox.querySelector("[data-lightbox-close]")?.setAttribute(
+    const galleryUi = site.ui && site.ui.gallery || {};
+    lightbox.querySelector("[data-lightbox-close]") && lightbox.querySelector("[data-lightbox-close]").setAttribute(
       "aria-label",
       galleryUi.close || "Закрити"
     );
-    lightbox.querySelector("[data-lightbox-prev]")?.setAttribute(
+    lightbox.querySelector("[data-lightbox-prev]") && lightbox.querySelector("[data-lightbox-prev]").setAttribute(
       "aria-label",
       galleryUi.previous || "Попереднє фото"
     );
-    lightbox.querySelector("[data-lightbox-next]")?.setAttribute(
+    lightbox.querySelector("[data-lightbox-next]") && lightbox.querySelector("[data-lightbox-next]").setAttribute(
       "aria-label",
       galleryUi.next || "Наступне фото"
     );
@@ -91,7 +91,7 @@
     }
 
     function showItems(items = [], index = 0) {
-      state.items = Array.isArray(items) ? items.filter((item) => item?.src) : [];
+      state.items = Array.isArray(items) ? items.filter((item) => item && item.src) : [];
       showByIndex(index);
     }
 
@@ -107,15 +107,15 @@
     }
 
     if (lightbox.dataset.bound !== "true") {
-      lightbox.querySelector("[data-lightbox-close]")?.addEventListener("click", closeLightbox);
-      lightbox.querySelector("[data-lightbox-prev]")?.addEventListener("click", () => {
+      lightbox.querySelector("[data-lightbox-close]") && lightbox.querySelector("[data-lightbox-close]").addEventListener("click", closeLightbox);
+      lightbox.querySelector("[data-lightbox-prev]") && lightbox.querySelector("[data-lightbox-prev]").addEventListener("click", () => {
         if (state.items.length <= 1) {
           return;
         }
 
         showByIndex(state.index - 1);
       });
-      lightbox.querySelector("[data-lightbox-next]")?.addEventListener("click", () => {
+      lightbox.querySelector("[data-lightbox-next]") && lightbox.querySelector("[data-lightbox-next]").addEventListener("click", () => {
         if (state.items.length <= 1) {
           return;
         }

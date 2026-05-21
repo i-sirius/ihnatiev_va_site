@@ -10,11 +10,11 @@
       return;
     }
 
-    const contactUi = site.ui?.contact || {};
+    const contactUi = site.ui && site.ui.contact || {};
     document.title = site.contact.pageTitle;
     setText("[data-contact-title]", site.contact.pageTitle);
     setText("[data-contact-heading]", site.contact.heading);
-    setText("[data-contact-socials-title]", site.contact.socials?.title || "Мої соціальні мережі:");
+    setText("[data-contact-socials-title]", site.contact.socials && site.contact.socials.title || "Мої соціальні мережі:");
     setText("[data-contact-intro]", site.contact.intro || contactUi.intro || "");
     setText("[data-contact-name-label]", site.contact.fields.name);
     setText("[data-contact-email-label]", site.contact.fields.email);
@@ -28,7 +28,7 @@
       const defaultYoutubeHref = site.youtubeChannelId
         ? `https://www.youtube.com/channel/${site.youtubeChannelId}`
         : "";
-      const socials = Array.isArray(site.contact.socials?.items)
+      const socials = site.contact.socials && Array.isArray(site.contact.socials.items)
         ? site.contact.socials.items
         : [];
 
@@ -65,13 +65,13 @@
     }
 
     const form = document.querySelector("[data-contact-form]");
-    const nameField = form?.querySelector("input[name='name']");
-    const emailField = form?.querySelector("input[name='email']");
-    const phoneField = form?.querySelector("input[name='phone']");
-    const subjectField = form?.querySelector("input[name='subject']");
-    const messageField = form?.querySelector("textarea[name='message']");
-    const submitButton = form?.querySelector("[data-contact-submit]");
-    const hiddenSubjectField = form?.querySelector("input[name='_subject']");
+    const nameField = form && form.querySelector("input[name='name']");
+    const emailField = form && form.querySelector("input[name='email']");
+    const phoneField = form && form.querySelector("input[name='phone']");
+    const subjectField = form && form.querySelector("input[name='subject']");
+    const messageField = form && form.querySelector("textarea[name='message']");
+    const submitButton = form && form.querySelector("[data-contact-submit]");
+    const hiddenSubjectField = form && form.querySelector("input[name='_subject']");
     const noteName = document.querySelector("[data-note-name]");
     const noteSubject = document.querySelector("[data-note-subject]");
     const noteMessage = document.querySelector("[data-contact-message-note]");
@@ -236,7 +236,7 @@
     }
 
     function updateLimitCounter(field, counterElement) {
-      const currentContactUi = site.ui?.contact || {};
+      const currentContactUi = site.ui && site.ui.contact || {};
       const limit = Number(field.maxLength) || 0;
       if (!limit) {
         counterElement.hidden = true;
@@ -318,7 +318,7 @@
     }
 
     function updateContactState() {
-      const currentContactUi = site.ui?.contact || {};
+      const currentContactUi = site.ui && site.ui.contact || {};
       const hasName = nameField.value.trim().length > 0;
       const hasSubject = subjectField.value.trim().length > 0;
       const emailValue = emailField.value.trim();

@@ -5,7 +5,7 @@
   };
 
   function ensureLightbox(site = window.SITE || {}) {
-    return window.SiteGalleryLightbox?.ensure({
+    return window.SiteGalleryLightbox && window.SiteGalleryLightbox.ensure({
       site
     });
   }
@@ -14,7 +14,10 @@
     container.querySelectorAll("img").forEach((image) => {
       const markOrientation = () => {
         const isPortrait = image.naturalHeight > image.naturalWidth;
-        image.closest(".gallery-item")?.classList.toggle("is-portrait", isPortrait);
+        const galleryItem = image.closest(".gallery-item");
+        if (galleryItem) {
+          galleryItem.classList.toggle("is-portrait", isPortrait);
+        }
       };
 
       if (image.complete) {
@@ -40,7 +43,7 @@
       if (!count) {
         element.style.removeProperty("--gallery-columns");
         element.innerHTML = `<p class="gallery-empty">${escapeHtml(
-          site.ui?.gallery?.empty || "Фото тимчасово відсутні."
+          site.ui && site.ui.gallery && site.ui.gallery.empty || "Фото тимчасово відсутні."
         )}</p>`;
         return;
       }
@@ -60,7 +63,9 @@
       const lightbox = ensureLightbox(site);
       element.querySelectorAll("[data-gallery-index]").forEach((button) => {
         button.addEventListener("click", () => {
-          lightbox?.showItems(images, Number(button.dataset.galleryIndex || "0"));
+          if (lightbox) {
+            lightbox.showItems(images, Number(button.dataset.galleryIndex || "0"));
+          }
         });
       });
 
@@ -70,7 +75,7 @@
 
   function initActivityHeroLightbox({ image, site = window.SITE || {} } = {}) {
     const hero = document.querySelector("[data-activity-hero-image]");
-    if (!hero || !image?.src) {
+    if (!hero || !image || !image.src) {
       return;
     }
 
@@ -80,16 +85,18 @@
         src: hero.currentSrc || hero.src || image.src,
         alt: hero.alt || image.alt || ""
       };
-      const galleryItems = activityLightboxState.items.filter((item) => item?.src !== heroItem.src);
+      const galleryItems = activityLightboxState.items.filter((item) => !item || item.src !== heroItem.src);
 
-      lightbox?.showItems([
-        heroItem,
-        ...galleryItems
-      ], 0);
+      if (lightbox) {
+        lightbox.showItems([
+          heroItem,
+          ...galleryItems
+        ], 0);
+      }
     };
     const openHero = () => {
       if (activityLightboxState.galleryPromise) {
-        activityLightboxState.galleryPromise.finally(showHero);
+        activityLightboxState.galleryPromise.then(showHero, showHero);
         return;
       }
 
@@ -101,13 +108,13 @@
         src: image.src,
         alt: image.alt || ""
       },
-      ...activityLightboxState.items.filter((item) => item?.src !== image.src)
+      ...activityLightboxState.items.filter((item) => !item || item.src !== image.src)
     ];
 
     hero.classList.add("is-clickable");
     hero.tabIndex = 0;
     hero.setAttribute("role", "button");
-    hero.setAttribute("aria-label", site.ui?.gallery?.open || image.alt || "Відкрити фото");
+    hero.setAttribute("aria-label", site.ui && site.ui.gallery && site.ui.gallery.open || image.alt || "Відкрити фото");
 
     if (hero.dataset.heroLightboxBound === "true") {
       return;
@@ -131,24 +138,26 @@
     site = window.SITE || {}
   } = {}) {
     const aboutImage = document.querySelector("[data-home-about-image]");
-    if (pageType !== "home" || !aboutImage || !image?.src) {
+    if (pageType !== "home" || !aboutImage || !image || !image.src) {
       return;
     }
 
     const lightbox = ensureLightbox(site);
     const openImage = () => {
-      lightbox?.showItems([
-        {
-          src: aboutImage.currentSrc || aboutImage.src || image.src,
-          alt: aboutImage.alt || image.alt || ""
-        }
-      ], 0);
+      if (lightbox) {
+        lightbox.showItems([
+          {
+            src: aboutImage.currentSrc || aboutImage.src || image.src,
+            alt: aboutImage.alt || image.alt || ""
+          }
+        ], 0);
+      }
     };
 
     aboutImage.classList.add("is-clickable");
     aboutImage.tabIndex = 0;
     aboutImage.setAttribute("role", "button");
-    aboutImage.setAttribute("aria-label", site.ui?.gallery?.open || image.alt || "Відкрити фото");
+    aboutImage.setAttribute("aria-label", site.ui && site.ui.gallery && site.ui.gallery.open || image.alt || "Відкрити фото");
 
     if (aboutImage.dataset.homeLightboxBound === "true") {
       return;
@@ -181,11 +190,11 @@
           alt: hero.alt || ""
         }
       : null;
-    const galleryItems = Array.isArray(images) ? images.filter((item) => item?.src) : [];
+    const galleryItems = Array.isArray(images) ? images.filter((item) => item && item.src) : [];
 
     activityLightboxState.items = [
-      ...(heroItem?.src ? [heroItem] : []),
-      ...galleryItems.filter((item) => item.src !== heroItem?.src)
+      ...(heroItem && heroItem.src ? [heroItem] : []),
+      ...galleryItems.filter((item) => !heroItem || item.src !== heroItem.src)
     ];
   }
 

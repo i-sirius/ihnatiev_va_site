@@ -152,3 +152,53 @@
     grid-template-columns: 1fr;
   }
 }
+
+html.no-modern-effects .panel,
+html.no-modern-effects .about-details,
+html.no-modern-effects .activity-card,
+html.no-modern-effects .contact-social-button,
+html.no-modern-effects .about-photo-link {
+  border-color: var(--border);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html.no-modern-effects .site-header,
+html.no-modern-effects .mobile-nav-host nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html.no-modern-effects .contact-socials-list::before,
+html.no-modern-effects .about-photo-links::before,
+html.no-modern-effects .site-header-socials::before,
+html.no-modern-effects .site-header nav::before,
+html.no-modern-effects .site-header-controls::before,
+html.no-modern-effects .contact-socials-list::after,
+html.no-modern-effects .about-photo-links::after,
+html.no-modern-effects .site-header-socials::after,
+html.no-modern-effects .site-header nav::after,
+html.no-modern-effects .site-header-controls::after {
+  display: none;
+}
+
+html.no-modern-effects .about-container {
+  gap: 0;
+}
+
+html.no-modern-effects .about-container > * + * {
+  margin-left: 24px;
+}
+
+html.no-modern-effects .gallery-item img {
+  height: auto;
+}
+
+@media (max-width: 900px) {
+  html.no-modern-effects .about-container > * + * {
+    margin-top: 18px;
+    margin-left: 0;
+  }
+}

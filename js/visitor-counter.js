@@ -23,7 +23,7 @@
       }
     }
 
-    if (!site.visitCounter?.enabled) {
+    if (!site.visitCounter || !site.visitCounter.enabled) {
       setCounterText("");
       return;
     }
@@ -62,7 +62,7 @@
           return response.json();
         })
         .then((payload) => {
-          const value = Number(payload?.value);
+          const value = Number(payload && payload.value);
           if (!Number.isFinite(value)) {
             throw new Error("Invalid counter response");
           }

@@ -11,7 +11,7 @@
       element.alt = source.alt || "";
       element.src = source.src;
 
-      if (fallbackImage?.src) {
+      if (fallbackImage && fallbackImage.src) {
         element.onerror = () => {
           element.onerror = null;
           element.src = fallbackImage.src;
@@ -106,7 +106,7 @@
     const typeLabels = paragraph.typeLabels || {};
     const fileLabel =
       paragraph.fileLabel ||
-      (window.SITE?.currentLocale === "en" ? "Download file" : "Завантажити файл");
+      (window.SITE && window.SITE.currentLocale === "en" ? "Download file" : "Завантажити файл");
 
     return items
       .map((item) => {
@@ -144,7 +144,7 @@
       return;
     }
 
-    const detailsUi = site.ui?.details || {};
+    const detailsUi = site.ui && site.ui.details ? site.ui.details : {};
     const defaultDetailsSummary = detailsUi.summary || "Деталі";
     const defaultExpandLabel = detailsUi.expand || "РОЗГОРНУТИ";
     const defaultCloseLabel = detailsUi.collapse || "ЗГОРНУТИ";
@@ -156,7 +156,7 @@
             return `<p>${paragraph}</p>`;
           }
 
-          if (paragraph?.type === "details") {
+          if (paragraph && paragraph.type === "details") {
             const publicationItems = Array.isArray(paragraph.items)
               ? paragraph.items.map(normalizePublicationItem).filter(Boolean)
               : [];
@@ -196,7 +196,7 @@
             `;
           }
 
-          if (paragraph?.type === "content-details") {
+          if (paragraph && paragraph.type === "content-details") {
             const description = paragraph.description
               ? `<p class="about-details-description">${paragraph.description}</p>`
               : "";
@@ -256,7 +256,10 @@
         .getPropertyValue("--site-header-offset")
         .trim();
       const headerOffset = Number.parseFloat(headerOffsetValue) || 0;
-      const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      const reducedMotionQuery = window.matchMedia
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
+      const prefersReducedMotion = reducedMotionQuery && reducedMotionQuery.matches;
       const top = target.getBoundingClientRect().top + window.scrollY - headerOffset - 12;
 
       window.requestAnimationFrame(() => {
@@ -268,13 +271,17 @@
     };
 
     const applyFilters = () => {
-      const query = (searchInput?.value || "").trim().toLocaleLowerCase();
-      const year = yearSelect?.value || "";
-      const type = typeSelect?.value || "";
+      const query = (searchInput && searchInput.value ? searchInput.value : "")
+        .trim()
+        .toLocaleLowerCase();
+      const year = yearSelect && yearSelect.value ? yearSelect.value : "";
+      const type = typeSelect && typeSelect.value ? typeSelect.value : "";
       let visibleCount = 0;
 
       items.forEach((item) => {
-        const matchesQuery = !query || item.dataset.publicationSearch?.includes(query);
+        const matchesQuery =
+          !query ||
+          (item.dataset.publicationSearch && item.dataset.publicationSearch.indexOf(query) !== -1);
         const matchesYear = !year || item.dataset.publicationYear === year;
         const matchesType = !type || item.dataset.publicationType === type;
         const isVisible = matchesQuery && matchesYear && matchesType;
@@ -294,15 +301,21 @@
       });
     };
 
-    searchInput?.addEventListener("input", applyFilters);
-    yearSelect?.addEventListener("change", () => {
-      applyFilters();
-      scrollToPublicationTools();
-    });
-    typeSelect?.addEventListener("change", () => {
-      applyFilters();
-      scrollToPublicationTools();
-    });
+    if (searchInput) {
+      searchInput.addEventListener("input", applyFilters);
+    }
+    if (yearSelect) {
+      yearSelect.addEventListener("change", () => {
+        applyFilters();
+        scrollToPublicationTools();
+      });
+    }
+    if (typeSelect) {
+      typeSelect.addEventListener("change", () => {
+        applyFilters();
+        scrollToPublicationTools();
+      });
+    }
     details.addEventListener("click", (event) => {
       const yearButton = event.target.closest("[data-publication-filter-year]");
       const typeButton = event.target.closest("[data-publication-filter-type]");
@@ -404,10 +417,13 @@
       return;
     }
 
-    aboutPhoto.querySelector(".about-photo-links")?.remove();
+    const previousLinks = aboutPhoto.querySelector(".about-photo-links");
+    if (previousLinks) {
+      previousLinks.remove();
+    }
 
     const researchLinks =
-      activityId === "1" && Array.isArray(site.meta?.headerLinks)
+      activityId === "1" && site.meta && Array.isArray(site.meta.headerLinks)
         ? site.meta.headerLinks.filter(
             (item) =>
               item.id === "webofscience" || item.id === "orcid" || item.id === "googlescholar"
@@ -454,7 +470,10 @@
     document.documentElement.lang = site.currentLocale || site.defaultLocale || "uk";
     setText("[data-site-title]", site.meta.siteTitle);
     setText("[data-site-subtitle]", site.meta.homeSubtitle);
-    setText("[data-activity-card-link]", site.ui?.buttons?.open || "Перейти");
+    setText(
+      "[data-activity-card-link]",
+      site.ui && site.ui.buttons && site.ui.buttons.open ? site.ui.buttons.open : "Перейти"
+    );
 
     const fallbackHome = site.home || {};
     renderHomeContent({
@@ -466,7 +485,8 @@
 
     if (pageType === "home") {
       const contentLocale = site.currentLocale || site.defaultLocale || "uk";
-      const loadHomeContent = window.SiteContentLoader?.loadHomeContent;
+      const loadHomeContent =
+        window.SiteContentLoader && window.SiteContentLoader.loadHomeContent;
 
       if (typeof loadHomeContent === "function") {
         loadHomeContent({
@@ -490,9 +510,10 @@
       }
     }
 
-    setText("[data-activity-videos-heading]", site.ui?.activitySections?.videos || "Відео");
-    setText("[data-activity-photos-heading]", site.ui?.activitySections?.photos || "Фото");
-    setText("[data-activity-files-heading]", site.ui?.activitySections?.files || "Файли");
+    const activitySections = site.ui && site.ui.activitySections ? site.ui.activitySections : {};
+    setText("[data-activity-videos-heading]", activitySections.videos || "Відео");
+    setText("[data-activity-photos-heading]", activitySections.photos || "Фото");
+    setText("[data-activity-files-heading]", activitySections.files || "Файли");
     renderActivitySummaries({ site, setText });
 
     const footerElement = document.querySelector("[data-footer]");
@@ -534,7 +555,7 @@
       return null;
     }
 
-    const activity = site.activities?.[activityId];
+    const activity = site.activities && site.activities[activityId];
     if (!activity) {
       return null;
     }
@@ -545,7 +566,7 @@
 
     const heroImage = {
       src: `files/media/activity${activityId}/hero.jpg`,
-      alt: activity.heroImage?.alt || activity.name
+      alt: activity.heroImage && activity.heroImage.alt ? activity.heroImage.alt : activity.name
     };
     updateImage("[data-activity-hero-image]", heroImage, homeFallbackImage);
     initActivityHeroLightbox(heroImage);
@@ -569,7 +590,7 @@
       return;
     }
 
-    const activity = site.activities?.[activityId];
+    const activity = site.activities && site.activities[activityId];
     if (!activity) {
       return;
     }
@@ -649,13 +670,15 @@
     escapeHtml = (value) => String(value),
     getSocialIconMarkup = () => ""
   } = {}) {
-    window.SiteContactPage?.apply({
-      pageType,
-      site,
-      setText,
-      escapeHtml,
-      getSocialIconMarkup
-    });
+    if (window.SiteContactPage) {
+      window.SiteContactPage.apply({
+        pageType,
+        site,
+        setText,
+        escapeHtml,
+        getSocialIconMarkup
+      });
+    }
   }
 
   function applyMenuLabels({ site = window.SITE || {} } = {}) {
@@ -672,7 +695,7 @@
       });
     }
 
-    const mobileMenu = site.menu?.mobile || {};
+    const mobileMenu = site.menu && site.menu.mobile ? site.menu.mobile : {};
 
     setMenuItemLabel("[data-menu-home]", site.menu.home, mobileMenu.home);
     setMenuItemLabel("[data-menu-downloads]", site.menu.downloads, mobileMenu.downloads);
@@ -708,7 +731,10 @@
       return;
     }
 
-    document.querySelector(selector)?.setAttribute("aria-current", "page");
+    const activeItem = document.querySelector(selector);
+    if (activeItem) {
+      activeItem.setAttribute("aria-current", "page");
+    }
   }
 
   window.SitePageContent = {

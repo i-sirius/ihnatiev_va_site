@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.28a
+
+**Audit сумісності зі старими браузерами.**
+
+- У публічному JS прибрано parse-ризики для старого WebKit: optional chaining, nullish coalescing і `replaceAll`; document preview та YouTube feed отримали простіші runtime fallback-и.
+- Публічні сторінки додають feature-detected `legacy-browser` / `no-modern-effects` режим із ручним `?debug=legacy`, щоб важкі lens/glass-ефекти не блокували читабельний fallback.
+- Для панелей, фото about/activity і contact-блоку додано прості CSS fallback-и перед `min()`/`clamp()`, а audit та real-device checklist зафіксовано в `docs/legacy-browser-compatibility-audit.md`.
+- Оновлено build-версію до `0.6.28a` і кеш service worker до `v0.6.28a-r1`.
+
 ## 0.6.27b
 
 **Фіксація Search Console і дата білда у футері.**

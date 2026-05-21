@@ -1,5 +1,9 @@
 (() => {
   function initLiquidDroplets() {
+    if (document.documentElement.classList.contains("no-modern-effects")) {
+      return;
+    }
+
     const dropletGroups = [
       {
         list: document.querySelector("[data-contact-socials-list]"),
@@ -48,7 +52,9 @@
       const syncDroplet = (target = null) => {
         dropletFrame = 0;
 
-        const matchedTarget = target?.closest?.(itemSelector);
+        const matchedTarget = target && typeof target.closest === "function"
+          ? target.closest(itemSelector)
+          : null;
         const dropletTarget =
           matchedTarget && list.contains(matchedTarget)
             ? matchedTarget
@@ -184,6 +190,10 @@
   }
 
   function initVideoLiquidLens() {
+    if (document.documentElement.classList.contains("no-modern-effects")) {
+      return;
+    }
+
     document.querySelectorAll(".video-gallery").forEach((gallery) => {
       let lensFrame = 0;
       let pendingTarget = null;
@@ -215,12 +225,16 @@
       };
 
       const getLensTarget = (target) => {
-        const card = target?.closest?.(".video-card");
+        const card = target && typeof target.closest === "function"
+          ? target.closest(".video-card")
+          : null;
         if (card && gallery.contains(card)) {
           return card.querySelector(".video-card-link");
         }
 
-        const fallback = target?.closest?.(".video-fallback-link");
+        const fallback = target && typeof target.closest === "function"
+          ? target.closest(".video-fallback-link")
+          : null;
         return fallback && gallery.contains(fallback) ? fallback : null;
       };
 

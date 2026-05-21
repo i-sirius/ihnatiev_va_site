@@ -65,7 +65,9 @@
         return;
       }
 
-      const hoveredTarget = target?.closest?.("a");
+      const hoveredTarget = target && typeof target.closest === "function"
+        ? target.closest("a")
+        : null;
       const lensTarget =
         hoveredTarget && currentNav.contains(hoveredTarget) && hoveredTarget.offsetParent !== null
           ? hoveredTarget
@@ -131,9 +133,9 @@
       fitFrame = 0;
       const currentNav = document.querySelector(".mobile-nav-host nav");
       const modeClasses = ["is-labels-only", "is-condensed-labels", "is-icons-only"];
-      const currentMode = currentNav?.classList.contains("is-icons-only")
+      const currentMode = currentNav && currentNav.classList.contains("is-icons-only")
         ? "icons"
-        : currentNav?.classList.contains("is-labels-only")
+        : currentNav && currentNav.classList.contains("is-labels-only")
           ? "labels"
           : "mixed";
       const expandSpace = 14;
@@ -282,7 +284,7 @@
       },
       { passive: true }
     );
-    if (document.fonts?.ready) {
+    if (document.fonts && document.fonts.ready) {
       document.fonts.ready
         .then(() => {
           requestNavigationFit();

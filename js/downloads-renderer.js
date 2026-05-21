@@ -2,7 +2,7 @@
   function getDownloadFileType(file = {}, getLocalizedValue = (value) => value || "") {
     const source = `${file.href || ""} ${getLocalizedValue(file.label, "")}`;
     const match = source.match(/\.([a-z0-9]{2,5})(?:$|[?#\s])/i);
-    return (match?.[1] || "file").toUpperCase();
+    return (match && match[1] || "file").toUpperCase();
   }
 
   function createDownloadsRenderer({
@@ -85,14 +85,14 @@
       const label =
         getLocalizedValue(file.label, "") ||
         file.href ||
-        site.ui?.documentPreview?.fileFallbackLabel ||
+        site.ui && site.ui.documentPreview && site.ui.documentPreview.fileFallbackLabel ||
         "Файл";
       const safeHref = escapeHtml(href);
       const safeLabel = escapeHtml(label);
       const safeType = escapeHtml(fileType);
-      const previewUi = site.ui?.documentPreview || {};
+      const previewUi = site.ui && site.ui.documentPreview || {};
       const purchaseLabel = getLocalizedValue(
-        file.purchase?.label,
+        file.purchase && file.purchase.label,
         previewUi.purchase || "Замовити e-book"
       );
       const purchaseHref = getPurchaseHref(file);
@@ -156,7 +156,7 @@
     function renderGroupFiles(files = []) {
       if (!Array.isArray(files) || !files.length) {
         return `<p class="download-group-empty">${escapeHtml(
-          site.ui?.downloads?.empty || "Файли тимчасово відсутні."
+          site.ui && site.ui.downloads && site.ui.downloads.empty || "Файли тимчасово відсутні."
         )}</p>`;
       }
 
@@ -185,7 +185,7 @@
       document.querySelectorAll(selector).forEach((element) => {
         const monographs = Array.isArray(groups.monographs) ? groups.monographs : [];
         const articleGroups = Array.isArray(groups.articles) ? groups.articles : [];
-        const downloadsUi = site.ui?.downloads || {};
+        const downloadsUi = site.ui && site.ui.downloads || {};
 
         element.innerHTML = `
           <section class="download-group download-group-main">

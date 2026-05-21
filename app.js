@@ -6,13 +6,13 @@
     light: "files/media/logo-light.png",
     dark: "files/media/logo-dark.png"
   };
-  const homeFallbackImage = SITE?.home?.aboutImage || {
+  const homeFallbackImage = SITE && SITE.home && SITE.home.aboutImage || {
     src: "files/media/about-me-photo.jpg",
     alt: "Фото"
   };
 
   function ensureDocumentLightbox() {
-    return window.SiteDocumentLightbox?.ensure({
+    return window.SiteDocumentLightbox && window.SiteDocumentLightbox.ensure({
       site: SITE,
       getLocalizedValue,
       getDownloadFileType
@@ -20,38 +20,46 @@
   }
 
   function renderGallery(selector, images) {
-    window.SiteGalleryRenderer?.renderGallery({
-      selector,
-      images,
-      site: SITE,
-      escapeHtml
-    });
+    if (window.SiteGalleryRenderer) {
+      window.SiteGalleryRenderer.renderGallery({
+        selector,
+        images,
+        site: SITE,
+        escapeHtml
+      });
+    }
   }
 
   function initActivityHeroLightbox(image) {
-    window.SiteGalleryRenderer?.initActivityHeroLightbox({
-      image,
-      site: SITE
-    });
+    if (window.SiteGalleryRenderer) {
+      window.SiteGalleryRenderer.initActivityHeroLightbox({
+        image,
+        site: SITE
+      });
+    }
   }
 
   function initHomeAboutLightbox(image) {
-    window.SiteGalleryRenderer?.initHomeAboutLightbox({
-      image,
-      pageType,
-      site: SITE
-    });
+    if (window.SiteGalleryRenderer) {
+      window.SiteGalleryRenderer.initHomeAboutLightbox({
+        image,
+        pageType,
+        site: SITE
+      });
+    }
   }
 
   function setActivityLightboxGalleryItems(images) {
-    window.SiteGalleryRenderer?.setActivityLightboxGalleryItems({
-      images,
-      pageType
-    });
+    if (window.SiteGalleryRenderer) {
+      window.SiteGalleryRenderer.setActivityLightboxGalleryItems({
+        images,
+        pageType
+      });
+    }
   }
 
   function getDownloadsRenderer() {
-    return window.SiteDownloadsRenderer?.create({
+    return window.SiteDownloadsRenderer && window.SiteDownloadsRenderer.create({
       site: SITE,
       getLocalizedValue,
       escapeHtml
@@ -59,70 +67,90 @@
   }
 
   function renderDownloads(selector, files) {
-    getDownloadsRenderer()?.renderList(selector, files);
+    const renderer = getDownloadsRenderer();
+    if (renderer) {
+      renderer.renderList(selector, files);
+    }
   }
 
   function getDownloadFileType(file = {}) {
-    return getDownloadsRenderer()?.getFileType(file) || "FILE";
+    const renderer = getDownloadsRenderer();
+    return renderer ? renderer.getFileType(file) : "FILE";
   }
 
   function renderDownloadsGroups(selector, groups) {
-    getDownloadsRenderer()?.renderGroups(selector, groups);
+    const renderer = getDownloadsRenderer();
+    if (renderer) {
+      renderer.renderGroups(selector, groups);
+    }
   }
 
   function loadActivityGallery(id) {
-    window.SiteContentLoader?.loadActivityGallery({
-      id,
-      renderGallery,
-      setActivityLightboxGalleryItems,
-      setActivityGalleryPromise: (promise) =>
-        window.SiteGalleryRenderer?.setActivityGalleryPromise(promise)
-    });
+    if (window.SiteContentLoader) {
+      window.SiteContentLoader.loadActivityGallery({
+        id,
+        renderGallery,
+        setActivityLightboxGalleryItems,
+        setActivityGalleryPromise: (promise) => {
+          if (window.SiteGalleryRenderer) {
+            window.SiteGalleryRenderer.setActivityGalleryPromise(promise);
+          }
+        }
+      });
+    }
   }
 
   function loadFileList(path, selector, fallbackFiles = []) {
-    window.SiteContentLoader?.loadFileList({
-      path,
-      selector,
-      fallbackFiles,
-      renderDownloads
-    });
+    if (window.SiteContentLoader) {
+      window.SiteContentLoader.loadFileList({
+        path,
+        selector,
+        fallbackFiles,
+        renderDownloads
+      });
+    }
   }
 
   function loadDownloadsGroups(path, selector, fallbackGroups = null) {
-    window.SiteContentLoader?.loadDownloadsGroups({
-      path,
-      selector,
-      fallbackGroups,
-      renderDownloadsGroups
-    });
+    if (window.SiteContentLoader) {
+      window.SiteContentLoader.loadDownloadsGroups({
+        path,
+        selector,
+        fallbackGroups,
+        renderDownloadsGroups
+      });
+    }
   }
 
   function applyActivityTextChrome() {
-    window.SitePageContent?.renderActivitySummaries({
-      site: SITE,
-      setText
-    });
-    window.SitePageContent?.applyActivityChrome({
-      site: SITE,
-      pageType,
-      activityId,
-      homeFallbackImage,
-      setText,
-      initActivityHeroLightbox
-    });
-    window.SitePageContent?.applyMenuLabels({
-      site: SITE
-    });
-    window.SitePageContent?.applyActiveMenuState({
-      pageType,
-      activityId
-    });
-    window.SiteHeaderUi?.syncHomeTitleLayout?.();
+    if (window.SitePageContent) {
+      window.SitePageContent.renderActivitySummaries({
+        site: SITE,
+        setText
+      });
+      window.SitePageContent.applyActivityChrome({
+        site: SITE,
+        pageType,
+        activityId,
+        homeFallbackImage,
+        setText,
+        initActivityHeroLightbox
+      });
+      window.SitePageContent.applyMenuLabels({
+        site: SITE
+      });
+      window.SitePageContent.applyActiveMenuState({
+        pageType,
+        activityId
+      });
+    }
+    if (window.SiteHeaderUi && window.SiteHeaderUi.syncHomeTitleLayout) {
+      window.SiteHeaderUi.syncHomeTitleLayout();
+    }
   }
 
   function loadActivitiesContent() {
-    const loadActivities = window.SiteContentLoader?.loadActivitiesContent;
+    const loadActivities = window.SiteContentLoader && window.SiteContentLoader.loadActivitiesContent;
     if (typeof loadActivities !== "function") {
       return;
     }
@@ -143,52 +171,62 @@
   }
 
   function applyPageTextChrome() {
-    window.SitePageContent?.renderDownloadsPageChrome({
-      site: SITE,
-      pageType,
-      setText
-    });
-    window.SitePageContent?.applyContactPage({
-      pageType,
-      site: SITE,
-      setText,
-      escapeHtml,
-      getSocialIconMarkup
-    });
-    window.SiteHeaderUi?.syncHomeTitleLayout?.();
+    if (window.SitePageContent) {
+      window.SitePageContent.renderDownloadsPageChrome({
+        site: SITE,
+        pageType,
+        setText
+      });
+      window.SitePageContent.applyContactPage({
+        pageType,
+        site: SITE,
+        setText,
+        escapeHtml,
+        getSocialIconMarkup
+      });
+    }
+    if (window.SiteHeaderUi && window.SiteHeaderUi.syncHomeTitleLayout) {
+      window.SiteHeaderUi.syncHomeTitleLayout();
+    }
   }
 
   function applySocialLinksChrome() {
-    window.SiteHeaderUi?.initSocials({
-      site: SITE,
-      getSocialIconMarkup
-    });
-    window.SitePageContent?.renderActivityResearchLinks({
-      activity: SITE.activities?.[activityId],
-      activityId,
-      pageType,
-      site: SITE,
-      escapeHtml,
-      getSocialIconMarkup
-    });
-    window.SitePageContent?.applyContactPage({
-      pageType,
-      site: SITE,
-      setText,
-      escapeHtml,
-      getSocialIconMarkup
-    });
-    window.SiteLiquidEffects?.initDroplets();
+    if (window.SiteHeaderUi) {
+      window.SiteHeaderUi.initSocials({
+        site: SITE,
+        getSocialIconMarkup
+      });
+    }
+    if (window.SitePageContent) {
+      window.SitePageContent.renderActivityResearchLinks({
+        activity: SITE.activities && SITE.activities[activityId],
+        activityId,
+        pageType,
+        site: SITE,
+        escapeHtml,
+        getSocialIconMarkup
+      });
+      window.SitePageContent.applyContactPage({
+        pageType,
+        site: SITE,
+        setText,
+        escapeHtml,
+        getSocialIconMarkup
+      });
+    }
+    if (window.SiteLiquidEffects) {
+      window.SiteLiquidEffects.initDroplets();
+    }
   }
 
   function loadSocialLinksContent() {
-    const loadSocialLinks = window.SiteContentLoader?.loadSocialLinksContent;
+    const loadSocialLinks = window.SiteContentLoader && window.SiteContentLoader.loadSocialLinksContent;
     if (typeof loadSocialLinks !== "function") {
       return;
     }
 
     const contentLocale = SITE.currentLocale || SITE.defaultLocale || "uk";
-    const fallbackLinks = Array.isArray(SITE.meta?.headerLinks)
+    const fallbackLinks = SITE.meta && Array.isArray(SITE.meta.headerLinks)
       ? SITE.meta.headerLinks
       : [];
     loadSocialLinks({
@@ -210,7 +248,7 @@
   }
 
   function loadPagesContent() {
-    const loadPages = window.SiteContentLoader?.loadPagesContent;
+    const loadPages = window.SiteContentLoader && window.SiteContentLoader.loadPagesContent;
     if (typeof loadPages !== "function") {
       return;
     }
@@ -238,26 +276,29 @@
   }
 
   function getResearchPublicationsDetails() {
-    const researchDescription = SITE.activities?.[1]?.pageDescription;
+    const researchActivity = SITE.activities && SITE.activities[1];
+    const researchDescription = researchActivity && researchActivity.pageDescription;
     if (!Array.isArray(researchDescription)) {
       return null;
     }
 
-    return researchDescription.find((paragraph) => paragraph?.type === "details") || null;
+    return researchDescription.find((paragraph) => paragraph && paragraph.type === "details") || null;
   }
 
   function renderCurrentActivityParagraphs() {
-    const activity = SITE.activities?.[activityId];
-    if (pageType !== "activity" || !activity?.pageDescription) {
+    const activity = SITE.activities && SITE.activities[activityId];
+    if (pageType !== "activity" || !activity || !activity.pageDescription) {
       return;
     }
 
-    window.SitePageContent?.renderParagraphs({
-      selector: "[data-activity-paragraphs]",
-      paragraphs: activity.pageDescription,
-      site: SITE
-    });
-    window.SitePageContent?.initDetailsInteractions();
+    if (window.SitePageContent) {
+      window.SitePageContent.renderParagraphs({
+        selector: "[data-activity-paragraphs]",
+        paragraphs: activity.pageDescription,
+        site: SITE
+      });
+      window.SitePageContent.initDetailsInteractions();
+    }
   }
 
   function loadPublicationsContent() {
@@ -265,7 +306,7 @@
       return;
     }
 
-    const loadPublications = window.SiteContentLoader?.loadPublicationsContent;
+    const loadPublications = window.SiteContentLoader && window.SiteContentLoader.loadPublicationsContent;
     const fallbackPublications = getResearchPublicationsDetails();
     if (typeof loadPublications !== "function" || !fallbackPublications) {
       return;
@@ -301,46 +342,54 @@
       }
 
       event.preventDefault();
-      lightbox?.showPreview({
-        href: trigger.getAttribute("data-preview-href") || "",
-        label: trigger.getAttribute("data-preview-label") || "",
-        type: trigger.getAttribute("data-preview-type") || ""
-      });
+      if (lightbox) {
+        lightbox.showPreview({
+          href: trigger.getAttribute("data-preview-href") || "",
+          label: trigger.getAttribute("data-preview-label") || "",
+          type: trigger.getAttribute("data-preview-type") || ""
+        });
+      }
     });
 
     document.body.dataset.downloadPreviewReady = "true";
   }
 
   function loadYoutubeFeed() {
-    window.SiteYoutubeFeed?.load({
-      site: SITE,
-      selector: "[data-activity-videos]",
-      getLocalizedValue,
-      escapeHtml
-    });
+    if (window.SiteYoutubeFeed) {
+      window.SiteYoutubeFeed.load({
+        site: SITE,
+        selector: "[data-activity-videos]",
+        getLocalizedValue,
+        escapeHtml
+      });
+    }
   }
 
   function initLanguageToggle() {
-    window.SiteHeaderUi?.initLanguageToggle({
-      site: SITE,
-      getLocalizedValue,
-      escapeHtml,
-      onLocaleChange: (nextLocale) => {
-        applySiteLocale(nextLocale);
-        applyAllContent();
-      }
-    });
+    if (window.SiteHeaderUi) {
+      window.SiteHeaderUi.initLanguageToggle({
+        site: SITE,
+        getLocalizedValue,
+        escapeHtml,
+        onLocaleChange: (nextLocale) => {
+          applySiteLocale(nextLocale);
+          applyAllContent();
+        }
+      });
+    }
   }
 
   function applyThemeAssets(theme = "light") {
-    window.SiteHeaderUi?.applyThemeAssets({
-      theme,
-      themeAssets
-    });
+    if (window.SiteHeaderUi) {
+      window.SiteHeaderUi.applyThemeAssets({
+        theme,
+        themeAssets
+      });
+    }
   }
 
   function getSocialIconMarkup(id, className = "contact-social-icon") {
-    return window.SiteSocialIcons?.getMarkup(id, className) || "";
+    return window.SiteSocialIcons ? window.SiteSocialIcons.getMarkup(id, className) : "";
   }
 
   function initPwa() {
@@ -358,80 +407,96 @@
   }
 
   function applyAllContent() {
-    window.SitePageContent?.applyGlobalContent({
-      site: SITE,
-      pageType,
-      setText,
-      initHomeAboutLightbox
-    });
-    window.SitePageContent?.applyActivityPage({
-      site: SITE,
-      pageType,
-      activityId,
-      homeFallbackImage,
-      setText,
-      escapeHtml,
-      getSocialIconMarkup,
-      initActivityHeroLightbox,
-      loadActivityGallery,
-      loadFileList,
-      loadYoutubeFeed
-    });
-    window.SitePageContent?.applyDownloadsPage({
-      site: SITE,
-      pageType,
-      setText,
-      loadDownloadsGroups
-    });
-    window.SitePageContent?.applyContactPage({
-      pageType,
-      site: SITE,
-      setText,
-      escapeHtml,
-      getSocialIconMarkup
-    });
-    window.SitePageContent?.applyMenuLabels({
-      site: SITE
-    });
-    window.SitePageContent?.applyActiveMenuState({
-      pageType,
-      activityId
-    });
+    if (window.SitePageContent) {
+      window.SitePageContent.applyGlobalContent({
+        site: SITE,
+        pageType,
+        setText,
+        initHomeAboutLightbox
+      });
+      window.SitePageContent.applyActivityPage({
+        site: SITE,
+        pageType,
+        activityId,
+        homeFallbackImage,
+        setText,
+        escapeHtml,
+        getSocialIconMarkup,
+        initActivityHeroLightbox,
+        loadActivityGallery,
+        loadFileList,
+        loadYoutubeFeed
+      });
+      window.SitePageContent.applyDownloadsPage({
+        site: SITE,
+        pageType,
+        setText,
+        loadDownloadsGroups
+      });
+      window.SitePageContent.applyContactPage({
+        pageType,
+        site: SITE,
+        setText,
+        escapeHtml,
+        getSocialIconMarkup
+      });
+      window.SitePageContent.applyMenuLabels({
+        site: SITE
+      });
+      window.SitePageContent.applyActiveMenuState({
+        pageType,
+        activityId
+      });
+    }
     loadActivitiesContent();
     loadPagesContent();
     loadSocialLinksContent();
     loadPublicationsContent();
-    window.SiteMobileNavigation?.init();
-    window.SiteHeaderUi?.initBrand({
-      site: SITE,
-      themeAssets
-    });
-    window.SiteHeaderUi?.initSocials({
-      site: SITE,
-      getSocialIconMarkup
-    });
+    if (window.SiteMobileNavigation) {
+      window.SiteMobileNavigation.init();
+    }
+    if (window.SiteHeaderUi) {
+      window.SiteHeaderUi.initBrand({
+        site: SITE,
+        themeAssets
+      });
+      window.SiteHeaderUi.initSocials({
+        site: SITE,
+        getSocialIconMarkup
+      });
+    }
     initLanguageToggle();
-    window.SiteHeaderUi?.initThemeToggle({
-      site: SITE,
-      applyThemeAssets
-    });
-    window.SiteHeaderUi?.initScrollState({
-      site: SITE,
-      pageType
-    });
-    window.SitePageContent?.initDetailsInteractions();
+    if (window.SiteHeaderUi) {
+      window.SiteHeaderUi.initThemeToggle({
+        site: SITE,
+        applyThemeAssets
+      });
+      window.SiteHeaderUi.initScrollState({
+        site: SITE,
+        pageType
+      });
+    }
+    if (window.SitePageContent) {
+      window.SitePageContent.initDetailsInteractions();
+    }
     initDownloadPreviewTriggers();
-    window.SiteLiquidEffects?.initDroplets();
-    window.SiteLiquidEffects?.initVideoLens();
-    window.SiteVisitorCounter?.init({
-      site: SITE
-    });
+    if (window.SiteLiquidEffects) {
+      window.SiteLiquidEffects.initDroplets();
+      window.SiteLiquidEffects.initVideoLens();
+    }
+    if (window.SiteVisitorCounter) {
+      window.SiteVisitorCounter.init({
+        site: SITE
+      });
+    }
     initPwa();
     applyThemeAssets(document.documentElement.getAttribute("data-theme") || "light");
   }
 
-  window.SiteMenuLoader?.load({
-    onComplete: applyAllContent
-  });
+  if (window.SiteMenuLoader) {
+    window.SiteMenuLoader.load({
+      onComplete: applyAllContent
+    });
+  }
   applyAllContent();
 });

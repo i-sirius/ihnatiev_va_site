@@ -1,9 +1,9 @@
 (() => {
   function canPreviewDownloadFile(fileType = "FILE") {
     const normalizedType = String(fileType).toUpperCase();
-    return ["PDF", "PNG", "JPG", "JPEG", "WEBP", "GIF", "TXT", "HTM", "HTML"].includes(
+    return ["PDF", "PNG", "JPG", "JPEG", "WEBP", "GIF", "TXT", "HTM", "HTML"].indexOf(
       normalizedType
-    );
+    ) !== -1;
   }
 
   function ensureDocumentLightbox({
@@ -58,18 +58,20 @@
       document.body.appendChild(lightbox);
     }
 
-    const previewUi = site.ui?.documentPreview || {};
-    lightbox.querySelector("[data-document-open]")?.replaceChildren(
-      document.createTextNode(previewUi.open || "Відкрити окремо")
-    );
-    lightbox.querySelector("[data-document-download]")?.replaceChildren(
-      document.createTextNode(previewUi.download || "Завантажити")
-    );
-    lightbox.querySelector("[data-document-close]")?.setAttribute(
+    const previewUi = site.ui && site.ui.documentPreview || {};
+    const openAction = lightbox.querySelector("[data-document-open]");
+    const downloadAction = lightbox.querySelector("[data-document-download]");
+    if (openAction) {
+      openAction.textContent = previewUi.open || "Відкрити окремо";
+    }
+    if (downloadAction) {
+      downloadAction.textContent = previewUi.download || "Завантажити";
+    }
+    lightbox.querySelector("[data-document-close]") && lightbox.querySelector("[data-document-close]").setAttribute(
       "aria-label",
       previewUi.close || "Закрити"
     );
-    lightbox.querySelector("[data-document-frame]")?.setAttribute(
+    lightbox.querySelector("[data-document-frame]") && lightbox.querySelector("[data-document-frame]").setAttribute(
       "title",
       previewUi.frameTitle || "Попередній перегляд файла"
     );
@@ -97,8 +99,8 @@
     function closeLightbox() {
       lightbox.hidden = true;
       document.body.classList.remove("lightbox-open");
-      frame?.setAttribute("hidden", "");
-      fallback?.setAttribute("hidden", "");
+      frame && frame.setAttribute("hidden", "");
+      fallback && fallback.setAttribute("hidden", "");
 
       if (frame) {
         frame.src = "about:blank";
@@ -132,16 +134,16 @@
 
       if (canPreviewDownloadFile(type) && frame) {
         frame.hidden = false;
-        fallback?.setAttribute("hidden", "");
+        fallback && fallback.setAttribute("hidden", "");
         frame.src = type === "PDF" ? `${href}#toolbar=1&navpanes=0&view=FitH` : href;
       } else {
-        frame?.setAttribute("hidden", "");
+        frame && frame.setAttribute("hidden", "");
 
         if (frame) {
           frame.src = "about:blank";
         }
 
-        fallback?.removeAttribute("hidden");
+        fallback && fallback.removeAttribute("hidden");
       }
 
       lightbox.hidden = false;
@@ -149,7 +151,7 @@
     }
 
     if (lightbox.dataset.bound !== "true") {
-      lightbox.querySelector("[data-document-close]")?.addEventListener("click", closeLightbox);
+      lightbox.querySelector("[data-document-close]") && lightbox.querySelector("[data-document-close]").addEventListener("click", closeLightbox);
 
       lightbox.addEventListener("click", (event) => {
         if (event.target === lightbox) {
