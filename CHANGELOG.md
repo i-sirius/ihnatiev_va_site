@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.28f
+
+**Fallback PDF preview для iPhone та iPad.**
+
+- Для PDF у iOS/iPadOS браузерах downloads більше не запускають inline lightbox-preview, який може показувати лише першу сторінку, а дають явні дії `Відкрити PDF` / `Завантажити`.
+- PDF-картка в цьому режимі показує коротке локалізоване пояснення про обмежений preview; desktop preview для сучасних браузерів лишено без зміни.
+- `no-modern-effects` downloads зберігають простий сценарій `Відкрити файл` / `Завантажити`, а document lightbox має додатковий guard від embedded PDF у fallback-режимі.
+- Оновлено build-версію до `0.6.28f` і кеш service worker до `v0.6.28f-r1`.
+
 ## 0.6.28e
 
 **Hotfix legacy UX після реального iPad Air 1 smoke-test.**

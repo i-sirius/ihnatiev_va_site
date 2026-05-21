@@ -6,6 +6,24 @@
     ) !== -1;
   }
 
+  // iOS handles linked PDFs better than multi-page PDFs embedded in our lightbox.
+  function shouldUseDirectPdfActions(fileType = "FILE") {
+    if (String(fileType).toUpperCase() !== "PDF") {
+      return false;
+    }
+
+    if (document.documentElement.classList.contains("no-modern-effects")) {
+      return true;
+    }
+
+    const userAgent = navigator.userAgent || "";
+    const platform = navigator.platform || "";
+    const isClassicIOS = /iPad|iPhone|iPod/i.test(userAgent);
+    const isIPadDesktopAgent = platform === "MacIntel" && navigator.maxTouchPoints > 1;
+
+    return isClassicIOS || isIPadDesktopAgent;
+  }
+
   function ensureDocumentLightbox({
     site = window.SITE || {},
     getLocalizedValue = (value, fallback = "") => value || fallback,
@@ -30,7 +48,7 @@
                 class="document-lightbox-link"
                 href="#"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 data-document-open
               ></a>
               <a
@@ -132,7 +150,29 @@
         downloadLink.setAttribute("download", "");
       }
 
-      if (canPreviewDownloadFile(type) && frame) {
+      const useDirectPdfActions = shouldUseDirectPdfActions(type);
+
+      if (openLink) {
+        openLink.textContent = useDirectPdfActions
+          ? previewUi.pdfOpen || previewUi.open || "Відкрити PDF"
+          : previewUi.open || "Відкрити окремо";
+      }
+
+      if (fallbackTitle) {
+        fallbackTitle.textContent =
+          previewUi.unavailableTitle ||
+          "Попередній перегляд у вікні сайту для цього формату недоступний.";
+      }
+
+      if (fallbackText) {
+        fallbackText.textContent = useDirectPdfActions
+          ? previewUi.pdfFallbackText ||
+            "Перегляд PDF у цьому браузері може бути обмежений. Відкрийте файл окремо."
+          : previewUi.unavailableText ||
+            "Можна відкрити файл окремо або одразу завантажити його кнопкою вище.";
+      }
+
+      if (!useDirectPdfActions && canPreviewDownloadFile(type) && frame) {
         frame.hidden = false;
         fallback && fallback.setAttribute("hidden", "");
         frame.src = type === "PDF" ? `${href}#toolbar=1&navpanes=0&view=FitH` : href;
@@ -178,6 +218,7 @@
 
   window.SiteDocumentLightbox = {
     canPreviewDownloadFile,
+    shouldUseDirectPdfActions,
     ensure: ensureDocumentLightbox
   };
 })();

@@ -79,10 +79,20 @@
       `;
     }
 
+    function shouldUseDirectPdfActions(fileType = "FILE") {
+      return Boolean(
+        window.SiteDocumentLightbox &&
+          typeof window.SiteDocumentLightbox.shouldUseDirectPdfActions === "function" &&
+          window.SiteDocumentLightbox.shouldUseDirectPdfActions(fileType)
+      );
+    }
+
     function renderListItem(file = {}) {
       const fileType = getFileType(file);
       const href = file.href || "#";
       const useLegacyFileActions = document.documentElement.classList.contains("no-modern-effects");
+      const useDirectPdfActions = shouldUseDirectPdfActions(fileType);
+      const useSimpleFileActions = useLegacyFileActions || useDirectPdfActions;
       const label =
         getLocalizedValue(file.label, "") ||
         file.href ||
@@ -92,6 +102,10 @@
       const safeLabel = escapeHtml(label);
       const safeType = escapeHtml(fileType);
       const previewUi = site.ui && site.ui.documentPreview || {};
+      const openLabel =
+        useDirectPdfActions && !useLegacyFileActions
+          ? previewUi.pdfOpen || "Відкрити PDF"
+          : previewUi.legacyOpen || previewUi.open || "Відкрити файл";
       const purchaseLabel = getLocalizedValue(
         file.purchase && file.purchase.label,
         previewUi.purchase || "Замовити e-book"
@@ -114,17 +128,17 @@
         `
       ];
 
-      if (useLegacyFileActions) {
+      if (useSimpleFileActions) {
         actions.unshift(`
           <a
             class="download-open-action"
             href="${safeHref}"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label="${escapeHtml(
-              `${previewUi.legacyOpen || previewUi.open || "Відкрити файл"} ${label}`
+              `${openLabel} ${label}`
             )}"
-          >${escapeHtml(previewUi.legacyOpen || previewUi.open || "Відкрити файл")}</a>
+          >${escapeHtml(openLabel)}</a>
         `);
       }
 
@@ -141,15 +155,25 @@
         `);
       }
 
-      const fileSummary = useLegacyFileActions
+      const directPdfNote =
+        useDirectPdfActions && !useLegacyFileActions
+          ? `<p class="download-pdf-fallback-note">${escapeHtml(
+              previewUi.pdfFallbackText ||
+                "Перегляд PDF у цьому браузері може бути обмежений. Відкрийте файл окремо."
+            )}</p>`
+          : "";
+      const fileSummary = useSimpleFileActions
         ? `
-            <div class="download-preview-trigger download-legacy-file">
+            <div class="download-preview-trigger download-direct-file${
+              useLegacyFileActions ? " download-legacy-file" : " download-ios-pdf-file"
+            }">
               <span class="download-link-main">
                 <span class="download-filetype" aria-hidden="true">
                   ${getFileIconMarkup(fileType)}
                 </span>
                 <span class="download-link-text">${safeLabel}</span>
               </span>
+              ${directPdfNote}
             </div>
           `
         : `

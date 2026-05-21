@@ -97,6 +97,17 @@ Applied in `0.6.28e`:
 
 Opening the file in a separate tab/window is the acceptable old-iPad download fallback. Modern browsers keep the inline document preview path.
 
+## iOS PDF preview fallback
+
+The `0.6.28f` pass handles a separate mobile WebKit PDF limitation observed on iPhone and iPad: an embedded PDF preview may look like a one-page document even when the file has more pages.
+
+- downloads keep the inline document lightbox preview on modern desktop browsers;
+- PDF entries on iPhone/iPad and PDF entries under `no-modern-effects` avoid the embedded PDF path;
+- the iOS PDF row shows a short localized note plus explicit `Open PDF` and `Download` actions;
+- legacy downloads keep the plainer `Open file` and `Download` actions added in `0.6.28e`.
+
+This is a narrow PDF-preview workaround. The direct-PDF branch detects classic iOS user agents and touch iPadOS desktop-style agents only for PDF actions; it does not change the general design fallback rules for the rest of the site.
+
 ## Real-device checks
 
 Start with these public pages on iPad Air 1 / iOS 12 Safari:
