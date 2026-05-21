@@ -82,6 +82,7 @@
     function renderListItem(file = {}) {
       const fileType = getFileType(file);
       const href = file.href || "#";
+      const useLegacyFileActions = document.documentElement.classList.contains("no-modern-effects");
       const label =
         getLocalizedValue(file.label, "") ||
         file.href ||
@@ -113,6 +114,20 @@
         `
       ];
 
+      if (useLegacyFileActions) {
+        actions.unshift(`
+          <a
+            class="download-open-action"
+            href="${safeHref}"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="${escapeHtml(
+              `${previewUi.legacyOpen || previewUi.open || "Відкрити файл"} ${label}`
+            )}"
+          >${escapeHtml(previewUi.legacyOpen || previewUi.open || "Відкрити файл")}</a>
+        `);
+      }
+
       if (purchaseHref) {
         actions.unshift(`
           <a
@@ -126,9 +141,18 @@
         `);
       }
 
-      return `
-        <li>
-          <div class="download-row">
+      const fileSummary = useLegacyFileActions
+        ? `
+            <div class="download-preview-trigger download-legacy-file">
+              <span class="download-link-main">
+                <span class="download-filetype" aria-hidden="true">
+                  ${getFileIconMarkup(fileType)}
+                </span>
+                <span class="download-link-text">${safeLabel}</span>
+              </span>
+            </div>
+          `
+        : `
             <button
               class="download-preview-trigger"
               type="button"
@@ -147,6 +171,12 @@
                 <span class="download-link-text">${safeLabel}</span>
               </span>
             </button>
+          `;
+
+      return `
+        <li>
+          <div class="download-row">
+            ${fileSummary}
             <div class="download-actions">${actions.join("")}</div>
           </div>
         </li>
@@ -160,7 +190,15 @@
         )}</p>`;
       }
 
+      const previewNote = document.documentElement.classList.contains("no-modern-effects")
+        ? `<p class="download-legacy-note">${escapeHtml(
+            site.ui && site.ui.documentPreview && site.ui.documentPreview.legacyNote ||
+              "На цьому браузері файл відкриється окремо."
+          )}</p>`
+        : "";
+
       return `
+        ${previewNote}
         <ul class="download-list">
           ${files.map((file) => renderListItem(file)).join("")}
         </ul>

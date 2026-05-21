@@ -81,6 +81,22 @@ The same mode can be forced for diagnostics with `?debug=legacy`, for example on
 
 In `0.6.28c`, the same query flag also emits `[legacy-init]` console steps. If `app DOMContentLoaded` appears but `home content rendered from config fallback` does not, check the first script parser/runtime error above it.
 
+## Real iPad Air 1 smoke-test follow-up
+
+The `0.6.28e` pass follows an actual iPad Air 1 / iOS 12 Safari smoke-test:
+
+- bottom navigation looked present but ambiguous because the old-device path could still combine lens state, icons-only fitting, and mask-drawn icons;
+- the publications expand/collapse action kept a split glass appearance that was too visually heavy for a service control in the fallback view;
+- downloads relied on the title preview trigger and parent row hover/focus styles, which made a touched filename appear to activate the download action while embedded PDF preview remained unreliable.
+
+Applied in `0.6.28e`:
+
+- `no-modern-effects` mobile navigation stays on short visible labels, drops the nav lens surface, and uses plain button backgrounds and active state;
+- publication toggles use one solid surface with a quiet arrow and no partial glass segment;
+- legacy downloads render file names as non-preview summaries with explicit `Open file` and `Download` actions plus a short note that preview is skipped.
+
+Opening the file in a separate tab/window is the acceptable old-iPad download fallback. Modern browsers keep the inline document preview path.
+
 ## Real-device checks
 
 Start with these public pages on iPad Air 1 / iOS 12 Safari:

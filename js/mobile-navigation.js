@@ -2,6 +2,7 @@
   function initMobileNavigation() {
     const menu = document.getElementById("menu");
     const nav = document.querySelector("#menu nav, .mobile-nav-host nav");
+    const prefersSimpleMobileNav = document.documentElement.classList.contains("no-modern-effects");
 
     if (!menu || !nav) {
       return;
@@ -56,7 +57,7 @@
       lensFrame = 0;
       const currentNav = document.querySelector(".mobile-nav-host nav");
 
-      if (!currentNav || !mobileQuery.matches) {
+      if (!currentNav || !mobileQuery.matches || prefersSimpleMobileNav) {
         document
           .querySelectorAll("nav.is-lens-ready")
           .forEach((navElement) =>
@@ -148,6 +149,11 @@
       }
 
       currentNav.classList.remove(...modeClasses);
+
+      if (prefersSimpleMobileNav) {
+        currentNav.classList.add("is-labels-only");
+        return;
+      }
 
       const links = Array.from(currentNav.querySelectorAll("a")).filter(
         (link) => link.offsetParent !== null

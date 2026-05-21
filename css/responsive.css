@@ -192,14 +192,39 @@ html.no-modern-effects .download-subgroup-toggle {
   color: var(--button-text);
 }
 
+html.no-modern-effects .about-details-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 176px;
+  padding: 0 16px;
+  border-radius: 10px;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 html.no-modern-effects .about-details-arrow-label,
 html.no-modern-effects .about-details-arrow-label::before {
   color: var(--button-text);
 }
 
-html.no-modern-effects .about-details-arrow-icon {
-  border-right-color: rgba(255, 255, 255, 0.32);
+html.no-modern-effects .about-details-arrow-icon,
+html.no-modern-effects .about-details[open] .about-details-arrow-icon {
+  display: inline-grid;
+  flex: 0 0 18px;
+  align-self: center;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+html.no-modern-effects .about-details summary:hover .about-details-arrow {
+  border-color: var(--button-bg-hover);
   background: var(--button-bg-hover);
+  box-shadow: none;
+  transform: none;
 }
 
 html.no-modern-effects .site-header nav a[aria-current="page"] {
@@ -221,9 +246,20 @@ html.no-modern-effects .language-toggle-option.is-active {
 }
 
 html.no-modern-effects .mobile-nav-host nav {
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  bottom: calc(8px + env(safe-area-inset-bottom));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
   border-color: var(--border);
   background: rgba(252, 251, 248, 0.96);
   box-shadow: 0 10px 24px rgba(40, 34, 28, 0.16);
+  overflow: hidden;
+}
+
+html.no-modern-effects .mobile-nav-host nav::before {
+  display: none;
 }
 
 html[data-theme="dark"].no-modern-effects .mobile-nav-host nav {
@@ -234,12 +270,55 @@ html.no-modern-effects .mobile-nav-host nav a {
   border-color: var(--border);
   background: var(--panel-bg);
   color: var(--primary);
+  padding: 8px 4px;
+  transform: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 html.no-modern-effects .mobile-nav-host nav a[aria-current="page"] {
   border-color: var(--button-bg);
   background: var(--button-bg);
   color: var(--button-text);
+}
+
+html.no-modern-effects .mobile-nav-host nav a:hover,
+html.no-modern-effects .mobile-nav-host nav a:active,
+html.no-modern-effects .mobile-nav-host nav a:focus-visible {
+  border-color: var(--border);
+  background: var(--panel-bg);
+  color: var(--primary);
+  transform: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html.no-modern-effects .mobile-nav-host nav a[aria-current="page"]:hover,
+html.no-modern-effects .mobile-nav-host nav a[aria-current="page"]:active,
+html.no-modern-effects .mobile-nav-host nav a[aria-current="page"]:focus-visible {
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+
+html.no-modern-effects .mobile-nav-host nav a::before {
+  display: none !important;
+}
+
+html.no-modern-effects .mobile-nav-host nav a::after,
+html.no-modern-effects .mobile-nav-host nav.is-icons-only a::after {
+  content: attr(data-mobile-label);
+  display: block;
+  max-width: 100%;
+  color: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.15;
+  white-space: normal;
+  overflow: visible;
+  text-transform: uppercase;
 }
 
 html.no-modern-effects .about-publications-field input,
@@ -258,6 +337,88 @@ html.no-modern-effects .download-link-action {
   border-color: var(--border);
   background: var(--bg-soft);
   color: var(--primary-dark);
+}
+
+html.no-modern-effects .download-row,
+html.no-modern-effects .download-row:hover,
+html.no-modern-effects .download-row:focus-within {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-color: var(--border);
+  background: var(--panel-bg);
+  box-shadow: none;
+  transform: none;
+}
+
+html.no-modern-effects .download-row::before {
+  display: none;
+}
+
+html.no-modern-effects .download-legacy-file {
+  cursor: default;
+}
+
+html.no-modern-effects .download-actions {
+  width: 100%;
+  padding: 0 14px 14px;
+  justify-content: stretch;
+}
+
+html.no-modern-effects .download-link-action,
+html.no-modern-effects .download-open-action {
+  display: inline-flex;
+  flex: 1 1 150px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-soft);
+  color: var(--primary-dark);
+  box-shadow: none;
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.15;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+html.no-modern-effects .download-link-action-text {
+  display: inline;
+}
+
+html.no-modern-effects .download-row:hover .download-link-action,
+html.no-modern-effects .download-row:focus-within .download-link-action {
+  border-color: var(--border);
+  background: var(--bg-soft);
+  color: var(--primary-dark);
+  box-shadow: none;
+  transform: none;
+}
+
+html.no-modern-effects .download-link-action:hover,
+html.no-modern-effects .download-link-action:active,
+html.no-modern-effects .download-link-action:focus-visible,
+html.no-modern-effects .download-open-action:hover,
+html.no-modern-effects .download-open-action:active,
+html.no-modern-effects .download-open-action:focus-visible {
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+  color: var(--button-text);
+  box-shadow: none;
+  transform: none;
+}
+
+html.no-modern-effects .download-legacy-note {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
 }
 
 html.no-modern-effects .contact-social-button.is-disabled {
