@@ -57,6 +57,12 @@ Applied in `0.6.28a`:
 - the legacy mode reduces blur/lens layers and uses ordinary panel/card backgrounds;
 - the legacy mode replaces the missing about-row flex gap with explicit spacing and lets gallery images use natural height.
 
+Checked again in `0.6.28b` after an iOS 15 renderer showed a transparent mobile nav and an unreadable light-theme details button:
+
+- direct `color-mix()` backgrounds are also a contrast risk when an old engine drops the whole background declaration;
+- mobile bottom navigation now gets an explicit solid legacy surface plus solid item/active-item surfaces;
+- details expand/collapse buttons, header controls, publication filter chips/file actions, download chips/actions, gallery empty state, and disabled contact link state receive targeted old-browser colors instead of relying on glass tokens or direct `color-mix()` surfaces.
+
 ## Legacy mode
 
 Every public page runs a small early feature test before CSS is loaded. If the browser cannot report support for the current `color-mix()`, `min()`, and `clamp()` baseline, `<html>` receives:
@@ -83,5 +89,6 @@ On a Mac, Safari Web Inspector can attach to the old iPad and reveal parser/runt
 
 - The legacy mode is a fallback layer, not a full compatibility build.
 - Some decorative modern CSS declarations remain intentionally untouched; unsupported declarations should be skipped in favor of the new simpler fallbacks.
+- Hover-only glass treatments on video/contact/download controls remain decorative; the default legacy surfaces are the readability baseline.
 - Browsers that cannot parse the remaining ES2015+ JavaScript may still need a dedicated build or a smaller static-navigation fallback in a future package.
 - Final confidence for iOS 12 requires real-device verification on the confirmed iPad.
