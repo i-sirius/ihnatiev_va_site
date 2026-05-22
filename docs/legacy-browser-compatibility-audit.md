@@ -8,6 +8,8 @@ The first confirmed problem device is iPad Air 1 with iOS 12 Safari. It is the m
 
 Chrome 79 and older legacy Chromium became a second confirmed diagnostic target in `0.6.28c`: the home page could keep the technical placeholder `Основний текст буде підставлено з config.js.` when the content bootstrap stopped before the `config.js` fallback render.
 
+The `0.6.28a-q` mobile/legacy stabilization summary, accepted fallback rules, and manual smoke-test checklist now live in [mobile-legacy-stabilization.md](mobile-legacy-stabilization.md). This audit remains the technical compatibility note behind that stabilization snapshot.
+
 ## JS audit
 
 The public JavaScript sweep covered `app.js`, `js/*.js`, and the early inline head script in the public HTML pages.

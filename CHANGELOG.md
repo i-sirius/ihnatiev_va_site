@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.29a
+
+**Підсумок mobile/legacy стабілізації.**
+
+- Додано підсумковий документ циклу `0.6.28a-q` з прийнятими fallback-правилами для iOS, iPad Air 1, legacy Chromium і touch-навігації.
+- Зафіксовано ручний smoke-test checklist для modern mobile Safari, iPad Air 1 / iOS 12, iOS standalone PDF-сценарію та desktop control path.
+- Legacy compatibility audit пов'язано з новим стабілізаційним зрізом; функціональну UI-поведінку в цьому пакеті не змінено.
+- Оновлено build-версію до `0.6.29a` і кеш service worker до `v0.6.29a-r1`.
+
 ## 0.6.28q
 
 **Стабільніший mobile-nav під час переходу між сторінками.**
