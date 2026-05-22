@@ -5,6 +5,7 @@
   --header-control-icon-size: 28px;
   --header-control-radius: 999px;
   --header-control-gap: 4px;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 30;
@@ -562,6 +563,10 @@ html[data-theme="dark"] .language-toggle-options {
 
 .language-toggle-code {
   line-height: 1;
+}
+
+.language-toggle-code.is-flag-fallback {
+  display: none;
 }
 
 .language-toggle-option:hover:not(:disabled) {
@@ -1814,7 +1819,7 @@ html[data-theme="dark"] .theme-toggle-track {
   }
 
   .site-brand-link {
-    position: fixed;
+    position: absolute;
     top: max(9px, env(safe-area-inset-top));
     bottom: auto;
     left: max(8px, env(safe-area-inset-left));

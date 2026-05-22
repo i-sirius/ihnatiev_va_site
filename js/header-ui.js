@@ -80,7 +80,13 @@
               aria-label="${escapeHtml(localeName)}"
               title="${escapeHtml(localeName)}"
             >
-              ${localeFlagClass ? `<span class="language-toggle-flag ${localeFlagClass}" aria-hidden="true"></span>` : `<span class="language-toggle-code">${escapeHtml(optionLabel)}</span>`}
+              ${
+                localeFlagClass
+                  ? `<span class="language-toggle-flag ${localeFlagClass}" aria-hidden="true"></span><span class="language-toggle-code is-flag-fallback">${escapeHtml(
+                      locale.toUpperCase()
+                    )}</span>`
+                  : `<span class="language-toggle-code">${escapeHtml(optionLabel)}</span>`
+              }
             </button>
           `;
         })

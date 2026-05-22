@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.28o
+
+**Стабільніші legacy downloads і mobile side controls на iPad.**
+
+- Ліву Home/Brand pill на mobile прив’язано до header context замість viewport-fixed позиціонування, а legacy-шапка отримала непрозорий containment, щоб обидва side stack-и не жили окремо поверх контенту.
+- Для `no-modern-effects` згорнуті downloads-subgroup summary спрощено до видимого label-а з окремо закріпленим plus/minus control без залежності від flex/glass поведінки старого Safari.
+- Language toggle у legacy-режимі показує текстовий `UK`/`EN` fallback, якщо старий WebKit не малює CSS-прапор усередині круглої кнопки.
+- Оновлено build-версію до `0.6.28o` і кеш service worker до `v0.6.28o-r1`.
+
 ## 0.6.28n
 
 **Mobile header stacks у межах шапки.**
