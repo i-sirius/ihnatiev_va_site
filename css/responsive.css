@@ -246,10 +246,13 @@ html.no-modern-effects .language-toggle-option.is-active {
 }
 
 @media (max-width: 900px) {
+  html.no-modern-effects .site-brand-link,
   html.no-modern-effects .site-header-controls {
-    border-color: transparent;
-    background: transparent;
-    box-shadow: none;
+    border-color: var(--border);
+    background: rgba(252, 251, 248, 0.9);
+    box-shadow: 0 8px 18px rgba(40, 34, 28, 0.12);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   html.no-modern-effects .site-brand-logo,
@@ -258,6 +261,12 @@ html.no-modern-effects .language-toggle-option.is-active {
     box-shadow: var(--shadow);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+
+  html[data-theme="dark"].no-modern-effects .site-brand-link,
+  html[data-theme="dark"].no-modern-effects .site-header-controls {
+    background: rgba(41, 49, 48, 0.92);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
   }
 }
 
