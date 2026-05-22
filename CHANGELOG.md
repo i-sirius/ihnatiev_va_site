@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.28p
+
+**Читабельніші legacy downloads і EN labels.**
+
+- Downloads renderer більше не підставляє український per-item purchase label в англійському режимі, якщо EN-текст кнопки відсутній, а поточний book-label вирівняно до `Request book`.
+- У `no-modern-effects` download cards переведено на простіший вертикальний ритм: назва матеріалу лишається зверху з нормальним переносом, а purchase/open/download дії йдуть нижче окремими читабельними кнопками.
+- Legacy helper text отримав безпечні переноси, а текстовий fallback перемикача мови зроблено більшим, центрованим і стабільно uppercase як `UK` / `EN`.
+- Оновлено build-версію до `0.6.28p` і кеш service worker до `v0.6.28p-r1`.
+
 ## 0.6.28o
 
 **Стабільніші legacy downloads і mobile side controls на iPad.**

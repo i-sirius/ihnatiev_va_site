@@ -14,6 +14,18 @@
       return getDownloadFileType(file, getLocalizedValue);
     }
 
+    function getLocalizedActionLabel(value, fallback = "") {
+      if (!value || typeof value !== "object" || Array.isArray(value)) {
+        return getLocalizedValue(value, fallback) || fallback;
+      }
+
+      const locale = site.currentLocale || site.defaultLocale || "uk";
+      const localizedValue = value[locale];
+      return typeof localizedValue === "string" && localizedValue.trim()
+        ? localizedValue
+        : fallback;
+    }
+
     function getPurchaseHref(file = {}) {
       const purchase = file.purchase;
       if (!purchase || typeof purchase !== "object") {
@@ -115,7 +127,7 @@
         useDirectPdfActions && !useLegacyFileActions
           ? previewUi.pdfOpen || "Відкрити PDF"
           : previewUi.legacyOpen || previewUi.open || "Відкрити файл";
-      const purchaseLabel = getLocalizedValue(
+      const purchaseLabel = getLocalizedActionLabel(
         file.purchase && file.purchase.label,
         previewUi.purchase || "Замовити e-book"
       );
