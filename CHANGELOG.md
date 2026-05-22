@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.28n
+
+**Mobile header stacks у межах шапки.**
+
+- Для бокових mobile-stack-ів Home/Brand і language/theme трохи зменшено gap/padding/chrome запас, не чіпаючи розмір основних controls і знайдений баланс `0.6.28m`.
+- Mobile header band отримав мінімальний containment-reserve з урахуванням safe-area, щоб ліва pill і права control-stack не торкались нижньої межі шапки на вузьких iPhone viewport-ах.
+- Desktop header, структура шапки, language/theme логіка й решта мобільних UX-fallback-ів не змінювались.
+- Оновлено build-версію до `0.6.28n` і кеш service worker до `v0.6.28n-r1`.
+
 ## 0.6.28m
 
 **Компактніші mobile controls і profile links під фото.**

@@ -2555,10 +2555,20 @@ html[data-theme="dark"] .site-header.is-compact .site-brand-link {
 @media (max-width: 900px) {
   .site-header {
     --mobile-header-side-control-size: 42px;
-    --mobile-header-side-gap: 2px;
-    --mobile-header-side-padding: 2px;
-    --mobile-header-side-chrome: 6px;
+    --mobile-header-side-gap: 1px;
+    --mobile-header-side-padding: 1px;
+    --mobile-header-side-chrome: 4px;
     --mobile-header-side-home-icon-size: 18px;
+    min-height: 108px;
+    min-height:
+      calc(
+        var(--mobile-header-side-control-size) +
+        var(--mobile-header-side-control-size) +
+        var(--mobile-header-side-gap) +
+        var(--mobile-header-side-chrome) +
+        19px +
+        env(safe-area-inset-top)
+      );
   }
 
   .site-brand-link,
