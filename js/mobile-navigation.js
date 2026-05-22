@@ -16,6 +16,7 @@
     }
 
     const mobileQuery = window.matchMedia("(max-width: 900px)");
+    const hoverQuery = window.matchMedia("(hover: hover)");
     let fitFrame = 0;
 
     const measureNavLabel = (() => {
@@ -255,12 +256,29 @@
       pointerInsideNav = false;
     });
     nav.addEventListener("pointerover", (event) => {
+      if (!hoverQuery.matches || event.pointerType === "touch") {
+        return;
+      }
+
       const link = event.target.closest("a");
       if (link) {
         const shouldUseInstant = !pointerInsideNav;
         pointerInsideNav = true;
         requestStickyNavigationLens(link, 95, shouldUseInstant);
       }
+    });
+    nav.addEventListener("pointerdown", (event) => {
+      if (hoverQuery.matches && event.pointerType !== "touch") {
+        return;
+      }
+
+      if (lensHoverTimer) {
+        window.clearTimeout(lensHoverTimer);
+        lensHoverTimer = 0;
+      }
+
+      pointerInsideNav = false;
+      requestNavigationLens(null, true);
     });
     nav.addEventListener("pointerleave", () => {
       pointerInsideNav = false;
