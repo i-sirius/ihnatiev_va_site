@@ -240,6 +240,12 @@ html.no-modern-effects .theme-toggle-track {
   background: var(--panel-bg);
 }
 
+html.no-modern-effects .site-header-controls {
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 html.no-modern-effects .language-toggle-option.is-active {
   background: var(--button-bg);
   color: var(--button-text);
