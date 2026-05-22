@@ -87,11 +87,20 @@
       );
     }
 
+    function shouldUseStandalonePdfPanel(fileType = "FILE") {
+      return Boolean(
+        window.SiteDocumentLightbox &&
+          typeof window.SiteDocumentLightbox.shouldUseStandalonePdfPanel === "function" &&
+          window.SiteDocumentLightbox.shouldUseStandalonePdfPanel(fileType)
+      );
+    }
+
     function renderListItem(file = {}) {
       const fileType = getFileType(file);
       const href = file.href || "#";
       const useLegacyFileActions = document.documentElement.classList.contains("no-modern-effects");
       const useDirectPdfActions = shouldUseDirectPdfActions(fileType);
+      const useStandalonePdfPanel = shouldUseStandalonePdfPanel(fileType);
       const useSimpleFileActions = useLegacyFileActions || useDirectPdfActions;
       const label =
         getLocalizedValue(file.label, "") ||
@@ -129,12 +138,20 @@
       ];
 
       if (useSimpleFileActions) {
+        const standalonePdfAttrs = useStandalonePdfPanel
+          ? `
+            data-pdf-standalone-trigger
+            data-pdf-standalone-href="${safeHref}"
+            data-pdf-standalone-label="${safeLabel}"
+          `
+          : "";
         actions.unshift(`
           <a
             class="download-open-action"
             href="${safeHref}"
             target="_blank"
             rel="noopener noreferrer"
+            ${standalonePdfAttrs}
             aria-label="${escapeHtml(
               `${openLabel} ${label}`
             )}"

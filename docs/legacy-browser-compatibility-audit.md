@@ -108,6 +108,17 @@ The `0.6.28f` pass handles a separate mobile WebKit PDF limitation observed on i
 
 This is a narrow PDF-preview workaround. The direct-PDF branch detects classic iOS user agents and touch iPadOS desktop-style agents only for PDF actions; it does not change the general design fallback rules for the rest of the site.
 
+## iOS standalone PDF UX
+
+The `0.6.28g` pass keeps the direct iOS PDF fallback but slows down the Home Screen app path before navigation:
+
+- ordinary Safari on iPhone/iPad still opens the direct PDF action from the download card;
+- iOS standalone mode is detected from the `display-mode: standalone` media query or Apple's `navigator.standalone` flag;
+- the standalone `Open PDF` action opens an explanatory panel first, because a PDF view without the normal Safari toolbar can look like the site navigation disappeared;
+- the panel offers `Open PDF`, `Share`, `Copy link`, and `Close`; sharing is shown only when the browser exposes the Web Share API, and copy falls back to a selectable URL field when Clipboard API writing is unavailable.
+
+The desktop document preview flow is unchanged.
+
 ## Real-device checks
 
 Start with these public pages on iPad Air 1 / iOS 12 Safari:

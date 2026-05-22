@@ -364,6 +364,20 @@
     }
 
     document.addEventListener("click", (event) => {
+      const standalonePdfTrigger = event.target.closest("[data-pdf-standalone-trigger]");
+      if (
+        standalonePdfTrigger &&
+        lightbox &&
+        typeof lightbox.showStandalonePdfPanel === "function"
+      ) {
+        event.preventDefault();
+        lightbox.showStandalonePdfPanel({
+          href: standalonePdfTrigger.getAttribute("data-pdf-standalone-href") || "",
+          label: standalonePdfTrigger.getAttribute("data-pdf-standalone-label") || ""
+        }, standalonePdfTrigger);
+        return;
+      }
+
       const trigger = event.target.closest("[data-download-preview]");
       if (!trigger) {
         return;

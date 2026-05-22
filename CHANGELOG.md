@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.28g
+
+**Пояснення PDF-відкриття в iOS standalone режимі.**
+
+- У Home Screen / standalone режимі на iPhone та iPad дія `Відкрити PDF` спершу показує просту панель з поясненням, як повернутися на сайт після окремого PDF-перегляду.
+- Панель дає явні дії `Відкрити PDF`, `Поділитися`, `Скопіювати посилання` і `Закрити`; Share та Clipboard використовуються тільки коли відповідні API доступні.
+- Звичайний iOS Safari лишив direct PDF open із `0.6.28f`, desktop lightbox-preview не змінено, а legacy downloads зберегли простий fallback.
+- Оновлено build-версію до `0.6.28g` і кеш service worker до `v0.6.28g-r1`.
+
 ## 0.6.28f
 
 **Fallback PDF preview для iPhone та iPad.**

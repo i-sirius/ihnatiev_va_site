@@ -140,6 +140,148 @@
   color: #edf8f0;
 }
 
+body.pdf-standalone-open {
+  overflow: hidden;
+}
+
+.pdf-standalone-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  overflow-y: auto;
+  padding: 16px;
+  background: rgba(20, 27, 24, 0.58);
+}
+
+.pdf-standalone-panel[hidden],
+.pdf-standalone-action[hidden],
+.pdf-standalone-copy-field[hidden] {
+  display: none;
+}
+
+.pdf-standalone-card {
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel-bg);
+  color: var(--text);
+  box-shadow: 0 22px 64px rgba(13, 18, 16, 0.28);
+}
+
+.pdf-standalone-card h2 {
+  margin: 0 0 10px;
+  color: var(--primary-dark);
+  font-size: 1.24rem;
+}
+
+.pdf-standalone-card p {
+  margin: 0;
+}
+
+.pdf-standalone-card > p {
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.pdf-standalone-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.pdf-standalone-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-soft);
+  color: var(--primary-dark);
+  font: inherit;
+  font-size: 0.83rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  box-shadow: none;
+}
+
+.pdf-standalone-action:hover,
+.pdf-standalone-action:focus-visible {
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+  color: var(--button-text);
+  box-shadow: none;
+  transform: none;
+}
+
+.pdf-standalone-action.is-primary {
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+
+.pdf-standalone-copy-field {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.pdf-standalone-copy-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.pdf-standalone-copy-status {
+  min-height: 1.25em;
+  margin-top: 10px;
+  color: var(--primary-dark);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+html.no-modern-effects .pdf-standalone-panel {
+  background: rgba(20, 27, 24, 0.68);
+}
+
+html.no-modern-effects .pdf-standalone-card,
+html.no-modern-effects .pdf-standalone-action,
+html.no-modern-effects .pdf-standalone-copy-field input {
+  border-color: var(--border);
+  background: var(--panel-bg);
+  box-shadow: none;
+}
+
+html.no-modern-effects .pdf-standalone-action.is-primary {
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+}
+
 @media (max-width: 760px) {
 
   .document-lightbox-stage {
@@ -179,5 +321,21 @@
   .document-lightbox-fallback {
     width: 100%;
     padding: 22px 16px;
+  }
+
+  .pdf-standalone-panel {
+    align-items: end;
+    padding: 12px;
+  }
+
+  .pdf-standalone-card {
+    max-height: calc(100vh - 24px);
+    padding: 18px;
+  }
+}
+
+@media (max-width: 390px) {
+  .pdf-standalone-actions {
+    grid-template-columns: 1fr;
   }
 }
