@@ -1,6 +1,10 @@
 .site-header {
   --header-underlap-progress: 0;
   --header-underlap-blur: 0px;
+  --header-control-size: 44px;
+  --header-control-icon-size: 28px;
+  --header-control-radius: 999px;
+  --header-control-gap: 4px;
   position: sticky;
   top: 0;
   z-index: 30;
@@ -2447,10 +2451,139 @@ html[data-theme="dark"] .site-header.is-compact .site-brand-link {
   .site-header.is-compact .site-header-controls {
     top: 50%;
     right: max(10px, env(safe-area-inset-right));
-    grid-template-columns: repeat(2, 34px);
-    grid-template-rows: 34px;
+    grid-template-columns: repeat(2, var(--header-control-size));
+    grid-template-rows: var(--header-control-size);
     gap: 6px;
     transform: translateY(-50%);
+  }
+
+  .site-header.is-compact nav {
+    padding-right: 112px;
+  }
+
+  .site-header.is-compact .theme-toggle,
+  .site-header.is-compact .language-toggle,
+  .site-header.is-compact .language-toggle-options,
+  .site-header.is-compact .theme-toggle-track {
+    width: var(--header-control-size);
+    height: var(--header-control-size);
+  }
+
+  .site-header.is-compact .language-toggle-option {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    min-height: 36px;
+  }
+
+  .site-header.is-compact .theme-toggle-track-icon {
+    width: calc(var(--header-control-size) - 2px);
+    height: calc(var(--header-control-size) - 2px);
+  }
+
+  .site-header.is-compact .theme-toggle-track-icon::before {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .site-header.is-compact .theme-toggle-track-icon.is-moon::before {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+@media (min-width: 1181px) {
+  .site-header.is-home-in-brand:not(.is-compact) {
+    --header-control-gap: 4px;
+    --header-home-panel-height: 84px;
+  }
+
+  .site-header.is-home-in-brand:not(.is-compact) .site-brand-link {
+    height: var(--header-home-panel-height);
+  }
+
+  .site-header.is-home-in-brand:not(.is-compact) .site-header-controls {
+    min-height: var(--header-home-panel-height);
+    align-content: center;
+    gap: var(--header-control-gap);
+    padding: 4px;
+    border-radius: 24px;
+  }
+
+  .site-header.is-home-in-brand:not(.is-compact) .theme-toggle,
+  .site-header.is-home-in-brand:not(.is-compact) .language-toggle {
+    gap: 0;
+  }
+
+  .site-header.is-home-in-brand:not(.is-compact) .theme-toggle-label,
+  .site-header.is-home-in-brand:not(.is-compact) .language-toggle-label {
+    display: none;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
+  .site-header.is-compact {
+    --header-control-size: 40px;
+  }
+
+  .site-header.is-compact .site-header-controls {
+    grid-template-columns: var(--header-control-size);
+    grid-template-rows: repeat(2, var(--header-control-size));
+  }
+
+  .site-header.is-compact .theme-toggle,
+  .site-header.is-compact .language-toggle,
+  .site-header.is-compact .language-toggle-options,
+  .site-header.is-compact .theme-toggle-track {
+    width: var(--header-control-size);
+    height: var(--header-control-size);
+  }
+
+  .site-header.is-compact .language-toggle-option {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    min-height: 32px;
+  }
+
+  .site-header.is-compact .theme-toggle-track-icon {
+    width: calc(var(--header-control-size) - 2px);
+    height: calc(var(--header-control-size) - 2px);
+  }
+}
+
+@media (max-width: 900px) {
+  .site-brand-link,
+  .site-header.is-compact .site-brand-link {
+    height: var(--header-control-size);
+    border-radius: var(--header-control-radius);
+  }
+
+  .site-header-controls,
+  .site-header.is-compact .site-header-controls {
+    top: max(9px, env(safe-area-inset-top));
+    grid-template-columns: var(--header-control-size);
+    grid-template-rows: repeat(2, var(--header-control-size));
+    gap: var(--header-control-gap);
+  }
+
+  .site-header .theme-toggle,
+  .site-header .language-toggle,
+  .site-header .language-toggle-options,
+  .site-header .theme-toggle-track,
+  .site-header.is-compact .theme-toggle,
+  .site-header.is-compact .language-toggle,
+  .site-header.is-compact .language-toggle-options,
+  .site-header.is-compact .theme-toggle-track {
+    width: var(--header-control-size);
+    height: var(--header-control-size);
+  }
+
+  .site-brand-logo,
+  .site-header.is-compact .site-brand-logo {
+    width: var(--header-control-icon-size);
+    max-width: var(--header-control-icon-size);
+    flex-basis: var(--header-control-icon-size);
   }
 }
 
