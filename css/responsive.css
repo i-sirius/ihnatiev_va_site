@@ -257,10 +257,13 @@ html.no-modern-effects .language-toggle-option.is-active {
 
   html.no-modern-effects .site-brand-logo,
   html.no-modern-effects .site-brand-link::after {
-    border-color: var(--border);
-    box-shadow: var(--shadow);
+    box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+
+  html.no-modern-effects .site-brand-link::after {
+    border-bottom-color: var(--border);
   }
 
   html[data-theme="dark"].no-modern-effects .site-brand-link,
