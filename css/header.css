@@ -2555,8 +2555,27 @@ html[data-theme="dark"] .site-header.is-compact .site-brand-link {
 @media (max-width: 900px) {
   .site-brand-link,
   .site-header.is-compact .site-brand-link {
-    height: var(--header-control-size);
-    border-radius: var(--header-control-radius);
+    display: grid;
+    grid-template-columns: var(--header-control-size);
+    grid-template-rows: repeat(2, var(--header-control-size));
+    align-content: start;
+    justify-content: start;
+    gap: var(--header-control-gap);
+    width: var(--header-control-size);
+    height: calc(var(--header-control-size) + var(--header-control-size) + var(--header-control-gap));
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  html[data-theme="dark"] .site-brand-link,
+  html[data-theme="dark"] .site-header.is-compact .site-brand-link {
+    background: transparent;
+    box-shadow: none;
   }
 
   .site-header-controls,
@@ -2565,17 +2584,12 @@ html[data-theme="dark"] .site-header.is-compact .site-brand-link {
     grid-template-columns: var(--header-control-size);
     grid-template-rows: repeat(2, var(--header-control-size));
     gap: var(--header-control-gap);
-    padding: 5px;
-    border: 1px solid rgba(92, 102, 96, 0.24);
-    border-color: color-mix(in srgb, var(--border) 58%, var(--liquid-glass-border));
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.58);
-    background: color-mix(in srgb, var(--liquid-glass-bg) 88%, rgba(255, 255, 255, 0.12));
-    box-shadow:
-      0 10px 22px rgba(40, 34, 28, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.58);
-    backdrop-filter: blur(16px) saturate(1.12);
-    -webkit-backdrop-filter: blur(16px) saturate(1.12);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .site-header .theme-toggle,
@@ -2592,18 +2606,47 @@ html[data-theme="dark"] .site-header.is-compact .site-brand-link {
 
   .site-brand-logo,
   .site-header.is-compact .site-brand-logo {
-    width: var(--header-control-icon-size);
-    max-width: var(--header-control-icon-size);
-    flex-basis: var(--header-control-icon-size);
+    grid-row: 2;
+    width: var(--header-control-size);
+    max-width: var(--header-control-size);
+    max-height: var(--header-control-size);
+    height: var(--header-control-size);
+    flex-basis: var(--header-control-size);
+    padding: 8px;
+    border: 1px solid rgba(92, 102, 96, 0.24);
+    border-color: color-mix(in srgb, var(--border) 58%, var(--liquid-glass-border));
+    border-radius: var(--header-control-radius);
+    background: var(--liquid-glass-bg);
+    box-shadow: var(--liquid-glass-shadow);
+    object-fit: contain;
+    backdrop-filter: blur(16px) saturate(1.12);
+    -webkit-backdrop-filter: blur(16px) saturate(1.12);
   }
 
-  html[data-theme="dark"] .site-header-controls,
-  html[data-theme="dark"] .site-header.is-compact .site-header-controls {
-    background: rgba(42, 51, 49, 0.76);
-    background: color-mix(in srgb, var(--liquid-glass-bg) 88%, rgba(42, 51, 49, 0.18));
-    box-shadow:
-      0 10px 22px rgba(0, 0, 0, 0.24),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  .site-brand-link::after,
+  .site-header.is-compact .site-brand-link::after {
+    grid-row: 1;
+    width: var(--header-control-size);
+    height: var(--header-control-size);
+    flex-basis: var(--header-control-size);
+    border: 1px solid rgba(92, 102, 96, 0.24);
+    border-color: color-mix(in srgb, var(--border) 58%, var(--liquid-glass-border));
+    border-radius: var(--header-control-radius);
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23556D64' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='M4 11.4 12 4l8 7.4M6.5 10.2V20h4.1v-5.2h2.8V20h4.1v-9.8'/%3E%3C/svg%3E")
+        center / 20px 20px no-repeat,
+      var(--liquid-glass-bg);
+    box-shadow: var(--liquid-glass-shadow);
+    backdrop-filter: blur(16px) saturate(1.12);
+    -webkit-backdrop-filter: blur(16px) saturate(1.12);
+  }
+
+  html[data-theme="dark"] .site-brand-link::after,
+  html[data-theme="dark"] .site-header.is-compact .site-brand-link::after {
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23E8DDD2' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='M4 11.4 12 4l8 7.4M6.5 10.2V20h4.1v-5.2h2.8V20h4.1v-9.8'/%3E%3C/svg%3E")
+        center / 20px 20px no-repeat,
+      var(--liquid-glass-bg);
   }
 }
 
