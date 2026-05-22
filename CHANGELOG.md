@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.28m
+
+**Компактніші mobile controls і profile links під фото.**
+
+- Для бічних mobile-stack-ів шапки додано окремі компактні size/gap/padding tokens, щоб Home/Brand pill та language/theme controls менше домінували над заголовком і social row.
+- На науковій сторінці три профільні посилання під hero-фото переведено в окрему mobile-сітку 3 в ряд з іконкою над label-ом і narrow fallback для дуже вузьких екранів.
+- Праву логіку language/theme, ліву Home/Brand дію, desktop header і контактні social links не змінено.
+- Оновлено build-версію до `0.6.28m` і кеш service worker до `v0.6.28m-r1`.
+
 ## 0.6.28l
 
 **Єдиний mobile Home/Brand control.**

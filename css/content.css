@@ -178,6 +178,51 @@ html[data-theme="dark"] .about-photo-link {
   min-width: 0;
 }
 
+@media (max-width: 900px) {
+  body[data-page="activity"][data-activity-id="1"] .about-photo-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  body[data-page="activity"][data-activity-id="1"] .about-photo-link {
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    min-height: 78px;
+    padding: 9px 5px 8px;
+    border-radius: 12px;
+    font-size: 0.66rem;
+    line-height: 1.16;
+  }
+
+  body[data-page="activity"][data-activity-id="1"] .about-photo-link-icon {
+    position: static;
+    width: 1.65rem;
+    height: 1.65rem;
+    margin: 0 auto;
+    transform: none;
+  }
+
+  body[data-page="activity"][data-activity-id="1"] .about-photo-link span {
+    display: block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: auto;
+  }
+}
+
+@media (max-width: 340px) {
+  body[data-page="activity"][data-activity-id="1"] .about-photo-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-page="activity"][data-activity-id="1"] .about-photo-link:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
 .about-text {
   flex: 1;
   min-width: 0;
