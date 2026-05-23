@@ -4,6 +4,8 @@ Version: `0.6.27b`
 
 This checklist prepares `https://iva.net.ua` for Google Search Console after the basic SEO foundation is in place.
 
+Related Bing Webmaster Tools setup is documented separately in [bing-webmaster-setup.md](bing-webmaster-setup.md).
+
 ## Status / Поточний стан
 
 Search Console is already connected:

@@ -155,3 +155,23 @@ Admin remains outside public SEO flow:
 - `/admin/` should not be submitted for indexing.
 
 Search Console reports can populate gradually. Recheck Sitemaps, Page indexing, Performance / Search results, and URL Inspection for key public pages after 3-7 days.
+
+## 0.6.29b Bing Webmaster Tools Verification
+
+Bing Webmaster Tools status:
+
+- site property: `iva.net.ua/`;
+- setup method: imported from Google Search Console or verified through existing Google Search Console access;
+- expected sitemap to monitor: `https://iva.net.ua/sitemap.xml`;
+- detailed setup and follow-up checklist: [bing-webmaster-setup.md](bing-webmaster-setup.md).
+
+URL Inspection was run and indexing requests were sent for:
+
+- `https://iva.net.ua/`
+- `https://iva.net.ua/activity1.html`
+- `https://iva.net.ua/activity2.html`
+- `https://iva.net.ua/activity3.html`
+- `https://iva.net.ua/downloads.html`
+- `https://iva.net.ua/contact.html`
+
+Recheck Bing Search Performance, Sitemaps, URL Inspection, Site Explorer, and Recommendations after 1-3 days. Bing reporting can populate gradually.

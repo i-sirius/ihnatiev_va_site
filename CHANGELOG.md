@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.29b
+
+**Документування Bing Webmaster Tools.**
+
+- Додано `docs/bing-webmaster-setup.md` зі станом підключення Bing Webmaster Tools для `iva.net.ua/`, перевіреними URL і sitemap follow-up.
+- SEO/Search документацію доповнено короткими посиланнями на Bing setup без зміни robots, sitemap або HTML meta.
+- Зафіксовано, що основні публічні URL перевірено/подано на індексацію, а функціональну поведінку сайту в цьому пакеті не змінено.
+- Оновлено build-версію до `0.6.29b` і кеш service worker до `v0.6.29b-r1`.
+
 ## 0.6.29a
 
 **Підсумок mobile/legacy стабілізації.**
