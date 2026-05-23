@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.29e
+
+**Спільна sticky-підкладка для mobile activity toggle.**
+
+- У відкритих activity details на mobile додано один viewport-wide sticky backing band позаду summary/toggle з м'яким fade, щоб Home/IVA, центральна кнопка й language/theme не виглядали як три окремі glass-острівці.
+- Центральну кнопку `Згорнути` / `Collapse` у sticky-стані зроблено тихішою: менше важкого glass-фону, м'якша тінь і спокійніший icon-сегмент.
+- Для `no-modern-effects` додано solid/semisolid fallback band без blur, зберігаючи читабельність у legacy.
+- Оновлено build-версію до `0.6.29e` і кеш service worker до `v0.6.29e-r1`.
+
 ## 0.6.29d
 
 **Охайніший mobile-summary для activity toggle.**
