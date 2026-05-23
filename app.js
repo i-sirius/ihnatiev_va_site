@@ -313,11 +313,117 @@
     return researchDescription.find((paragraph) => paragraph && paragraph.type === "details") || null;
   }
 
+  function getHeaderOffset() {
+    const headerOffsetValue = getComputedStyle(document.documentElement)
+      .getPropertyValue("--site-header-offset")
+      .trim();
+
+    return Number.parseFloat(headerOffsetValue) || 0;
+  }
+
+  function getActivityDetailsElements() {
+    if (pageType !== "activity") {
+      return [];
+    }
+
+    return Array.from(document.querySelectorAll("[data-activity-paragraphs] .about-details"));
+  }
+
+  function captureActivityDetailsState() {
+    const detailsElements = getActivityDetailsElements();
+    const openIndexes = [];
+    let contextIndex = -1;
+
+    if (!detailsElements.length) {
+      return null;
+    }
+
+    const headerOffset = getHeaderOffset();
+    const viewportReference =
+      window.scrollY + headerOffset + Math.min(window.innerHeight * 0.35, 220);
+
+    detailsElements.forEach((details, index) => {
+      if (!details.open) {
+        return;
+      }
+
+      openIndexes.push(index);
+
+      if (contextIndex !== -1) {
+        return;
+      }
+
+      const rect = details.getBoundingClientRect();
+      const top = rect.top + window.scrollY;
+      const bottom = top + rect.height;
+
+      if (viewportReference >= top - 48 && viewportReference <= bottom + 48) {
+        contextIndex = index;
+      }
+    });
+
+    if (!openIndexes.length) {
+      return null;
+    }
+
+    return {
+      contextIndex,
+      openIndexes
+    };
+  }
+
+  function restoreActivityDetailsState(state) {
+    const openIndexes = state && Array.isArray(state.openIndexes) ? state.openIndexes : [];
+    const detailsElements = getActivityDetailsElements();
+    let contextDetails = null;
+
+    if (!openIndexes.length || !detailsElements.length) {
+      return;
+    }
+
+    openIndexes.forEach((index) => {
+      const details = detailsElements[index];
+
+      if (!details) {
+        return;
+      }
+
+      details.open = true;
+
+      if (index === state.contextIndex) {
+        contextDetails = details;
+      }
+    });
+
+    window.dispatchEvent(new CustomEvent("site:layout-shift"));
+
+    if (!contextDetails) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      const target =
+        contextDetails.querySelector("[data-publication-tools]") ||
+        contextDetails.querySelector("summary") ||
+        contextDetails;
+      const top = target.getBoundingClientRect().top + window.scrollY - getHeaderOffset() - 12;
+
+      window.scrollTo({
+        top: Math.max(0, top),
+        left: 0,
+        behavior: "auto"
+      });
+      window.dispatchEvent(new CustomEvent("site:layout-shift"));
+    });
+  }
+
   function renderCurrentActivityParagraphs() {
     const activity = SITE.activities && SITE.activities[activityId];
     if (pageType !== "activity" || !activity || !activity.pageDescription) {
       return;
     }
+
+    const detailsState = captureActivityDetailsState();
 
     if (window.SitePageContent) {
       window.SitePageContent.renderParagraphs({
@@ -326,6 +432,7 @@
         site: SITE
       });
       window.SitePageContent.initDetailsInteractions();
+      restoreActivityDetailsState(detailsState);
     }
   }
 
@@ -414,8 +521,10 @@
         getLocalizedValue,
         escapeHtml,
         onLocaleChange: (nextLocale) => {
+          const detailsState = captureActivityDetailsState();
+
           applySiteLocale(nextLocale);
-          applyAllContent();
+          applyAllContent({ activityDetailsState: detailsState });
         }
       });
     }
@@ -448,7 +557,7 @@
     document.body.dataset.pwaReady = "true";
   }
 
-  function applyAllContent() {
+  function applyAllContent({ activityDetailsState = null } = {}) {
     logLegacyStep("apply config fallback content");
 
     if (window.SitePageContent) {
@@ -523,6 +632,7 @@
     if (window.SitePageContent) {
       window.SitePageContent.initDetailsInteractions();
     }
+    restoreActivityDetailsState(activityDetailsState);
     initDownloadPreviewTriggers();
     if (window.SiteLiquidEffects) {
       window.SiteLiquidEffects.initDroplets();
