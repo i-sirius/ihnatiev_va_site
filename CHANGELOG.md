@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.29c
+
+**Hotfix mobile-clearance для activity toggle-кнопок.**
+
+- На мобільних activity-сторінках кнопки `Розгорнути` / `Згорнути` більше не розтягуються на всю ширину summary-рядка, а центруються з боковим safe-clearance від Home/IVA та language/theme controls.
+- Спільний клас `.about-details-arrow` лишено для publication-details і content-details, з акуратним переносом довших labels на мобільній ширині.
+- Mobile header side controls, bottom-nav, downloads і PDF fallback не змінювались.
+- Оновлено build-версію до `0.6.29c` і кеш service worker до `v0.6.29c-r1`.
+
 ## 0.6.29b
 
 **Документування Bing Webmaster Tools.**
