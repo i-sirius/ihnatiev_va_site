@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.29f
+
+**Компактніша sticky-підкладка mobile activity.**
+
+- Sticky summary/backing band у відкритих mobile activity details підтиснуто: менші vertical padding, gap і top/bottom spread, щоб підкладка не виглядала нижчою за бокові header panels.
+- Blur/fade і тіні sticky band зроблено делікатнішими, а центральну кнопку `Згорнути` / `Collapse` трохи нижчою та менш масивною.
+- Єдина shared backing band із `0.6.29e` збережена; Home/IVA, language/theme, bottom-nav, downloads і PDF fallback не змінювались.
+- Оновлено build-версію до `0.6.29f` і кеш service worker до `v0.6.29f-r1`.
+
 ## 0.6.29e
 
 **Спільна sticky-підкладка для mobile activity toggle.**
