@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.29g
+
+**Ще компактніша sticky-зона activity на mobile.**
+
+- Спільну sticky backing band у розгорнутих activity-details додатково ущільнено: менші padding, gap, top/bottom spread і слабший blur/fade.
+- Підпис і кнопка `Згорнути` / `Collapse` стали ближчими одне до одного, щоб зона краще узгоджувалась із боковими Home/IVA та language/theme controls.
+- Правила лишаються спільними для `activity1.html` і `activity2.html`; mobile header side controls, downloads, PDF fallback, bottom-nav, SEO і CMS не змінювались.
+- Оновлено build-версію до `0.6.29g` і кеш service worker до `v0.6.29g-r1`.
+
 ## 0.6.29f
 
 **Компактніша sticky-підкладка mobile activity.**
