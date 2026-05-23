@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.29d
+
+**Охайніший mobile-summary для activity toggle.**
+
+- На мобільних activity details підпис над кнопкою `Розгорнути` / `Згорнути` тепер центрується й обмежується по ширині разом із самою кнопкою.
+- Summary-підпис і toggle-кнопка читаються як одна компактна група, а не як лівий заголовок із окремою центрованою дією.
+- Боковий clearance кнопки від Home/IVA та language/theme controls із `0.6.29c` збережено; mobile header не змінювався.
+- Оновлено build-версію до `0.6.29d` і кеш service worker до `v0.6.29d-r1`.
+
 ## 0.6.29c
 
 **Hotfix mobile-clearance для activity toggle-кнопок.**
