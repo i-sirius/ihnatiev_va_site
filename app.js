@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
+﻿﻿document.addEventListener("DOMContentLoaded", () => {
   const pageType = document.body.dataset.page;
   const activityId = document.body.dataset.activityId;
   const legacyDebugEnabled = /(?:^|[?&])debug=legacy(?:[=&]|$)/.test(window.location.search);
@@ -485,6 +485,23 @@
         return;
       }
 
+      const copyTrigger = event.target.closest("[data-copy-citation]");
+      if (copyTrigger && navigator.clipboard) {
+        const text = copyTrigger.getAttribute("data-copy-citation");
+        const originalTitle = copyTrigger.getAttribute("title");
+
+        navigator.clipboard.writeText(text).then(() => {
+          const successText = (SITE.ui && SITE.ui.documentPreview && SITE.ui.documentPreview.pdfStandaloneCopied) || "Copied";
+          
+          copyTrigger.classList.add("is-copied");
+          copyTrigger.setAttribute("title", successText);
+          setTimeout(() => {
+            copyTrigger.setAttribute("title", originalTitle);
+            copyTrigger.classList.remove("is-copied");
+          }, 2000);
+        });
+      }
+
       const trigger = event.target.closest("[data-download-preview]");
       if (!trigger) {
         return;
@@ -620,10 +637,9 @@
     }
     initLanguageToggle();
     if (window.SiteHeaderUi) {
-      window.SiteHeaderUi.initThemeToggle({
-        site: SITE,
-        applyThemeAssets
-      });
+      window.SiteHeaderUi.initThemeToggle({ site: SITE, applyThemeAssets });
+      window.SiteHeaderUi.initAccessibleThemeToggle({ site: SITE, applyAccessibleTheme: window.SiteHeaderUi.applyAccessibleTheme });
+      window.SiteHeaderUi.applyAccessibleTheme();
       window.SiteHeaderUi.initScrollState({
         site: SITE,
         pageType

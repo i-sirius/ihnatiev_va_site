@@ -1,0 +1,569 @@
+/* Accessible Theme: High Contrast & Print */
+html[data-theme="accessible"] {
+  --bg: #ffffff;
+  --text: #000000;
+  --panel-bg: #ffffff;
+  --border: #000000;
+  --primary: #000000;
+  --primary-dark: #000000;
+  --shadow: none;
+  --button-bg: #000000;
+  --button-text: #ffffff;
+}
+
+/* Глобальне "полегшення" рендеру: вимикаємо всі анімації, переходи та GPU-підказки */
+html[data-theme="accessible"] *,
+html[data-theme="accessible"] *::before,
+html[data-theme="accessible"] *::after {
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Плавність взаємодії та фікс логотипа для звичайних тем */
+html:not([data-theme="accessible"]) :is(.button-link, .about-publication-meta button, .about-details-arrow, .video-card-link, .site-brand-logo) {
+  transition: filter 0.2s ease, background 0.1s ease, color 0.1s ease !important;
+}
+
+/* Примусове вимкнення переходів для інклюзивної теми (висока специфічність) */
+html[data-theme="accessible"] :is(.button-link, .about-publication-meta button, .about-details-arrow, .video-card-link, .site-brand-logo, .language-toggle-code) {
+  transition: none !important;
+  transform: none !important;
+}
+
+html[data-theme="dark"] .site-brand-logo {
+  filter: brightness(0) invert(1) !important;
+}
+
+/* Повне видалення перемикача тем з потоку документа */
+html[data-theme="accessible"] :is(.theme-toggle, .theme-toggle-label, .theme-toggle-track, .theme-toggle-thumb, [data-theme-toggle-label]) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+}
+
+/* Обнулення скляних ефектів для основних панелей та контролів */
+html[data-theme="accessible"] :where(.panel, .activity-card, .about-details, .site-header, .mobile-nav-host nav) {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* Пласкі заголовки акордеонів без градієнтів та внутрішніх тіней */
+html[data-theme="accessible"] .about-details summary {
+  background: #ffffff !important;
+  box-shadow: none !important;
+  border-bottom: 2px solid #000000 !important;
+}
+
+html[data-theme="accessible"] .site-header-controls {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  grid-template-rows: auto !important;
+  padding: 0 !important;
+}
+
+html[data-theme="accessible"] .language-toggle {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+html[data-theme="accessible"] .language-toggle-options {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  width: 100% !important;
+  gap: 12px !important; /* Відступ між кружечками мов */
+  padding: 0 !important;
+}
+
+/* --- Branding (Logo & Home Icon) --- */
+html[data-theme="accessible"] .site-brand-link {
+  display: flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  border: none !important;
+  color: #000000 !important;
+}
+
+html[data-theme="accessible"] .site-brand-logo {
+  display: inline-block !important;
+  filter: grayscale(1) brightness(0) !important;
+  opacity: 1 !important;
+  background: transparent !important;
+}
+
+/* Ультимативне фарбування іконок бренду через успадкування кольору */
+html[data-theme="accessible"] .site-brand-link svg,
+html[data-theme="accessible"] .site-brand-link svg * {
+  fill: currentColor !important;
+  forced-color-adjust: none !important; /* Фікс для Edge на Windows 11 */
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Монохромні іконки файлів та зображення (включаючи Lightbox та Previews) */
+html[data-theme="accessible"] .download-file-icon {
+  color: #000000 !important;
+}
+
+/* Фотографії залишаються кольоровими, без "траурних" рамок */
+html[data-theme="accessible"] :is(.gallery-item img, .about-photo img, .lightbox-figure img, [data-lightbox-image], .video-card-thumb) {
+  filter: none !important;
+  border: none !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+/* YouTube Icon Fix (White triangle on Black background) */
+html[data-theme="accessible"] .is-youtube.video-card-link-icon {
+  background: #000000 !important;
+  filter: none !important; /* Важливо! */
+}
+
+/* Навігація: видалення лінзи та скляних акцентів */
+html[data-theme="accessible"] .nav-lens {
+  display: none !important;
+}
+
+html[data-theme="accessible"] :is(.mobile-nav-link, .menu-link) {
+  transition: none !important;
+  border: 1px solid transparent !important;
+}
+
+html[data-theme="accessible"] :is(.mobile-nav-link, .menu-link).is-active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  border-color: #000000 !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+/* Пошук у завантаженнях: видалення розмиття та прозорості */
+html[data-theme="accessible"] .downloads-search-box {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme="accessible"] .downloads-search-box.is-active {
+  border: 3px solid #000000 !important;
+}
+
+/* Кнопка копіювання: інверсія замість золотого ефекту */
+html[data-theme="accessible"] .about-publication-copy.is-copied {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Interactive elements: white bg, black text, black border */
+html[data-theme="accessible"] :is(.button-link, .about-publication-meta button, .about-details-arrow, .video-card-link) {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Інверсія (зафарбовування) при наведенні для візуального відгуку в режимі accessible */
+html[data-theme="accessible"] :is(.button-link, .about-publication-meta button, .about-details-arrow, .video-card-link):is(:hover, :focus-visible) {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="accessible"] .about-details-arrow:is(:hover, :focus-visible) .about-details-arrow-icon {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="accessible"] .about-details-arrow {
+  display: inline-grid !important; /* Ensure layout stability */
+}
+
+html[data-theme="accessible"] .about-details-arrow-label::before {
+  color: #000000 !important;
+}
+
+html[data-theme="accessible"] .about-details-arrow:is(:hover, :focus-visible) .about-details-arrow-label::before {
+  color: #ffffff !important;
+}
+
+html[data-theme="accessible"] .about-details-arrow-icon {
+  background: #ffffff !important;
+  border-right: 2px solid #000000 !important;
+  color: #000000 !important;
+}
+
+/* Соціальні посилання та кнопки: повний High Contrast */
+html[data-theme="accessible"] :is(.site-header-social-link, .contact-social-button, .about-photo-link) {
+  color: #000 !important;
+  background: #fff !important;
+  border: 2px solid #000 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Видалення ореолів та інверсія при наведенні для соцмереж */
+html[data-theme="accessible"] :is(.site-header-social-link, .contact-social-button, .about-photo-link):is(:hover, :focus-visible) {
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+html[data-theme="accessible"] :is(.site-header-social-link, .contact-social-button, .about-photo-link):is(:hover, :focus-visible) svg {
+  fill: #fff !important;
+}
+
+/* Відео: повна дестерилізація скляних карток */
+html[data-theme="accessible"] .video-card {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+html[data-theme="accessible"] .video-card-info {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-top: 2px solid #000000 !important;
+  color: #000000 !important;
+  padding: 12px !important;
+}
+
+/* --- Lightbox & Document Preview (Inclusive Mode) --- */
+html[data-theme="accessible"] :is(.lightbox-overlay, .document-lightbox-overlay, .pdf-standalone-overlay) {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme="accessible"] :is(.lightbox-content, .document-lightbox-modal, .pdf-standalone-panel) {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+  color: #000000 !important;
+}
+
+html[data-theme="accessible"] :is(.lightbox-btn, .lightbox-nav, .lightbox-close, .document-lightbox-close, .pdf-standalone-close, .gallery-nav-btn) {
+  background-color: #000000 !important; /* Чорне коло */
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  border-radius: 50% !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  width: 48px !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+html[data-theme="accessible"] :is(.lightbox-btn, .lightbox-nav, .lightbox-close, .document-lightbox-close, .pdf-standalone-close, .gallery-nav-btn):is(:hover, :focus-visible) {
+  background-color: #ffffff !important; /* Біле коло при наведенні */
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* Чітка фокусна рамка для навігації клавіатурою в Lightbox */
+html[data-theme="accessible"] :is(.lightbox-btn, .lightbox-nav, .lightbox-close, .document-lightbox-close, .pdf-standalone-close, .gallery-nav-btn):focus-visible {
+  outline: 3px solid #000000 !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 4px #ffffff !important; /* Білий прошарок для видимості на будь-якому фоні */
+}
+
+html[data-theme="accessible"] :is(.lightbox-btn, .lightbox-nav, .lightbox-close, .document-lightbox-close, .pdf-standalone-close, .gallery-nav-btn) svg {
+  width: 24px !important;
+  height: 24px !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+  forced-color-adjust: none !important;
+  display: block !important;
+}
+
+html[data-theme="accessible"] :is(.lightbox-btn, .lightbox-nav, .lightbox-close, .document-lightbox-close, .pdf-standalone-close, .gallery-nav-btn) svg * {
+  fill: inherit !important;
+  stroke: inherit !important;
+}
+
+html[data-theme="accessible"] :is(.lightbox-btn, .lightbox-nav, .lightbox-close, .document-lightbox-close, .pdf-standalone-close, .gallery-nav-btn):is(:hover, :focus-visible) svg {
+  fill: #000000 !important;
+  stroke: #000000 !important;
+}
+
+html[data-theme="accessible"] :is(.document-lightbox-header, .pdf-standalone-header) {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-bottom: 2px solid #000000 !important;
+  text-shadow: none !important;
+}
+
+/* Підпис до фото: просто текст без фону та рамок */
+html[data-theme="accessible"] .lightbox-caption {
+  background: transparent !important;
+  color: #000000 !important;
+  border: none !important;
+  text-shadow: none !important;
+  padding: 15px 0 !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="accessible"] .document-lightbox-frame-container {
+  background: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+
+/* Мобільна навігація: видалення скла */
+html[data-theme="accessible"] .mobile-nav-host nav {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Залізне виправлення ORCID (чорне коло, білі літери) */
+html[data-theme="accessible"] .is-orcid svg circle { fill: #000000 !important; }
+html[data-theme="accessible"] .is-orcid svg :is(path, rect, polygon) { fill: #ffffff !important; }
+
+/* ORCID Hover (інверсія: біле коло, чорні літери на чорному фоні кнопки) */
+html[data-theme="accessible"] .is-orcid:is(:hover, :focus-visible) svg circle { fill: #ffffff !important; }
+html[data-theme="accessible"] .is-orcid:is(:hover, :focus-visible) svg :is(path, rect, polygon) { fill: #000000 !important; }
+
+/* Web of Science та Google Scholar (монохром та інверсія) */
+html[data-theme="accessible"] :is(.is-webofscience, .is-googlescholar) svg :is(path, circle, rect, polygon) { fill: #000000 !important; }
+html[data-theme="accessible"] :is(.is-webofscience, .is-googlescholar):is(:hover, :focus-visible) svg :is(path, circle, rect) { fill: #ffffff !important; }
+
+/* Перемикач мови: видалення прапорів, показ тексту */
+html[data-theme="accessible"] .language-toggle-flag {
+  display: none !important;
+}
+
+html[data-theme="accessible"] .language-toggle-code.is-flag-fallback {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  border-radius: 50% !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+/* Математично точне заміна та центрування "UA" для української мови */
+html[data-theme="accessible"] .language-toggle-option:nth-child(1) .language-toggle-code.is-flag-fallback {
+  position: relative !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+html[data-theme="accessible"] .language-toggle-option:nth-child(1) .language-toggle-code.is-flag-fallback::before {
+  content: "UA" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  font-size: 0.82rem !important;
+  line-height: 1 !important;
+}
+
+html[data-theme="accessible"] .language-toggle-option.is-active .language-toggle-code.is-flag-fallback {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Виправлення плаваючої кнопки (FAB) у режимі accessible */
+html[data-theme="accessible"] .accessible-fab {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme="accessible"] .accessible-fab svg {
+  fill: #000000 !important;
+  color: #000000 !important;
+}
+
+/* Стан "Увімкнено" (Active) — інверсія для акценту */
+html[data-theme="accessible"] .accessible-fab.is-active {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="accessible"] .accessible-fab.is-active svg {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Виправлення розгортання та видимості тексту при наведенні */
+html[data-theme="accessible"] .accessible-fab:hover {
+  width: 144px !important;
+}
+
+html[data-theme="accessible"] .accessible-fab:hover .accessible-fab-label {
+  opacity: 1 !important;
+  color: inherit !important;
+}
+
+/* Redesigned Floating Button as a side tab */
+.accessible-fab {
+  all: unset;
+  display: flex;
+  position: fixed;
+  right: 0;
+  bottom: 80px; /* Ще нижче для десктопа за запитом */
+  z-index: 1001;
+  align-items: center;
+  width: 32px;
+  height: 38px;
+  padding-left: 10px;
+  border-radius: 20px 0 0 20px;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, var(--primary));
+  border-right: 0;
+  background: var(--liquid-glass-bg);
+  color: var(--primary);
+  box-shadow: -2px 4px 12px rgba(0,0,0,0.08);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  cursor: pointer;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.accessible-fab svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.accessible-fab:hover {
+  width: 144px;
+  background: var(--liquid-glass-hover-bg);
+}
+
+.accessible-fab-label {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-left: 10px;
+  opacity: 0;
+  transition: opacity 0.2s ease 0.1s;
+}
+
+.accessible-fab:hover .accessible-fab-label {
+  opacity: 1;
+}
+
+.accessible-fab.is-active {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+@media (max-width: 900px) {
+  /* Зменшуємо висоту шапки, щоб вона не була порожнім скляним блоком */
+  html[data-theme="accessible"] .site-header {
+    min-height: auto !important;
+    padding: 14px !important;
+    background: #ffffff !important;
+  }
+
+  html[data-theme="accessible"] .site-header-controls {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    gap: 12px !important;
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
+    transform: none !important;
+    z-index: 2005 !important;
+  }
+
+  /* Мобільна симетрія: кружечок-хатинка (повний аналог UA/EN) */
+  html[data-theme="accessible"] .site-brand-link {
+    all: unset !important;
+    position: absolute !important; 
+    top: 14px !important;
+    left: 14px !important;
+    width: 38px !important;
+    height: 38px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    z-index: 2005 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Малюємо хатинку чорною всередині білого кружечка */
+  html[data-theme="accessible"] .site-brand-link::after {
+    content: "" !important;
+    display: block !important;
+    position: static !important;
+    width: 22px !important;
+    height: 22px !important;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='M3 10.7 12 3l9 7.7V21h-6v-6H9v6H3V10.7Z'/%3E%3C/svg%3E") center / contain no-repeat !important;
+    border: none !important;
+  }
+
+  /* Hover інверсія: чорний круг, біла хатинка */
+  html[data-theme="accessible"] .site-brand-link:is(:hover, :focus-visible, :active) {
+    background: #000000 !important;
+  }
+  html[data-theme="accessible"] .site-brand-link:is(:hover, :focus-visible, :active)::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' d='M3 10.7 12 3l9 7.7V21h-6v-6H9v6H3V10.7Z'/%3E%3C/svg%3E") !important;
+  }
+
+  /* Ховаємо всі інші лого-елементи */
+  html[data-theme="accessible"] :is(.site-brand-logo, .site-brand-logo-icon, .site-brand-link::before) {
+    display: none !important;
+  }
+
+  .accessible-fab {
+    bottom: calc(var(--mobile-nav-height) + 12px); /* Акуратно фіксуємо над мобільним меню */
+  }
+}
+
+@media print {
+  .about-publications-tools, 
+  .about-publication-meta, 
+  .about-publication-copy, 
+  .site-header-controls, 
+  .mobile-nav-host,
+  .footer-build { 
+    display: none !important; 
+  }
+  body { background: white !important; }
+  .panel { background: white !important; border: 0 !important; color: black !important; padding: 0 !important; width: 100% !important; }
+  .about-publications-list li { border: 0 !important; border-bottom: 1px solid #000 !important; padding: 10px 0 !important; }
+  .about-container { display: block !important; }
+}

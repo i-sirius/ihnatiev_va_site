@@ -107,6 +107,13 @@
     const fileLabel =
       paragraph.fileLabel ||
       (window.SITE && window.SITE.currentLocale === "en" ? "Download file" : "Завантажити файл");
+    const isEn = window.SITE && window.SITE.currentLocale === "en";
+    const copyLabel = 
+      (window.SITE && window.SITE.ui && window.SITE.ui.documentPreview && window.SITE.ui.documentPreview.copyCitation) || 
+      (isEn ? "Copy" : "Копіювати");
+    const copyAria = 
+      (window.SITE && window.SITE.ui && window.SITE.ui.documentPreview && window.SITE.ui.documentPreview.copyCitationAria) || 
+      (isEn ? "Copy citation" : "Скопіювати цитування");
 
     return items
       .map((item) => {
@@ -124,6 +131,20 @@
             data-publication-search="${escapeHtml(searchText.toLocaleLowerCase())}"
           >
             <span class="about-publication-meta">
+              <button
+                class="about-publication-copy"
+                type="button"
+                data-copy-citation="${escapeHtml(item.text)}"
+                aria-label="${escapeHtml(copyAria)}"
+                title="${escapeHtml(copyLabel)}"
+              >
+                <svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16">
+                  <path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                </svg>
+                <svg class="check-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16">
+                  <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+              </button>
               ${item.year ? `<button type="button" data-publication-filter-year="${escapeHtml(item.year)}" aria-label="Filter publications by ${escapeHtml(item.year)}">${escapeHtml(item.year)}</button>` : ""}
               ${typeLabel ? `<button type="button" data-publication-filter-type="${escapeHtml(item.type)}" aria-label="Filter publications by ${escapeHtml(typeLabel)}">${escapeHtml(typeLabel)}</button>` : ""}
             </span>
@@ -465,9 +486,13 @@
     setText = () => {},
     initHomeAboutLightbox = () => {},
   } = {}) {
-    const homeTitle = `${site.meta.homeTitle} — ${site.meta.homeSubtitle}`;
-
     document.documentElement.lang = site.currentLocale || site.defaultLocale || "uk";
+    if (pageType === "home") {
+      document.title = `${site.meta.homeTitle} — ${site.meta.homeSubtitle}`;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute("content", site.meta.siteDescription || "");
+    }
+
     setText("[data-site-title]", site.meta.siteTitle);
     setText("[data-site-subtitle]", site.meta.homeSubtitle);
     setText(
@@ -542,10 +567,6 @@
           </span>
         ` : ""}
       `;
-    }
-
-    if (pageType === "home") {
-      document.title = homeTitle;
     }
   }
 

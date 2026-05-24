@@ -174,12 +174,13 @@
     }
 
     toggle.addEventListener("click", () => {
-      const nextTheme =
-        document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      document.documentElement.setAttribute("data-theme", nextTheme);
+      const currentTheme = localStorage.getItem("site-theme") || "light";
+      const nextTheme = currentTheme === "dark" ? "light" : "dark";
+      
       localStorage.setItem("site-theme", nextTheme);
       toggle.classList.toggle("is-dark", nextTheme === "dark");
       updateThemeToggleLabel(nextTheme);
+      applyAccessibleTheme(); // Викликаємо загальний аплікатор замість прямого setAttribute
       applyThemeAssets(nextTheme);
     });
 
@@ -549,7 +550,59 @@
     window.addEventListener("resize", handleResize, { passive: true });
   }
 
+  function initAccessibleThemeToggle({ site = window.SITE || {}, applyAccessibleTheme = () => {} } = {}) {
+    let toggle = document.querySelector("[data-accessible-theme-toggle]");
+    if (!toggle) {
+      toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "accessible-fab";
+      toggle.setAttribute("data-accessible-theme-toggle", "");
+      toggle.innerHTML = `
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+          <path fill="currentColor" d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/>
+        </svg>
+        <span class="accessible-fab-label"></span>
+      `;
+      document.body.appendChild(toggle);
+    }
+
+    const labelSpan = toggle.querySelector(".accessible-fab-label");
+    const update = (state) => {
+      const themeUi = site.ui?.documentPreview?.accessibleTheme || {};
+      if (labelSpan) {
+        labelSpan.textContent = state 
+          ? themeUi.disable || "Звичайна версія" 
+          : themeUi.enable || "Спрощена версія";
+      }
+      toggle.title = labelSpan.textContent;
+      toggle.classList.toggle("is-active", state);
+    };
+
+    toggle.onclick = (e) => {
+      e.preventDefault();
+      const next = localStorage.getItem("site-accessible") !== "true";
+      localStorage.setItem("site-accessible", next);
+      applyAccessibleTheme(next);
+      update(next);
+    };
+
+    update(localStorage.getItem("site-accessible") === "true");
+  }
+
+  function applyAccessibleTheme(state = null) {
+    const active = state !== null ? state : localStorage.getItem("site-accessible") === "true";
+    const baseTheme = localStorage.getItem("site-theme") || "light";
+    
+    if (active) {
+      document.documentElement.setAttribute("data-theme", "accessible");
+    } else {
+      document.documentElement.setAttribute("data-theme", baseTheme);
+    }
+  }
+
   window.SiteHeaderUi = {
+    initAccessibleThemeToggle,
+    applyAccessibleTheme,
     applyThemeAssets,
     ensureControls: ensureHeaderControls,
     initBrand: initHeaderBrand,

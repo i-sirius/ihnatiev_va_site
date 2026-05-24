@@ -1,4 +1,4 @@
-@import url("./theme.css");
+﻿@import url("./theme.css");
 @import url("./base.css");
 @import url("./layout.css");
 @import url("./components.css");
@@ -11,4 +11,5 @@
 @import url("./contact.css");
 @import url("./effects.css");
 @import url("./header.css");
+@import url("./accessibility.css");
 @import url("./responsive.css");

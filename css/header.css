@@ -675,10 +675,6 @@ html[data-theme="dark"] .language-toggle-option.is-active {
   max-width: 28px;
 }
 
-.site-header.is-compact .theme-toggle {
-  gap: 3px;
-}
-
 .site-header.is-compact .theme-toggle,
 .site-header.is-compact .language-toggle {
   width: 34px;

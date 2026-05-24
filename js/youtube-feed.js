@@ -125,14 +125,14 @@
             );
             const actionMarkup = viewsText
               ? `
-                <span class="video-card-link-icon" aria-hidden="true"></span>
+                <span class="video-card-link-icon is-youtube" aria-hidden="true"></span>
                 <span class="video-card-link-copy">
                   <span class="video-card-link-label">${escapeHtml(watchLabel)}</span>
                   <span class="video-card-link-views">${escapeHtml(viewsText)}</span>
                 </span>
               `
               : `
-                <span class="video-card-link-icon" aria-hidden="true"></span>
+                <span class="video-card-link-icon is-youtube" aria-hidden="true"></span>
                 <span class="video-card-link-copy">
                   <span class="video-card-link-label">${escapeHtml(watchLabel)}</span>
                 </span>
