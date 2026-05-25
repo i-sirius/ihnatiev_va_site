@@ -5,6 +5,7 @@
     "searchPlaceholder": "Назва, видання або рік",
     "searchLabel": "Пошук у працях",
     "yearLabel": "Рік",
+    "fileLabel": "Завантажити файл",
     "typeLabels": {
       "article": "Стаття",
       "conference": "Конференція",
@@ -15,8 +16,7 @@
     "typeLabel": "Тип",
     "allTypesLabel": "Усі типи",
     "description": "Кандидат філософських наук Ігнатьєв В. А.",
-    "allYearsLabel": "Усі роки",
-    "fileLabel": "Завантажити файл"
+    "allYearsLabel": "Усі роки"
   },
   "en": {
     "summary": "List of academic publications (85 items)",
@@ -24,6 +24,7 @@
     "searchPlaceholder": "Search by title, venue, or year",
     "searchLabel": "Search publications",
     "yearLabel": "Year",
+    "fileLabel": "Download file",
     "typeLabels": {
       "article": "Article",
       "conference": "Conference",
@@ -34,8 +35,7 @@
     "typeLabel": "Type",
     "allTypesLabel": "All types",
     "description": "PhD in Philosophy, V. A. Ihnatiev",
-    "allYearsLabel": "All years",
-    "fileLabel": "Download file"
+    "allYearsLabel": "All years"
   },
   "items": [
     {
@@ -401,7 +401,7 @@
     {
       "text": "Ігнатьєв В.А. Рашизм як форма етнофілетизму / Актуальний філософський дискурс: трансформаційні зміни в умовах війни : науковий круглий стіл до Міжнародного дня філософії, 16 листопада 2023 року. – Львів – Торунь : Liha-Pres, 2023. – С. 110 – 114.",
       "year": 2023,
-      "type": "other"
+      "type": "conference"
     },
     {
       "text": "Ігнатьєв В.А. Ісихазм та сакралізація в історії культури та держави // Актуальні проблеми вітчизняної та всесвітньої історії: Програма ХІІІ Міжнародної наукової конференції: 23 листопада 2023 року Рівне РДГУ, 2023.",
@@ -441,12 +441,12 @@
     {
       "text": "Molla, E., Kochkorova, D., Ihnatiev, V., Smetaniak, M., y Kieliszek, Z. (2024). Study on the philosophical aspects of social justice and equality in modern society. Discusiones Filosóficas, 25(45), 15–47. https://doi.org/10.17151/difil.2024.25.45.2 (https://www.scopus.com/record/display.uri?eid=2-s2.0-105007497514&origin=inward&txGid=b57bfbf6a62eda27de7ac89b41f25eea)",
       "year": 2024,
-      "type": "other"
+      "type": "article"
     },
     {
       "text": "Vitalii Ihnatiev, Volodymyr Grytsyshyn, Mariia Grytsyshyna, Iryna Panchuk, Andrii Bobryk (2025)/ Sources of Pamfil Yurkevich’s philosophical and religious concept of the heart // https://www.scopus.com/record/display.uri?eid=2-s2.0-105007497514&origin=inward&txGid=b57bfbf6a62eda27de7ac89b41f25eea",
       "year": 2025,
-      "type": "other"
+      "type": "article"
     },
     {
       "text": "Ігнатьєв В.А. Філософська антропологія: класична та некласична парадигма. – Збірник матеріалів VІІ Міжнародної наукової конференції «Людина як цілісність: філософський, мовознавчий та педагогічний дискурси» // Одеський національний університет імені І. І. Мечникова, - 2025. – с. 13 - 15",
@@ -457,7 +457,7 @@
     {
       "text": "Н. В. Лютко, А. С. Сустрєтов, В. А. Ігнатьєв Проблема предмету та методу філософської науки в зарубіжній філософії xxi століття. – Актуальні проблеми філософії та соціології №56/2025 http://apfs.nuoua.od.ua/archive/56_2025/15.pdf",
       "year": 2025,
-      "type": "other"
+      "type": "article"
     },
     {
       "text": "Ігнатьєв В.А. «Ісихазм у контексті некласичної філософсько-релігійної парадигми»: монографія / В.А. Ігнатьєв. – Кропивницький, 2025, - 336 с.",
