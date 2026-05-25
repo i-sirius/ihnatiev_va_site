@@ -2,8 +2,8 @@
   meta: {
     siteTitle: "Віталій Ігнатьєв",
     ownerName: "Sirius",
-    buildVersion: "0.7.61",
-    buildDate: "240526",
+    buildVersion: "0.7.73",
+    buildDate: "250526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
     homeSubtitle: "філософ, викладач, священнослужитель",
@@ -263,6 +263,11 @@
       nextLight: "Світла тема",
       enableDark: "Увімкнути темну тему",
       enableLight: "Увімкнути світлу тему"
+    },
+    accessibility: {
+      label: "Доступність",
+      simplified: "СПРОЩЕНА ВЕРСІЯ",
+      regular: "ЗВИЧАЙНА ВЕРСІЯ"
     },
     language: {
       label: "Мова",
@@ -587,6 +592,11 @@ const SITE_EN = {
       nextLight: "Light theme",
       enableDark: "Enable dark theme",
       enableLight: "Enable light theme"
+    },
+    accessibility: {
+      label: "Accessibility",
+      simplified: "SIMPLIFIED VERSION",
+      regular: "REGULAR VERSION"
     },
     language: {
       label: "Language",

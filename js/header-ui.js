@@ -558,8 +558,9 @@
       toggle.className = "accessible-fab";
       toggle.setAttribute("data-accessible-theme-toggle", "");
       toggle.innerHTML = `
-        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-          <path fill="currentColor" d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8Z"/>
+          <path d="M12 4a8 8 0 0 0 0 16V4Z"/>
         </svg>
         <span class="accessible-fab-label"></span>
       `;
@@ -568,13 +569,17 @@
 
     const labelSpan = toggle.querySelector(".accessible-fab-label");
     const update = (state) => {
-      const themeUi = site.ui?.documentPreview?.accessibleTheme || {};
+      const themeUi = site.ui && site.ui.accessibility ? site.ui.accessibility : {};
       if (labelSpan) {
         labelSpan.textContent = state 
-          ? themeUi.disable || "Звичайна версія" 
-          : themeUi.enable || "Спрощена версія";
+          ? themeUi.regular || "ЗВИЧАЙНА ВЕРСІЯ" 
+          : themeUi.simplified || "СПРОЩЕНА ВЕРСІЯ";
       }
-      toggle.title = labelSpan.textContent;
+      if (typeof window.syncAccessibleFabTitle === "function") {
+        window.syncAccessibleFabTitle();
+      } else {
+        toggle.title = labelSpan.textContent;
+      }
       toggle.classList.toggle("is-active", state);
     };
 

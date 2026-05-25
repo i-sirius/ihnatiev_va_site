@@ -180,7 +180,7 @@ html[data-theme="accessible"] :is(.button-link, .about-publication-meta button, 
 }
 
 /* Інверсія (зафарбовування) при наведенні для візуального відгуку в режимі accessible */
-html[data-theme="accessible"] :is(.button-link, .about-publication-meta button, .about-details-arrow, .video-card-link):is(:hover, :focus-visible) {
+html[data-theme="accessible"] :is(.button-link, .about-publication-meta button, .about-details-arrow, .video-card-link, .accessible-fab):is(:hover, :focus-visible) {
   background: #000000 !important;
   color: #ffffff !important;
 }
@@ -392,12 +392,17 @@ html[data-theme="accessible"] .language-toggle-option.is-active .language-toggle
 
 /* Виправлення плаваючої кнопки (FAB) у режимі accessible */
 html[data-theme="accessible"] .accessible-fab {
-  background: #ffffff !important;
+  background: #ffffff !important; /* Білий фон затирає лінії під кнопкою */
   color: #000000 !important;
-  border: 2px solid #000000 !important;
-  box-shadow: none !important;
+  border: none !important; /* Прибираємо рамку для сучасних браузерів */
+  box-shadow: 0 0 0 6px #ffffff !important; /* Створює зону відчуження навколо кола */
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  border-radius: 23px 0 0 23px !important;
+}
+
+html.no-modern-effects .accessible-fab {
+  border: 2px solid #000000 !important; /* Гарантована видимість у Legacy на білому фоні */
 }
 
 html[data-theme="accessible"] .accessible-fab svg {
@@ -405,20 +410,15 @@ html[data-theme="accessible"] .accessible-fab svg {
   color: #000000 !important;
 }
 
-/* Стан "Увімкнено" (Active) — інверсія для акценту */
-html[data-theme="accessible"] .accessible-fab.is-active {
-  background: #000000 !important;
-  color: #ffffff !important;
-}
-
-html[data-theme="accessible"] .accessible-fab.is-active svg {
+/* Hover стан: повна інверсія для видимості */
+html[data-theme="accessible"] .accessible-fab:hover svg {
   fill: #ffffff !important;
   color: #ffffff !important;
 }
 
 /* Виправлення розгортання та видимості тексту при наведенні */
 html[data-theme="accessible"] .accessible-fab:hover {
-  width: 144px !important;
+  width: 110px !important;
 }
 
 html[data-theme="accessible"] .accessible-fab:hover .accessible-fab-label {
@@ -435,10 +435,10 @@ html[data-theme="accessible"] .accessible-fab:hover .accessible-fab-label {
   bottom: 80px; /* Ще нижче для десктопа за запитом */
   z-index: 1001;
   align-items: center;
-  width: 32px;
-  height: 38px;
-  padding-left: 10px;
-  border-radius: 20px 0 0 20px;
+  width: 34px;
+  height: 46px; /* Встановлюємо стабільну висоту для підтримки двох рядків */
+  padding-left: 2px;
+  border-radius: 23px 0 0 23px;
   border: 1px solid color-mix(in srgb, var(--border) 70%, var(--primary));
   border-right: 0;
   background: var(--liquid-glass-bg);
@@ -454,34 +454,89 @@ html[data-theme="accessible"] .accessible-fab:hover .accessible-fab-label {
 
 .accessible-fab svg {
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
+  width: 32px;
+  height: 32px;
   display: block;
 }
 
 .accessible-fab:hover {
-  width: 144px;
+  width: 110px; /* Зменшуємо ширину розгортання, оскільки текст буде у два рядки */
   background: var(--liquid-glass-hover-bg);
 }
 
 .accessible-fab-label {
   font-family: var(--font-ui);
   font-size: 0.68rem;
+  font-size: 0 !important; /* Приховуємо потенційно нелокалізований текст */
   font-weight: 800;
   text-transform: uppercase;
   margin-left: 10px;
   opacity: 0;
   transition: opacity 0.2s ease 0.1s;
+  display: inline-block !important;
+  line-height: 1.1 !important;
+  max-width: 70px !important;
+}
+
+/* Локалізація напису плаваючої кнопки через CSS для надійності */
+.accessible-fab-label::before {
+  font-size: 0.62rem; /* Трохи менший шрифт для дворядкового формату */
+}
+
+/* Локалізація та стани для плаваючої кнопки через CSS */
+html[lang="uk"] .accessible-fab:not(.is-active) .accessible-fab-label::before {
+  content: "СПРОЩЕНА ВЕРСІЯ";
+}
+html[lang="uk"] .accessible-fab.is-active .accessible-fab-label::before {
+  content: "ЗВИЧАЙНА ВЕРСІЯ";
+}
+
+html[lang="en"] .accessible-fab:not(.is-active) .accessible-fab-label::before {
+  content: "SIMPLIFIED VERSION";
+}
+html[lang="en"] .accessible-fab.is-active .accessible-fab-label::before {
+  content: "REGULAR VERSION";
 }
 
 .accessible-fab:hover .accessible-fab-label {
   opacity: 1;
+  white-space: normal !important;
 }
 
+/* Корекція станів для звичайного режиму (не accessible) */
 .accessible-fab.is-active {
-  background: #000 !important;
-  color: #fff !important;
-  border-color: #000 !important;
+  background: var(--liquid-glass-active-bg);
+  color: var(--button-text);
+  border: 1px solid var(--liquid-glass-border);
+  box-shadow: var(--liquid-glass-active-shadow);
+}
+
+/* Статичне відображення підпису на супер-широких екранах (>1600px) */
+@media (min-width: 1600px) {
+  html[data-theme="accessible"] .accessible-fab {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    border-right: 0 !important;
+  }
+
+  .accessible-fab {
+    width: 110px !important;
+    height: 46px !important;
+    padding-right: 12px !important;
+    border-radius: 23px 0 0 23px !important;
+    white-space: normal !important;
+  }
+  .accessible-fab-label {
+    opacity: 1 !important;
+    white-space: normal !important;
+    line-height: 1.1 !important;
+    margin-left: 10px !important;
+    max-width: 70px !important;
+    display: inline-block !important;
+  }
+  .accessible-fab-label::before {
+    font-size: 0.62rem !important;
+  }
 }
 
 @media (max-width: 900px) {

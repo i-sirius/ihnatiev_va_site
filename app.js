@@ -29,6 +29,27 @@
     window.SiteLegacyDebugLog = logLegacyStep;
   }
 
+  function syncAccessibleFabTitle() {
+    const fab = document.querySelector('.accessible-fab');
+    if (!fab || !SITE.ui || !SITE.ui.accessibility) return;
+
+    const isAccessible = document.documentElement.getAttribute('data-theme') === 'accessible';
+    const labelText = isAccessible 
+      ? SITE.ui.accessibility.regular 
+      : SITE.ui.accessibility.simplified;
+    fab.title = labelText;
+    fab.setAttribute('aria-label', labelText);
+  }
+  window.syncAccessibleFabTitle = syncAccessibleFabTitle;
+
+  function applyFooterContent() {
+    const footer = document.querySelector('[data-footer]');
+    if (!footer || !SITE.meta) return;
+    const year = SITE.meta.year || '2026';
+    const ownerName = SITE.meta.ownerName || 'Sirius';
+    footer.innerHTML = `© ${year} ${ownerName}<br><span class="footer-build">v${SITE.meta.buildVersion}.${SITE.meta.buildDate} <span data-footer-counter-separator hidden>:</span> <span data-footer-counter-value hidden></span></span>`;
+  }
+
   const { escapeHtml, getLocalizedValue, setText } = window.SiteUtils;
   const themeAssets = {
     light: "files/media/logo-light.png",
@@ -640,10 +661,12 @@
       window.SiteHeaderUi.initThemeToggle({ site: SITE, applyThemeAssets });
       window.SiteHeaderUi.initAccessibleThemeToggle({ site: SITE, applyAccessibleTheme: window.SiteHeaderUi.applyAccessibleTheme });
       window.SiteHeaderUi.applyAccessibleTheme();
+      syncAccessibleFabTitle();
       window.SiteHeaderUi.initScrollState({
         site: SITE,
         pageType
       });
+      applyFooterContent();
     }
     if (window.SitePageContent) {
       window.SitePageContent.initDetailsInteractions();

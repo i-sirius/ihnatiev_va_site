@@ -426,26 +426,46 @@ html.no-modern-effects .language-toggle-code.is-flag-fallback {
     overflow: hidden;
   }
 
+
+/* Фікс зниклих кнопок на iPad Air 1 (iOS 12) */
+@media (max-width: 900px) {
   html.no-modern-effects .site-brand-link,
   html.no-modern-effects .site-header-controls {
-    position: absolute;
-    border-color: var(--border);
-    background: rgba(252, 251, 248, 0.9);
-    box-shadow: 0 8px 18px rgba(40, 34, 28, 0.12);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    position: absolute !important;
+    top: 9px !important; /* Статичний відступ замість max/env */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid var(--border) !important;
+    background: #fcfbf8 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html.no-modern-effects .site-brand-link {
+    left: 8px !important;
+    width: 66px !important;
+    height: 44px !important;
+  }
+
+  html.no-modern-effects .site-header-controls {
+    right: 8px !important;
+    width: 44px !important;
+    height: 90px !important; /* Місце для обох перемикачів */
+    min-height: 90px !important;
+    height: auto !important;
+    flex-direction: column !important;
+    gap: 6px !important;
   }
 
   html.no-modern-effects .site-brand-logo,
   html.no-modern-effects .site-brand-link::after {
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    box-shadow: none !important;
+    display: block !important;
+    margin: 0 auto !important;
   }
-
-  html.no-modern-effects .site-brand-link::after {
-    border-bottom-color: var(--border);
-  }
+}
 
   html[data-theme="dark"].no-modern-effects .site-brand-link,
   html[data-theme="dark"].no-modern-effects .site-header-controls {
