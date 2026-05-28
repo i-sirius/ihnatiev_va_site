@@ -1,4 +1,22 @@
 (() => {
+  const siteUtils = window.SiteUtils || {};
+  const isSafeUrl = siteUtils.isSafeUrl || ((value) => {
+    const raw = String(value || "").trim();
+    if (!raw) return false;
+    const normalized = raw.replace(/[\u0000-\u001F\u007F\s]+/g, "").toLowerCase();
+    const schemeMatch = normalized.match(/^([a-z][a-z0-9+.-]*):/);
+    return !schemeMatch || schemeMatch[1] === "http" || schemeMatch[1] === "https";
+  });
+  const setSafeUrlAttribute = siteUtils.setSafeUrlAttribute || ((element, attribute, value) => {
+    if (!element || !isSafeUrl(value)) return false;
+    element.setAttribute(attribute, String(value).trim());
+    return true;
+  });
+
+  function getSafeClassSuffix(value, fallback = "item") {
+    return String(value || fallback).replace(/[^a-z0-9_-]/gi, "") || fallback;
+  }
+
   function applyContactPage({
     pageType = document.body.dataset.page,
     site = window.SITE || {},
@@ -32,36 +50,33 @@
         ? site.contact.socials.items
         : [];
 
-      socialsList.innerHTML = socials
-        .map((item) => {
-          const href = item.id === "youtube" ? item.href || defaultYoutubeHref : item.href || "";
-          const isActive = Boolean(href);
-          const status = isActive
-            ? ""
-            : `<span class="contact-social-status">${escapeHtml(
-                contactUi.socialsComingSoon || "незабаром"
-              )}</span>`;
-          const commonClass = `contact-social-button is-${item.id}${isActive ? "" : " is-disabled"}`;
-          const icon = getSocialIconMarkup(item.id, "contact-social-icon");
+      socialsList.textContent = "";
+      socials.forEach((item) => {
+        const href = item.id === "youtube" ? item.href || defaultYoutubeHref : item.href || "";
+        const isActive = Boolean(href && isSafeUrl(href));
+        const element = document.createElement(isActive ? "a" : "span");
+        element.className = `contact-social-button is-${getSafeClassSuffix(item.id)}${isActive ? "" : " is-disabled"}`;
+        element.insertAdjacentHTML("beforeend", getSocialIconMarkup(item.id, "contact-social-icon"));
 
-          if (!isActive) {
-            return `
-              <span class="${commonClass}" aria-disabled="true">
-                ${icon}
-                <span class="contact-social-label">${item.label}</span>
-                ${status}
-              </span>
-            `;
-          }
+        const label = document.createElement("span");
+        label.className = "contact-social-label";
+        label.textContent = item.label || "";
+        element.appendChild(label);
 
-          return `
-            <a class="${commonClass}" href="${href}" target="_blank" rel="noreferrer">
-              ${icon}
-              <span class="contact-social-label">${item.label}</span>
-            </a>
-          `;
-        })
-        .join("");
+        if (isActive) {
+          setSafeUrlAttribute(element, "href", href);
+          element.target = "_blank";
+          element.rel = "noreferrer";
+        } else {
+          element.setAttribute("aria-disabled", "true");
+          const status = document.createElement("span");
+          status.className = "contact-social-status";
+          status.textContent = contactUi.socialsComingSoon || "незабаром";
+          element.appendChild(status);
+        }
+
+        socialsList.appendChild(element);
+      });
     }
 
     const form = document.querySelector("[data-contact-form]");
@@ -163,7 +178,9 @@
       return;
     }
 
-    form.action = site.contact.formAction;
+    if (!setSafeUrlAttribute(form, "action", site.contact.formAction)) {
+      form.removeAttribute("action");
+    }
     if (hiddenSubjectField) {
       hiddenSubjectField.value =
         site.contact.formSubject || contactUi.formSubject || "Нове повідомлення із сайту";

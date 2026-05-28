@@ -46,8 +46,32 @@
     const footer = document.querySelector('[data-footer]');
     if (!footer || !SITE.meta) return;
     const year = SITE.meta.year || '2026';
-    const ownerName = SITE.meta.ownerName || 'Sirius';
-    footer.innerHTML = `© ${year} ${ownerName}<br><span class="footer-build">v${SITE.meta.buildVersion}.${SITE.meta.buildDate} <span data-footer-counter-separator hidden>:</span> <span data-footer-counter-value hidden></span></span>`;
+    const authorName = SITE.meta.authorRealName || 'Віталій Ігнатьєв';
+    const developerName = SITE.meta.siteDeveloperName || "";
+    const developerText = developerName ? ` · сайт: ${developerName}` : "";
+    const owner = document.createTextNode(`© ${year} ${authorName}${developerText}`);
+    const lineBreak = document.createElement("br");
+    const build = document.createElement("span");
+    const separator = document.createElement("span");
+    const counter = document.createElement("span");
+
+    build.className = "footer-build";
+    build.appendChild(document.createTextNode(`v${SITE.meta.buildVersion}.${SITE.meta.buildDate} `));
+    separator.setAttribute("data-footer-counter-separator", "");
+    separator.hidden = true;
+    separator.textContent = ":";
+    counter.setAttribute("data-footer-counter-value", "");
+    counter.hidden = true;
+    build.appendChild(separator);
+    build.appendChild(document.createTextNode(" "));
+    build.appendChild(counter);
+
+    while (footer.firstChild) {
+      footer.removeChild(footer.firstChild);
+    }
+    footer.appendChild(owner);
+    footer.appendChild(lineBreak);
+    footer.appendChild(build);
   }
 
   const { escapeHtml, getLocalizedValue, setText } = window.SiteUtils;
@@ -686,13 +710,23 @@
     applyThemeAssets(document.documentElement.getAttribute("data-theme") || "light");
   }
 
+  function runInitialContent() {
+    if (document.body.dataset.initialContentApplied === "true") {
+      return;
+    }
+
+    document.body.dataset.initialContentApplied = "true";
+    applyAllContent();
+  }
+
   if (window.SiteMenuLoader) {
     window.SiteMenuLoader.load({
       onComplete: () => {
         logLegacyStep("menu HTML loaded");
-        applyAllContent();
+        runInitialContent();
       }
     });
+  } else {
+    runInitialContent();
   }
-  applyAllContent();
 });

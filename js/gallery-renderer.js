@@ -3,6 +3,19 @@
     items: [],
     galleryPromise: null
   };
+  const siteUtils = window.SiteUtils || {};
+  const isSafeUrl = siteUtils.isSafeUrl || ((value) => {
+    const raw = String(value || "").trim();
+    if (!raw) return false;
+    const normalized = raw.replace(/[\u0000-\u001F\u007F\s]+/g, "").toLowerCase();
+    const schemeMatch = normalized.match(/^([a-z][a-z0-9+.-]*):/);
+    return !schemeMatch || schemeMatch[1] === "http" || schemeMatch[1] === "https";
+  });
+  const setSafeUrlAttribute = siteUtils.setSafeUrlAttribute || ((element, attribute, value) => {
+    if (!element || !isSafeUrl(value)) return false;
+    element.setAttribute(attribute, String(value).trim());
+    return true;
+  });
 
   function ensureLightbox(site = window.SITE || {}) {
     return window.SiteGalleryLightbox && window.SiteGalleryLightbox.ensure({
@@ -28,6 +41,14 @@
     });
   }
 
+  function replaceElementChildren(element, node) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+
+    element.appendChild(node);
+  }
+
   function renderGallery({
     selector,
     images,
@@ -39,36 +60,44 @@
     }
 
     document.querySelectorAll(selector).forEach((element) => {
-      const count = images.length;
+      const safeImages = images.filter((image) => image && isSafeUrl(image.src));
+      const count = safeImages.length;
       if (!count) {
         element.style.removeProperty("--gallery-columns");
-        element.innerHTML = `<p class="gallery-empty">${escapeHtml(
-          site.ui && site.ui.gallery && site.ui.gallery.empty || "Фото тимчасово відсутні."
-        )}</p>`;
+        const empty = document.createElement("p");
+        empty.className = "gallery-empty";
+        empty.textContent = site.ui && site.ui.gallery && site.ui.gallery.empty || "Фото тимчасово відсутні.";
+        replaceElementChildren(element, empty);
         return;
       }
 
       const columns = Math.min(Math.max(count, 1), 5);
       element.style.setProperty("--gallery-columns", String(columns));
-      element.innerHTML = images
-        .map(
-          (image, index) => `
-            <button class="gallery-item" type="button" data-gallery-index="${index}">
-              <img src="${image.src}" alt="${image.alt || ""}" loading="lazy">
-            </button>
-          `
-        )
-        .join("");
-
       const lightbox = ensureLightbox(site);
-      element.querySelectorAll("[data-gallery-index]").forEach((button) => {
+      const fragment = document.createDocumentFragment();
+
+      safeImages.forEach((image, index) => {
+        const button = document.createElement("button");
+        button.className = "gallery-item";
+        button.type = "button";
+        button.dataset.galleryIndex = String(index);
+
+        const img = document.createElement("img");
+        setSafeUrlAttribute(img, "src", image.src);
+        img.alt = image.alt || "";
+        img.loading = "lazy";
+        button.appendChild(img);
+
         button.addEventListener("click", () => {
           if (lightbox) {
-            lightbox.showItems(images, Number(button.dataset.galleryIndex || "0"));
+            lightbox.showItems(safeImages, Number(button.dataset.galleryIndex || "0"));
           }
         });
+
+        fragment.appendChild(button);
       });
 
+      replaceElementChildren(element, fragment);
       applyPortraitState(element);
     });
   }

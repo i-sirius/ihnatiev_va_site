@@ -190,7 +190,7 @@
           status = document.createElement("div");
           status.className = "video-status-text";
           status.setAttribute("data-youtube-status", "");
-          element.prepend(status);
+          element.insertBefore(status, element.firstChild);
         }
 
         status.classList.toggle("is-loading", Boolean(options.loading));

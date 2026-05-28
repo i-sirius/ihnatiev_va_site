@@ -1,5 +1,100 @@
 (() => {
   const publicationTypeOrder = ["monograph", "article", "conference", "teaching", "other"];
+  const allowedRichTextTags = new Set(["STRONG", "B", "EM", "I", "BR"]);
+  const droppedRichTextTags = new Set(["SCRIPT", "STYLE", "IFRAME", "OBJECT", "EMBED"]);
+  const siteUtils = window.SiteUtils || {};
+  const isSafeUrl = siteUtils.isSafeUrl || ((value) => {
+    const raw = String(value || "").trim();
+    if (!raw) return false;
+    const normalized = raw.replace(/[\u0000-\u001F\u007F\s]+/g, "").toLowerCase();
+    const schemeMatch = normalized.match(/^([a-z][a-z0-9+.-]*):/);
+    return !schemeMatch || schemeMatch[1] === "http" || schemeMatch[1] === "https";
+  });
+  const setSafeUrlAttribute = siteUtils.setSafeUrlAttribute || ((element, attribute, value) => {
+    if (!element || !isSafeUrl(value)) return false;
+    element.setAttribute(attribute, String(value).trim());
+    return true;
+  });
+
+  function getSafeClassSuffix(value, fallback = "item") {
+    return String(value || fallback).replace(/[^a-z0-9_-]/gi, "") || fallback;
+  }
+
+  function appendSafeRichText(parent, value = "") {
+    const template = document.createElement("template");
+    template.innerHTML = String(value);
+
+    function appendNode(node, target) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        target.appendChild(document.createTextNode(node.textContent || ""));
+        return;
+      }
+
+      if (node.nodeType !== Node.ELEMENT_NODE) {
+        return;
+      }
+
+      const tagName = node.tagName;
+      if (droppedRichTextTags.has(tagName)) {
+        return;
+      }
+
+      if (tagName === "BR") {
+        target.appendChild(document.createElement("br"));
+        return;
+      }
+
+      const nextTarget = allowedRichTextTags.has(tagName)
+        ? document.createElement(tagName.toLowerCase())
+        : target;
+
+      Array.from(node.childNodes).forEach((child) => appendNode(child, nextTarget));
+
+      if (nextTarget !== target) {
+        target.appendChild(nextTarget);
+      }
+    }
+
+    Array.from(template.content.childNodes).forEach((node) => appendNode(node, parent));
+  }
+
+  function createTextElement(tagName, text = "", className = "") {
+    const element = document.createElement(tagName);
+    if (className) {
+      element.className = className;
+    }
+    element.textContent = text;
+    return element;
+  }
+
+  function replaceElementChildren(element, nodes) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+
+    nodes.forEach((node) => {
+      element.appendChild(node);
+    });
+  }
+
+  function createDetailsArrow(openLabel, closeLabel) {
+    const arrow = document.createElement("span");
+    arrow.className = "about-details-arrow";
+    arrow.setAttribute("aria-hidden", "true");
+
+    const icon = document.createElement("span");
+    icon.className = "about-details-arrow-icon";
+
+    const label = document.createElement("span");
+    label.className = "about-details-arrow-label";
+    label.dataset.openLabel = openLabel;
+    label.dataset.closeLabel = closeLabel;
+    label.textContent = openLabel;
+
+    arrow.appendChild(icon);
+    arrow.appendChild(label);
+    return arrow;
+  }
 
   function updateImage(selector, image, fallbackImage = null) {
     const source = image || fallbackImage;
@@ -9,13 +104,20 @@
 
     document.querySelectorAll(selector).forEach((element) => {
       element.alt = source.alt || "";
-      element.src = source.src;
+      if (
+        !setSafeUrlAttribute(element, "src", source.src) &&
+        fallbackImage &&
+        fallbackImage.src
+      ) {
+        setSafeUrlAttribute(element, "src", fallbackImage.src);
+      }
 
       if (fallbackImage && fallbackImage.src) {
         element.onerror = () => {
           element.onerror = null;
-          element.src = fallbackImage.src;
-          element.alt = fallbackImage.alt || source.alt || "";
+          if (setSafeUrlAttribute(element, "src", fallbackImage.src)) {
+            element.alt = fallbackImage.alt || source.alt || "";
+          }
         };
       }
     });
@@ -63,46 +165,52 @@
       .sort((a, b) => publicationTypeOrder.indexOf(a) - publicationTypeOrder.indexOf(b));
     const typeLabels = paragraph.typeLabels || {};
 
-    const yearOptions = years
-      .map((year) => `<option value="${escapeHtml(year)}">${escapeHtml(year)}</option>`)
-      .join("");
-    const typeOptions = types
-      .map((type) => {
-        const label = getPublicationTypeLabel(type, typeLabels);
-        return `<option value="${escapeHtml(type)}">${escapeHtml(label)}</option>`;
-      })
-      .join("");
+    const tools = document.createElement("div");
+    tools.className = "about-publications-tools";
+    tools.setAttribute("data-publication-tools", "");
 
-    return `
-      <div class="about-publications-tools" data-publication-tools>
-        <label class="about-publications-field">
-          <span>${escapeHtml(paragraph.searchLabel || "Пошук")}</span>
-          <input
-            type="search"
-            data-publication-search
-            placeholder="${escapeHtml(paragraph.searchPlaceholder || "")}"
-            autocomplete="off"
-          >
-        </label>
-        <label class="about-publications-field">
-          <span>${escapeHtml(paragraph.yearLabel || "Рік")}</span>
-          <select data-publication-year>
-            <option value="">${escapeHtml(paragraph.allYearsLabel || "Усі роки")}</option>
-            ${yearOptions}
-          </select>
-        </label>
-        <label class="about-publications-field">
-          <span>${escapeHtml(paragraph.typeLabel || "Тип")}</span>
-          <select data-publication-type>
-            <option value="">${escapeHtml(paragraph.allTypesLabel || "Усі типи")}</option>
-            ${typeOptions}
-          </select>
-        </label>
-      </div>
-    `;
+    const searchLabel = document.createElement("label");
+    searchLabel.className = "about-publications-field";
+    searchLabel.appendChild(createTextElement("span", paragraph.searchLabel || "Пошук"));
+
+    const searchInput = document.createElement("input");
+    searchInput.type = "search";
+    searchInput.setAttribute("data-publication-search", "");
+    searchInput.placeholder = paragraph.searchPlaceholder || "";
+    searchInput.autocomplete = "off";
+    searchLabel.appendChild(searchInput);
+
+    const yearLabel = document.createElement("label");
+    yearLabel.className = "about-publications-field";
+    yearLabel.appendChild(createTextElement("span", paragraph.yearLabel || "Рік"));
+
+    const yearSelect = document.createElement("select");
+    yearSelect.setAttribute("data-publication-year", "");
+    yearSelect.appendChild(new Option(paragraph.allYearsLabel || "Усі роки", ""));
+    years.forEach((year) => {
+      yearSelect.appendChild(new Option(year, year));
+    });
+    yearLabel.appendChild(yearSelect);
+
+    const typeLabel = document.createElement("label");
+    typeLabel.className = "about-publications-field";
+    typeLabel.appendChild(createTextElement("span", paragraph.typeLabel || "Тип"));
+
+    const typeSelect = document.createElement("select");
+    typeSelect.setAttribute("data-publication-type", "");
+    typeSelect.appendChild(new Option(paragraph.allTypesLabel || "Усі типи", ""));
+    types.forEach((type) => {
+      typeSelect.appendChild(new Option(getPublicationTypeLabel(type, typeLabels), type));
+    });
+    typeLabel.appendChild(typeSelect);
+
+    tools.appendChild(searchLabel);
+    tools.appendChild(yearLabel);
+    tools.appendChild(typeLabel);
+    return tools;
   }
 
-  function renderPublicationItems(paragraph, items) {
+  function createPublicationItem(paragraph, item) {
     const typeLabels = paragraph.typeLabels || {};
     const fileLabel =
       paragraph.fileLabel ||
@@ -115,45 +223,64 @@
       (window.SITE && window.SITE.ui && window.SITE.ui.documentPreview && window.SITE.ui.documentPreview.copyCitationAria) || 
       (isEn ? "Copy citation" : "Скопіювати цитування");
 
-    return items
-      .map((item) => {
-        const typeLabel = getPublicationTypeLabel(item.type, typeLabels);
-        const searchText = [item.text, item.year, item.type, typeLabel].filter(Boolean).join(" ");
-        const fileLink = item.file
-          ? `<a class="about-publication-file" href="${escapeHtml(item.file)}" target="_blank" rel="noopener noreferrer">${escapeHtml(fileLabel)}</a>`
-          : "";
+    const typeLabel = getPublicationTypeLabel(item.type, typeLabels);
+    const searchText = [item.text, item.year, item.type, typeLabel].filter(Boolean).join(" ");
+    const listItem = document.createElement("li");
+    listItem.setAttribute("data-publication-item", "");
+    listItem.dataset.publicationYear = item.year || "";
+    listItem.dataset.publicationType = item.type || "";
+    listItem.dataset.publicationSearch = searchText.toLocaleLowerCase();
 
-        return `
-          <li
-            data-publication-item
-            data-publication-year="${escapeHtml(item.year)}"
-            data-publication-type="${escapeHtml(item.type)}"
-            data-publication-search="${escapeHtml(searchText.toLocaleLowerCase())}"
-          >
-            <span class="about-publication-meta">
-              <button
-                class="about-publication-copy"
-                type="button"
-                data-copy-citation="${escapeHtml(item.text)}"
-                aria-label="${escapeHtml(copyAria)}"
-                title="${escapeHtml(copyLabel)}"
-              >
-                <svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16">
-                  <path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                </svg>
-                <svg class="check-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16">
-                  <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                </svg>
-              </button>
-              ${item.year ? `<button type="button" data-publication-filter-year="${escapeHtml(item.year)}" aria-label="Filter publications by ${escapeHtml(item.year)}">${escapeHtml(item.year)}</button>` : ""}
-              ${typeLabel ? `<button type="button" data-publication-filter-type="${escapeHtml(item.type)}" aria-label="Filter publications by ${escapeHtml(typeLabel)}">${escapeHtml(typeLabel)}</button>` : ""}
-            </span>
-            <span class="about-publication-text">${escapeHtml(item.text)}</span>
-            ${fileLink}
-          </li>
-        `;
-      })
-      .join("");
+    const meta = document.createElement("span");
+    meta.className = "about-publication-meta";
+
+    const copyButton = document.createElement("button");
+    copyButton.className = "about-publication-copy";
+    copyButton.type = "button";
+    copyButton.dataset.copyCitation = item.text || "";
+    copyButton.setAttribute("aria-label", copyAria);
+    copyButton.title = copyLabel;
+    copyButton.innerHTML = `
+      <svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16">
+        <path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+      </svg>
+      <svg class="check-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16">
+        <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+      </svg>
+    `;
+    meta.appendChild(copyButton);
+
+    if (item.year) {
+      const yearButton = document.createElement("button");
+      yearButton.type = "button";
+      yearButton.dataset.publicationFilterYear = item.year;
+      yearButton.setAttribute("aria-label", `Filter publications by ${item.year}`);
+      yearButton.textContent = item.year;
+      meta.appendChild(yearButton);
+    }
+
+    if (typeLabel) {
+      const typeButton = document.createElement("button");
+      typeButton.type = "button";
+      typeButton.dataset.publicationFilterType = item.type || "";
+      typeButton.setAttribute("aria-label", `Filter publications by ${typeLabel}`);
+      typeButton.textContent = typeLabel;
+      meta.appendChild(typeButton);
+    }
+
+    const text = createTextElement("span", item.text || "", "about-publication-text");
+    listItem.appendChild(meta);
+    listItem.appendChild(text);
+
+    if (item.file && isSafeUrl(item.file)) {
+      const fileLink = createTextElement("a", fileLabel, "about-publication-file");
+      setSafeUrlAttribute(fileLink, "href", item.file);
+      fileLink.target = "_blank";
+      fileLink.rel = "noopener noreferrer";
+      listItem.appendChild(fileLink);
+    }
+
+    return listItem;
   }
 
   function renderParagraphs({
@@ -170,89 +297,133 @@
     const defaultExpandLabel = detailsUi.expand || "РОЗГОРНУТИ";
     const defaultCloseLabel = detailsUi.collapse || "ЗГОРНУТИ";
 
+    function createDetailsParagraph(paragraph) {
+      const publicationItems = Array.isArray(paragraph.items)
+        ? paragraph.items.map(normalizePublicationItem).filter(Boolean)
+        : [];
+      const isPublicationList =
+        paragraph.variant === "publications" && publicationItems.length;
+      const details = document.createElement("details");
+      details.className = `about-details${isPublicationList ? " about-details-publications" : ""}`;
+
+      const summary = document.createElement("summary");
+      summary.appendChild(
+        createTextElement(
+          "span",
+          paragraph.summary || defaultDetailsSummary,
+          "about-details-summary-text"
+        )
+      );
+      summary.appendChild(createDetailsArrow(defaultExpandLabel, defaultCloseLabel));
+
+      const body = document.createElement("div");
+      body.className = "about-details-body";
+
+      if (paragraph.description) {
+        body.appendChild(
+          createTextElement("p", paragraph.description, "about-details-description")
+        );
+      }
+
+      if (isPublicationList) {
+        body.appendChild(renderPublicationTools(paragraph, publicationItems));
+      }
+
+      const list = document.createElement("ol");
+      list.className = `about-details-list${isPublicationList ? " about-publications-list" : ""}`;
+
+      if (isPublicationList) {
+        publicationItems.forEach((item) => list.appendChild(createPublicationItem(paragraph, item)));
+      } else if (Array.isArray(paragraph.items)) {
+        paragraph.items.forEach((item) => {
+          const listItem = document.createElement("li");
+          appendSafeRichText(listItem, item);
+          list.appendChild(listItem);
+        });
+      }
+
+      body.appendChild(list);
+
+      if (isPublicationList) {
+        const emptyMessage = createTextElement(
+          "p",
+          paragraph.emptyLabel || "Нічого не знайдено",
+          "about-publications-empty"
+        );
+        emptyMessage.setAttribute("data-publication-empty", "");
+        emptyMessage.hidden = true;
+        body.appendChild(emptyMessage);
+      }
+
+      details.appendChild(summary);
+      details.appendChild(body);
+      return details;
+    }
+
+    function createContentDetailsParagraph(paragraph) {
+      const summaryText =
+        paragraph.summary ||
+        detailsUi.contentSummary ||
+        "Показано скорочену версію. Нижче можна прочитати повний текст.";
+      const actionLabel =
+        paragraph.actionLabel || detailsUi.contentAction || "Читати далі...";
+      const closeLabel =
+        paragraph.closeLabel || detailsUi.contentCollapse || "Згорнути";
+      const details = document.createElement("details");
+      details.className = "about-details about-details-content";
+
+      const summary = document.createElement("summary");
+      summary.appendChild(
+        createTextElement("span", summaryText, "about-details-summary-text")
+      );
+      summary.appendChild(createDetailsArrow(actionLabel, closeLabel));
+
+      const body = document.createElement("div");
+      body.className = "about-details-body";
+
+      if (paragraph.description) {
+        body.appendChild(
+          createTextElement("p", paragraph.description, "about-details-description")
+        );
+      }
+
+      const copy = document.createElement("div");
+      copy.className = "about-details-copy";
+      if (Array.isArray(paragraph.paragraphs)) {
+        paragraph.paragraphs.forEach((item) => {
+          const itemParagraph = document.createElement("p");
+          appendSafeRichText(itemParagraph, item);
+          copy.appendChild(itemParagraph);
+        });
+      }
+      body.appendChild(copy);
+
+      details.appendChild(summary);
+      details.appendChild(body);
+      return details;
+    }
+
+    function createParagraphNode(paragraph) {
+      if (typeof paragraph === "string") {
+        const element = document.createElement("p");
+        appendSafeRichText(element, paragraph);
+        return element;
+      }
+
+      if (paragraph && paragraph.type === "details") {
+        return createDetailsParagraph(paragraph);
+      }
+
+      if (paragraph && paragraph.type === "content-details") {
+        return createContentDetailsParagraph(paragraph);
+      }
+
+      return null;
+    }
+
     document.querySelectorAll(selector).forEach((element) => {
-      element.innerHTML = paragraphs
-        .map((paragraph) => {
-          if (typeof paragraph === "string") {
-            return `<p>${paragraph}</p>`;
-          }
-
-          if (paragraph && paragraph.type === "details") {
-            const publicationItems = Array.isArray(paragraph.items)
-              ? paragraph.items.map(normalizePublicationItem).filter(Boolean)
-              : [];
-            const isPublicationList =
-              paragraph.variant === "publications" && publicationItems.length;
-            const items = isPublicationList
-              ? renderPublicationItems(paragraph, publicationItems)
-              : Array.isArray(paragraph.items)
-                ? paragraph.items.map((item) => `<li>${item}</li>`).join("")
-                : "";
-            const tools = isPublicationList
-              ? renderPublicationTools(paragraph, publicationItems)
-              : "";
-            const emptyMessage = isPublicationList
-              ? `<p class="about-publications-empty" data-publication-empty hidden>${escapeHtml(paragraph.emptyLabel || "Нічого не знайдено")}</p>`
-              : "";
-            const description = paragraph.description
-              ? `<p class="about-details-description">${paragraph.description}</p>`
-              : "";
-
-            return `
-              <details class="about-details${isPublicationList ? " about-details-publications" : ""}">
-                <summary>
-                  <span class="about-details-summary-text">${paragraph.summary || defaultDetailsSummary}</span>
-                  <span class="about-details-arrow" aria-hidden="true">
-                    <span class="about-details-arrow-icon"></span>
-                    <span class="about-details-arrow-label" data-open-label="${defaultExpandLabel}" data-close-label="${defaultCloseLabel}">${defaultExpandLabel}</span>
-                  </span>
-                </summary>
-                <div class="about-details-body">
-                  ${description}
-                  ${tools}
-                  <ol class="about-details-list${isPublicationList ? " about-publications-list" : ""}">${items}</ol>
-                  ${emptyMessage}
-                </div>
-              </details>
-            `;
-          }
-
-          if (paragraph && paragraph.type === "content-details") {
-            const description = paragraph.description
-              ? `<p class="about-details-description">${paragraph.description}</p>`
-              : "";
-            const contentParagraphs = Array.isArray(paragraph.paragraphs)
-              ? paragraph.paragraphs.map((item) => `<p>${item}</p>`).join("")
-              : "";
-            const summaryText =
-              paragraph.summary ||
-              detailsUi.contentSummary ||
-              "Показано скорочену версію. Нижче можна прочитати повний текст.";
-            const actionLabel =
-              paragraph.actionLabel || detailsUi.contentAction || "Читати далі...";
-            const closeLabel =
-              paragraph.closeLabel || detailsUi.contentCollapse || "Згорнути";
-
-            return `
-              <details class="about-details about-details-content">
-                <summary>
-                  <span class="about-details-summary-text">${summaryText}</span>
-                  <span class="about-details-arrow" aria-hidden="true">
-                    <span class="about-details-arrow-icon"></span>
-                    <span class="about-details-arrow-label" data-open-label="${actionLabel}" data-close-label="${closeLabel}">${actionLabel}</span>
-                  </span>
-                </summary>
-                <div class="about-details-body">
-                  ${description}
-                  <div class="about-details-copy">${contentParagraphs}</div>
-                </div>
-              </details>
-            `;
-          }
-
-          return "";
-        })
-        .join("");
+      const nodes = paragraphs.map(createParagraphNode).filter(Boolean);
+      replaceElementChildren(element, nodes);
     });
   }
 
@@ -451,7 +622,7 @@
           )
         : [];
     const activityLinks = Array.isArray(activity.links) ? activity.links : [];
-    const activeLinks = [...researchLinks, ...activityLinks].filter((item) => item.href);
+    const activeLinks = [...researchLinks, ...activityLinks].filter((item) => item.href && isSafeUrl(item.href));
 
     if (!activeLinks.length) {
       return;
@@ -459,23 +630,19 @@
 
     const linksWrap = document.createElement("div");
     linksWrap.className = "about-photo-links";
-    linksWrap.innerHTML = activeLinks
-      .map(
-        (item) => `
-          <a
-            class="about-photo-link is-${item.id}"
-            href="${escapeHtml(item.href)}"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="${escapeHtml(item.label)}"
-            title="${escapeHtml(item.label)}"
-          >
-            ${getSocialIconMarkup(item.id, "about-photo-link-icon")}
-            <span>${escapeHtml(item.label)}</span>
-          </a>
-        `
-      )
-      .join("");
+
+    activeLinks.forEach((item) => {
+      const link = document.createElement("a");
+      link.className = `about-photo-link is-${getSafeClassSuffix(item.id)}`;
+      setSafeUrlAttribute(link, "href", item.href);
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.setAttribute("aria-label", item.label || "");
+      link.title = item.label || "";
+      link.insertAdjacentHTML("beforeend", getSocialIconMarkup(item.id, "about-photo-link-icon"));
+      link.appendChild(createTextElement("span", item.label || ""));
+      linksWrap.appendChild(link);
+    });
 
     aboutPhoto.appendChild(linksWrap);
   }
@@ -554,19 +721,32 @@
         : `v.${site.meta.buildVersion}`
       : "";
     const footerBuild = [buildVersion, site.meta.buildDate].filter(Boolean).join(".");
-    const footerOwner = [site.meta.year ? `© ${site.meta.year}` : "", site.meta.ownerName]
+    const authorName = site.meta.authorRealName || "Віталій Ігнатьєв";
+    const developerName = site.meta.siteDeveloperName || "";
+    const developerText = developerName ? ` · сайт: ${developerName}` : "";
+    const footerOwner = [site.meta.year ? `© ${site.meta.year}` : "", authorName]
       .filter(Boolean)
-      .join(" ");
+      .join(" ") + developerText;
 
     if (footerElement) {
-      footerElement.innerHTML = `
-        <span class="footer-owner">${footerOwner}</span>
-        ${footerBuild ? `
-          <span class="footer-build">
-            ${footerBuild}<span data-footer-counter-separator hidden>:</span><span class="footer-counter-value" data-footer-counter-value hidden></span>
-          </span>
-        ` : ""}
-      `;
+      const owner = createTextElement("span", footerOwner, "footer-owner");
+      const nodes = [owner];
+
+      if (footerBuild) {
+        const build = createTextElement("span", footerBuild, "footer-build");
+        const separator = createTextElement("span", ":", "");
+        separator.setAttribute("data-footer-counter-separator", "");
+        separator.hidden = true;
+        const counter = document.createElement("span");
+        counter.className = "footer-counter-value";
+        counter.setAttribute("data-footer-counter-value", "");
+        counter.hidden = true;
+        build.appendChild(separator);
+        build.appendChild(counter);
+        nodes.push(build);
+      }
+
+      replaceElementChildren(footerElement, nodes);
     }
   }
 

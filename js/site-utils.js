@@ -44,9 +44,36 @@
     return fallback;
   }
 
+  function isSafeUrl(value) {
+    const raw = String(value || "").trim();
+    if (!raw) {
+      return false;
+    }
+
+    const normalized = raw.replace(/[\u0000-\u001F\u007F\s]+/g, "").toLowerCase();
+    const schemeMatch = normalized.match(/^([a-z][a-z0-9+.-]*):/);
+
+    if (!schemeMatch) {
+      return true;
+    }
+
+    return schemeMatch[1] === "http" || schemeMatch[1] === "https";
+  }
+
+  function setSafeUrlAttribute(element, attribute, value) {
+    if (!element || !isSafeUrl(value)) {
+      return false;
+    }
+
+    element.setAttribute(attribute, String(value).trim());
+    return true;
+  }
+
   window.SiteUtils = {
     escapeHtml,
     getLocalizedValue,
+    isSafeUrl,
+    setSafeUrlAttribute,
     setText
   };
 })();

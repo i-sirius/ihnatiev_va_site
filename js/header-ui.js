@@ -1,4 +1,22 @@
 (() => {
+  const siteUtils = window.SiteUtils || {};
+  const isSafeUrl = siteUtils.isSafeUrl || ((value) => {
+    const raw = String(value || "").trim();
+    if (!raw) return false;
+    const normalized = raw.replace(/[\u0000-\u001F\u007F\s]+/g, "").toLowerCase();
+    const schemeMatch = normalized.match(/^([a-z][a-z0-9+.-]*):/);
+    return !schemeMatch || schemeMatch[1] === "http" || schemeMatch[1] === "https";
+  });
+  const setSafeUrlAttribute = siteUtils.setSafeUrlAttribute || ((element, attribute, value) => {
+    if (!element || !isSafeUrl(value)) return false;
+    element.setAttribute(attribute, String(value).trim());
+    return true;
+  });
+
+  function getSafeClassSuffix(value, fallback = "item") {
+    return String(value || fallback).replace(/[^a-z0-9_-]/gi, "") || fallback;
+  }
+
   function ensureHeaderControls() {
     const header = document.querySelector(".site-header");
     if (!header) {
@@ -261,7 +279,7 @@
         ...item,
         href: item.id === "youtube" ? item.href || defaultYoutubeHref : item.href || ""
       }))
-      .filter((item) => item.href);
+      .filter((item) => item.href && isSafeUrl(item.href));
 
     let socialBar = header.querySelector(".site-header-socials");
 
@@ -280,22 +298,18 @@
 
     const headerUi = site.ui && site.ui.header ? site.ui.header : {};
     socialBar.setAttribute("aria-label", headerUi.socialsLabel || "Соціальні мережі");
-    socialBar.innerHTML = activeSocials
-      .map(
-        (item) => `
-          <a
-            class="site-header-social-link is-${item.id}"
-            href="${item.href}"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="${item.label}"
-            title="${item.label}"
-          >
-            ${getSocialIconMarkup(item.id, "site-header-social-icon")}
-          </a>
-        `
-      )
-      .join("");
+    socialBar.textContent = "";
+    activeSocials.forEach((item) => {
+      const link = document.createElement("a");
+      link.className = `site-header-social-link is-${getSafeClassSuffix(item.id)}`;
+      setSafeUrlAttribute(link, "href", item.href);
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.setAttribute("aria-label", item.label || "");
+      link.title = item.label || "";
+      link.insertAdjacentHTML("beforeend", getSocialIconMarkup(item.id, "site-header-social-icon"));
+      socialBar.appendChild(link);
+    });
   }
 
   function syncHomeTitleLayout(header = document.querySelector(".site-header")) {
