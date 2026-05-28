@@ -6,6 +6,10 @@
         "uk": "Ознайомитись з монографією “Націософія”",
         "en": "Introduction to the monograph “Natiosophy”"
       },
+      "type": "pdf",
+      "textLayer": true,
+      "contentKind": "mixed",
+      "pages": 11,
       "purchase": {
         "mode": "contact",
         "label": {
@@ -28,6 +32,10 @@
         "uk": "Ознайомитись з монографією “Ісихазм у контексті некласичної філософсько-релігійної парадигми”",
         "en": "Introduction to the monograph “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
       },
+      "type": "pdf",
+      "textLayer": true,
+      "contentKind": "text",
+      "pages": 19,
       "purchase": {
         "mode": "contact",
         "label": {
@@ -55,23 +63,35 @@
         {
           "href": "/files/downloads/SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf",
           "label": {
-            "uk": "1. SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf",
-            "en": "1. SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf"
-          }
+            "uk": "1. Sources of Pamfil Yurkevich’s Philosophical and Religious Concept of the Heart",
+            "en": "1. Sources of Pamfil Yurkevich’s Philosophical and Religious Concept of the Heart"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "mixed",
+        "pages": 14
         },
         {
           "href": "/files/downloads/Improving the quality of education based on the system of continuing education.pdf",
           "label": {
-            "uk": "2. Improving the quality of education based on the system of continuing education.pdf",
-            "en": "2. Improving the quality of education based on the system of continuing education.pdf"
-          }
+            "uk": "2. Improving the Quality of Education Based on the System of Continuing Education",
+            "en": "2. Improving the Quality of Education Based on the System of Continuing Education"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 6
         },
         {
           "href": "/files/downloads/Improving the quality of tourist services.pdf",
           "label": {
-            "uk": "3. Improving the quality of tourist services.pdf",
-            "en": "3. Improving the quality of tourist services.pdf"
-          }
+            "uk": "3. Improving the Quality of Tourist Services",
+            "en": "3. Improving the Quality of Tourist Services"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 5
         }
       ]
     },
@@ -84,44 +104,68 @@
         {
           "href": "/files/downloads/PHILOSOPHICAL UNDERSTANDING.pdf",
           "label": {
-            "uk": "1. PHILOSOPHICAL UNDERSTANDING.pdf",
-            "en": "1. PHILOSOPHICAL UNDERSTANDING.pdf"
-          }
+            "uk": "1. Philosophical Understanding",
+            "en": "1. Philosophical Understanding"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "mixed",
+        "pages": 17
         },
         {
           "href": "/files/downloads/PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf",
           "label": {
-            "uk": "2. PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf",
-            "en": "2. PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf"
-          }
+            "uk": "2. Philosophical Concepts and Postulates in the Modern World: Challenges, Reflection and Their Practical Application",
+            "en": "2. Philosophical Concepts and Postulates in the Modern World: Challenges, Reflection and Their Practical Application"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "mixed",
+        "pages": 14
         },
         {
           "href": "/files/downloads/POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf",
           "label": {
-            "uk": "3. POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf",
-            "en": "3. POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf"
-          }
+            "uk": "3. Postmodern Picture of Reality of Scientific Knowledge: Evolution by Epistemological Diversity",
+            "en": "3. Postmodern Picture of Reality of Scientific Knowledge: Evolution by Epistemological Diversity"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 13
         },
         {
           "href": "/files/downloads/THE USE OF S. KHORUZHYI'S IDEAS.pdf",
           "label": {
-            "uk": "4. THE USE OF S. KHORUZHYI'S IDEAS.pdf",
-            "en": "4. THE USE OF S. KHORUZHYI'S IDEAS.pdf"
-          }
+            "uk": "4. The Use of S. Khoruzhyi's Ideas",
+            "en": "4. The Use of S. Khoruzhyi's Ideas"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 17
         },
         {
           "href": "/files/downloads/Religious Secular Reality of Individual Consciousness In The Context of COVID-19.pdf",
           "label": {
-            "uk": "5. Religious Secular Reality of Individual Consciousness In The Context of COVID-19.pdf",
-            "en": "5. Religious Secular Reality of Individual Consciousness In The Context of COVID-19.pdf"
-          }
+            "uk": "5. Religious Secular Reality of Individual Consciousness in the Context of COVID-19",
+            "en": "5. Religious Secular Reality of Individual Consciousness in the Context of COVID-19"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "mixed",
+        "pages": 13
         },
         {
           "href": "/files/downloads/Study on the philosophical aspects of social justice equality in modern society.pdf",
           "label": {
-            "uk": "6. Study on the philosophical aspects of social justice equality in modern society.pdf",
-            "en": "6. Study on the philosophical aspects of social justice equality in modern society.pdf"
-          }
+            "uk": "6. Study on the Philosophical Aspects of Social Justice Equality in Modern Society",
+            "en": "6. Study on the Philosophical Aspects of Social Justice Equality in Modern Society"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "mixed",
+        "pages": 33
         }
       ]
     },
@@ -134,114 +178,178 @@
         {
           "href": "/files/downloads/NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf",
           "label": {
-            "uk": "1. NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf",
-            "en": "1. NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf"
-          }
+            "uk": "1. Non-Classical Epistemology of V. Lektorsky",
+            "en": "1. Non-Classical Epistemology of V. Lektorsky"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 11
         },
         {
           "href": "/files/downloads/ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf",
           "label": {
-            "uk": "2. ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf",
-            "en": "2. Existential Encounter.pdf"
-          }
+            "uk": "2. Екзистенційна зустріч",
+            "en": "2. Existential Encounter"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 5
         },
         {
           "href": "/files/downloads/ЕСТЕЗИС АПОФАЗИСУ.pdf",
           "label": {
-            "uk": "3. ЕСТЕЗИС АПОФАЗИСУ.pdf",
-            "en": "3. Esthesis of Apophasis.pdf"
-          }
+            "uk": "3. Естезис апофазису",
+            "en": "3. Esthesis of Apophasis"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 4
         },
         {
           "href": "/files/downloads/ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf",
           "label": {
-            "uk": "4. ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf",
-            "en": "4. Aesthetic Contemplation.pdf"
-          }
+            "uk": "4. Естетичне споглядання",
+            "en": "4. Aesthetic Contemplation"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 5
         },
         {
           "href": "/files/downloads/5. НЕКЛАСИЧНА МЕТАФІЗИКА.pdf",
           "label": {
-            "uk": "5. НЕКЛАСИЧНА МЕТАФІЗИКА.pdf",
-            "en": "5. НЕКЛАСИЧНА МЕТАФІЗИКА.pdf"
-          }
+            "uk": "5. Некласична метафізика",
+            "en": "5. Non-Classical Metaphysics"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 9
         },
         {
           "href": "/files/downloads/Ісихастська традиція .pdf",
           "label": {
-            "uk": "6. Ісихастська традиція .pdf",
-            "en": "6. Hesychast Tradition.pdf"
-          }
+            "uk": "6. Ісихастська традиція",
+            "en": "6. Hesychast Tradition"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "mixed",
+        "pages": 15
         },
         {
           "href": "/files/downloads/НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf",
           "label": {
-            "uk": "7. НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf",
-            "en": "7. Non-Classical Philosophical Anthropology.pdf"
-          }
+            "uk": "7. Некласична філософська антропологія",
+            "en": "7. Non-Classical Philosophical Anthropology"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 3
         },
         {
           "href": "/files/downloads/Православна політична теологія.pdf",
           "label": {
-            "uk": "8. Православна політична теологія.pdf",
-            "en": "8. Orthodox Political Theology.pdf"
-          }
+            "uk": "8. Православна політична теологія",
+            "en": "8. Orthodox Political Theology"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 4
         },
         {
           "href": "/files/downloads/Рашизм як форма етнофілетизму.pdf",
           "label": {
-            "uk": "9. Рашизм як форма етнофілетизму.pdf",
-            "en": "9. Rashism as a Form of Ethnophyletism.pdf"
-          }
+            "uk": "9. Рашизм як форма етнофілетизму",
+            "en": "9. Rashism as a Form of Ethnophyletism"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 5
         },
         {
           "href": "/files/downloads/РЕЛІГІЙНІ СИМУЛЯКРИ .pdf",
           "label": {
-            "uk": "10. РЕЛІГІЙНІ СИМУЛЯКРИ .pdf",
-            "en": "10. Religious Simulacra.pdf"
-          }
+            "uk": "10. Релігійні симулякри",
+            "en": "10. Religious Simulacra"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 8
         },
         {
           "href": "/files/downloads/Філософська антропологія.pdf",
           "label": {
-            "uk": "11. Філософська антропологія.pdf",
-            "en": "11. Philosophical Anthropology.pdf"
-          }
+            "uk": "11. Філософська антропологія",
+            "en": "11. Philosophical Anthropology"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 3
         },
         {
           "href": "/files/downloads/12. «ПРИНЦИП ДОПОЛНИТЕЛЬНОСТИ».pdf",
           "label": {
-            "uk": "12. «ПРИНЦИП ДОПОЛНИТЕЛЬНОСТИ».pdf",
-            "en": "12. «ПРИНЦИП ДОПОЛНИТЕЛЬНОСТИ».pdf"
-          }
+            "uk": "12. «Принцип дополнительности»",
+            "en": "12. Principle of Complementarity"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 9
         },
         {
           "href": "/files/downloads/13. ВЗАЄМОВІДНОСИНИ_ФІЛОСОФІЇ_І_ТЕОЛОГІЇ.pdf",
           "label": {
-            "uk": "13. ВЗАЄМОВІДНОСИНИ_ФІЛОСОФІЇ_І_ТЕОЛОГІЇ.pdf",
-            "en": "13. ВЗАЄМОВІДНОСИНИ_ФІЛОСОФІЇ_І_ТЕОЛОГІЇ.pdf"
-          }
+            "uk": "13. Взаємовідносини філософії і теології",
+            "en": "13. Interrelations of Philosophy and Theology"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 10
         },
         {
           "href": "/files/downloads/14. ЕНЕРГІЙНИЙ ДИСКУРС НЕКЛАСНОЇ ОНТОЛОГІЇ.pdf",
           "label": {
-            "uk": "14. ЕНЕРГІЙНИЙ ДИСКУРС НЕКЛАСНОЇ ОНТОЛОГІЇ.pdf",
-            "en": "14. ЕНЕРГІЙНИЙ ДИСКУРС НЕКЛАСНОЇ ОНТОЛОГІЇ.pdf"
-          }
+            "uk": "14. Енергійний дискурс некласної онтології",
+            "en": "14. Energetic Discourse of Non-Classical Ontology"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 5
         },
         {
           "href": "/files/downloads/15. ІСИХАЗМ - СУПЕРЕЧНІСТЬ НАРАТИВІВ У РЕЛІГІЙНО-ФІЛОСОФСЬКОМУ ДИСКУРСІ .pdf",
           "label": {
-            "uk": "15. ІСИХАЗМ - СУПЕРЕЧНІСТЬ НАРАТИВІВ У РЕЛІГІЙНО-ФІЛОСОФСЬКОМУ ДИСКУРСІ .pdf",
-            "en": "15. ІСИХАЗМ - СУПЕРЕЧНІСТЬ НАРАТИВІВ У РЕЛІГІЙНО-ФІЛОСОФСЬКОМУ ДИСКУРСІ .pdf"
-          }
+            "uk": "15. Ісихазм - суперечність наративів у релігійно-філософському дискурсі",
+            "en": "15. Hesychasm: Contradiction of Narratives in Religious-Philosophical Discourse"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 11
         },
         {
           "href": "/files/downloads/16. МЕТАФІЗИКА ПРАВОСЛАВНОГО ЕКЗИСТЕНЦІАЛІЗМУ.pdf",
           "label": {
-            "uk": "16. МЕТАФІЗИКА ПРАВОСЛАВНОГО ЕКЗИСТЕНЦІАЛІЗМУ.pdf",
-            "en": "16. МЕТАФІЗИКА ПРАВОСЛАВНОГО ЕКЗИСТЕНЦІАЛІЗМУ.pdf"
-          }
+            "uk": "16. Метафізика православного екзистенціалізму",
+            "en": "16. Metaphysics of Orthodox Existentialism"
+          },
+        "type": "pdf",
+        "textLayer": true,
+        "contentKind": "text",
+        "pages": 11
         }
       ]
     }

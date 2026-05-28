@@ -151,10 +151,10 @@
     return renderer ? renderer.getFileType(file) : "FILE";
   }
 
-  function renderDownloadsGroups(selector, groups) {
+  function renderDownloadsGroups(selector, groups, searchIndex = null) {
     const renderer = getDownloadsRenderer();
     if (renderer) {
-      renderer.renderGroups(selector, groups);
+      renderer.renderGroups(selector, groups, searchIndex);
     }
   }
 
@@ -184,10 +184,11 @@
     }
   }
 
-  function loadDownloadsGroups(path, selector, fallbackGroups = null) {
+  function loadDownloadsGroups(path, selector, fallbackGroups = null, indexPath = "") {
     if (window.SiteContentLoader) {
       window.SiteContentLoader.loadDownloadsGroups({
         path,
+        indexPath,
         selector,
         fallbackGroups,
         renderDownloadsGroups
@@ -557,7 +558,10 @@
         lightbox.showPreview({
           href: trigger.getAttribute("data-preview-href") || "",
           label: trigger.getAttribute("data-preview-label") || "",
-          type: trigger.getAttribute("data-preview-type") || ""
+          type: trigger.getAttribute("data-preview-type") || "",
+          search: trigger.getAttribute("data-preview-search") || "",
+          page: trigger.getAttribute("data-preview-page") || "",
+          snippet: trigger.getAttribute("data-preview-snippet") || ""
         });
       }
     });

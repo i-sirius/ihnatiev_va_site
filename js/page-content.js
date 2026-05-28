@@ -867,7 +867,12 @@
     }
 
     renderDownloadsPageChrome({ site, pageType, setText });
-    loadDownloadsGroups("files/downloads/files.json", "[data-downloads-groups]", site.downloads.groups || null);
+    loadDownloadsGroups(
+      "files/downloads/files.json",
+      "[data-downloads-groups]",
+      site.downloads.groups || null,
+      "files/downloads/search-index.json"
+    );
   }
 
   function applyContactPage({

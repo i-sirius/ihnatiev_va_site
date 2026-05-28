@@ -92,24 +92,34 @@
 
   function loadDownloadsGroups({
     path,
+    indexPath = "",
     selector,
     fallbackGroups = null,
     renderDownloadsGroups = () => {}
   } = {}) {
+    const searchIndexPromise = indexPath
+      ? fetchJson(indexPath).catch(() => null)
+      : Promise.resolve(null);
+
     fetchJson(path)
       .then((groups) => {
         if (groups && typeof groups === "object" && !Array.isArray(groups)) {
-          renderDownloadsGroups(selector, groups);
-          return;
+          return searchIndexPromise.then((searchIndex) => {
+            renderDownloadsGroups(selector, groups, searchIndex);
+          });
         }
 
         if (fallbackGroups && typeof fallbackGroups === "object") {
-          renderDownloadsGroups(selector, fallbackGroups);
+          return searchIndexPromise.then((searchIndex) => {
+            renderDownloadsGroups(selector, fallbackGroups, searchIndex);
+          });
         }
+
+        return null;
       })
       .catch(() => {
         if (fallbackGroups && typeof fallbackGroups === "object") {
-          renderDownloadsGroups(selector, fallbackGroups);
+          renderDownloadsGroups(selector, fallbackGroups, null);
         }
       });
   }

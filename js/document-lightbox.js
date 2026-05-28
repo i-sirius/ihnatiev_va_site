@@ -82,6 +82,18 @@
             </div>
           </div>
           <div class="document-lightbox-view">
+            <div class="document-lightbox-search-hit" data-document-search-hit hidden>
+              <div class="document-lightbox-search-meta">
+                <span data-document-search-label></span>
+                <mark data-document-search-term></mark>
+                <span data-document-search-page></span>
+              </div>
+              <p data-document-search-snippet></p>
+            </div>
+            <div class="document-lightbox-text-search" data-document-text-search hidden>
+              <div class="document-lightbox-text-search-title" data-document-text-search-title></div>
+              <p data-document-text-search-body></p>
+            </div>
             <iframe
               class="document-lightbox-frame"
               data-document-frame
@@ -174,6 +186,14 @@
     const filetype = lightbox.querySelector("[data-document-filetype]");
     const openLink = lightbox.querySelector("[data-document-open]");
     const downloadLink = lightbox.querySelector("[data-document-download]");
+    const searchHit = lightbox.querySelector("[data-document-search-hit]");
+    const searchLabel = lightbox.querySelector("[data-document-search-label]");
+    const searchTerm = lightbox.querySelector("[data-document-search-term]");
+    const searchPage = lightbox.querySelector("[data-document-search-page]");
+    const searchSnippet = lightbox.querySelector("[data-document-search-snippet]");
+    const textSearch = lightbox.querySelector("[data-document-text-search]");
+    const textSearchTitle = lightbox.querySelector("[data-document-text-search-title]");
+    const textSearchBody = lightbox.querySelector("[data-document-text-search-body]");
     const standaloneTitle = standalonePanel.querySelector("[data-pdf-standalone-title]");
     const standaloneText = standalonePanel.querySelector("[data-pdf-standalone-text]");
     const standaloneOpen = standalonePanel.querySelector("[data-pdf-standalone-open]");
@@ -202,6 +222,141 @@
       } catch (error) {
         return href;
       }
+    }
+
+    function getPdfPreviewHref(href = "", search = "", page = "") {
+      const cleanHref = String(href || "").split("#")[0];
+      const parts = ["toolbar=1", "navpanes=0", "view=FitH"];
+      const normalizedSearch = String(search || "").trim();
+      const pageNumber = parseInt(page, 10);
+
+      if (pageNumber > 0) {
+        parts.unshift(`page=${pageNumber}`);
+      }
+
+      if (normalizedSearch) {
+        parts.push(`search=${encodeURIComponent(normalizedSearch)}`);
+      }
+
+      return `${cleanHref}#${parts.join("&")}`;
+    }
+
+    function renderSearchHit({ search = "", page = "", snippet = "" } = {}) {
+      const hasSearchHit = Boolean(search && (page || snippet));
+      if (!searchHit) {
+        return;
+      }
+
+      if (!hasSearchHit) {
+        searchHit.hidden = true;
+        return;
+      }
+
+      if (searchLabel) {
+        searchLabel.textContent = previewUi.searchHit || "Знайдено";
+      }
+      if (searchTerm) {
+        searchTerm.textContent = search;
+      }
+      if (searchPage) {
+        searchPage.textContent = page
+          ? `${previewUi.searchPage || "сторінка"} ${page}`
+          : "";
+      }
+      if (searchSnippet) {
+        searchSnippet.textContent = snippet || "";
+      }
+
+      searchHit.hidden = false;
+    }
+
+    function normalizeSearchText(value = "") {
+      return String(value || "")
+        .toLocaleLowerCase(site.currentLocale || site.defaultLocale || "uk")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function getDownloadsIndexEntry(href = "") {
+      const index = window.SiteDownloadsSearchIndex || {};
+      return href && index[href] ? index[href] : null;
+    }
+
+    function findPageSearchEntry(entry, search = "", page = "") {
+      const pageSearch = entry && Array.isArray(entry.pageSearch) ? entry.pageSearch : [];
+      const pageNumber = parseInt(page, 10);
+      const normalizedSearch = normalizeSearchText(search);
+      let fallbackEntry = null;
+
+      for (let index = 0; index < pageSearch.length; index += 1) {
+        const pageEntry = pageSearch[index];
+        const pageText = normalizeSearchText(pageEntry && pageEntry.text);
+
+        if (pageNumber > 0 && pageEntry && pageEntry.page === pageNumber) {
+          fallbackEntry = pageEntry;
+          if (!normalizedSearch || pageText.indexOf(normalizedSearch) !== -1) {
+            return pageEntry;
+          }
+        }
+
+        if (!fallbackEntry && normalizedSearch && pageText.indexOf(normalizedSearch) !== -1) {
+          fallbackEntry = pageEntry;
+        }
+      }
+
+      return fallbackEntry;
+    }
+
+    function renderHighlightedText(container, text = "", search = "") {
+      const source = String(text || "");
+      const locale = site.currentLocale || site.defaultLocale || "uk";
+      const normalizedSource = source.toLocaleLowerCase(locale);
+      const normalizedSearch = String(search || "").toLocaleLowerCase(locale).trim();
+      const matchIndex = normalizedSearch ? normalizedSource.indexOf(normalizedSearch) : -1;
+
+      container.textContent = "";
+
+      if (matchIndex < 0) {
+        container.textContent = source;
+        return;
+      }
+
+      if (matchIndex > 0) {
+        container.appendChild(document.createTextNode(source.slice(0, matchIndex)));
+      }
+
+      const mark = document.createElement("mark");
+      mark.textContent = source.slice(matchIndex, matchIndex + normalizedSearch.length);
+      container.appendChild(mark);
+      container.appendChild(document.createTextNode(source.slice(matchIndex + normalizedSearch.length)));
+
+      window.setTimeout(() => {
+        if (typeof mark.scrollIntoView === "function") {
+          mark.scrollIntoView();
+        }
+      }, 80);
+    }
+
+    function renderTextSearch({ href = "", search = "", page = "" } = {}) {
+      if (!textSearch || !textSearchBody) {
+        return;
+      }
+
+      const entry = getDownloadsIndexEntry(href);
+      const pageEntry = findPageSearchEntry(entry, search, page);
+
+      if (!search || !pageEntry || !pageEntry.text) {
+        textSearch.hidden = true;
+        textSearchBody.textContent = "";
+        return;
+      }
+
+      if (textSearchTitle) {
+        textSearchTitle.textContent = `${previewUi.searchTextPage || "Текст PDF, сторінка"} ${pageEntry.page}`;
+      }
+
+      renderHighlightedText(textSearchBody, pageEntry.text, search);
+      textSearch.hidden = false;
     }
 
     function getStandalonePanelUi() {
@@ -363,6 +518,9 @@
         href ||
         (previewUi.fileFallbackLabel || "Файл");
       const type = getDownloadFileType(file);
+      const search = file.search || "";
+      const page = file.page || "";
+      const snippet = file.snippet || "";
 
       if (title) {
         title.textContent = label;
@@ -380,6 +538,9 @@
         downloadLink.href = href;
         downloadLink.setAttribute("download", "");
       }
+
+      renderSearchHit({ search, page, snippet });
+      renderTextSearch({ href, search, page });
 
       const useDirectPdfActions = shouldUseDirectPdfActions(type);
 
@@ -406,7 +567,7 @@
       if (!useDirectPdfActions && canPreviewDownloadFile(type) && frame) {
         frame.hidden = false;
         fallback && fallback.setAttribute("hidden", "");
-        frame.src = type === "PDF" ? `${href}#toolbar=1&navpanes=0&view=FitH` : href;
+        frame.src = type === "PDF" ? getPdfPreviewHref(href, search, page) : href;
       } else {
         frame && frame.setAttribute("hidden", "");
 

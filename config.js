@@ -4,7 +4,7 @@
     ownerName: "Sirius",
     authorRealName: "Віталій Ігнатьєв",
     siteDeveloperName: "Sirius",
-    buildVersion: "0.7.74",
+    buildVersion: "0.7.75",
     buildDate: "280526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -244,6 +244,14 @@
     },
     downloads: {
       empty: "Файли тимчасово відсутні.",
+      searchPlaceholder: "Пошук у завантаженнях...",
+      searchEmpty: "Нічого не знайдено",
+      searchSectionEmpty: "Файлів за цим запитом зараз не знайдено.",
+      searchClear: "Очистити пошук",
+      textLayerBadge: "Текстовий шар",
+      scanBadge: "Скан",
+      mixedBadge: "Змішаний",
+      pagesBadge: "стор.",
       monographsTitle: "МОНОГРАФІЇ",
       articlesTitle: "СТАТТІ",
       subgroupFallback: "РОЗДІЛ"
@@ -473,7 +481,7 @@ const SITE_EN = {
   downloads: {
     pageTitle: "Downloads",
     heading: "Materials for Download",
-    intro: "Monographs, articles, and educational materials are available here."
+    intro: "Monographs, articles, and teaching materials."
   },
   contact: {
     pageTitle: "Contacts",
@@ -573,6 +581,14 @@ const SITE_EN = {
     },
     downloads: {
       empty: "Files are temporarily unavailable.",
+      searchPlaceholder: "Search downloads...",
+      searchEmpty: "Nothing found",
+      searchSectionEmpty: "No files found for this search.",
+      searchClear: "Clear search",
+      textLayerBadge: "Text layer",
+      scanBadge: "Scan",
+      mixedBadge: "Mixed",
+      pagesBadge: "pp.",
       monographsTitle: "MONOGRAPHS",
       articlesTitle: "ARTICLES",
       subgroupFallback: "SECTION"

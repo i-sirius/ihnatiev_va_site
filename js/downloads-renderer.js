@@ -1,17 +1,77 @@
 (() => {
+  const siteUtils = window.SiteUtils || {};
+  const isSafeUrl = siteUtils.isSafeUrl || ((value) => {
+    const raw = String(value || "").trim();
+    if (!raw) return false;
+    const normalized = raw.replace(/[\u0000-\u001F\u007F\s]+/g, "").toLowerCase();
+    const schemeMatch = normalized.match(/^([a-z][a-z0-9+.-]*):/);
+    return !schemeMatch || schemeMatch[1] === "http" || schemeMatch[1] === "https";
+  });
+  const setSafeUrlAttribute = siteUtils.setSafeUrlAttribute || ((element, attribute, value) => {
+    if (!element || !isSafeUrl(value)) return false;
+    element.setAttribute(attribute, String(value).trim());
+    return true;
+  });
+
   function getDownloadFileType(file = {}, getLocalizedValue = (value) => value || "") {
-    const source = `${file.href || ""} ${getLocalizedValue(file.label, "")}`;
+    if (file.type) {
+      return String(getLocalizedValue(file.type, file.type) || file.type).toUpperCase();
+    }
+
+    const source = `${file.href || file.file || ""} ${getLocalizedValue(file.label || file.title, "")}`;
     const match = source.match(/\.([a-z0-9]{2,5})(?:$|[?#\s])/i);
     return (match && match[1] || "file").toUpperCase();
   }
 
   function createDownloadsRenderer({
     site = window.SITE || {},
-    getLocalizedValue = (value, fallback = "") => value || fallback,
-    escapeHtml = (value) => String(value)
+    getLocalizedValue: externalGetLocalizedValue = (value, fallback = "") => value || fallback,
+    searchIndex = null
   } = {}) {
+    let currentSearchIndex = normalizeSearchIndex(searchIndex);
+
+    function getRendererLocale() {
+      return site.currentLocale || site.defaultLocale || "uk";
+    }
+
+    function getRendererDefaultLocale() {
+      return site.defaultLocale || "uk";
+    }
+
+    function getLocalizedValue(value, fallback = "") {
+      if (value == null) {
+        return fallback;
+      }
+
+      if (typeof value === "string") {
+        return value;
+      }
+
+      if (typeof value === "object" && !Array.isArray(value)) {
+        const locale = getRendererLocale();
+        const defaultLocale = getRendererDefaultLocale();
+        const localizedValue =
+          value[locale] != null
+            ? value[locale]
+            : value[defaultLocale] != null
+              ? value[defaultLocale]
+              : externalGetLocalizedValue(value, fallback);
+        return typeof localizedValue === "string" ? localizedValue : fallback;
+      }
+
+      return fallback;
+    }
+
     function getFileType(file = {}) {
       return getDownloadFileType(file, getLocalizedValue);
+    }
+
+    function getDownloadsUi() {
+      return site.ui && site.ui.downloads ? site.ui.downloads : {};
+    }
+
+    function getPreviewUi() {
+      return site.ui && site.ui.documentPreview ? site.ui.documentPreview : {};
     }
 
     function getLocalizedActionLabel(value, fallback = "") {
@@ -24,6 +84,199 @@
       return typeof localizedValue === "string" && localizedValue.trim()
         ? localizedValue
         : fallback;
+    }
+
+    function getFileHref(file = {}) {
+      return file.href || file.file || "";
+    }
+
+    function getFileLabel(file = {}) {
+      return (
+        getLocalizedValue(file.title, "") ||
+        getLocalizedValue(file.label, "") ||
+        getFileHref(file) ||
+        getPreviewUi().fileFallbackLabel ||
+        "Файл"
+      );
+    }
+
+    function getFieldText(value, fallback = "") {
+      if (Array.isArray(value)) {
+        return value.map((item) => getFieldText(item, "")).filter(Boolean).join(" ");
+      }
+
+      if (value && typeof value === "object") {
+        const locale = getRendererLocale();
+        const defaultLocale = getRendererDefaultLocale();
+        if (value[locale] != null) {
+          return getFieldText(value[locale], fallback);
+        }
+        if (value[defaultLocale] != null) {
+          return getFieldText(value[defaultLocale], fallback);
+        }
+      }
+
+      return getLocalizedValue(value, fallback) || fallback || "";
+    }
+
+    function getContentKind(file = {}) {
+      return String(file.contentKind || "").toLowerCase();
+    }
+
+    function getTextLayerState(file = {}) {
+      if (file.textLayer === true) {
+        return "text";
+      }
+      if (file.textLayer === false) {
+        return "scan";
+      }
+      return "";
+    }
+
+    function getFilePropertyLabels(file = {}) {
+      const downloadsUi = getDownloadsUi();
+      const contentKind = getContentKind(file);
+      const textLayerState = getTextLayerState(file);
+      const labels = [];
+
+      if (textLayerState === "scan") {
+        labels.push(downloadsUi.scanBadge || "Скан");
+      } else if (textLayerState === "text") {
+        labels.push(downloadsUi.textLayerBadge || "Текстовий шар");
+      }
+
+      if (contentKind === "mixed") {
+        labels.push(downloadsUi.mixedBadge || "Змішаний");
+      }
+
+      if (file.pages) {
+        labels.push(`${file.pages} ${downloadsUi.pagesBadge || "стор."}`);
+      }
+
+      return labels;
+    }
+
+    function normalizeSearchIndex(index) {
+      const map = {};
+      const items = index && Array.isArray(index.items) ? index.items : [];
+
+      items.forEach((item) => {
+        if (!item || !item.href) {
+          return;
+        }
+
+        map[item.href] = item;
+      });
+
+      return map;
+    }
+
+    function getSearchIndexEntry(file = {}) {
+      const href = getFileHref(file);
+      return href && currentSearchIndex[href] ? currentSearchIndex[href] : null;
+    }
+
+    function normalizeSearchText(value) {
+      return String(value || "")
+        .toLocaleLowerCase(getRendererLocale())
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function getSearchWords(query) {
+      const normalized = normalizeSearchText(query);
+      return normalized ? normalized.split(" ") : [];
+    }
+
+    function getSearchFields(file = {}, context = {}) {
+      const fileType = getFileType(file);
+      const indexEntry = getSearchIndexEntry(file);
+      return [
+        getFileLabel(file),
+        getFieldText(file.description),
+        getFieldText(file.keywords),
+        getFieldText(file.category, context.category || ""),
+        getFieldText(file.searchText),
+        indexEntry ? getFieldText(indexEntry.title) : "",
+        indexEntry ? getFieldText(indexEntry.category) : "",
+        indexEntry ? getFieldText(indexEntry.keywords) : "",
+        indexEntry ? getFieldText(indexEntry.searchText) : "",
+        getFieldText(file.contentKind),
+        indexEntry ? getFieldText(indexEntry.contentKind) : "",
+        getTextLayerState(file),
+        getFieldText(file.year),
+        getFieldText(file.date),
+        getFieldText(fileType),
+        getFileHref(file)
+      ].map(normalizeSearchText).filter(Boolean);
+    }
+
+    function matchesSearch(file = {}, context = {}, words = []) {
+      if (!words.length) {
+        return true;
+      }
+
+      const fields = getSearchFields(file, context);
+      return words.every((word) =>
+        fields.some((field) => field.indexOf(word) !== -1)
+      );
+    }
+
+    function getSearchSnippet(text = "", term = "") {
+      const source = String(text || "");
+      const normalizedSource = normalizeSearchText(source);
+      const normalizedTerm = normalizeSearchText(term);
+      const index = normalizedTerm ? normalizedSource.indexOf(normalizedTerm) : -1;
+
+      if (index < 0) {
+        return source.slice(0, 220);
+      }
+
+      const start = Math.max(0, index - 90);
+      const end = Math.min(source.length, index + normalizedTerm.length + 130);
+      return `${start > 0 ? "... " : ""}${source.slice(start, end)}${end < source.length ? " ..." : ""}`;
+    }
+
+    function getPreviewSearchMatch(file = {}, query = "", context = {}) {
+      const words = getSearchWords(query);
+      if (!words.length) {
+        return null;
+      }
+
+      const fields = getSearchFields(file, context);
+      const indexEntry = getSearchIndexEntry(file);
+      const pageSearch = indexEntry && Array.isArray(indexEntry.pageSearch)
+        ? indexEntry.pageSearch
+        : [];
+
+      for (let index = 0; index < words.length; index += 1) {
+        const word = words[index];
+        if (word.length < 2) {
+          continue;
+        }
+
+        for (let pageIndex = 0; pageIndex < pageSearch.length; pageIndex += 1) {
+          const pageEntry = pageSearch[pageIndex];
+          const pageText = normalizeSearchText(pageEntry && pageEntry.text);
+          if (pageText && pageText.indexOf(word) !== -1) {
+            return {
+              term: word,
+              page: pageEntry && pageEntry.page ? String(pageEntry.page) : "",
+              snippet: getSearchSnippet(pageEntry && pageEntry.text, word)
+            };
+          }
+        }
+
+        if (fields.some((field) => field.indexOf(word) !== -1)) {
+          return {
+            term: word,
+            page: "",
+            snippet: ""
+          };
+        }
+      }
+
+      return null;
     }
 
     function getPurchaseHref(file = {}) {
@@ -107,22 +360,189 @@
       );
     }
 
-    function renderListItem(file = {}) {
+    function createTextElement(tagName, text, className) {
+      const element = document.createElement(tagName);
+      if (className) {
+        element.className = className;
+      }
+      element.textContent = text || "";
+      return element;
+    }
+
+    function appendHighlightedText(element, text = "", query = "") {
+      const source = String(text || "");
+      const locale = getRendererLocale();
+      const words = getSearchWords(query)
+        .filter((word) => word.length >= 2)
+        .sort((first, second) => second.length - first.length);
+
+      if (!source || !words.length) {
+        element.textContent = source;
+        return;
+      }
+
+      const normalizedSource = source.toLocaleLowerCase(locale);
+      let position = 0;
+
+      while (position < source.length) {
+        let nextIndex = -1;
+        let nextWord = "";
+
+        words.forEach((word) => {
+          const index = normalizedSource.indexOf(word, position);
+          if (index >= 0 && (nextIndex < 0 || index < nextIndex)) {
+            nextIndex = index;
+            nextWord = word;
+          }
+        });
+
+        if (nextIndex < 0) {
+          element.appendChild(document.createTextNode(source.slice(position)));
+          break;
+        }
+
+        if (nextIndex > position) {
+          element.appendChild(document.createTextNode(source.slice(position, nextIndex)));
+        }
+
+        const mark = document.createElement("mark");
+        mark.className = "download-search-highlight";
+        mark.textContent = source.slice(nextIndex, nextIndex + nextWord.length);
+        element.appendChild(mark);
+        position = nextIndex + nextWord.length;
+      }
+    }
+
+    function createActionLink(className, label, href, options = {}) {
+      const link = document.createElement("a");
+      link.className = className;
+      if (!setSafeUrlAttribute(link, "href", href)) {
+        link.setAttribute("href", "#");
+        link.setAttribute("aria-disabled", "true");
+      }
+      if (options.download) {
+        link.setAttribute("download", "");
+      }
+      if (options.target) {
+        link.target = options.target;
+      }
+      if (options.rel) {
+        link.rel = options.rel;
+      }
+      if (options.ariaLabel) {
+        link.setAttribute("aria-label", options.ariaLabel);
+      }
+      if (options.title) {
+        link.title = options.title;
+      }
+      link.textContent = label || "";
+      return link;
+    }
+
+    function createDownloadIcon(fileType, file = {}) {
+      const fileTypeElement = document.createElement("span");
+      const icon = document.createElement("span");
+      const label = document.createElement("span");
+      const properties = getFilePropertyLabels(file);
+
+      fileTypeElement.className = "download-filetype";
+      icon.className = "download-filetype-icon";
+      label.className = "download-filetype-label";
+
+      icon.insertAdjacentHTML("beforeend", getFileIconMarkup(fileType));
+      label.textContent = fileType;
+
+      fileTypeElement.appendChild(icon);
+      fileTypeElement.appendChild(label);
+
+      if (properties.length) {
+        const tooltip = document.createElement("span");
+        const text = properties.join(" · ");
+        tooltip.className = "download-file-properties";
+        tooltip.textContent = text;
+        fileTypeElement.title = text;
+        fileTypeElement.setAttribute("aria-label", text);
+        fileTypeElement.appendChild(tooltip);
+      } else {
+        fileTypeElement.setAttribute("aria-hidden", "true");
+      }
+
+      return fileTypeElement;
+    }
+
+    function createDownloadSummary(file = {}, context = {}) {
       const fileType = getFileType(file);
-      const href = file.href || "#";
+      const href = getFileHref(file);
+      const label = getFileLabel(file);
+      const previewSearch = getPreviewSearchMatch(file, context.searchQuery || "", context);
+      const useLegacyFileActions = document.documentElement.classList.contains("no-modern-effects");
+      const useDirectPdfActions = shouldUseDirectPdfActions(fileType);
+      const useSimpleFileActions = useLegacyFileActions || useDirectPdfActions;
+      const previewUi = getPreviewUi();
+      const directPdfNote =
+        useDirectPdfActions && !useLegacyFileActions
+          ? previewUi.pdfFallbackText ||
+            "Перегляд PDF у цьому браузері може бути обмежений. Відкрийте файл окремо."
+          : "";
+      const summary = document.createElement(useSimpleFileActions ? "div" : "button");
+      const main = document.createElement("span");
+      const content = document.createElement("span");
+
+      summary.className = useSimpleFileActions
+        ? `download-preview-trigger download-direct-file${useLegacyFileActions ? " download-legacy-file" : " download-ios-pdf-file"}`
+        : "download-preview-trigger";
+
+      if (!useSimpleFileActions) {
+        summary.type = "button";
+        summary.setAttribute("data-download-preview", "");
+        if (setSafeUrlAttribute(summary, "data-preview-href", href)) {
+          summary.dataset.previewLabel = label;
+          summary.dataset.previewType = fileType;
+          if (previewSearch && previewSearch.term) {
+            summary.dataset.previewSearch = previewSearch.term;
+          }
+          if (previewSearch && previewSearch.page) {
+            summary.dataset.previewPage = previewSearch.page;
+          }
+          if (previewSearch && previewSearch.snippet) {
+            summary.dataset.previewSnippet = previewSearch.snippet;
+          }
+        }
+        summary.setAttribute("aria-label", `${previewUi.previewAria || "Переглянути"} ${label}`);
+      }
+
+      main.className = "download-link-main";
+      content.className = "download-link-content";
+      main.appendChild(createDownloadIcon(fileType, file));
+      const labelElement = createTextElement("span", "", "download-link-text");
+      appendHighlightedText(labelElement, label, context.searchQuery || "");
+      content.appendChild(labelElement);
+      main.appendChild(content);
+      summary.appendChild(main);
+
+      if (file.description) {
+        const description = createTextElement("p", "", "download-description");
+        appendHighlightedText(description, getFieldText(file.description), context.searchQuery || "");
+        summary.appendChild(description);
+      }
+
+      if (directPdfNote) {
+        summary.appendChild(createTextElement("p", directPdfNote, "download-pdf-fallback-note"));
+      }
+
+      return summary;
+    }
+
+    function createDownloadActions(file = {}) {
+      const fileType = getFileType(file);
+      const href = getFileHref(file);
+      const label = getFileLabel(file);
       const useLegacyFileActions = document.documentElement.classList.contains("no-modern-effects");
       const useDirectPdfActions = shouldUseDirectPdfActions(fileType);
       const useStandalonePdfPanel = shouldUseStandalonePdfPanel(fileType);
       const useSimpleFileActions = useLegacyFileActions || useDirectPdfActions;
-      const label =
-        getLocalizedValue(file.label, "") ||
-        file.href ||
-        site.ui && site.ui.documentPreview && site.ui.documentPreview.fileFallbackLabel ||
-        "Файл";
-      const safeHref = escapeHtml(href);
-      const safeLabel = escapeHtml(label);
-      const safeType = escapeHtml(fileType);
-      const previewUi = site.ui && site.ui.documentPreview || {};
+      const previewUi = getPreviewUi();
+      const actions = document.createElement("div");
       const openLabel =
         useDirectPdfActions && !useLegacyFileActions
           ? previewUi.pdfOpen || "Відкрити PDF"
@@ -132,130 +552,279 @@
         previewUi.purchase || "Замовити e-book"
       );
       const purchaseHref = getPurchaseHref(file);
-      const actions = [
-        `
-          <a
-            class="download-link-action"
-            href="${safeHref}"
-            download
-            aria-label="${escapeHtml(
-              `${previewUi.downloadAria || "Завантажити"} ${label}`
-            )}"
-            title="${escapeHtml(previewUi.download || "Завантажити")}"
-          >
-            <span aria-hidden="true">↓</span>
-            <span class="download-link-action-text">${escapeHtml(previewUi.download || "Завантажити")}</span>
-          </a>
-        `
-      ];
+
+      actions.className = "download-actions";
+
+      if (purchaseHref && isSafeUrl(purchaseHref)) {
+        actions.appendChild(createActionLink(
+          "download-purchase-action",
+          purchaseLabel,
+          purchaseHref,
+          {
+            ariaLabel: `${previewUi.purchaseAria || "Замовити"} ${label}`,
+            title: previewUi.purchaseTitle || "Замовити електронну книгу"
+          }
+        ));
+      }
 
       if (useSimpleFileActions) {
-        const standalonePdfAttrs = useStandalonePdfPanel
-          ? `
-            data-pdf-standalone-trigger
-            data-pdf-standalone-href="${safeHref}"
-            data-pdf-standalone-label="${safeLabel}"
-          `
-          : "";
-        actions.unshift(`
-          <a
-            class="download-open-action"
-            href="${safeHref}"
-            target="_blank"
-            rel="noopener noreferrer"
-            ${standalonePdfAttrs}
-            aria-label="${escapeHtml(
-              `${openLabel} ${label}`
-            )}"
-          >${escapeHtml(openLabel)}</a>
-        `);
+        const openLink = createActionLink(
+          "download-open-action",
+          openLabel,
+          href,
+          {
+            target: "_blank",
+            rel: "noopener noreferrer",
+            ariaLabel: `${openLabel} ${label}`
+          }
+        );
+        if (useStandalonePdfPanel && isSafeUrl(href)) {
+          openLink.setAttribute("data-pdf-standalone-trigger", "");
+          openLink.setAttribute("data-pdf-standalone-href", String(href).trim());
+          openLink.setAttribute("data-pdf-standalone-label", label);
+        }
+        actions.appendChild(openLink);
       }
 
-      if (purchaseHref) {
-        actions.unshift(`
-          <a
-            class="download-purchase-action"
-            href="${escapeHtml(purchaseHref)}"
-            aria-label="${escapeHtml(
-              `${previewUi.purchaseAria || "Замовити"} ${label}`
-            )}"
-            title="${escapeHtml(previewUi.purchaseTitle || "Замовити електронну книгу")}"
-          >${escapeHtml(purchaseLabel)}</a>
-        `);
-      }
+      const downloadLink = createActionLink(
+        "download-link-action",
+        "",
+        href,
+        {
+          download: true,
+          ariaLabel: `${previewUi.downloadAria || "Завантажити"} ${label}`,
+          title: previewUi.download || "Завантажити"
+        }
+      );
+      const arrow = document.createElement("span");
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "↓";
+      downloadLink.appendChild(arrow);
+      downloadLink.appendChild(createTextElement(
+        "span",
+        previewUi.download || "Завантажити",
+        "download-link-action-text"
+      ));
+      actions.appendChild(downloadLink);
 
-      const directPdfNote =
-        useDirectPdfActions && !useLegacyFileActions
-          ? `<p class="download-pdf-fallback-note">${escapeHtml(
-              previewUi.pdfFallbackText ||
-                "Перегляд PDF у цьому браузері може бути обмежений. Відкрийте файл окремо."
-            )}</p>`
-          : "";
-      const fileSummary = useSimpleFileActions
-        ? `
-            <div class="download-preview-trigger download-direct-file${
-              useLegacyFileActions ? " download-legacy-file" : " download-ios-pdf-file"
-            }">
-              <span class="download-link-main">
-                <span class="download-filetype" aria-hidden="true">
-                  ${getFileIconMarkup(fileType)}
-                </span>
-                <span class="download-link-text">${safeLabel}</span>
-              </span>
-              ${directPdfNote}
-            </div>
-          `
-        : `
-            <button
-              class="download-preview-trigger"
-              type="button"
-              data-download-preview
-              data-preview-href="${safeHref}"
-              data-preview-label="${safeLabel}"
-              data-preview-type="${safeType}"
-              aria-label="${escapeHtml(
-                `${previewUi.previewAria || "Переглянути"} ${label}`
-              )}"
-            >
-              <span class="download-link-main">
-                <span class="download-filetype" aria-hidden="true">
-                  ${getFileIconMarkup(fileType)}
-                </span>
-                <span class="download-link-text">${safeLabel}</span>
-              </span>
-            </button>
-          `;
-
-      return `
-        <li>
-          <div class="download-row">
-            ${fileSummary}
-            <div class="download-actions">${actions.join("")}</div>
-          </div>
-        </li>
-      `;
+      return actions;
     }
 
-    function renderGroupFiles(files = []) {
+    function createListItem(file = {}, context = {}) {
+      const listItem = document.createElement("li");
+      const row = document.createElement("div");
+
+      row.className = "download-row";
+      row.appendChild(createDownloadSummary(file, context));
+      row.appendChild(createDownloadActions(file));
+      listItem.appendChild(row);
+
+      return listItem;
+    }
+
+    function createFileList(files = [], context = {}) {
+      const list = document.createElement("ul");
+      list.className = "download-list";
+      files.forEach((file) => {
+        list.appendChild(createListItem(file, context));
+      });
+      return list;
+    }
+
+    function createEmptyMessage(text, className) {
+      return createTextElement("p", text, className || "download-group-empty");
+    }
+
+    function renderGroupFiles(container, files = [], context = {}) {
+      const downloadsUi = getDownloadsUi();
+      const previewUi = getPreviewUi();
+      const emptyText = context.searchQuery
+        ? downloadsUi.searchSectionEmpty || downloadsUi.searchEmpty || "Файлів за цим запитом зараз не знайдено."
+        : downloadsUi.empty || "Файли тимчасово відсутні.";
+
+      container.textContent = "";
+
       if (!Array.isArray(files) || !files.length) {
-        return `<p class="download-group-empty">${escapeHtml(
-          site.ui && site.ui.downloads && site.ui.downloads.empty || "Файли тимчасово відсутні."
-        )}</p>`;
+        container.appendChild(createEmptyMessage(
+          emptyText,
+          "download-group-empty"
+        ));
+        return;
       }
 
-      const previewNote = document.documentElement.classList.contains("no-modern-effects")
-        ? `<p class="download-legacy-note">${escapeHtml(
-            site.ui && site.ui.documentPreview && site.ui.documentPreview.legacyNote ||
-              "На цьому браузері файл відкриється окремо."
-          )}</p>`
-        : "";
+      if (document.documentElement.classList.contains("no-modern-effects")) {
+        container.appendChild(createTextElement(
+          "p",
+          previewUi.legacyNote || "На цьому браузері файл відкриється окремо.",
+          "download-legacy-note"
+        ));
+      }
 
-      return `
-        ${previewNote}
-        <ul class="download-list">
-          ${files.map((file) => renderListItem(file)).join("")}
-        </ul>
-      `;
+      container.appendChild(createFileList(files, context));
+    }
+
+    function createSearchControls(onSearch) {
+      const downloadsUi = getDownloadsUi();
+      const search = document.createElement("div");
+      const field = document.createElement("label");
+      const input = document.createElement("input");
+      let searchTimer = 0;
+      let lastSearchValue = "";
+
+      function runSearch(value) {
+        const rawValue = value || "";
+        const nextValue = rawValue.trim().length === 1 ? "" : rawValue;
+        if (nextValue === lastSearchValue) {
+          return;
+        }
+
+        lastSearchValue = nextValue;
+        onSearch(nextValue);
+      }
+
+      function scheduleSearch(value) {
+        if (searchTimer) {
+          window.clearTimeout(searchTimer);
+        }
+
+        searchTimer = window.setTimeout(() => {
+          searchTimer = 0;
+          runSearch(value);
+        }, 320);
+      }
+
+      search.className = "downloads-search";
+      field.className = "downloads-search-field";
+
+      input.type = "text";
+      input.setAttribute("role", "searchbox");
+      input.setAttribute("data-downloads-search-input", "");
+      input.placeholder = downloadsUi.searchPlaceholder || "Пошук у завантаженнях...";
+      input.setAttribute("aria-label", input.placeholder);
+      input.autocomplete = "off";
+
+      input.addEventListener("input", () => {
+        scheduleSearch(input.value || "");
+      });
+
+      field.appendChild(input);
+      search.appendChild(field);
+
+      return search;
+    }
+
+    function filterMonographs(monographs, words) {
+      return monographs.filter((file) =>
+        matchesSearch(file, { category: getDownloadsUi().monographsTitle || "Монографії" }, words)
+      );
+    }
+
+    function filterArticleGroups(articleGroups, words) {
+      return articleGroups
+        .map((group) => {
+          const category = getLocalizedValue(group.title, getDownloadsUi().subgroupFallback || "Розділ");
+          const files = Array.isArray(group.files) ? group.files : [];
+          return {
+            title: group.title,
+            category,
+            files: files.filter((file) => matchesSearch(file, { category }, words))
+          };
+        })
+        .filter((group) => group.files.length);
+    }
+
+    function countArticleFiles(articleGroups) {
+      return articleGroups.reduce((count, group) => {
+        const files = Array.isArray(group.files) ? group.files : [];
+        return count + files.length;
+      }, 0);
+    }
+
+    function renderGroupsInto(container, groups, query) {
+      const downloadsUi = getDownloadsUi();
+      const words = getSearchWords(query);
+      const monographs = Array.isArray(groups.monographs) ? groups.monographs : [];
+      const articleGroups = Array.isArray(groups.articles) ? groups.articles : [];
+      const filteredMonographs = filterMonographs(monographs, words);
+      const filteredArticleGroups = filterArticleGroups(articleGroups, words);
+      const totalMatches = filteredMonographs.length + countArticleFiles(filteredArticleGroups);
+      const groupsWrap = document.createElement("div");
+      const monographsSection = document.createElement("section");
+      const articlesSection = document.createElement("section");
+      const monographsBody = document.createElement("div");
+      const subgroups = document.createElement("div");
+
+      container.textContent = "";
+      groupsWrap.className = "downloads-groups-list";
+
+      if (words.length && !totalMatches) {
+        container.appendChild(createEmptyMessage(
+          downloadsUi.searchEmpty || "Нічого не знайдено",
+          "downloads-search-empty"
+        ));
+        return;
+      }
+
+      monographsSection.className = "download-group download-group-main";
+      monographsSection.appendChild(createTextElement(
+        "h3",
+        downloadsUi.monographsTitle || "МОНОГРАФІЇ",
+        "download-group-title"
+      ));
+      monographsBody.className = "download-group-body";
+      renderGroupFiles(monographsBody, filteredMonographs, {
+        category: downloadsUi.monographsTitle || "РњРѕРЅРѕРіСЂР°С„С–С—",
+        searchQuery: query
+      });
+      monographsSection.appendChild(monographsBody);
+      groupsWrap.appendChild(monographsSection);
+
+      articlesSection.className = "download-group download-group-main";
+      articlesSection.appendChild(createTextElement(
+        "h3",
+        downloadsUi.articlesTitle || "СТАТТІ",
+        "download-group-title"
+      ));
+      subgroups.className = "download-subgroups";
+
+      filteredArticleGroups.forEach((group) => {
+        const details = document.createElement("details");
+        const summary = document.createElement("summary");
+        const body = document.createElement("div");
+
+        details.className = "download-subgroup";
+        if (words.length) {
+          details.open = true;
+        }
+        summary.appendChild(createTextElement(
+          "span",
+          getLocalizedValue(group.title, downloadsUi.subgroupFallback || "РОЗДІЛ"),
+          "download-subgroup-title"
+        ));
+        summary.appendChild(createTextElement("span", "", "download-subgroup-toggle"));
+        body.className = "download-subgroup-body";
+        renderGroupFiles(body, group.files, {
+          category: group.category || "",
+          searchQuery: query
+        });
+
+        details.appendChild(summary);
+        details.appendChild(body);
+        subgroups.appendChild(details);
+      });
+
+      if (!filteredArticleGroups.length) {
+        subgroups.appendChild(createEmptyMessage(
+          words.length
+            ? downloadsUi.searchSectionEmpty || downloadsUi.searchEmpty || "Файлів за цим запитом зараз не знайдено."
+            : downloadsUi.empty || "Файли тимчасово відсутні.",
+          "download-group-empty"
+        ));
+      }
+
+      articlesSection.appendChild(subgroups);
+      groupsWrap.appendChild(articlesSection);
+      container.appendChild(groupsWrap);
     }
 
     function renderList(selector, files) {
@@ -264,55 +833,37 @@
       }
 
       document.querySelectorAll(selector).forEach((element) => {
-        element.innerHTML = files.map((file) => renderListItem(file)).join("");
+        element.textContent = "";
+        element.appendChild(createFileList(files.filter((file) => isSafeUrl(getFileHref(file)))));
       });
     }
 
-    function renderGroups(selector, groups) {
+    function renderGroups(selector, groups, nextSearchIndex = null) {
       if (!groups || typeof groups !== "object") {
         return;
       }
 
-      document.querySelectorAll(selector).forEach((element) => {
-        const monographs = Array.isArray(groups.monographs) ? groups.monographs : [];
-        const articleGroups = Array.isArray(groups.articles) ? groups.articles : [];
-        const downloadsUi = site.ui && site.ui.downloads || {};
+      currentSearchIndex = normalizeSearchIndex(nextSearchIndex);
+      window.SiteDownloadsSearchIndex = currentSearchIndex;
 
-        element.innerHTML = `
-          <section class="download-group download-group-main">
-            <h3 class="download-group-title">${escapeHtml(
-              downloadsUi.monographsTitle || "МОНОГРАФІЇ"
-            )}</h3>
-            ${renderGroupFiles(monographs)}
-          </section>
-          <section class="download-group download-group-main">
-            <h3 class="download-group-title">${escapeHtml(
-              downloadsUi.articlesTitle || "СТАТТІ"
-            )}</h3>
-            <div class="download-subgroups">
-              ${articleGroups
-                .map(
-                  (group) => `
-                    <details class="download-subgroup">
-                      <summary>
-                        <span class="download-subgroup-title">${escapeHtml(
-                          getLocalizedValue(
-                            group.title,
-                            downloadsUi.subgroupFallback || "РОЗДІЛ"
-                          )
-                        )}</span>
-                        <span class="download-subgroup-toggle" aria-hidden="true"></span>
-                      </summary>
-                      <div class="download-subgroup-body">
-                        ${renderGroupFiles(group.files)}
-                      </div>
-                    </details>
-                  `
-                )
-                .join("")}
-            </div>
-          </section>
-        `;
+      document.querySelectorAll(selector).forEach((element) => {
+        const results = document.createElement("div");
+        const searchControls = createSearchControls((query) => {
+          renderGroupsInto(results, groups, query);
+        });
+        const searchMount = document.querySelector("[data-downloads-search]");
+
+        results.className = "downloads-search-results";
+
+        element.textContent = "";
+        if (searchMount) {
+          searchMount.textContent = "";
+          searchMount.appendChild(searchControls);
+        } else {
+          element.appendChild(searchControls);
+        }
+        element.appendChild(results);
+        renderGroupsInto(results, groups, "");
       });
     }
 
