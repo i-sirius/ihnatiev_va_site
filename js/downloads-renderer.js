@@ -209,7 +209,7 @@
       return topic && topic.trim() ? topic.trim() : "all";
     }
 
-    function getTopicFilters() {
+    function getTopicFilterDefinitions() {
       const downloadsUi = getDownloadsUi();
       const configuredFilters = downloadsUi.topicFilters;
       if (Array.isArray(configuredFilters) && configuredFilters.length) {
@@ -223,9 +223,79 @@
         { topic: "philosophy", label: "Філософія" },
         { topic: "theology", label: "Богослов’я" },
         { topic: "religious-studies", label: "Релігієзнавство" },
+        { topic: "orthodox-tradition", label: "Православна традиція" },
+        { topic: "anthropology", label: "Антропологія" },
+        { topic: "metaphysics", label: "Метафізика" },
+        { topic: "ontology", label: "Онтологія" },
+        { topic: "epistemology", label: "Гносеологія" },
+        { topic: "social-philosophy", label: "Соціальна філософія" },
+        { topic: "secularity", label: "Секулярність" },
+        { topic: "education", label: "Освіта" },
         { topic: "monographs", label: "Монографії" },
         { topic: "articles", label: "Статті" }
       ];
+    }
+
+    function getTopicLabel(topic) {
+      const filters = getTopicFilterDefinitions();
+      for (let index = 0; index < filters.length; index += 1) {
+        const filter = filters[index];
+        if (filter && filter.topic === topic) {
+          return getLocalizedValue(filter.label, topic);
+        }
+      }
+
+      return topic;
+    }
+
+    function getPriorityVisibleTopics() {
+      const downloadsUi = getDownloadsUi();
+      const configuredTopics = downloadsUi.topicFiltersPriorityVisibleTopics;
+
+      if (Array.isArray(configuredTopics) && configuredTopics.length) {
+        return configuredTopics.map((topic) => String(topic || "").trim()).filter(Boolean);
+      }
+
+      return [
+        "hesychasm",
+        "natiosophy",
+        "philosophy",
+        "theology",
+        "religious-studies",
+        "orthodox-tradition",
+        "anthropology",
+        "metaphysics",
+        "ontology",
+        "epistemology",
+        "monographs",
+        "articles"
+      ];
+    }
+
+    function getMinVisibleTopicCount() {
+      const downloadsUi = getDownloadsUi();
+      const configuredCount = Number(downloadsUi.topicFiltersMinVisibleCount);
+
+      if (isFinite(configuredCount) && configuredCount > 0) {
+        return configuredCount;
+      }
+
+      return 2;
+    }
+
+    function isTopicVisible(topic, count) {
+      const normalizedTopic = String(topic || "").trim();
+      const topicCount = Number(count) || 0;
+
+      if (!normalizedTopic || normalizedTopic === "all") {
+        return true;
+      }
+
+      if (getPriorityVisibleTopics().indexOf(normalizedTopic) !== -1) {
+        return topicCount > 0;
+      }
+
+      return topicCount >= getMinVisibleTopicCount();
     }
 
     function getFileTopics(file = {}, context = {}) {
@@ -253,6 +323,76 @@
       }
 
       return getFileTopics(file, context).indexOf(activeTopic) !== -1;
+    }
+
+    function addTopicCount(counts, topic) {
+      const key = String(topic || "").trim();
+      if (!key) {
+        return;
+      }
+
+      counts[key] = (counts[key] || 0) + 1;
+    }
+
+    function countFileTopics(counts, file = {}, context = {}) {
+      const topics = getFileTopics(file, context);
+      topics.forEach((topic) => addTopicCount(counts, topic));
+    }
+
+    function getTopicCounts(groups = {}) {
+      const counts = {};
+      const monographs = Array.isArray(groups.monographs) ? groups.monographs : [];
+      const articleGroups = Array.isArray(groups.articles) ? groups.articles : [];
+
+      monographs.forEach((file) => countFileTopics(counts, file, { collection: "monographs" }));
+      articleGroups.forEach((group) => {
+        const files = Array.isArray(group.files) ? group.files : [];
+        files.forEach((file) => countFileTopics(counts, file, { collection: "articles" }));
+      });
+
+      return counts;
+    }
+
+    function getAvailableTopicFilters(groups = {}) {
+      const definitions = getTopicFilterDefinitions();
+      const counts = getTopicCounts(groups);
+      const usedTopics = [];
+      const filters = [];
+      let total = 0;
+
+      Object.keys(counts).forEach((topic) => {
+        total += counts[topic];
+      });
+
+      definitions.forEach((filter) => {
+        const topic = filter && filter.topic ? String(filter.topic) : "";
+        if (!topic) {
+          return;
+        }
+
+        if (topic === "all") {
+          filters.push({ topic, label: filter.label, count: total });
+          usedTopics.push(topic);
+          return;
+        }
+
+        if (counts[topic] > 0 && isTopicVisible(topic, counts[topic])) {
+          filters.push({ topic, label: filter.label, count: counts[topic] });
+          usedTopics.push(topic);
+        }
+      });
+
+      Object.keys(counts).sort().forEach((topic) => {
+        if (usedTopics.indexOf(topic) !== -1) {
+          return;
+        }
+
+        if (isTopicVisible(topic, counts[topic])) {
+          filters.push({ topic, label: getTopicLabel(topic), count: counts[topic] });
+        }
+      });
+
+      return filters;
     }
 
     function getSearchFields(file = {}, context = {}) {
@@ -789,31 +929,51 @@
       return search;
     }
 
-    function createTopicFilters(activeTopic, onTopicChange) {
+    function createTopicFilters(groups, activeTopic, onTopicChange) {
       const downloadsUi = getDownloadsUi();
-      const filters = getTopicFilters();
+      const filters = getAvailableTopicFilters(groups);
+      const panel = document.createElement("div");
+      const label = document.createElement("span");
       const wrap = document.createElement("div");
 
+      panel.className = "downloads-topic-filter-panel";
+      label.className = "downloads-topic-filter-label";
+      label.textContent = downloadsUi.topicFiltersShortLabel || downloadsUi.topicFiltersLabel || "Теми";
       wrap.className = "downloads-topic-filters";
       wrap.setAttribute("aria-label", downloadsUi.topicFiltersLabel || "Фільтр за темою");
+      panel.appendChild(label);
 
       filters.forEach((filter) => {
         const topic = filter && filter.topic ? String(filter.topic) : "all";
         const button = document.createElement("button");
-        const label = getLocalizedValue(filter && filter.label, topic);
+        const buttonLabel = getLocalizedValue(filter && filter.label, topic);
+        const count = filter && typeof filter.count === "number" ? filter.count : 0;
 
         button.type = "button";
         button.className = topic === activeTopic ? "downloads-topic-chip is-active" : "downloads-topic-chip";
-        button.textContent = label || topic;
         button.setAttribute("data-downloads-topic", topic);
         button.setAttribute("aria-pressed", topic === activeTopic ? "true" : "false");
+
+        const labelText = document.createElement("span");
+        labelText.className = "downloads-topic-chip-label";
+        labelText.textContent = buttonLabel || topic;
+        button.appendChild(labelText);
+
+        if (topic !== "all" && count > 0) {
+          const countText = document.createElement("span");
+          countText.className = "downloads-topic-chip-count";
+          countText.textContent = String(count);
+          button.appendChild(countText);
+        }
+
         button.addEventListener("click", () => {
           onTopicChange(topic);
         });
         wrap.appendChild(button);
       });
 
-      return wrap;
+      panel.appendChild(wrap);
+      return panel;
     }
 
     function filterMonographs(monographs, words, topic) {
@@ -964,8 +1124,14 @@
           topic: getInitialDownloadsTopic()
         };
         function renderCurrentGroups() {
+          const availableFilters = getAvailableTopicFilters(groups);
+          const hasActiveTopic = availableFilters.some((filter) => filter.topic === state.topic);
+          if (!hasActiveTopic) {
+            state.topic = "all";
+          }
+
           filters.textContent = "";
-          filters.appendChild(createTopicFilters(state.topic, (topic) => {
+          filters.appendChild(createTopicFilters(groups, state.topic, (topic) => {
             state.topic = topic || "all";
             renderCurrentGroups();
           }));

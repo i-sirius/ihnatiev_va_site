@@ -1,6 +1,6 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-05-29T13:18:01Z",
+    "generatedAt":  "2026-05-29T18:46:33Z",
     "source":  "scripts/build-site-search-index.ps1",
     "itemCount":  118,
     "items":  [
@@ -2998,6 +2998,10 @@
                                      "philosophy",
                                      "religious-studies",
                                      "theology",
+                                     "orthodox-tradition",
+                                     "anthropology",
+                                     "metaphysics",
+                                     "ontology",
                                      "monographs"
                                  ],
                       "keywords":  {
@@ -3241,6 +3245,7 @@
                                       },
                       "topics":  [
                                      "philosophy",
+                                     "epistemology",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -3420,6 +3425,7 @@
                                      "hesychasm",
                                      "philosophy",
                                      "religious-studies",
+                                     "anthropology",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -3483,6 +3489,7 @@
                                       },
                       "topics":  [
                                      "religious-studies",
+                                     "secularity",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -3546,6 +3553,8 @@
                                       },
                       "topics":  [
                                      "philosophy",
+                                     "metaphysics",
+                                     "social-philosophy",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -3605,6 +3614,7 @@
                                       },
                       "topics":  [
                                      "philosophy",
+                                     "epistemology",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -3901,6 +3911,7 @@
                                      "hesychasm",
                                      "religious-studies",
                                      "theology",
+                                     "orthodox-tradition",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -3964,6 +3975,7 @@
                                       },
                       "topics":  [
                                      "philosophy",
+                                     "anthropology",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -4023,6 +4035,7 @@
                                      "theology",
                                      "religious-studies",
                                      "philosophy",
+                                     "orthodox-tradition",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -4085,6 +4098,7 @@
                       "topics":  [
                                      "religious-studies",
                                      "philosophy",
+                                     "anthropology",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -4380,6 +4394,8 @@
                       "topics":  [
                                      "philosophy",
                                      "theology",
+                                     "metaphysics",
+                                     "ontology",
                                      "articles"
                                  ],
                       "keywords":  {
@@ -4509,6 +4525,8 @@
                                      "philosophy",
                                      "theology",
                                      "religious-studies",
+                                     "orthodox-tradition",
+                                     "metaphysics",
                                      "articles"
                                  ],
                       "keywords":  {

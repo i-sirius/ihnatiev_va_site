@@ -3,6 +3,7 @@ $ErrorActionPreference = "Stop"
 $Root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $DownloadsManifestPath = Join-Path $Root "files/downloads/files.json"
 $SearchIndexPath = Join-Path $Root "files/downloads/search-index.json"
+$ConfigPath = Join-Path $Root "config.js"
 $Errors = New-Object System.Collections.Generic.List[string]
 $Warnings = New-Object System.Collections.Generic.List[string]
 $AllowedManifestFields = @("monographs", "articles")
@@ -30,16 +31,40 @@ $AllowedFileFields = @(
 $AllowedGroupFields = @("title", "files")
 $AllowedPurchaseFields = @("mode", "href", "label", "subject", "message")
 $AllowedBibliographyFields = @("authors", "year", "publication", "pages", "language")
-$AllowedTopics = @(
+$AllowedTopicOrder = @(
+  "all",
   "hesychasm",
   "natiosophy",
   "philosophy",
-  "religious-studies",
   "theology",
+  "religious-studies",
+  "orthodox-tradition",
+  "anthropology",
+  "metaphysics",
+  "ontology",
+  "epistemology",
+  "social-philosophy",
+  "secularity",
   "education",
-  "articles",
-  "monographs"
+  "monographs",
+  "articles"
 )
+$AllowedTopics = @($AllowedTopicOrder | Where-Object { $_ -ne "all" })
+$PriorityVisibleTopics = @(
+  "hesychasm",
+  "natiosophy",
+  "philosophy",
+  "theology",
+  "religious-studies",
+  "orthodox-tradition",
+  "anthropology",
+  "metaphysics",
+  "ontology",
+  "epistemology",
+  "monographs",
+  "articles"
+)
+$MinVisibleTopicCount = 2
 $AllowedIndexFields = @("version", "generatedAt", "source", "site", "itemCount", "items")
 $AllowedIndexItemFields = @(
   "id",
@@ -96,6 +121,25 @@ function Read-JsonFile {
     return $null
   }
 }
+
+function Get-ConfigTopicLabels {
+  $Labels = @{}
+  if (-not (Test-Path -LiteralPath $ConfigPath)) {
+    return $Labels
+  }
+
+  $RawConfig = Get-Content -Raw -Encoding UTF8 $ConfigPath
+  foreach ($Match in [regex]::Matches($RawConfig, "topic:\s*`"([^`"]+)`"\s*,\s*label:\s*`"([^`"]+)`"")) {
+    $Topic = [string]$Match.Groups[1].Value
+    if ($Topic -and -not $Labels.ContainsKey($Topic)) {
+      $Labels[$Topic] = $true
+    }
+  }
+
+  return $Labels
+}
+
+$ConfigTopicLabels = Get-ConfigTopicLabels
 
 function Get-PlainText {
   param($Value)
@@ -289,12 +333,60 @@ function Test-Topics {
   Test-UniqueShortValues $Context $Topics "topic"
 
   foreach ($Topic in $Topics) {
-    if ($AllowedTopics -notcontains $Topic) {
-      Add-CheckError "${Context}: unknown topic `"$Topic`""
+    if ($AllowedTopics -notcontains $Topic -and -not $ConfigTopicLabels.ContainsKey($Topic)) {
+      Add-CheckWarning "${Context}: topic `"$Topic`" has no configured label"
     }
   }
 
   return $Topics
+}
+
+function Test-TopicFilterLabels {
+  param($ManifestFiles)
+
+  $UsedTopics = @{}
+  $TopicCounts = @{}
+  foreach ($Entry in @($ManifestFiles)) {
+    foreach ($Topic in @($Entry.File.topics)) {
+      $Key = ([string]$Topic).Trim()
+      if ($Key) {
+        $UsedTopics[$Key] = $true
+        if (-not $TopicCounts.ContainsKey($Key)) {
+          $TopicCounts[$Key] = 0
+        }
+        $TopicCounts[$Key] += 1
+      }
+    }
+  }
+
+  foreach ($Topic in $UsedTopics.Keys) {
+    if ($AllowedTopics -notcontains $Topic -and -not $ConfigTopicLabels.ContainsKey($Topic)) {
+      Add-CheckWarning "files/downloads/files.json: topic `"$Topic`" is used but has no label in config.js"
+    }
+  }
+
+  foreach ($Topic in $ConfigTopicLabels.Keys) {
+    if ($Topic -eq "all") {
+      continue
+    }
+    if (-not $UsedTopics.ContainsKey($Topic)) {
+      Add-CheckWarning "config.js: topic filter `"$Topic`" is not used by any download document"
+    }
+  }
+
+  $HiddenTopics = @()
+  foreach ($Topic in $TopicCounts.Keys) {
+    if ($PriorityVisibleTopics -contains $Topic) {
+      continue
+    }
+    if ([int]$TopicCounts[$Topic] -lt $MinVisibleTopicCount) {
+      $HiddenTopics += "$Topic=$($TopicCounts[$Topic])"
+    }
+  }
+
+  if ($HiddenTopics.Count -gt 0) {
+    Add-CheckWarning "downloads topic chips: hidden low-count non-priority topics: $($HiddenTopics -join ', ')"
+  }
 }
 
 function Test-Summary {
@@ -597,6 +689,7 @@ function Test-SearchIndex {
 
 $Manifest = Read-JsonFile $DownloadsManifestPath
 $ManifestFiles = Test-Manifest $Manifest
+Test-TopicFilterLabels $ManifestFiles
 $Index = Read-JsonFile $SearchIndexPath
 Test-SearchIndex $Index $ManifestFiles
 

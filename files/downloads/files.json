@@ -104,12 +104,16 @@
                                                    ]
                                         },
                            "topics":  [
-                                          "hesychasm",
-                                          "philosophy",
-                                          "religious-studies",
-                                          "theology",
-                                          "monographs"
-                                      ],
+                                           "hesychasm",
+                                           "philosophy",
+                                           "religious-studies",
+                                           "theology",
+                                           "orthodox-tradition",
+                                           "anthropology",
+                                           "metaphysics",
+                                           "ontology",
+                                           "monographs"
+                                       ],
                            "aliases":  {
                                            "uk":  [
                                                       "ісихазм",
@@ -317,6 +321,7 @@
                                                         },
                                            "topics":  [
                                                           "philosophy",
+                                                          "epistemology",
                                                           "articles"
                                                       ],
                                            "aliases":  {
@@ -464,11 +469,12 @@
                                                                    ]
                                                         },
                                            "topics":  [
-                                                          "hesychasm",
-                                                          "philosophy",
-                                                          "religious-studies",
-                                                          "articles"
-                                                      ],
+                                                           "hesychasm",
+                                                           "philosophy",
+                                                           "religious-studies",
+                                                           "anthropology",
+                                                           "articles"
+                                                       ],
                                            "aliases":  {
                                                            "uk":  [
                                                                       "ісихазм",
@@ -520,9 +526,10 @@
                                                                    ]
                                                         },
                                            "topics":  [
-                                                          "religious-studies",
-                                                          "articles"
-                                                      ],
+                                                           "religious-studies",
+                                                           "secularity",
+                                                           "articles"
+                                                       ],
                                            "aliases":  {
                                                            "uk":  [
                                                                       "секулярність",
@@ -570,9 +577,11 @@
                                                                    ]
                                                         },
                                            "topics":  [
-                                                          "philosophy",
-                                                          "articles"
-                                                      ],
+                                                           "philosophy",
+                                                           "metaphysics",
+                                                           "social-philosophy",
+                                                           "articles"
+                                                       ],
                                            "aliases":  {
                                                            "uk":  [
                                                                       "social justice"
@@ -625,6 +634,7 @@
                                                         },
                                            "topics":  [
                                                           "philosophy",
+                                                          "epistemology",
                                                           "articles"
                                                       ],
                                            "aliases":  {
@@ -865,11 +875,12 @@
                                                                    ]
                                                         },
                                            "topics":  [
-                                                          "hesychasm",
-                                                          "religious-studies",
-                                                          "theology",
-                                                          "articles"
-                                                      ],
+                                                           "hesychasm",
+                                                           "religious-studies",
+                                                           "theology",
+                                                           "orthodox-tradition",
+                                                           "articles"
+                                                       ],
                                            "aliases":  {
                                                            "uk":  [
                                                                       "ісихазм",
@@ -917,9 +928,10 @@
                                                                    ]
                                                         },
                                            "topics":  [
-                                                          "philosophy",
-                                                          "articles"
-                                                      ],
+                                                           "philosophy",
+                                                           "anthropology",
+                                                           "articles"
+                                                       ],
                                            "aliases":  {
                                                            "uk":  [
                                                                       "anthropology"
@@ -965,11 +977,12 @@
                                                                    ]
                                                         },
                                            "topics":  [
-                                                          "theology",
-                                                          "religious-studies",
-                                                          "philosophy",
-                                                          "articles"
-                                                      ],
+                                                           "theology",
+                                                           "religious-studies",
+                                                           "philosophy",
+                                                           "orthodox-tradition",
+                                                           "articles"
+                                                       ],
                                            "aliases":  {
                                                            "uk":  [
                                                                       "богослов’я",
@@ -1018,9 +1031,10 @@
                                                         },
                                            "topics":  [
                                                           "religious-studies",
-                                                          "philosophy",
-                                                          "articles"
-                                                      ],
+                                                           "philosophy",
+                                                           "anthropology",
+                                                           "articles"
+                                                       ],
                                            "aliases":  {
                                                            "uk":  [
                                                                       "rashism"
@@ -1257,10 +1271,12 @@
                                                                    ]
                                                         },
                                            "topics":  [
-                                                          "philosophy",
-                                                          "theology",
-                                                          "articles"
-                                                      ],
+                                                           "philosophy",
+                                                           "theology",
+                                                           "metaphysics",
+                                                           "ontology",
+                                                           "articles"
+                                                       ],
                                            "aliases":  {
                                                            "uk":  [
                                                                       "ontology",
@@ -1363,11 +1379,13 @@
                                                                    ]
                                                         },
                                            "topics":  [
-                                                          "philosophy",
-                                                          "theology",
-                                                          "religious-studies",
-                                                          "articles"
-                                                      ],
+                                                           "philosophy",
+                                                           "theology",
+                                                           "religious-studies",
+                                                           "orthodox-tradition",
+                                                           "metaphysics",
+                                                           "articles"
+                                                       ],
                                            "aliases":  {
                                                            "uk":  [
                                                                       "богослов’я",
