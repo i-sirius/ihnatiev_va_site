@@ -507,7 +507,7 @@
           summary.dataset.previewLabel = label;
           summary.dataset.previewType = fileType;
           if (previewSearch && previewSearch.term) {
-            summary.dataset.previewSearch = previewSearch.term;
+            summary.dataset.previewSearch = context.searchQuery || previewSearch.term;
           }
           if (previewSearch && previewSearch.page) {
             summary.dataset.previewPage = previewSearch.page;

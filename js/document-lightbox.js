@@ -89,6 +89,11 @@
                 <span data-document-search-page></span>
               </div>
               <p data-document-search-snippet></p>
+              <div class="document-lightbox-search-controls" data-document-search-controls hidden>
+                <button type="button" data-document-search-prev></button>
+                <span data-document-search-count></span>
+                <button type="button" data-document-search-next></button>
+              </div>
             </div>
             <div class="document-lightbox-text-search" data-document-text-search hidden>
               <div class="document-lightbox-text-search-title" data-document-text-search-title></div>
@@ -191,6 +196,10 @@
     const searchTerm = lightbox.querySelector("[data-document-search-term]");
     const searchPage = lightbox.querySelector("[data-document-search-page]");
     const searchSnippet = lightbox.querySelector("[data-document-search-snippet]");
+    const searchControls = lightbox.querySelector("[data-document-search-controls]");
+    const searchPrev = lightbox.querySelector("[data-document-search-prev]");
+    const searchNext = lightbox.querySelector("[data-document-search-next]");
+    const searchCount = lightbox.querySelector("[data-document-search-count]");
     const textSearch = lightbox.querySelector("[data-document-text-search]");
     const textSearchTitle = lightbox.querySelector("[data-document-text-search-title]");
     const textSearchBody = lightbox.querySelector("[data-document-text-search-body]");
@@ -212,7 +221,12 @@
       fallback && fallback.setAttribute("hidden", "");
 
       if (frame) {
+        if (frame.previewRefreshTimer) {
+          window.clearTimeout(frame.previewRefreshTimer);
+          frame.previewRefreshTimer = 0;
+        }
         frame.src = "about:blank";
+        frame.dataset.currentPreviewHref = "";
       }
     }
 
@@ -241,14 +255,179 @@
       return `${cleanHref}#${parts.join("&")}`;
     }
 
-    function renderSearchHit({ search = "", page = "", snippet = "" } = {}) {
-      const hasSearchHit = Boolean(search && (page || snippet));
+    function getPreviewBaseHref(href = "") {
+      return String(href || "").split("#")[0];
+    }
+
+    function refreshPdfPreviewFrame(targetFrame, nextHref = "", forceHashRefresh = false) {
+      if (!targetFrame || !nextHref) {
+        return;
+      }
+
+      const currentHref = targetFrame.dataset.currentPreviewHref || "";
+      const sameHref = currentHref === nextHref;
+      const sameBase =
+        currentHref &&
+        getPreviewBaseHref(currentHref) === getPreviewBaseHref(nextHref);
+
+      if (sameHref) {
+        return;
+      }
+
+      if (targetFrame.previewRefreshTimer) {
+        window.clearTimeout(targetFrame.previewRefreshTimer);
+        targetFrame.previewRefreshTimer = 0;
+      }
+
+      targetFrame.dataset.currentPreviewHref = nextHref;
+
+      if (forceHashRefresh && sameBase) {
+        targetFrame.src = "about:blank";
+        targetFrame.previewRefreshTimer = window.setTimeout(() => {
+          targetFrame.previewRefreshTimer = 0;
+          if (targetFrame.dataset.currentPreviewHref === nextHref) {
+            targetFrame.src = nextHref;
+          }
+        }, 30);
+        return;
+      }
+
+      targetFrame.src = nextHref;
+    }
+
+    function getSearchWords(search = "") {
+      const normalizedSearch = normalizeSearchText(search);
+      return normalizedSearch
+        ? normalizedSearch.split(" ").filter((word) => word.length >= 2)
+        : [];
+    }
+
+    function getUniqueSearchWords(search = "") {
+      const words = getSearchWords(search);
+      const uniqueWords = [];
+
+      for (let index = 0; index < words.length; index += 1) {
+        if (uniqueWords.indexOf(words[index]) === -1) {
+          uniqueWords.push(words[index]);
+        }
+      }
+
+      return uniqueWords;
+    }
+
+    function getFirstSearchTerm(search = "") {
+      const words = getUniqueSearchWords(search);
+      return words.length ? words[0] : String(search || "").trim();
+    }
+
+    function getHitSearchTerm(hit = {}, fallbackSearch = "") {
+      const matchedTerms = Array.isArray(hit.matchedTerms) ? hit.matchedTerms : [];
+      return matchedTerms.length ? matchedTerms[0] : getFirstSearchTerm(fallbackSearch);
+    }
+
+    function getMatchedTerms(text = "", words = []) {
+      const normalizedText = normalizeSearchText(text);
+      const matchedTerms = [];
+
+      for (let index = 0; index < words.length; index += 1) {
+        if (normalizedText.indexOf(words[index]) !== -1) {
+          matchedTerms.push(words[index]);
+        }
+      }
+
+      return matchedTerms;
+    }
+
+    function getTextSnippet(text = "", terms = []) {
+      const source = String(text || "");
+      const normalizedSource = normalizeSearchText(source);
+      let matchIndex = -1;
+      let matchLength = 0;
+
+      for (let index = 0; index < terms.length; index += 1) {
+        const termIndex = normalizedSource.indexOf(terms[index]);
+        if (termIndex >= 0 && (matchIndex < 0 || termIndex < matchIndex)) {
+          matchIndex = termIndex;
+          matchLength = terms[index].length;
+        }
+      }
+
+      if (matchIndex < 0) {
+        return source.slice(0, 260);
+      }
+
+      const start = Math.max(0, matchIndex - 120);
+      const end = Math.min(source.length, matchIndex + matchLength + 170);
+      return `${start > 0 ? "... " : ""}${source.slice(start, end)}${end < source.length ? " ..." : ""}`;
+    }
+
+    function buildSearchHits({ href = "", search = "", page = "", snippet = "" } = {}) {
+      const entry = getDownloadsIndexEntry(href);
+      const pageSearch = entry && Array.isArray(entry.pageSearch) ? entry.pageSearch : [];
+      const words = getUniqueSearchWords(search);
+      const hits = [];
+      const seenSnippets = [];
+      const fallbackTerms = getMatchedTerms(snippet, words);
+      const pageNumber = parseInt(page, 10);
+
+      for (let index = 0; index < pageSearch.length; index += 1) {
+        const pageEntry = pageSearch[index];
+        const pageText = pageEntry && pageEntry.text ? String(pageEntry.text) : "";
+        const matchedTerms = getMatchedTerms(pageText, words);
+
+        if (!matchedTerms.length) {
+          continue;
+        }
+
+        const nextSnippet = getTextSnippet(pageText, matchedTerms);
+        const normalizedSnippet = normalizeSearchText(nextSnippet);
+
+        if (seenSnippets.indexOf(normalizedSnippet) !== -1) {
+          continue;
+        }
+
+        seenSnippets.push(normalizedSnippet);
+        hits.push({
+          page: pageEntry && pageEntry.page ? String(pageEntry.page) : "",
+          snippet: nextSnippet,
+          text: pageText,
+          matchedTerms,
+          score: matchedTerms.length
+        });
+      }
+
+      hits.sort((first, second) => {
+        if (second.score !== first.score) {
+          return second.score - first.score;
+        }
+
+        return (parseInt(first.page, 10) || 0) - (parseInt(second.page, 10) || 0);
+      });
+
+      if (!hits.length && (snippet || pageNumber > 0)) {
+        hits.push({
+          page: pageNumber > 0 ? String(pageNumber) : "",
+          snippet,
+          text: "",
+          matchedTerms: fallbackTerms.length ? fallbackTerms : [getFirstSearchTerm(search)].filter(Boolean),
+          score: fallbackTerms.length
+        });
+      }
+
+      return hits;
+    }
+
+    function renderSearchHit(hit = null, hitIndex = 0, hits = [], search = "") {
+      const hasSearchHit = Boolean(hit && (hit.page || hit.snippet));
       if (!searchHit) {
         return;
       }
 
       if (!hasSearchHit) {
         searchHit.hidden = true;
+        if (searchControls) {
+          searchControls.hidden = true;
+        }
         return;
       }
 
@@ -256,15 +435,28 @@
         searchLabel.textContent = previewUi.searchHit || "Знайдено";
       }
       if (searchTerm) {
-        searchTerm.textContent = search;
+        const matchedTerms = hit && Array.isArray(hit.matchedTerms) ? hit.matchedTerms : [];
+        searchTerm.textContent = matchedTerms.length ? matchedTerms.join(", ") : getFirstSearchTerm(search);
       }
       if (searchPage) {
-        searchPage.textContent = page
-          ? `${previewUi.searchPage || "сторінка"} ${page}`
+        searchPage.textContent = hit.page
+          ? `${previewUi.searchPage || "сторінка"} ${hit.page}`
           : "";
       }
       if (searchSnippet) {
-        searchSnippet.textContent = snippet || "";
+        renderHighlightedText(searchSnippet, hit.snippet || "", hit.matchedTerms || getUniqueSearchWords(search));
+      }
+
+      if (searchControls && searchPrev && searchNext && searchCount) {
+        const hasMultipleHits = hits.length > 1;
+        searchControls.hidden = !hasMultipleHits;
+        searchPrev.textContent = previewUi.searchPrevious || "< Попередній фрагмент";
+        searchNext.textContent = previewUi.searchNext || "Наступний фрагмент >";
+        searchCount.textContent = `${hitIndex + 1} / ${hits.length}`;
+        searchPrev.disabled = !hasMultipleHits;
+        searchNext.disabled = !hasMultipleHits;
+        searchPrev.setAttribute("aria-label", previewUi.searchPreviousAria || "Попередній знайдений фрагмент");
+        searchNext.setAttribute("aria-label", previewUi.searchNextAria || "Наступний знайдений фрагмент");
       }
 
       searchHit.hidden = false;
@@ -307,34 +499,64 @@
       return fallbackEntry;
     }
 
-    function renderHighlightedText(container, text = "", search = "") {
+    function renderHighlightedText(container, text = "", search = "", scrollToFirst = false) {
       const source = String(text || "");
       const locale = site.currentLocale || site.defaultLocale || "uk";
       const normalizedSource = source.toLocaleLowerCase(locale);
-      const normalizedSearch = String(search || "").toLocaleLowerCase(locale).trim();
-      const matchIndex = normalizedSearch ? normalizedSource.indexOf(normalizedSearch) : -1;
+      const terms = Array.isArray(search)
+        ? search.filter(Boolean)
+        : getUniqueSearchWords(search);
 
       container.textContent = "";
 
-      if (matchIndex < 0) {
+      if (!terms.length) {
         container.textContent = source;
         return;
       }
 
-      if (matchIndex > 0) {
-        container.appendChild(document.createTextNode(source.slice(0, matchIndex)));
+      let position = 0;
+      let firstMark = null;
+
+      while (position < source.length) {
+        let nextIndex = -1;
+        let nextTerm = "";
+
+        for (let index = 0; index < terms.length; index += 1) {
+          const term = String(terms[index] || "").toLocaleLowerCase(locale);
+          const termIndex = term ? normalizedSource.indexOf(term, position) : -1;
+          if (termIndex >= 0 && (nextIndex < 0 || termIndex < nextIndex)) {
+            nextIndex = termIndex;
+            nextTerm = term;
+          }
+        }
+
+        if (nextIndex < 0) {
+          container.appendChild(document.createTextNode(source.slice(position)));
+          break;
+        }
+
+        if (nextIndex > position) {
+          container.appendChild(document.createTextNode(source.slice(position, nextIndex)));
+        }
+
+        const mark = document.createElement("mark");
+        mark.textContent = source.slice(nextIndex, nextIndex + nextTerm.length);
+        container.appendChild(mark);
+        if (!firstMark) {
+          firstMark = mark;
+        }
+
+        position = nextIndex + nextTerm.length;
       }
 
-      const mark = document.createElement("mark");
-      mark.textContent = source.slice(matchIndex, matchIndex + normalizedSearch.length);
-      container.appendChild(mark);
-      container.appendChild(document.createTextNode(source.slice(matchIndex + normalizedSearch.length)));
-
-      window.setTimeout(() => {
-        if (typeof mark.scrollIntoView === "function") {
-          mark.scrollIntoView();
-        }
-      }, 80);
+      if (scrollToFirst) {
+        window.setTimeout(() => {
+          const scrollContainer = container.parentNode;
+          if (firstMark && scrollContainer && typeof scrollContainer.scrollTop === "number") {
+            scrollContainer.scrollTop = Math.max(0, firstMark.offsetTop - scrollContainer.offsetTop - 12);
+          }
+        }, 80);
+      }
     }
 
     function renderTextSearch({ href = "", search = "", page = "" } = {}) {
@@ -355,7 +577,7 @@
         textSearchTitle.textContent = `${previewUi.searchTextPage || "Текст PDF, сторінка"} ${pageEntry.page}`;
       }
 
-      renderHighlightedText(textSearchBody, pageEntry.text, search);
+      renderHighlightedText(textSearchBody, pageEntry.text, search, true);
       textSearch.hidden = false;
     }
 
@@ -521,7 +743,11 @@
       const search = file.search || "";
       const page = file.page || "";
       const snippet = file.snippet || "";
-      const previewHref = type === "PDF" ? getPdfPreviewHref(href, search, page) : href;
+      const searchHits = buildSearchHits({ href, search, page, snippet });
+      const activeHit = searchHits.length ? searchHits[0] : null;
+      const activeSearch = activeHit ? getHitSearchTerm(activeHit, search) : getFirstSearchTerm(search);
+      const activePage = activeHit && activeHit.page ? activeHit.page : page;
+      const previewHref = type === "PDF" ? getPdfPreviewHref(href, activeSearch, activePage) : href;
 
       if (title) {
         title.textContent = label;
@@ -540,8 +766,16 @@
         downloadLink.setAttribute("download", "");
       }
 
-      renderSearchHit({ search, page, snippet });
-      renderTextSearch({ href, search, page });
+      lightbox.searchHitState = {
+        href,
+        type,
+        search,
+        hits: searchHits,
+        index: 0
+      };
+
+      renderSearchHit(activeHit, 0, searchHits, search);
+      renderTextSearch({ href, search, page: activePage });
 
       const useDirectPdfActions = shouldUseDirectPdfActions(type);
 
@@ -568,12 +802,18 @@
       if (!useDirectPdfActions && canPreviewDownloadFile(type) && frame) {
         frame.hidden = false;
         fallback && fallback.setAttribute("hidden", "");
-        frame.src = previewHref;
+        if (type === "PDF") {
+          refreshPdfPreviewFrame(frame, previewHref, false);
+        } else {
+          frame.dataset.currentPreviewHref = previewHref;
+          frame.src = previewHref;
+        }
       } else {
         frame && frame.setAttribute("hidden", "");
 
         if (frame) {
           frame.src = "about:blank";
+          frame.dataset.currentPreviewHref = "";
         }
 
         fallback && fallback.removeAttribute("hidden");
@@ -583,8 +823,51 @@
       document.body.classList.add("lightbox-open");
     }
 
+    function activateSearchHit(nextIndex) {
+      const state = lightbox.searchHitState || {};
+      const hits = Array.isArray(state.hits) ? state.hits : [];
+      if (!hits.length) {
+        return;
+      }
+
+      const index = (nextIndex + hits.length) % hits.length;
+      const hit = hits[index];
+      const previewHref = state.type === "PDF"
+        ? getPdfPreviewHref(state.href, getHitSearchTerm(hit, state.search), hit.page)
+        : state.href;
+
+      state.index = index;
+      lightbox.searchHitState = state;
+
+      renderSearchHit(hit, index, hits, state.search);
+      renderTextSearch({ href: state.href, search: state.search, page: hit.page });
+
+      if (openLink) {
+        openLink.href = previewHref;
+      }
+
+      if (frame && !frame.hidden) {
+        if (state.type === "PDF") {
+          refreshPdfPreviewFrame(frame, previewHref, true);
+        } else {
+          frame.dataset.currentPreviewHref = previewHref;
+          frame.src = previewHref;
+        }
+      }
+    }
+
     if (lightbox.dataset.bound !== "true") {
       lightbox.querySelector("[data-document-close]") && lightbox.querySelector("[data-document-close]").addEventListener("click", closeLightbox);
+
+      searchPrev && searchPrev.addEventListener("click", () => {
+        const state = lightbox.searchHitState || {};
+        activateSearchHit((state.index || 0) - 1);
+      });
+
+      searchNext && searchNext.addEventListener("click", () => {
+        const state = lightbox.searchHitState || {};
+        activateSearchHit((state.index || 0) + 1);
+      });
 
       lightbox.addEventListener("click", (event) => {
         if (event.target === lightbox) {

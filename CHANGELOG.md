@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.76b.280526
+
+- **Навігація PDF search snippets:**
+  - Додано навігацію між знайденими PDF search snippets у document preview.
+  - У HTML fallback-блоці підсвічуються всі знайдені слова запиту.
+  - При перемиканні hit PDF iframe best-effort переходить на відповідну сторінку та пошуковий термін.
+  - Додано захист від race condition при швидких кліках “Попередній / Наступний”.
+
 ## 0.7.76a.280526
 
 - **Best-effort native PDF search highlight:**
