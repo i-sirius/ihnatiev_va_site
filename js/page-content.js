@@ -911,6 +911,7 @@
 
     setMenuItemLabel("[data-menu-home]", site.menu.home, mobileMenu.home);
     setMenuItemLabel("[data-menu-downloads]", site.menu.downloads, mobileMenu.downloads);
+    setMenuItemLabel("[data-menu-search]", site.menu.search, mobileMenu.search);
     setMenuItemLabel("[data-menu-contact]", site.menu.contact, mobileMenu.contact);
 
     Object.entries(site.activities).forEach(([id, activity]) => {
@@ -933,6 +934,8 @@
       selector = "[data-menu-home]";
     } else if (pageType === "downloads") {
       selector = "[data-menu-downloads]";
+    } else if (pageType === "search") {
+      selector = "[data-menu-search]";
     } else if (pageType === "contact") {
       selector = "[data-menu-contact]";
     } else if (pageType === "activity" && activityId) {

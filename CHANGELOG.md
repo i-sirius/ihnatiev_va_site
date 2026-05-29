@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.77.280526
+
+- **Глобальний пошук і фільтри завантажень:**
+  - Додано глобальний пошук по сайту на `search.html`.
+  - Додано статичний індекс `files/search/site-search-index.json` і генератор `scripts/build-site-search-index.ps1`.
+  - Додано `scripts/check-site-search.ps1` для перевірки глобального пошукового індексу.
+  - Додано topic filters/chips у розділі “Завантаження”.
+  - Фільтри у “Завантаженнях” працюють разом із пошуковим запитом.
+  - Додано пункт меню “Пошук/Search” у `menu.html` і fallback `menu-loader.js`.
+  - `files/downloads/search-index.json` захищено від випадкової втрати `pageSearch`, якщо `pdftotext` недоступний.
+  - `scripts/check-downloads.ps1` тепер перевіряє наявність `pageSearch`, щоб не зламати PDF snippet navigation.
+
 ## 0.7.76b.280526
 
 - **Навігація PDF search snippets:**

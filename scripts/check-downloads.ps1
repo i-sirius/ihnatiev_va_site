@@ -506,6 +506,7 @@ function Test-SearchIndex {
 
   $IdSet = @{}
   $HrefSet = @{}
+  $PageSearchRecordCount = 0
   foreach ($Item in $Items) {
     Test-UnknownFields "files/downloads/search-index.json record $($Item.id)" $Item $AllowedIndexItemFields
 
@@ -560,7 +561,12 @@ function Test-SearchIndex {
     }
 
     $TotalPageSearchChars = 0
-    foreach ($PageEntry in @($Item.pageSearch)) {
+    $ItemPageSearch = @($Item.pageSearch)
+    if ($ItemPageSearch.Count -gt 0) {
+      $PageSearchRecordCount += 1
+    }
+
+    foreach ($PageEntry in $ItemPageSearch) {
       if (-not $PageEntry.page) {
         Add-CheckError "files/downloads/search-index.json: record $($Item.id) has pageSearch item without page"
       }
@@ -576,6 +582,10 @@ function Test-SearchIndex {
     if ($TotalPageSearchChars -gt 12000) {
       Add-CheckError "files/downloads/search-index.json: record $($Item.id) pageSearch exceeds 12000 chars"
     }
+  }
+
+  if ($PageSearchRecordCount -eq 0) {
+    Add-CheckError "files/downloads/search-index.json: no records with pageSearch; PDF snippet navigation would be disabled"
   }
 
   foreach ($Href in $ManifestHrefSet.Keys) {

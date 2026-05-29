@@ -699,6 +699,9 @@
     if (window.SitePageContent) {
       window.SitePageContent.initDetailsInteractions();
     }
+    if (pageType === "search" && window.SiteSearchPage && typeof window.SiteSearchPage.refresh === "function") {
+      window.SiteSearchPage.refresh();
+    }
     restoreActivityDetailsState(activityDetailsState);
     initDownloadPreviewTriggers();
     if (window.SiteLiquidEffects) {

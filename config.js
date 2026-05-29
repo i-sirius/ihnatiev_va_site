@@ -4,7 +4,7 @@
     ownerName: "Sirius",
     authorRealName: "Віталій Ігнатьєв",
     siteDeveloperName: "Sirius",
-    buildVersion: "0.7.76b",
+    buildVersion: "0.7.77",
     buildDate: "280526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -46,6 +46,7 @@
   menu: {
     home: "Головна",
     downloads: "Завантаження",
+    search: "Пошук",
     contact: "Контакти",
     mobile: {
       home: "Дім",
@@ -53,6 +54,7 @@
       activity2: "Освіта",
       activity3: "Церква",
       downloads: "Файли",
+      search: "Пошук",
       contact: "Контакт"
     }
   },
@@ -254,7 +256,34 @@
       pagesBadge: "стор.",
       monographsTitle: "МОНОГРАФІЇ",
       articlesTitle: "СТАТТІ",
-      subgroupFallback: "РОЗДІЛ"
+      subgroupFallback: "РОЗДІЛ",
+      topicFiltersLabel: "Фільтр за темою",
+      topicFilters: [
+        { topic: "all", label: "Усі" },
+        { topic: "hesychasm", label: "Ісихазм" },
+        { topic: "natiosophy", label: "Націософія" },
+        { topic: "philosophy", label: "Філософія" },
+        { topic: "theology", label: "Богослов’я" },
+        { topic: "religious-studies", label: "Релігієзнавство" },
+        { topic: "monographs", label: "Монографії" },
+        { topic: "articles", label: "Статті" }
+      ]
+    },
+    siteSearch: {
+      pageTitle: "Пошук",
+      heading: "Пошук по сайту",
+      intro: "Пошук по сторінках, публікаціях і матеріалах для завантаження.",
+      placeholder: "Що знайти?",
+      emptyInitial: "Введіть запит із двох або більше символів.",
+      emptyResults: "Нічого не знайдено.",
+      unavailable: "Пошуковий індекс тимчасово недоступний.",
+      open: "Відкрити",
+      types: {
+        page: "Сторінка",
+        activity: "Діяльність",
+        publication: "Публікація",
+        download: "Завантаження"
+      }
     },
     video: {
       watch: "ДИВИТИСЬ",
@@ -392,6 +421,7 @@ const SITE_EN = {
   menu: {
     home: "Home",
     downloads: "Downloads",
+    search: "Search",
     contact: "Contacts",
     mobile: {
       home: "Home",
@@ -399,6 +429,7 @@ const SITE_EN = {
       activity2: "Teach",
       activity3: "Church",
       downloads: "Files",
+      search: "Search",
       contact: "Mail"
     }
   },
@@ -591,7 +622,34 @@ const SITE_EN = {
       pagesBadge: "pp.",
       monographsTitle: "MONOGRAPHS",
       articlesTitle: "ARTICLES",
-      subgroupFallback: "SECTION"
+      subgroupFallback: "SECTION",
+      topicFiltersLabel: "Filter by topic",
+      topicFilters: [
+        { topic: "all", label: "All" },
+        { topic: "hesychasm", label: "Hesychasm" },
+        { topic: "natiosophy", label: "Natiosophy" },
+        { topic: "philosophy", label: "Philosophy" },
+        { topic: "theology", label: "Theology" },
+        { topic: "religious-studies", label: "Religious studies" },
+        { topic: "monographs", label: "Monographs" },
+        { topic: "articles", label: "Articles" }
+      ]
+    },
+    siteSearch: {
+      pageTitle: "Search",
+      heading: "Site Search",
+      intro: "Search pages, publications, and downloadable materials.",
+      placeholder: "Search the site...",
+      emptyInitial: "Enter two or more characters to search.",
+      emptyResults: "Nothing found.",
+      unavailable: "The search index is temporarily unavailable.",
+      open: "Open",
+      types: {
+        page: "Page",
+        activity: "Activity",
+        publication: "Publication",
+        download: "Download"
+      }
     },
     video: {
       watch: "WATCH",

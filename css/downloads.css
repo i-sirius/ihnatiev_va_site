@@ -131,6 +131,45 @@
   color: var(--muted);
 }
 
+.downloads-filter-controls {
+  margin: 10px 0 16px;
+}
+
+.downloads-topic-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.downloads-topic-chip {
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.56);
+  color: var(--primary-dark);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.downloads-topic-chip:hover,
+.downloads-topic-chip:focus-visible {
+  border-color: var(--button-bg);
+  background: rgba(85, 109, 100, 0.12);
+}
+
+.downloads-topic-chip.is-active {
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+  color: var(--button-text);
+  box-shadow: 0 10px 22px rgba(85, 109, 100, 0.16);
+}
+
 html[data-theme="dark"] .downloads-search-field input {
   background: rgba(35, 44, 42, 0.78);
   backdrop-filter: blur(22px) saturate(1.16);
@@ -138,6 +177,14 @@ html[data-theme="dark"] .downloads-search-field input {
   box-shadow:
     0 8px 20px rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .downloads-topic-chip {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .downloads-topic-chip.is-active {
+  background: var(--button-bg);
 }
 
 .download-list li + li {

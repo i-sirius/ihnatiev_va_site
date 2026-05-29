@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#556d64" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var forceLegacy = /(?:^|[?&])debug=legacy(?:[=&]|$)/.test(window.location.search);
+      var supportsModernEffects =
+        window.CSS &&
+        typeof window.CSS.supports === "function" &&
+        window.CSS.supports("color", "color-mix(in srgb, #000 50%, #fff)") &&
+        window.CSS.supports("width", "min(20px, 40px)") &&
+        window.CSS.supports("font-size", "clamp(1rem, 2vw, 2rem)");
+
+      if (forceLegacy || !supportsModernEffects) {
+        root.className += (root.className ? " " : "") + "legacy-browser no-modern-effects";
+      }
+
+      try {
+        var savedTheme = localStorage.getItem("site-theme");
+        var savedLocale = localStorage.getItem("site-locale");
+        if (savedTheme) {
+          root.setAttribute("data-theme", savedTheme);
+        }
+        if (savedLocale) {
+          root.lang = savedLocale;
+        }
+      } catch (error) {
+        // Ignore storage access issues before the app boots.
+      }
+    }());
+  </script>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="files/media/logo-light.png" />
+  <link rel="canonical" href="https://iva.net.ua/search.html" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="files/media/logo-light.png" data-site-favicon />
+  <title>Пошук | Віталій Ігнатьєв</title>
+  <meta name="description" content="Глобальний пошук по сторінках, публікаціях і матеріалах сайту Віталія Ігнатьєва." />
+  <meta property="og:title" content="Пошук | Віталій Ігнатьєв" />
+  <meta property="og:description" content="Глобальний пошук по сторінках, публікаціях і матеріалах сайту." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://iva.net.ua/search.html" />
+  <meta property="og:image" content="https://iva.net.ua/files/media/logo-light.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Пошук | Віталій Ігнатьєв" />
+  <meta name="twitter:description" content="Глобальний пошук по сторінках, публікаціях і матеріалах сайту." />
+  <meta name="twitter:image" content="https://iva.net.ua/files/media/logo-light.png" />
+</head>
+<body data-page="search">
+  <header class="site-header">
+    <h1 data-search-title>Пошук</h1>
+    <div id="menu"></div>
+  </header>
+
+  <main>
+    <section class="panel search-panel">
+      <div class="search-page-heading">
+        <h2 data-search-heading>Пошук по сайту</h2>
+        <p data-search-intro>Пошук по сторінках, публікаціях і матеріалах для завантаження.</p>
+      </div>
+      <div class="site-search" data-site-search>
+        <label class="site-search-field">
+          <span data-search-field-label>Пошук</span>
+          <input type="text" role="searchbox" autocomplete="off" data-site-search-input>
+        </label>
+        <p class="site-search-status" aria-live="polite" data-site-search-status></p>
+        <div class="site-search-results" data-site-search-results></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small data-footer>© 2026 Віталій Ігнатьєв</small>
+  </footer>
+  <script src="config.js"></script>
+  <script src="js/site-utils.js"></script>
+  <script src="js/gallery-lightbox.js"></script>
+  <script src="js/gallery-renderer.js"></script>
+  <script src="js/document-lightbox.js"></script>
+  <script src="js/downloads-renderer.js"></script>
+  <script src="js/content-loader.js"></script>
+  <script src="js/youtube-feed.js"></script>
+  <script src="js/mobile-navigation.js"></script>
+  <script src="js/contact-page.js"></script>
+  <script src="js/visitor-counter.js"></script>
+  <script src="js/liquid-effects.js"></script>
+  <script src="js/social-icons.js"></script>
+  <script src="js/header-ui.js"></script>
+  <script src="js/page-content.js"></script>
+  <script src="js/menu-loader.js"></script>
+  <script src="js/site-search.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

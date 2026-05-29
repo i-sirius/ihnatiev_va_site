@@ -188,6 +188,73 @@
       return normalized ? normalized.split(" ") : [];
     }
 
+    function getInitialDownloadsParam(name) {
+      try {
+        if (typeof URLSearchParams !== "function") {
+          return "";
+        }
+        return new URLSearchParams(window.location.search).get(name) || "";
+      } catch (error) {
+        return "";
+      }
+    }
+
+    function getInitialDownloadsQuery() {
+      const query = getInitialDownloadsParam("q");
+      return query && query.trim().length > 1 ? query : "";
+    }
+
+    function getInitialDownloadsTopic() {
+      const topic = getInitialDownloadsParam("topic");
+      return topic && topic.trim() ? topic.trim() : "all";
+    }
+
+    function getTopicFilters() {
+      const downloadsUi = getDownloadsUi();
+      const configuredFilters = downloadsUi.topicFilters;
+      if (Array.isArray(configuredFilters) && configuredFilters.length) {
+        return configuredFilters;
+      }
+
+      return [
+        { topic: "all", label: "Усі" },
+        { topic: "hesychasm", label: "Ісихазм" },
+        { topic: "natiosophy", label: "Націософія" },
+        { topic: "philosophy", label: "Філософія" },
+        { topic: "theology", label: "Богослов’я" },
+        { topic: "religious-studies", label: "Релігієзнавство" },
+        { topic: "monographs", label: "Монографії" },
+        { topic: "articles", label: "Статті" }
+      ];
+    }
+
+    function getFileTopics(file = {}, context = {}) {
+      const topics = [];
+      const values = Array.isArray(file.topics) ? file.topics : [];
+
+      values.forEach((topic) => {
+        const normalizedTopic = String(topic || "").trim();
+        if (normalizedTopic && topics.indexOf(normalizedTopic) === -1) {
+          topics.push(normalizedTopic);
+        }
+      });
+
+      if (context.collection && topics.indexOf(context.collection) === -1) {
+        topics.push(context.collection);
+      }
+
+      return topics;
+    }
+
+    function matchesTopic(file = {}, context = {}, topic = "all") {
+      const activeTopic = String(topic || "all");
+      if (!activeTopic || activeTopic === "all") {
+        return true;
+      }
+
+      return getFileTopics(file, context).indexOf(activeTopic) !== -1;
+    }
+
     function getSearchFields(file = {}, context = {}) {
       const fileType = getFileType(file);
       const indexEntry = getSearchIndexEntry(file);
@@ -710,6 +777,7 @@
       input.placeholder = downloadsUi.searchPlaceholder || "Пошук у завантаженнях...";
       input.setAttribute("aria-label", input.placeholder);
       input.autocomplete = "off";
+      input.value = getInitialDownloadsQuery();
 
       input.addEventListener("input", () => {
         scheduleSearch(input.value || "");
@@ -721,13 +789,41 @@
       return search;
     }
 
-    function filterMonographs(monographs, words) {
+    function createTopicFilters(activeTopic, onTopicChange) {
+      const downloadsUi = getDownloadsUi();
+      const filters = getTopicFilters();
+      const wrap = document.createElement("div");
+
+      wrap.className = "downloads-topic-filters";
+      wrap.setAttribute("aria-label", downloadsUi.topicFiltersLabel || "Фільтр за темою");
+
+      filters.forEach((filter) => {
+        const topic = filter && filter.topic ? String(filter.topic) : "all";
+        const button = document.createElement("button");
+        const label = getLocalizedValue(filter && filter.label, topic);
+
+        button.type = "button";
+        button.className = topic === activeTopic ? "downloads-topic-chip is-active" : "downloads-topic-chip";
+        button.textContent = label || topic;
+        button.setAttribute("data-downloads-topic", topic);
+        button.setAttribute("aria-pressed", topic === activeTopic ? "true" : "false");
+        button.addEventListener("click", () => {
+          onTopicChange(topic);
+        });
+        wrap.appendChild(button);
+      });
+
+      return wrap;
+    }
+
+    function filterMonographs(monographs, words, topic) {
       return monographs.filter((file) =>
+        matchesTopic(file, { collection: "monographs" }, topic) &&
         matchesSearch(file, { category: getDownloadsUi().monographsTitle || "Монографії" }, words)
       );
     }
 
-    function filterArticleGroups(articleGroups, words) {
+    function filterArticleGroups(articleGroups, words, topic) {
       return articleGroups
         .map((group) => {
           const category = getLocalizedValue(group.title, getDownloadsUi().subgroupFallback || "Розділ");
@@ -735,7 +831,10 @@
           return {
             title: group.title,
             category,
-            files: files.filter((file) => matchesSearch(file, { category }, words))
+            files: files.filter((file) =>
+              matchesTopic(file, { collection: "articles" }, topic) &&
+              matchesSearch(file, { category }, words)
+            )
           };
         })
         .filter((group) => group.files.length);
@@ -748,13 +847,14 @@
       }, 0);
     }
 
-    function renderGroupsInto(container, groups, query) {
+    function renderGroupsInto(container, groups, query, topic = "all") {
       const downloadsUi = getDownloadsUi();
       const words = getSearchWords(query);
+      const activeTopic = topic || "all";
       const monographs = Array.isArray(groups.monographs) ? groups.monographs : [];
       const articleGroups = Array.isArray(groups.articles) ? groups.articles : [];
-      const filteredMonographs = filterMonographs(monographs, words);
-      const filteredArticleGroups = filterArticleGroups(articleGroups, words);
+      const filteredMonographs = filterMonographs(monographs, words, activeTopic);
+      const filteredArticleGroups = filterArticleGroups(articleGroups, words, activeTopic);
       const totalMatches = filteredMonographs.length + countArticleFiles(filteredArticleGroups);
       const groupsWrap = document.createElement("div");
       const monographsSection = document.createElement("section");
@@ -765,9 +865,9 @@
       container.textContent = "";
       groupsWrap.className = "downloads-groups-list";
 
-      if (words.length && !totalMatches) {
+      if ((words.length || activeTopic !== "all") && !totalMatches) {
         container.appendChild(createEmptyMessage(
-          downloadsUi.searchEmpty || "Нічого не знайдено",
+          downloadsUi.searchEmpty || downloadsUi.searchSectionEmpty || "Нічого не знайдено",
           "downloads-search-empty"
         ));
         return;
@@ -782,7 +882,8 @@
       monographsBody.className = "download-group-body";
       renderGroupFiles(monographsBody, filteredMonographs, {
         category: downloadsUi.monographsTitle || "РњРѕРЅРѕРіСЂР°С„С–С—",
-        searchQuery: query
+        searchQuery: query,
+        topic: activeTopic
       });
       monographsSection.appendChild(monographsBody);
       groupsWrap.appendChild(monographsSection);
@@ -813,7 +914,8 @@
         body.className = "download-subgroup-body";
         renderGroupFiles(body, group.files, {
           category: group.category || "",
-          searchQuery: query
+          searchQuery: query,
+          topic: activeTopic
         });
 
         details.appendChild(summary);
@@ -823,7 +925,7 @@
 
       if (!filteredArticleGroups.length) {
         subgroups.appendChild(createEmptyMessage(
-          words.length
+          words.length || activeTopic !== "all"
             ? downloadsUi.searchSectionEmpty || downloadsUi.searchEmpty || "Файлів за цим запитом зараз не знайдено."
             : downloadsUi.empty || "Файли тимчасово відсутні.",
           "download-group-empty"
@@ -856,11 +958,26 @@
 
       document.querySelectorAll(selector).forEach((element) => {
         const results = document.createElement("div");
+        const filters = document.createElement("div");
+        const state = {
+          query: getInitialDownloadsQuery(),
+          topic: getInitialDownloadsTopic()
+        };
+        function renderCurrentGroups() {
+          filters.textContent = "";
+          filters.appendChild(createTopicFilters(state.topic, (topic) => {
+            state.topic = topic || "all";
+            renderCurrentGroups();
+          }));
+          renderGroupsInto(results, groups, state.query, state.topic);
+        }
         const searchControls = createSearchControls((query) => {
-          renderGroupsInto(results, groups, query);
+          state.query = query;
+          renderCurrentGroups();
         });
         const searchMount = document.querySelector("[data-downloads-search]");
 
+        filters.className = "downloads-filter-controls";
         results.className = "downloads-search-results";
 
         element.textContent = "";
@@ -870,8 +987,9 @@
         } else {
           element.appendChild(searchControls);
         }
+        element.appendChild(filters);
         element.appendChild(results);
-        renderGroupsInto(results, groups, "");
+        renderCurrentGroups();
       });
     }
 

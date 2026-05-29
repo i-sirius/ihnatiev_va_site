@@ -6,6 +6,7 @@
   <a href="activity2.html" data-menu-activity="2">Освіта</a>
   <a href="activity3.html" data-menu-activity="3">Церква</a>
   <a href="downloads.html" data-menu-downloads>Завантаження</a>
+  <a href="search.html" data-menu-search>Пошук</a>
   <a href="contact.html" data-menu-contact>Контакти</a>
 </nav>`;
 

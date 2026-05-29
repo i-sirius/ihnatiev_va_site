@@ -10,6 +10,63 @@ $PdfToTextCommand = Get-Command pdftotext -ErrorAction SilentlyContinue
 
 Add-Type -AssemblyName System.IO.Compression
 
+function Read-JsonPath {
+  param([string]$Path)
+
+  if (-not (Test-Path -LiteralPath $Path)) {
+    return $null
+  }
+
+  try {
+    return (Get-Content -Raw -Encoding UTF8 $Path) | ConvertFrom-Json
+  } catch {
+    return $null
+  }
+}
+
+function Read-HeadDownloadsIndex {
+  $GitCommand = Get-Command git -ErrorAction SilentlyContinue
+  if (-not $GitCommand) {
+    return $null
+  }
+
+  try {
+    $Raw = & $GitCommand.Source -C $Root show HEAD:files/downloads/search-index.json 2>$null
+    if (-not $Raw) {
+      return $null
+    }
+    return (($Raw -join "`n") | ConvertFrom-Json)
+  } catch {
+    return $null
+  }
+}
+
+function Test-IndexItemHasPageSearch {
+  param($Item)
+
+  return ($Item -and @($Item.pageSearch).Count -gt 0)
+}
+
+$CachedIndexByHref = @{}
+
+function Add-CachedIndexItems {
+  param($Index)
+
+  foreach ($Item in @($Index.items)) {
+    if (-not $Item.href -or -not (Test-IndexItemHasPageSearch $Item)) {
+      continue
+    }
+
+    $Href = [string]$Item.href
+    if (-not $script:CachedIndexByHref.ContainsKey($Href)) {
+      $script:CachedIndexByHref[$Href] = $Item
+    }
+  }
+}
+
+Add-CachedIndexItems (Read-JsonPath $IndexPath)
+Add-CachedIndexItems (Read-HeadDownloadsIndex)
+
 function Get-RepoPath {
   param([string]$RelativePath)
   $Normalized = $RelativePath -replace "^\./", ""
@@ -447,6 +504,20 @@ function New-IndexItem {
       if (Test-ExtractedTextQuality $CandidateText) {
         $ExtractedText = $CandidateText
         $ExtractedTextSource = "pdf-streams"
+      }
+    }
+
+    if (-not $ExtractedText -and $CachedIndexByHref.ContainsKey($Href)) {
+      $CachedItem = $CachedIndexByHref[$Href]
+      $CachedPageSearch = @($CachedItem.pageSearch)
+      $CachedText = ConvertTo-SearchText (($CachedPageSearch | ForEach-Object { [string]$_.text }) -join " ")
+      if (Test-ExtractedTextQuality $CachedText) {
+        if ($CachedText.Length -gt $MaxExtractedChars) {
+          $CachedText = $CachedText.Substring(0, $MaxExtractedChars)
+        }
+        $ExtractedText = $CachedText
+        $ExtractedTextSource = "pdftotext"
+        $PageSearch = $CachedPageSearch
       }
     }
   }
