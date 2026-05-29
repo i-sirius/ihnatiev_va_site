@@ -4,7 +4,7 @@
     ownerName: "Sirius",
     authorRealName: "Віталій Ігнатьєв",
     siteDeveloperName: "Sirius",
-    buildVersion: "0.7.76",
+    buildVersion: "0.7.76a",
     buildDate: "280526",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",

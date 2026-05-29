@@ -235,7 +235,7 @@
       }
 
       if (normalizedSearch) {
-        parts.push(`search=${encodeURIComponent(normalizedSearch)}`);
+        parts.push(`search=${encodeURIComponent(normalizedSearch).replace(/'/g, "%27")}`);
       }
 
       return `${cleanHref}#${parts.join("&")}`;
@@ -521,6 +521,7 @@
       const search = file.search || "";
       const page = file.page || "";
       const snippet = file.snippet || "";
+      const previewHref = type === "PDF" ? getPdfPreviewHref(href, search, page) : href;
 
       if (title) {
         title.textContent = label;
@@ -531,7 +532,7 @@
       }
 
       if (openLink) {
-        openLink.href = href;
+        openLink.href = previewHref;
       }
 
       if (downloadLink) {
@@ -567,7 +568,7 @@
       if (!useDirectPdfActions && canPreviewDownloadFile(type) && frame) {
         frame.hidden = false;
         fallback && fallback.setAttribute("hidden", "");
-        frame.src = type === "PDF" ? getPdfPreviewHref(href, search, page) : href;
+        frame.src = previewHref;
       } else {
         frame && frame.setAttribute("hidden", "");
 
