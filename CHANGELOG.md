@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.76.280526
+
+- **Покращення metadata-індексації сторінки “Завантаження”:**
+  - Додано розширені metadata-поля для завантажень: `keywords`, `topics`, `aliases`, `summary`, `bibliography`.
+  - Очищено keywords до змістових термінів і словосполучень без випадкових службових слів із назв.
+  - Додано контрольовані topics для пошуку за темами: `hesychasm`, `natiosophy`, `philosophy`, `religious-studies`, `theology`, `education`, `articles`, `monographs`.
+  - Розширено `search-index.json`, щоб пошук враховував keywords, topics, aliases, summary та bibliography.
+  - Посилено `scripts/build-downloads-index.ps1`: ручні keywords мають пріоритет над механічними токенами, довгі шумові токени відсікаються.
+  - Додано `scripts/check-downloads.ps1` для перевірки downloads manifest та search-index.
+  - Прибрано невикористані старі downloads search стилі з `css/content.css`.
+  - Додано `.gitattributes` і `.editorconfig` для стабільнішої політики line endings.
+
 ## 0.7.75.280526
 
 - **Індексація та пошук на сторінці “Завантаження”:**

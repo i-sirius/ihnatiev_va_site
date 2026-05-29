@@ -1,357 +1,1398 @@
 {
-  "monographs": [
-    {
-      "href": "/files/downloads/Ознайомлення з монографією -Націософія- - Ігнатьєв ВА.pdf",
-      "label": {
-        "uk": "Ознайомитись з монографією “Націософія”",
-        "en": "Introduction to the monograph “Natiosophy”"
-      },
-      "type": "pdf",
-      "textLayer": true,
-      "contentKind": "mixed",
-      "pages": 11,
-      "purchase": {
-        "mode": "contact",
-        "label": {
-          "uk": "Запитати e-книгу",
-          "en": "Request e-book"
-        },
-        "subject": {
-          "uk": "Запит електронної книги «Ісихазм у контексті некласичної філософсько-релігійної парадигми»",
-          "en": "Request of the book “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
-        },
-        "message": {
-          "uk": "Доброго дня! Хочу замовити електронну версію монографії  Націософія” - Ігнатьєв В.А. Прошу повідомити умови отримання.",
-          "en": "Hello! I would like to order the e-book “Natiosophy” - V.A. Ihnatiev. Please inform me about the conditions for obtaining it."
-        }
-      }
-    },
-    {
-      "href": "/files/downloads/Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf",
-      "label": {
-        "uk": "Ознайомитись з монографією “Ісихазм у контексті некласичної філософсько-релігійної парадигми”",
-        "en": "Introduction to the monograph “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
-      },
-      "type": "pdf",
-      "textLayer": true,
-      "contentKind": "text",
-      "pages": 19,
-      "purchase": {
-        "mode": "contact",
-        "label": {
-          "uk": "Запитати книгу",
-          "en": "Request book"
-        },
-        "subject": {
-          "uk": "Запит книги «Ісихазм у контексті некласичної філософсько-релігійної парадигми»",
-          "en": "Request of the book “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
-        },
-        "message": {
-          "uk": "Доброго дня! Хочу замовити книгу «Ісихазм у контексті некласичної філософсько-релігійної парадигми». Прошу повідомити умови отримання.",
-          "en": "Hello! I would like to order the book “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”. Please inform me about the conditions for obtaining it."
-        }
-      }
-    }
-  ],
-  "articles": [
-    {
-      "title": {
-        "uk": "SCOPUS",
-        "en": "SCOPUS"
-      },
-      "files": [
-        {
-          "href": "/files/downloads/SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf",
-          "label": {
-            "uk": "1. Sources of Pamfil Yurkevich’s Philosophical and Religious Concept of the Heart",
-            "en": "1. Sources of Pamfil Yurkevich’s Philosophical and Religious Concept of the Heart"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "mixed",
-        "pages": 14
-        },
-        {
-          "href": "/files/downloads/Improving the quality of education based on the system of continuing education.pdf",
-          "label": {
-            "uk": "2. Improving the Quality of Education Based on the System of Continuing Education",
-            "en": "2. Improving the Quality of Education Based on the System of Continuing Education"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 6
-        },
-        {
-          "href": "/files/downloads/Improving the quality of tourist services.pdf",
-          "label": {
-            "uk": "3. Improving the Quality of Tourist Services",
-            "en": "3. Improving the Quality of Tourist Services"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 5
-        }
-      ]
-    },
-    {
-      "title": {
-        "uk": "WEB OF SCIENCE",
-        "en": "WEB OF SCIENCE"
-      },
-      "files": [
-        {
-          "href": "/files/downloads/PHILOSOPHICAL UNDERSTANDING.pdf",
-          "label": {
-            "uk": "1. Philosophical Understanding",
-            "en": "1. Philosophical Understanding"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "mixed",
-        "pages": 17
-        },
-        {
-          "href": "/files/downloads/PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf",
-          "label": {
-            "uk": "2. Philosophical Concepts and Postulates in the Modern World: Challenges, Reflection and Their Practical Application",
-            "en": "2. Philosophical Concepts and Postulates in the Modern World: Challenges, Reflection and Their Practical Application"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "mixed",
-        "pages": 14
-        },
-        {
-          "href": "/files/downloads/POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf",
-          "label": {
-            "uk": "3. Postmodern Picture of Reality of Scientific Knowledge: Evolution by Epistemological Diversity",
-            "en": "3. Postmodern Picture of Reality of Scientific Knowledge: Evolution by Epistemological Diversity"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 13
-        },
-        {
-          "href": "/files/downloads/THE USE OF S. KHORUZHYI'S IDEAS.pdf",
-          "label": {
-            "uk": "4. The Use of S. Khoruzhyi's Ideas",
-            "en": "4. The Use of S. Khoruzhyi's Ideas"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 17
-        },
-        {
-          "href": "/files/downloads/Religious Secular Reality of Individual Consciousness In The Context of COVID-19.pdf",
-          "label": {
-            "uk": "5. Religious Secular Reality of Individual Consciousness in the Context of COVID-19",
-            "en": "5. Religious Secular Reality of Individual Consciousness in the Context of COVID-19"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "mixed",
-        "pages": 13
-        },
-        {
-          "href": "/files/downloads/Study on the philosophical aspects of social justice equality in modern society.pdf",
-          "label": {
-            "uk": "6. Study on the Philosophical Aspects of Social Justice Equality in Modern Society",
-            "en": "6. Study on the Philosophical Aspects of Social Justice Equality in Modern Society"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "mixed",
-        "pages": 33
-        }
-      ]
-    },
-    {
-      "title": {
-        "uk": "ФАХОВІ СТАТТІ",
-        "en": "PEER-REVIEWED ARTICLES"
-      },
-      "files": [
-        {
-          "href": "/files/downloads/NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf",
-          "label": {
-            "uk": "1. Non-Classical Epistemology of V. Lektorsky",
-            "en": "1. Non-Classical Epistemology of V. Lektorsky"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 11
-        },
-        {
-          "href": "/files/downloads/ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf",
-          "label": {
-            "uk": "2. Екзистенційна зустріч",
-            "en": "2. Existential Encounter"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 5
-        },
-        {
-          "href": "/files/downloads/ЕСТЕЗИС АПОФАЗИСУ.pdf",
-          "label": {
-            "uk": "3. Естезис апофазису",
-            "en": "3. Esthesis of Apophasis"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 4
-        },
-        {
-          "href": "/files/downloads/ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf",
-          "label": {
-            "uk": "4. Естетичне споглядання",
-            "en": "4. Aesthetic Contemplation"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 5
-        },
-        {
-          "href": "/files/downloads/5. НЕКЛАСИЧНА МЕТАФІЗИКА.pdf",
-          "label": {
-            "uk": "5. Некласична метафізика",
-            "en": "5. Non-Classical Metaphysics"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 9
-        },
-        {
-          "href": "/files/downloads/Ісихастська традиція .pdf",
-          "label": {
-            "uk": "6. Ісихастська традиція",
-            "en": "6. Hesychast Tradition"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "mixed",
-        "pages": 15
-        },
-        {
-          "href": "/files/downloads/НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf",
-          "label": {
-            "uk": "7. Некласична філософська антропологія",
-            "en": "7. Non-Classical Philosophical Anthropology"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 3
-        },
-        {
-          "href": "/files/downloads/Православна політична теологія.pdf",
-          "label": {
-            "uk": "8. Православна політична теологія",
-            "en": "8. Orthodox Political Theology"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 4
-        },
-        {
-          "href": "/files/downloads/Рашизм як форма етнофілетизму.pdf",
-          "label": {
-            "uk": "9. Рашизм як форма етнофілетизму",
-            "en": "9. Rashism as a Form of Ethnophyletism"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 5
-        },
-        {
-          "href": "/files/downloads/РЕЛІГІЙНІ СИМУЛЯКРИ .pdf",
-          "label": {
-            "uk": "10. Релігійні симулякри",
-            "en": "10. Religious Simulacra"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 8
-        },
-        {
-          "href": "/files/downloads/Філософська антропологія.pdf",
-          "label": {
-            "uk": "11. Філософська антропологія",
-            "en": "11. Philosophical Anthropology"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 3
-        },
-        {
-          "href": "/files/downloads/12. «ПРИНЦИП ДОПОЛНИТЕЛЬНОСТИ».pdf",
-          "label": {
-            "uk": "12. «Принцип дополнительности»",
-            "en": "12. Principle of Complementarity"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 9
-        },
-        {
-          "href": "/files/downloads/13. ВЗАЄМОВІДНОСИНИ_ФІЛОСОФІЇ_І_ТЕОЛОГІЇ.pdf",
-          "label": {
-            "uk": "13. Взаємовідносини філософії і теології",
-            "en": "13. Interrelations of Philosophy and Theology"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 10
-        },
-        {
-          "href": "/files/downloads/14. ЕНЕРГІЙНИЙ ДИСКУРС НЕКЛАСНОЇ ОНТОЛОГІЇ.pdf",
-          "label": {
-            "uk": "14. Енергійний дискурс некласної онтології",
-            "en": "14. Energetic Discourse of Non-Classical Ontology"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 5
-        },
-        {
-          "href": "/files/downloads/15. ІСИХАЗМ - СУПЕРЕЧНІСТЬ НАРАТИВІВ У РЕЛІГІЙНО-ФІЛОСОФСЬКОМУ ДИСКУРСІ .pdf",
-          "label": {
-            "uk": "15. Ісихазм - суперечність наративів у релігійно-філософському дискурсі",
-            "en": "15. Hesychasm: Contradiction of Narratives in Religious-Philosophical Discourse"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 11
-        },
-        {
-          "href": "/files/downloads/16. МЕТАФІЗИКА ПРАВОСЛАВНОГО ЕКЗИСТЕНЦІАЛІЗМУ.pdf",
-          "label": {
-            "uk": "16. Метафізика православного екзистенціалізму",
-            "en": "16. Metaphysics of Orthodox Existentialism"
-          },
-        "type": "pdf",
-        "textLayer": true,
-        "contentKind": "text",
-        "pages": 11
-        }
-      ]
-    }
-  ]
+    "monographs":  [
+                       {
+                           "href":  "/files/downloads/Ознайомлення з монографією -Націософія- - Ігнатьєв ВА.pdf",
+                           "label":  {
+                                         "uk":  "Ознайомитись з монографією “Націософія”",
+                                         "en":  "Introduction to the monograph “Natiosophy”"
+                                     },
+                           "type":  "pdf",
+                           "textLayer":  true,
+                           "contentKind":  "mixed",
+                           "pages":  11,
+                           "purchase":  {
+                                            "mode":  "contact",
+                                            "label":  {
+                                                          "uk":  "Запитати e-книгу",
+                                                          "en":  "Request e-book"
+                                                      },
+                                            "subject":  {
+                                                            "uk":  "Запит електронної книги «Ісихазм у контексті некласичної філософсько-релігійної парадигми»",
+                                                            "en":  "Request of the book “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
+                                                        },
+                                            "message":  {
+                                                            "uk":  "Доброго дня! Хочу замовити електронну версію монографії  Націософія” - Ігнатьєв В.А. Прошу повідомити умови отримання.",
+                                                            "en":  "Hello! I would like to order the e-book “Natiosophy” - V.A. Ihnatiev. Please inform me about the conditions for obtaining it."
+                                                        }
+                                        },
+                           "keywords":  {
+                                            "uk":  [
+                                                       "націософія",
+                                                       "філософія культури"
+                                                   ],
+                                            "en":  [
+                                                       "natiosophy",
+                                                       "philosophy of culture"
+                                                   ]
+                                        },
+                           "topics":  [
+                                          "natiosophy",
+                                          "philosophy",
+                                          "monographs"
+                                      ],
+                           "aliases":  {
+                                           "uk":  [
+                                                      "націософія",
+                                                      "natiosophy"
+                                                  ],
+                                           "en":  [
+                                                      "natiosophy",
+                                                      "націософія"
+                                                  ]
+                                       },
+                           "summary":  {
+                                           "uk":  "Монографічний матеріал присвячений темі: націософія.",
+                                           "en":  "The monograph material focuses on natiosophy."
+                                       },
+                           "bibliography":  {
+                                                "authors":  [
+
+                                                            ],
+                                                "year":  "",
+                                                "publication":  "",
+                                                "pages":  "11",
+                                                "language":  "uk"
+                                            }
+                       },
+                       {
+                           "href":  "/files/downloads/Ісихазм у контексті некласичної філософсько-релігійної парадигми.pdf",
+                           "label":  {
+                                         "uk":  "Ознайомитись з монографією “Ісихазм у контексті некласичної філософсько-релігійної парадигми”",
+                                         "en":  "Introduction to the monograph “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
+                                     },
+                           "type":  "pdf",
+                           "textLayer":  true,
+                           "contentKind":  "text",
+                           "pages":  19,
+                           "purchase":  {
+                                            "mode":  "contact",
+                                            "label":  {
+                                                          "uk":  "Запитати книгу",
+                                                          "en":  "Request book"
+                                                      },
+                                            "subject":  {
+                                                            "uk":  "Запит книги «Ісихазм у контексті некласичної філософсько-релігійної парадигми»",
+                                                            "en":  "Request of the book “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”"
+                                                        },
+                                            "message":  {
+                                                            "uk":  "Доброго дня! Хочу замовити книгу «Ісихазм у контексті некласичної філософсько-релігійної парадигми». Прошу повідомити умови отримання.",
+                                                            "en":  "Hello! I would like to order the book “Hesychasm in the Context of the Non-Classical Philosophical-Religious Paradigm”. Please inform me about the conditions for obtaining it."
+                                                        }
+                                        },
+                           "keywords":  {
+                                            "uk":  [
+                                                       "ісихазм",
+                                                       "філософія релігії",
+                                                       "богослов’я",
+                                                       "некласична філософія"
+                                                   ],
+                                            "en":  [
+                                                       "hesychasm",
+                                                       "philosophy of religion",
+                                                       "theology",
+                                                       "non-classical philosophy"
+                                                   ]
+                                        },
+                           "topics":  [
+                                          "hesychasm",
+                                          "philosophy",
+                                          "religious-studies",
+                                          "theology",
+                                          "monographs"
+                                      ],
+                           "aliases":  {
+                                           "uk":  [
+                                                      "ісихазм",
+                                                      "hesychasm",
+                                                      "hesychast tradition"
+                                                  ],
+                                           "en":  [
+                                                      "hesychasm",
+                                                      "hesychast tradition",
+                                                      "ісихазм"
+                                                  ]
+                                       },
+                           "summary":  {
+                                           "uk":  "Монографічний матеріал присвячений темі: ісихазм.",
+                                           "en":  "The monograph material focuses on hesychasm."
+                                       },
+                           "bibliography":  {
+                                                "authors":  [
+
+                                                            ],
+                                                "year":  "",
+                                                "publication":  "",
+                                                "pages":  "19",
+                                                "language":  "uk"
+                                            }
+                       }
+                   ],
+    "articles":  [
+                     {
+                         "title":  {
+                                       "uk":  "SCOPUS",
+                                       "en":  "SCOPUS"
+                                   },
+                         "files":  [
+                                       {
+                                           "href":  "/files/downloads/SOURCES OF PAMFIL YURKEVYCH’S PHILOSOPHICAL .pdf",
+                                           "label":  {
+                                                         "uk":  "1. Sources of Pamfil Yurkevich’s Philosophical and Religious Concept of the Heart",
+                                                         "en":  "1. Sources of Pamfil Yurkevich’s Philosophical and Religious Concept of the Heart"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "mixed",
+                                           "pages":  14,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "Памфіл Юркевич",
+                                                                       "філософія серця",
+                                                                       "філософія релігії"
+                                                                   ],
+                                                            "en":  [
+                                                                       "Pamfil Yurkevych",
+                                                                       "philosophy of the heart",
+                                                                       "philosophy of religion"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "religious-studies",
+                                                          "theology",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "Юркевич",
+                                                                      "Yurkevych"
+                                                                  ],
+                                                           "en":  [
+                                                                      "Yurkevych",
+                                                                      "Юркевич"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: Памфіл Юркевич.",
+                                                           "en":  "The material focuses on Pamfil Yurkevych."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "14",
+                                                                "language":  "en"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/Improving the quality of education based on the system of continuing education.pdf",
+                                           "label":  {
+                                                         "uk":  "2. Improving the Quality of Education Based on the System of Continuing Education",
+                                                         "en":  "2. Improving the Quality of Education Based on the System of Continuing Education"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  6,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "безперервна освіта",
+                                                                       "якість освіти"
+                                                                   ],
+                                                            "en":  [
+                                                                       "continuing education",
+                                                                       "quality of education"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "education",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "освіта",
+                                                                      "education"
+                                                                  ],
+                                                           "en":  [
+                                                                      "education",
+                                                                      "освіта"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: безперервна освіта.",
+                                                           "en":  "The material focuses on continuing education."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "6",
+                                                                "language":  "en"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/Improving the quality of tourist services.pdf",
+                                           "label":  {
+                                                         "uk":  "3. Improving the Quality of Tourist Services",
+                                                         "en":  "3. Improving the Quality of Tourist Services"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  5,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "туристичні послуги",
+                                                                       "якість послуг"
+                                                                   ],
+                                                            "en":  [
+                                                                       "tourist services",
+                                                                       "service quality"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "tourist services"
+                                                                  ],
+                                                           "en":  [
+                                                                      "туристичні послуги"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: туристичні послуги.",
+                                                           "en":  "The material focuses on tourist services."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "5",
+                                                                "language":  "en"
+                                                            }
+                                       }
+                                   ]
+                     },
+                     {
+                         "title":  {
+                                       "uk":  "WEB OF SCIENCE",
+                                       "en":  "WEB OF SCIENCE"
+                                   },
+                         "files":  [
+                                       {
+                                           "href":  "/files/downloads/PHILOSOPHICAL UNDERSTANDING.pdf",
+                                           "label":  {
+                                                         "uk":  "1. Philosophical Understanding",
+                                                         "en":  "1. Philosophical Understanding"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "mixed",
+                                           "pages":  17,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "філософське розуміння"
+                                                                   ],
+                                                            "en":  [
+                                                                       "philosophical understanding"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "філософія",
+                                                                      "philosophy"
+                                                                  ],
+                                                           "en":  [
+                                                                      "philosophy",
+                                                                      "філософія"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: філософське розуміння.",
+                                                           "en":  "The material focuses on philosophical understanding."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "17",
+                                                                "language":  "en"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/PHILOSOPHICAL_CONCEPTS_AND_POSTULATES_IN.pdf",
+                                           "label":  {
+                                                         "uk":  "2. Philosophical Concepts and Postulates in the Modern World: Challenges, Reflection and Their Practical Application",
+                                                         "en":  "2. Philosophical Concepts and Postulates in the Modern World: Challenges, Reflection and Their Practical Application"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "mixed",
+                                           "pages":  14,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "філософські концепції",
+                                                                       "постулати",
+                                                                       "практична філософія"
+                                                                   ],
+                                                            "en":  [
+                                                                       "philosophical concepts",
+                                                                       "postulates",
+                                                                       "practical philosophy"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "філософія",
+                                                                      "philosophy"
+                                                                  ],
+                                                           "en":  [
+                                                                      "philosophy",
+                                                                      "філософія"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: філософські концепції.",
+                                                           "en":  "The material focuses on philosophical concepts."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "14",
+                                                                "language":  "en"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/POSTMODERN PICTURE OF REALITY OF SCIENTIFIC.pdf",
+                                           "label":  {
+                                                         "uk":  "3. Postmodern Picture of Reality of Scientific Knowledge: Evolution by Epistemological Diversity",
+                                                         "en":  "3. Postmodern Picture of Reality of Scientific Knowledge: Evolution by Epistemological Diversity"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  13,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "постмодерн",
+                                                                       "наукове знання",
+                                                                       "епістемологія"
+                                                                   ],
+                                                            "en":  [
+                                                                       "postmodernism",
+                                                                       "scientific knowledge",
+                                                                       "epistemology"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "epistemology"
+                                                                  ],
+                                                           "en":  [
+                                                                      "епістемологія"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: постмодерн.",
+                                                           "en":  "The material focuses on postmodernism."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "13",
+                                                                "language":  "en"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/THE USE OF S. KHORUZHYI\u0027S IDEAS.pdf",
+                                           "label":  {
+                                                         "uk":  "4. The Use of S. Khoruzhyi\u0027s Ideas",
+                                                         "en":  "4. The Use of S. Khoruzhyi\u0027s Ideas"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  17,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "Сергій Хоружий",
+                                                                       "ісихазм",
+                                                                       "синергійна антропологія"
+                                                                   ],
+                                                            "en":  [
+                                                                       "Sergey Khoruzhyi",
+                                                                       "hesychasm",
+                                                                       "synergetic anthropology"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "hesychasm",
+                                                          "philosophy",
+                                                          "religious-studies",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "ісихазм",
+                                                                      "hesychasm",
+                                                                      "Khoruzhyi"
+                                                                  ],
+                                                           "en":  [
+                                                                      "hesychasm",
+                                                                      "ісихазм",
+                                                                      "Хоружий"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: Сергій Хоружий.",
+                                                           "en":  "The material focuses on Sergey Khoruzhyi."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "17",
+                                                                "language":  "en"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/Religious Secular Reality of Individual Consciousness In The Context of COVID-19.pdf",
+                                           "label":  {
+                                                         "uk":  "5. Religious Secular Reality of Individual Consciousness in the Context of COVID-19",
+                                                         "en":  "5. Religious Secular Reality of Individual Consciousness in the Context of COVID-19"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "mixed",
+                                           "pages":  13,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "секулярність",
+                                                                       "свідомість",
+                                                                       "COVID-19",
+                                                                       "релігія"
+                                                                   ],
+                                                            "en":  [
+                                                                       "secularity",
+                                                                       "consciousness",
+                                                                       "COVID-19",
+                                                                       "religion"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "religious-studies",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "секулярність",
+                                                                      "secularity"
+                                                                  ],
+                                                           "en":  [
+                                                                      "secularity",
+                                                                      "секулярність"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: секулярність.",
+                                                           "en":  "The material focuses on secularity."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "13",
+                                                                "language":  "en"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/Study on the philosophical aspects of social justice equality in modern society.pdf",
+                                           "label":  {
+                                                         "uk":  "6. Study on the Philosophical Aspects of Social Justice Equality in Modern Society",
+                                                         "en":  "6. Study on the Philosophical Aspects of Social Justice Equality in Modern Society"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "mixed",
+                                           "pages":  33,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "соціальна справедливість",
+                                                                       "рівність",
+                                                                       "соціальна філософія"
+                                                                   ],
+                                                            "en":  [
+                                                                       "social justice",
+                                                                       "equality",
+                                                                       "social philosophy"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "social justice"
+                                                                  ],
+                                                           "en":  [
+                                                                      "соціальна справедливість"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: соціальна справедливість.",
+                                                           "en":  "The material focuses on social justice."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "33",
+                                                                "language":  "en"
+                                                            }
+                                       }
+                                   ]
+                     },
+                     {
+                         "title":  {
+                                       "uk":  "ФАХОВІ СТАТТІ",
+                                       "en":  "PEER-REVIEWED ARTICLES"
+                                   },
+                         "files":  [
+                                       {
+                                           "href":  "/files/downloads/NON-CLASSICAL EPISTEMOLOGY OF V. LEKTORSKY.pdf",
+                                           "label":  {
+                                                         "uk":  "1. Non-Classical Epistemology of V. Lektorsky",
+                                                         "en":  "1. Non-Classical Epistemology of V. Lektorsky"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  11,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "некласична епістемологія",
+                                                                       "В. Лекторський"
+                                                                   ],
+                                                            "en":  [
+                                                                       "non-classical epistemology",
+                                                                       "V. Lektorsky"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "epistemology",
+                                                                      "Lektorsky"
+                                                                  ],
+                                                           "en":  [
+                                                                      "епістемологія",
+                                                                      "Лекторський"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: некласична епістемологія.",
+                                                           "en":  "The material focuses on non-classical epistemology."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "11",
+                                                                "language":  "en"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/ЕКЗИСТЕНЦІЙНА ЗУСТРІЧ.pdf",
+                                           "label":  {
+                                                         "uk":  "2. Екзистенційна зустріч",
+                                                         "en":  "2. Existential Encounter"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  5,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "екзистенційна зустріч",
+                                                                       "екзистенціалізм"
+                                                                   ],
+                                                            "en":  [
+                                                                       "existential encounter",
+                                                                       "existentialism"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "religious-studies",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "existential encounter"
+                                                                  ],
+                                                           "en":  [
+                                                                      "екзистенційна зустріч"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: екзистенційна зустріч.",
+                                                           "en":  "The material focuses on existential encounter."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "5",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/ЕСТЕЗИС АПОФАЗИСУ.pdf",
+                                           "label":  {
+                                                         "uk":  "3. Естезис апофазису",
+                                                         "en":  "3. Esthesis of Apophasis"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  4,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "апофазис",
+                                                                       "естезис",
+                                                                       "богослов’я"
+                                                                   ],
+                                                            "en":  [
+                                                                       "apophasis",
+                                                                       "esthesis",
+                                                                       "theology"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "theology",
+                                                          "religious-studies",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "apophasis",
+                                                                      "theology"
+                                                                  ],
+                                                           "en":  [
+                                                                      "апофазис",
+                                                                      "богослов’я"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: апофазис.",
+                                                           "en":  "The material focuses on apophasis."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "4",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/ЕСТЕТИЧНЕ СПОГЛЯДАННЯ.pdf",
+                                           "label":  {
+                                                         "uk":  "4. Естетичне споглядання",
+                                                         "en":  "4. Aesthetic Contemplation"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  5,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "естетичне споглядання",
+                                                                       "естетика"
+                                                                   ],
+                                                            "en":  [
+                                                                       "aesthetic contemplation",
+                                                                       "aesthetics"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "aesthetics"
+                                                                  ],
+                                                           "en":  [
+                                                                      "естетика"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: естетичне споглядання.",
+                                                           "en":  "The material focuses on aesthetic contemplation."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "5",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/5. НЕКЛАСИЧНА МЕТАФІЗИКА.pdf",
+                                           "label":  {
+                                                         "uk":  "5. Некласична метафізика",
+                                                         "en":  "5. Non-Classical Metaphysics"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  9,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "некласична метафізика",
+                                                                       "метафізика"
+                                                                   ],
+                                                            "en":  [
+                                                                       "non-classical metaphysics",
+                                                                       "metaphysics"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "metaphysics"
+                                                                  ],
+                                                           "en":  [
+                                                                      "метафізика"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: некласична метафізика.",
+                                                           "en":  "The material focuses on non-classical metaphysics."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "9",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/Ісихастська традиція .pdf",
+                                           "label":  {
+                                                         "uk":  "6. Ісихастська традиція",
+                                                         "en":  "6. Hesychast Tradition"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "mixed",
+                                           "pages":  15,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "ісихастська традиція",
+                                                                       "ісихазм",
+                                                                       "православна традиція"
+                                                                   ],
+                                                            "en":  [
+                                                                       "hesychast tradition",
+                                                                       "hesychasm",
+                                                                       "orthodox tradition"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "hesychasm",
+                                                          "religious-studies",
+                                                          "theology",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "ісихазм",
+                                                                      "hesychasm",
+                                                                      "hesychast tradition"
+                                                                  ],
+                                                           "en":  [
+                                                                      "hesychasm",
+                                                                      "hesychast tradition",
+                                                                      "ісихазм"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: ісихастська традиція.",
+                                                           "en":  "The material focuses on hesychast tradition."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "15",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/НЕКЛАСИЧНА_ФІЛОСОФСЬКА_АНТРОПОЛОГІЯ.pdf",
+                                           "label":  {
+                                                         "uk":  "7. Некласична філософська антропологія",
+                                                         "en":  "7. Non-Classical Philosophical Anthropology"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  3,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "філософська антропологія",
+                                                                       "некласична антропологія"
+                                                                   ],
+                                                            "en":  [
+                                                                       "philosophical anthropology",
+                                                                       "non-classical anthropology"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "anthropology"
+                                                                  ],
+                                                           "en":  [
+                                                                      "антропологія"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: філософська антропологія.",
+                                                           "en":  "The material focuses on philosophical anthropology."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "3",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/Православна політична теологія.pdf",
+                                           "label":  {
+                                                         "uk":  "8. Православна політична теологія",
+                                                         "en":  "8. Orthodox Political Theology"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  4,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "православна політична теологія",
+                                                                       "богослов’я",
+                                                                       "православ’я"
+                                                                   ],
+                                                            "en":  [
+                                                                       "orthodox political theology",
+                                                                       "theology",
+                                                                       "orthodoxy"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "theology",
+                                                          "religious-studies",
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "богослов’я",
+                                                                      "theology"
+                                                                  ],
+                                                           "en":  [
+                                                                      "theology",
+                                                                      "богослов’я"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: православна політична теологія.",
+                                                           "en":  "The material focuses on orthodox political theology."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "4",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/Рашизм як форма етнофілетизму.pdf",
+                                           "label":  {
+                                                         "uk":  "9. Рашизм як форма етнофілетизму",
+                                                         "en":  "9. Rashism as a Form of Ethnophyletism"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  5,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "рашизм",
+                                                                       "етнофілетизм",
+                                                                       "релігійна ідеологія"
+                                                                   ],
+                                                            "en":  [
+                                                                       "rashism",
+                                                                       "ethnophyletism",
+                                                                       "religious ideology"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "religious-studies",
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "rashism"
+                                                                  ],
+                                                           "en":  [
+                                                                      "рашизм"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: рашизм.",
+                                                           "en":  "The material focuses on rashism."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "5",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/РЕЛІГІЙНІ СИМУЛЯКРИ .pdf",
+                                           "label":  {
+                                                         "uk":  "10. Релігійні симулякри",
+                                                         "en":  "10. Religious Simulacra"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  8,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "релігійні симулякри",
+                                                                       "релігійна свідомість"
+                                                                   ],
+                                                            "en":  [
+                                                                       "religious simulacra",
+                                                                       "religious consciousness"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "religious-studies",
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "simulacra"
+                                                                  ],
+                                                           "en":  [
+                                                                      "симулякри"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: релігійні симулякри.",
+                                                           "en":  "The material focuses on religious simulacra."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "8",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/Філософська антропологія.pdf",
+                                           "label":  {
+                                                         "uk":  "11. Філософська антропологія",
+                                                         "en":  "11. Philosophical Anthropology"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  3,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "філософська антропологія",
+                                                                       "людина"
+                                                                   ],
+                                                            "en":  [
+                                                                       "philosophical anthropology",
+                                                                       "human person"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "anthropology"
+                                                                  ],
+                                                           "en":  [
+                                                                      "антропологія"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: філософська антропологія.",
+                                                           "en":  "The material focuses on philosophical anthropology."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "3",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/12. «ПРИНЦИП ДОПОЛНИТЕЛЬНОСТИ».pdf",
+                                           "label":  {
+                                                         "uk":  "12. «Принцип дополнительности»",
+                                                         "en":  "12. Principle of Complementarity"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  9,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "принцип додатковості",
+                                                                       "епістемологія"
+                                                                   ],
+                                                            "en":  [
+                                                                       "principle of complementarity",
+                                                                       "epistemology"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "complementarity"
+                                                                  ],
+                                                           "en":  [
+                                                                      "принцип додатковості"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: принцип додатковості.",
+                                                           "en":  "The material focuses on principle of complementarity."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "9",
+                                                                "language":  "ru"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/13. ВЗАЄМОВІДНОСИНИ_ФІЛОСОФІЇ_І_ТЕОЛОГІЇ.pdf",
+                                           "label":  {
+                                                         "uk":  "13. Взаємовідносини філософії і теології",
+                                                         "en":  "13. Interrelations of Philosophy and Theology"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  10,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "філософія і теологія",
+                                                                       "богослов’я",
+                                                                       "філософія релігії"
+                                                                   ],
+                                                            "en":  [
+                                                                       "philosophy and theology",
+                                                                       "theology",
+                                                                       "philosophy of religion"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "theology",
+                                                          "religious-studies",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "богослов’я",
+                                                                      "theology"
+                                                                  ],
+                                                           "en":  [
+                                                                      "theology",
+                                                                      "богослов’я"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: філософія і теологія.",
+                                                           "en":  "The material focuses on philosophy and theology."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "10",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/14. ЕНЕРГІЙНИЙ ДИСКУРС НЕКЛАСНОЇ ОНТОЛОГІЇ.pdf",
+                                           "label":  {
+                                                         "uk":  "14. Енергійний дискурс некласної онтології",
+                                                         "en":  "14. Energetic Discourse of Non-Classical Ontology"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  5,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "енергійний дискурс",
+                                                                       "онтологія",
+                                                                       "богослов’я"
+                                                                   ],
+                                                            "en":  [
+                                                                       "energetic discourse",
+                                                                       "ontology",
+                                                                       "theology"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "theology",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "ontology",
+                                                                      "theology"
+                                                                  ],
+                                                           "en":  [
+                                                                      "онтологія",
+                                                                      "богослов’я"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: енергійний дискурс.",
+                                                           "en":  "The material focuses on energetic discourse."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "5",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/15. ІСИХАЗМ - СУПЕРЕЧНІСТЬ НАРАТИВІВ У РЕЛІГІЙНО-ФІЛОСОФСЬКОМУ ДИСКУРСІ .pdf",
+                                           "label":  {
+                                                         "uk":  "15. Ісихазм - суперечність наративів у релігійно-філософському дискурсі",
+                                                         "en":  "15. Hesychasm: Contradiction of Narratives in Religious-Philosophical Discourse"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  11,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "ісихазм",
+                                                                       "релігійно-філософський дискурс",
+                                                                       "наративи"
+                                                                   ],
+                                                            "en":  [
+                                                                       "hesychasm",
+                                                                       "religious-philosophical discourse",
+                                                                       "narratives"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "hesychasm",
+                                                          "religious-studies",
+                                                          "theology",
+                                                          "philosophy",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "ісихазм",
+                                                                      "hesychasm",
+                                                                      "hesychast tradition"
+                                                                  ],
+                                                           "en":  [
+                                                                      "hesychasm",
+                                                                      "hesychast tradition",
+                                                                      "ісихазм"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: ісихазм.",
+                                                           "en":  "The material focuses on hesychasm."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "11",
+                                                                "language":  "uk"
+                                                            }
+                                       },
+                                       {
+                                           "href":  "/files/downloads/16. МЕТАФІЗИКА ПРАВОСЛАВНОГО ЕКЗИСТЕНЦІАЛІЗМУ.pdf",
+                                           "label":  {
+                                                         "uk":  "16. Метафізика православного екзистенціалізму",
+                                                         "en":  "16. Metaphysics of Orthodox Existentialism"
+                                                     },
+                                           "type":  "pdf",
+                                           "textLayer":  true,
+                                           "contentKind":  "text",
+                                           "pages":  11,
+                                           "keywords":  {
+                                                            "uk":  [
+                                                                       "православний екзистенціалізм",
+                                                                       "метафізика",
+                                                                       "богослов’я"
+                                                                   ],
+                                                            "en":  [
+                                                                       "orthodox existentialism",
+                                                                       "metaphysics",
+                                                                       "theology"
+                                                                   ]
+                                                        },
+                                           "topics":  [
+                                                          "philosophy",
+                                                          "theology",
+                                                          "religious-studies",
+                                                          "articles"
+                                                      ],
+                                           "aliases":  {
+                                                           "uk":  [
+                                                                      "богослов’я",
+                                                                      "theology"
+                                                                  ],
+                                                           "en":  [
+                                                                      "theology",
+                                                                      "богослов’я"
+                                                                  ]
+                                                       },
+                                           "summary":  {
+                                                           "uk":  "Матеріал присвячений темі: православний екзистенціалізм.",
+                                                           "en":  "The material focuses on orthodox existentialism."
+                                                       },
+                                           "bibliography":  {
+                                                                "authors":  [
+
+                                                                            ],
+                                                                "year":  "",
+                                                                "publication":  "",
+                                                                "pages":  "11",
+                                                                "language":  "uk"
+                                                            }
+                                       }
+                                   ]
+                     }
+                 ]
 }

@@ -319,19 +319,100 @@ function Test-ExtractedTextQuality {
 }
 
 function Get-SearchTokens {
-  param([string[]]$Texts)
+  param(
+    [string[]]$Texts,
+    [int]$MaxTokens = 24
+  )
 
   $Tokens = New-Object System.Collections.Generic.HashSet[string]
   foreach ($Text in $Texts) {
     foreach ($Match in [regex]::Matches(([string]$Text).ToLowerInvariant(), "[\p{L}\p{N}]{3,}")) {
-      [void]$Tokens.Add($Match.Value)
-      if ($Tokens.Count -ge 80) {
+      $Token = $Match.Value
+      if ($Token.Length -gt 60 -or $Token -match "^(.)\1{8,}$") {
+        continue
+      }
+
+      [void]$Tokens.Add($Token)
+      if ($Tokens.Count -ge $MaxTokens) {
         break
       }
     }
   }
 
   @($Tokens | Sort-Object)
+}
+
+function Get-StringArray {
+  param($Value)
+
+  $Items = New-Object System.Collections.Generic.List[string]
+  foreach ($Item in @($Value)) {
+    if ($null -eq $Item) {
+      continue
+    }
+
+    $Text = (ConvertTo-PlainText $Item)
+    if ($Text) {
+      $Items.Add($Text) | Out-Null
+    }
+  }
+
+  @($Items | Select-Object -Unique)
+}
+
+function Get-LocalizedStringArray {
+  param(
+    $Value,
+    [string]$Locale
+  )
+
+  if ($null -eq $Value) {
+    return @()
+  }
+
+  if ($Value -is [string] -or $Value -is [array]) {
+    return Get-StringArray $Value
+  }
+
+  if ($Value -is [pscustomobject] -and $Value.PSObject.Properties.Name -contains $Locale) {
+    return Get-StringArray $Value.$Locale
+  }
+
+  if ($Value -is [System.Collections.IDictionary] -and $Value.Contains($Locale)) {
+    return Get-StringArray $Value[$Locale]
+  }
+
+  return @()
+}
+
+function Join-SearchParts {
+  param([object[]]$Parts)
+
+  (Get-StringArray $Parts) -join " "
+}
+
+function Get-BibliographyValue {
+  param(
+    $Bibliography,
+    [string]$Name,
+    [string]$Fallback = ""
+  )
+
+  if ($null -eq $Bibliography) {
+    return $Fallback
+  }
+
+  if ($Bibliography -is [pscustomobject] -and $Bibliography.PSObject.Properties.Name -contains $Name) {
+    $Text = ConvertTo-PlainText $Bibliography.$Name
+    return $(if ($Text) { $Text } else { $Fallback })
+  }
+
+  if ($Bibliography -is [System.Collections.IDictionary] -and $Bibliography.Contains($Name)) {
+    $Text = ConvertTo-PlainText $Bibliography[$Name]
+    return $(if ($Text) { $Text } else { $Fallback })
+  }
+
+  return $Fallback
 }
 
 function New-IndexItem {
@@ -377,9 +458,57 @@ function New-IndexItem {
     [string]$File.pages,
     $ExtractedText
   )
+  $ManualSearchUk = Get-LocalizedText $File.searchText "uk"
+  $ManualSearchEn = Get-LocalizedText $File.searchText "en" "uk"
+  $SummaryUk = Get-LocalizedText $File.summary "uk"
+  $SummaryEn = Get-LocalizedText $File.summary "en" "uk"
+  $ManualKeywordsUk = Get-LocalizedStringArray $File.keywords "uk"
+  $ManualKeywordsEn = Get-LocalizedStringArray $File.keywords "en"
+  $KeywordsUk = if ($ManualKeywordsUk.Count) {
+    $ManualKeywordsUk
+  } else {
+    Get-SearchTokens @($TitleUk, $CategoryUk, $FileName, $ManualSearchUk, $ExtractedText) 12
+  }
+  $KeywordsEn = if ($ManualKeywordsEn.Count) {
+    $ManualKeywordsEn
+  } else {
+    Get-SearchTokens @($TitleEn, $CategoryEn, $FileName, $ManualSearchEn, $ExtractedText) 12
+  }
+  $Topics = Get-StringArray $File.topics
+  $AliasesUk = Get-LocalizedStringArray $File.aliases "uk"
+  $AliasesEn = Get-LocalizedStringArray $File.aliases "en"
+  $Bibliography = $File.bibliography
+  $BibliographyAuthors = Get-StringArray $(if ($Bibliography) { $Bibliography.authors } else { @() })
+  $BibliographyPages = Get-BibliographyValue $Bibliography "pages" $(if ($File.pages) { [string]$File.pages } else { "" })
 
-  $SearchUk = (@($TitleUk, $CategoryUk) + $CommonFields) -join " "
-  $SearchEn = (@($TitleEn, $CategoryEn) + $CommonFields) -join " "
+  $SearchUk = Join-SearchParts (@(
+    $TitleUk,
+    $CategoryUk,
+    $ManualSearchUk,
+    $SummaryUk,
+    $KeywordsUk,
+    $Topics,
+    $AliasesUk,
+    $BibliographyAuthors,
+    $(Get-BibliographyValue $Bibliography "year"),
+    $(Get-BibliographyValue $Bibliography "publication"),
+    $BibliographyPages,
+    $(Get-BibliographyValue $Bibliography "language")
+  ) + $CommonFields)
+  $SearchEn = Join-SearchParts (@(
+    $TitleEn,
+    $CategoryEn,
+    $ManualSearchEn,
+    $SummaryEn,
+    $KeywordsEn,
+    $Topics,
+    $AliasesEn,
+    $BibliographyAuthors,
+    $(Get-BibliographyValue $Bibliography "year"),
+    $(Get-BibliographyValue $Bibliography "publication"),
+    $BibliographyPages,
+    $(Get-BibliographyValue $Bibliography "language")
+  ) + $CommonFields)
 
   [ordered]@{
     id = "download-$Position"
@@ -399,8 +528,24 @@ function New-IndexItem {
     textLayer = [bool]$File.textLayer
     contentKind = if ($File.contentKind) { [string]$File.contentKind } else { "unknown" }
     keywords = [ordered]@{
-      uk = Get-SearchTokens @($TitleUk, $CategoryUk, $FileName)
-      en = Get-SearchTokens @($TitleEn, $CategoryEn, $FileName)
+      uk = $KeywordsUk
+      en = $KeywordsEn
+    }
+    topics = $Topics
+    aliases = [ordered]@{
+      uk = $AliasesUk
+      en = $AliasesEn
+    }
+    summary = [ordered]@{
+      uk = $SummaryUk
+      en = $SummaryEn
+    }
+    bibliography = [ordered]@{
+      authors = $BibliographyAuthors
+      year = Get-BibliographyValue $Bibliography "year"
+      publication = Get-BibliographyValue $Bibliography "publication"
+      pages = $BibliographyPages
+      language = Get-BibliographyValue $Bibliography "language"
     }
     searchText = [ordered]@{
       uk = $SearchUk.Trim()
