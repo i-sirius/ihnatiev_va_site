@@ -5,7 +5,7 @@
     authorRealName: "Віталій Ігнатьєв",
     siteDeveloperName: "Sirius",
     buildVersion: "0.7.77b",
-    buildDate: "280526",
+    buildDate: "305026",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
     homeSubtitle: "філософ, викладач, священнослужитель",
