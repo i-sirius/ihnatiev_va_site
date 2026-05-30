@@ -65,6 +65,7 @@
       getLocalizedValue(record.summary, locale, ""),
       getLocalizedValue(record.bibliography, locale, ""),
       getLocalizedValue(record.searchText, locale, ""),
+      getPageSearchText(record),
       Array.isArray(record.topics) ? record.topics.join(" ") : "",
       record.href || "",
       record.url || ""
@@ -78,11 +79,43 @@
     );
   }
 
-  function getSnippet(record, words, locale) {
-    const source =
+  function getPageSearchText(record) {
+    const pageSearch = record && Array.isArray(record.pageSearch) ? record.pageSearch : [];
+    const parts = [];
+
+    pageSearch.forEach((entry) => {
+      if (entry && entry.text) {
+        parts.push(String(entry.text));
+      }
+    });
+
+    return parts.join(" ");
+  }
+
+  function getSnippetSource(record, words, locale) {
+    const pageSearch = record && Array.isArray(record.pageSearch) ? record.pageSearch : [];
+
+    for (let pageIndex = 0; pageIndex < pageSearch.length; pageIndex += 1) {
+      const text = pageSearch[pageIndex] && pageSearch[pageIndex].text
+        ? String(pageSearch[pageIndex].text)
+        : "";
+      const normalizedText = normalizeSearchText(text, locale);
+      for (let wordIndex = 0; wordIndex < words.length; wordIndex += 1) {
+        if (normalizedText.indexOf(words[wordIndex]) !== -1) {
+          return text;
+        }
+      }
+    }
+
+    return (
       getLocalizedValue(record.description, locale, "") ||
       getLocalizedValue(record.searchText, locale, "") ||
-      getLocalizedValue(record.title, locale, "");
+      getLocalizedValue(record.title, locale, "")
+    );
+  }
+
+  function getSnippet(record, words, locale) {
+    const source = getSnippetSource(record, words, locale);
     const normalizedSource = normalizeSearchText(source, locale);
     let matchIndex = -1;
     let matchLength = 0;
@@ -154,13 +187,120 @@
     return `${baseUrl}?q=${encodeURIComponent(query).replace(/'/g, "%27")}`;
   }
 
+  function getResultTypeLabel(type, locale, ui) {
+    const normalizedType = String(type || "page").trim() || "page";
+    const labels = ui.typeLabels || ui.types || {};
+    const label = getLocalizedValue(labels[normalizedType], locale, "");
+
+    if (label) {
+      return label;
+    }
+
+    return normalizedType
+      .replace(/[-_]+/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toLocaleUpperCase(locale));
+  }
+
+  function copyRecord(record) {
+    const copy = {};
+    Object.keys(record || {}).forEach((key) => {
+      copy[key] = record[key];
+    });
+    return copy;
+  }
+
+  function mergeDownloadRecord(baseRecord, downloadRecord) {
+    const merged = copyRecord(baseRecord || {});
+    const fields = [
+      "href",
+      "fileName",
+      "collection",
+      "category",
+      "title",
+      "description",
+      "topics",
+      "keywords",
+      "aliases",
+      "summary",
+      "bibliography",
+      "searchText",
+      "pageSearch",
+      "extractedText"
+    ];
+
+    fields.forEach((field) => {
+      if (downloadRecord && downloadRecord[field] != null) {
+        merged[field] = downloadRecord[field];
+      }
+    });
+
+    merged.type = "download";
+    merged.url = merged.url || "downloads.html";
+    if (!merged.id && downloadRecord && downloadRecord.id) {
+      merged.id = `downloads-${downloadRecord.id}`;
+    }
+
+    return merged;
+  }
+
+  function addLookupKey(lookup, key, index) {
+    const normalizedKey = String(key || "").trim();
+    if (normalizedKey) {
+      lookup[normalizedKey] = index;
+    }
+  }
+
+  function mergeDownloadsIndex(siteItems, downloadsPayload) {
+    const mergedItems = Array.isArray(siteItems) ? siteItems.slice() : [];
+    const lookup = {};
+    const downloadItems = downloadsPayload && Array.isArray(downloadsPayload.items)
+      ? downloadsPayload.items
+      : [];
+
+    mergedItems.forEach((record, index) => {
+      if (!record || record.type !== "download") {
+        return;
+      }
+
+      addLookupKey(lookup, record.id, index);
+      addLookupKey(lookup, record.href, index);
+      if (record.id && String(record.id).indexOf("downloads-") === 0) {
+        addLookupKey(lookup, String(record.id).slice("downloads-".length), index);
+      }
+    });
+
+    downloadItems.forEach((downloadRecord) => {
+      if (!downloadRecord) {
+        return;
+      }
+
+      const id = downloadRecord.id || "";
+      const index = lookup[downloadRecord.href] != null
+        ? lookup[downloadRecord.href]
+        : lookup[id] != null
+          ? lookup[id]
+          : lookup[`downloads-${id}`];
+
+      if (index != null) {
+        mergedItems[index] = mergeDownloadRecord(mergedItems[index], downloadRecord);
+      } else if (downloadRecord.href) {
+        mergedItems.push(mergeDownloadRecord({
+          id: id ? `downloads-${id}` : `downloads-extra-${mergedItems.length + 1}`,
+          type: "download",
+          url: "downloads.html"
+        }, downloadRecord));
+      }
+    });
+
+    return mergedItems;
+  }
+
   function createResult(record, words, query, locale, ui) {
     const article = document.createElement("article");
     const meta = document.createElement("div");
     const title = document.createElement("h3");
     const snippet = document.createElement("p");
     const link = document.createElement("a");
-    const typeLabels = ui.types || {};
     const type = record.type || "page";
 
     article.className = "site-search-result";
@@ -169,7 +309,7 @@
     snippet.className = "site-search-result-snippet";
     link.className = "site-search-result-link";
 
-    meta.textContent = typeLabels[type] || type;
+    meta.textContent = getResultTypeLabel(type, locale, ui);
     appendHighlightedText(title, getLocalizedValue(record.title, locale, ""), words, locale);
     appendHighlightedText(snippet, getSnippet(record, words, locale), words, locale);
     link.textContent = ui.open || "Відкрити";
@@ -196,6 +336,9 @@
     const results = document.querySelector("[data-site-search-results]");
     const status = document.querySelector("[data-site-search-status]");
     let indexItems = [];
+    let baseIndexItems = [];
+    let downloadsIndexLoaded = false;
+    let downloadsIndexLoading = false;
     let searchTimer = 0;
 
     if (!input || !results || !status) {
@@ -238,6 +381,12 @@
         return;
       }
 
+      if (!downloadsIndexLoaded && !downloadsIndexLoading) {
+        loadDownloadsIndex(() => {
+          render(input.value || "");
+        });
+      }
+
       const matches = indexItems.filter((record) => matchesRecord(record, words, locale));
       if (!matches.length) {
         status.textContent = ui.emptyResults || "Нічого не знайдено.";
@@ -248,6 +397,33 @@
       matches.slice(0, 60).forEach((record) => {
         results.appendChild(createResult(record, words, query, locale, ui));
       });
+    }
+
+    function loadDownloadsIndex(onComplete) {
+      if (downloadsIndexLoaded || downloadsIndexLoading || typeof fetch !== "function") {
+        return;
+      }
+
+      downloadsIndexLoading = true;
+      fetch("files/downloads/search-index.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("downloads search index unavailable");
+          }
+          return response.json();
+        })
+        .then((payload) => {
+          indexItems = mergeDownloadsIndex(baseIndexItems, payload);
+          downloadsIndexLoaded = true;
+          downloadsIndexLoading = false;
+          if (typeof onComplete === "function") {
+            onComplete();
+          }
+        })
+        .catch(() => {
+          downloadsIndexLoaded = true;
+          downloadsIndexLoading = false;
+        });
     }
 
     window.SiteSearchPage = {
@@ -282,7 +458,8 @@
         return response.json();
       })
       .then((payload) => {
-        indexItems = payload && Array.isArray(payload.items) ? payload.items : [];
+        baseIndexItems = payload && Array.isArray(payload.items) ? payload.items : [];
+        indexItems = baseIndexItems;
         render(input.value || "");
       })
       .catch(() => {

@@ -353,11 +353,77 @@
       return counts;
     }
 
-    function getAvailableTopicFilters(groups = {}) {
+    function getTopicCountGroups(groups = {}, query = "") {
+      const words = getSearchWords(query);
+      const monographs = Array.isArray(groups.monographs) ? groups.monographs : [];
+      const articleGroups = Array.isArray(groups.articles) ? groups.articles : [];
+
+      if (!words.length) {
+        return groups;
+      }
+
+      return {
+        monographs: monographs.filter((file) =>
+          matchesSearch(file, { category: getDownloadsUi().monographsTitle || "Монографії" }, words)
+        ),
+        articles: articleGroups
+          .map((group) => {
+            const category = getLocalizedValue(group.title, getDownloadsUi().subgroupFallback || "Розділ");
+            const files = Array.isArray(group.files) ? group.files : [];
+            return {
+              title: group.title,
+              files: files.filter((file) => matchesSearch(file, { category }, words))
+            };
+          })
+          .filter((group) => group.files.length)
+      };
+    }
+
+    function getPriorityTopicIndex(topic) {
+      const priorityTopics = getPriorityVisibleTopics();
+      const index = priorityTopics.indexOf(topic);
+      return index >= 0 ? index : priorityTopics.length + 100;
+    }
+
+    function sortTopicFilters(filters = []) {
+      const allFilters = [];
+      const topicFilters = [];
+
+      filters.forEach((filter) => {
+        if (filter && filter.topic === "all") {
+          allFilters.push(filter);
+        } else if (filter) {
+          topicFilters.push(filter);
+        }
+      });
+
+      topicFilters.sort((left, right) => {
+        const leftCount = Number(left.count) || 0;
+        const rightCount = Number(right.count) || 0;
+        if (rightCount !== leftCount) {
+          return rightCount - leftCount;
+        }
+
+        const leftPriority = getPriorityTopicIndex(left.topic);
+        const rightPriority = getPriorityTopicIndex(right.topic);
+        if (leftPriority !== rightPriority) {
+          return leftPriority - rightPriority;
+        }
+
+        return String(left.topic || "").localeCompare(String(right.topic || ""));
+      });
+
+      return allFilters.concat(topicFilters);
+    }
+
+    function getAvailableTopicFilters(groups = {}, activeTopic = "all", query = "") {
       const definitions = getTopicFilterDefinitions();
-      const counts = getTopicCounts(groups);
+      const filteredGroups = getTopicCountGroups(groups, query);
+      const counts = getTopicCounts(filteredGroups);
+      const totalCounts = getTopicCounts(groups);
       const usedTopics = [];
       const filters = [];
+      const selectedTopic = String(activeTopic || "all");
       let total = 0;
 
       Object.keys(counts).forEach((topic) => {
@@ -376,7 +442,11 @@
           return;
         }
 
-        if (counts[topic] > 0 && isTopicVisible(topic, counts[topic])) {
+        if (
+          totalCounts[topic] > 0 &&
+          (counts[topic] > 0 || topic === selectedTopic) &&
+          (isTopicVisible(topic, totalCounts[topic]) || topic === selectedTopic)
+        ) {
           filters.push({ topic, label: filter.label, count: counts[topic] });
           usedTopics.push(topic);
         }
@@ -387,12 +457,16 @@
           return;
         }
 
-        if (isTopicVisible(topic, counts[topic])) {
+        if (
+          totalCounts[topic] > 0 &&
+          (counts[topic] > 0 || topic === selectedTopic) &&
+          (isTopicVisible(topic, totalCounts[topic]) || topic === selectedTopic)
+        ) {
           filters.push({ topic, label: getTopicLabel(topic), count: counts[topic] });
         }
       });
 
-      return filters;
+      return sortTopicFilters(filters);
     }
 
     function getSearchFields(file = {}, context = {}) {
@@ -929,18 +1003,22 @@
       return search;
     }
 
-    function createTopicFilters(groups, activeTopic, onTopicChange) {
+    function createTopicFilters(groups, activeTopic, query, isExpanded, onTopicChange, onTopicToggle) {
       const downloadsUi = getDownloadsUi();
-      const filters = getAvailableTopicFilters(groups);
+      const filters = getAvailableTopicFilters(groups, activeTopic, query);
       const panel = document.createElement("div");
       const label = document.createElement("span");
       const wrap = document.createElement("div");
+      const toggle = document.createElement("button");
 
-      panel.className = "downloads-topic-filter-panel";
+      panel.className = isExpanded
+        ? "downloads-topic-filter-panel is-expanded"
+        : "downloads-topic-filter-panel";
       label.className = "downloads-topic-filter-label";
       label.textContent = downloadsUi.topicFiltersShortLabel || downloadsUi.topicFiltersLabel || "Теми";
       wrap.className = "downloads-topic-filters";
       wrap.setAttribute("aria-label", downloadsUi.topicFiltersLabel || "Фільтр за темою");
+      wrap.setAttribute("data-downloads-topic-list", "");
       panel.appendChild(label);
 
       filters.forEach((filter) => {
@@ -973,6 +1051,20 @@
       });
 
       panel.appendChild(wrap);
+
+      if (filters.length > 6) {
+        toggle.type = "button";
+        toggle.className = "downloads-topic-toggle";
+        toggle.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+        toggle.textContent = isExpanded
+          ? downloadsUi.lessTopics || "Менше"
+          : downloadsUi.moreTopics || "Ще теми";
+        toggle.addEventListener("click", () => {
+          onTopicToggle(!isExpanded);
+        });
+        panel.appendChild(toggle);
+      }
+
       return panel;
     }
 
@@ -1011,6 +1103,7 @@
       const downloadsUi = getDownloadsUi();
       const words = getSearchWords(query);
       const activeTopic = topic || "all";
+      const hasActiveFilter = words.length || activeTopic !== "all";
       const monographs = Array.isArray(groups.monographs) ? groups.monographs : [];
       const articleGroups = Array.isArray(groups.articles) ? groups.articles : [];
       const filteredMonographs = filterMonographs(monographs, words, activeTopic);
@@ -1062,7 +1155,7 @@
         const body = document.createElement("div");
 
         details.className = "download-subgroup";
-        if (words.length) {
+        if (hasActiveFilter) {
           details.open = true;
         }
         summary.appendChild(createTextElement(
@@ -1121,20 +1214,36 @@
         const filters = document.createElement("div");
         const state = {
           query: getInitialDownloadsQuery(),
-          topic: getInitialDownloadsTopic()
+          topic: getInitialDownloadsTopic(),
+          topicFiltersExpanded: getInitialDownloadsTopic() !== "all"
         };
         function renderCurrentGroups() {
-          const availableFilters = getAvailableTopicFilters(groups);
+          const availableFilters = getAvailableTopicFilters(groups, state.topic, state.query);
           const hasActiveTopic = availableFilters.some((filter) => filter.topic === state.topic);
           if (!hasActiveTopic) {
             state.topic = "all";
           }
 
           filters.textContent = "";
-          filters.appendChild(createTopicFilters(groups, state.topic, (topic) => {
-            state.topic = topic || "all";
-            renderCurrentGroups();
-          }));
+          filters.appendChild(
+            createTopicFilters(
+              groups,
+              state.topic,
+              state.query,
+              state.topicFiltersExpanded,
+              (topic) => {
+                state.topic = topic || "all";
+                if (state.topic !== "all") {
+                  state.topicFiltersExpanded = true;
+                }
+                renderCurrentGroups();
+              },
+              (isExpanded) => {
+                state.topicFiltersExpanded = !!isExpanded;
+                renderCurrentGroups();
+              }
+            )
+          );
           renderGroupsInto(results, groups, state.query, state.topic);
         }
         const searchControls = createSearchControls((query) => {

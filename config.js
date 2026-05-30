@@ -4,7 +4,7 @@
     ownerName: "Sirius",
     authorRealName: "Віталій Ігнатьєв",
     siteDeveloperName: "Sirius",
-    buildVersion: "0.7.77b",
+    buildVersion: "0.7.77c",
     buildDate: "305026",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -259,6 +259,8 @@
       subgroupFallback: "РОЗДІЛ",
       topicFiltersLabel: "Фільтр за темою",
       topicFiltersShortLabel: "Теми",
+      moreTopics: "Ще теми",
+      lessTopics: "Менше",
       topicFiltersMinVisibleCount: 2,
       topicFiltersPriorityVisibleTopics: [
         "hesychasm",
@@ -649,6 +651,8 @@ const SITE_EN = {
       subgroupFallback: "SECTION",
       topicFiltersLabel: "Filter by topic",
       topicFiltersShortLabel: "Themes",
+      moreTopics: "More topics",
+      lessTopics: "Less",
       topicFiltersMinVisibleCount: 2,
       topicFiltersPriorityVisibleTopics: [
         "hesychasm",

@@ -76,7 +76,7 @@
   font-size: 0.74rem;
   font-weight: 900;
   letter-spacing: 0.07em;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .site-search-result-title {

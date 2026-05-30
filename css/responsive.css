@@ -1,4 +1,17 @@
 @media (max-width: 900px) {
+  input,
+  textarea,
+  select,
+  .site-search-field input,
+  .downloads-search-field input,
+  body[data-page="contact"] input,
+  body[data-page="contact"] textarea,
+  .about-publications-field input,
+  .about-publications-field select,
+  .pdf-standalone-copy-field input {
+    font-size: 16px;
+  }
+
   .panel {
     width: min(920px, calc(100% - 24px));
     padding: 22px;

@@ -180,11 +180,22 @@
   background: color-mix(in srgb, var(--button-bg) 11%, var(--panel-bg));
 }
 
+.downloads-topic-chip:hover .downloads-topic-chip-count,
+.downloads-topic-chip:focus-visible .downloads-topic-chip-count {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  opacity: 0.82;
+}
+
 .downloads-topic-chip.is-active {
   border-color: color-mix(in srgb, var(--button-bg) 68%, var(--border));
   background: color-mix(in srgb, var(--button-bg) 18%, var(--panel-bg));
   color: var(--primary-dark);
   box-shadow: 0 5px 12px rgba(85, 109, 100, 0.08);
+}
+
+.downloads-topic-chip.is-active .downloads-topic-chip-count {
+  background: color-mix(in srgb, currentColor 14%, transparent);
+  opacity: 0.86;
 }
 
 .downloads-topic-chip[data-downloads-topic="all"] {
@@ -202,6 +213,10 @@
   line-height: 1.2;
   opacity: 0.72;
   text-align: center;
+}
+
+.downloads-topic-toggle {
+  display: none;
 }
 
 html[data-theme="dark"] .downloads-search-field input {
@@ -797,27 +812,58 @@ html[data-theme="dark"] .download-subgroup {
   }
 
   .downloads-topic-filter-panel {
-    gap: 4px;
+    gap: 5px;
   }
 
   .downloads-topic-filters {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 4px;
-    overflow-x: auto;
-    padding: 0 1px 4px;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
+    max-height: 48px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 0;
   }
 
-  .downloads-topic-filters::-webkit-scrollbar {
-    display: none;
+  .downloads-topic-filter-panel.is-expanded .downloads-topic-filters {
+    max-height: none;
+    overflow: visible;
   }
 
   .downloads-topic-chip {
     flex: 0 0 auto;
+    min-height: 22px;
+    padding: 2px 6px;
+    font-size: 0.58rem;
+  }
+
+  .downloads-topic-chip-count {
+    min-width: 1.15em;
+    padding: 0 3px;
+    font-size: 0.52rem;
+    opacity: 0.64;
+  }
+
+  .downloads-topic-toggle {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
     min-height: 24px;
-    padding: 3px 7px;
-    font-size: 0.62rem;
+    padding: 2px 8px;
+    border: 1px solid color-mix(in srgb, var(--border) 62%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--panel-bg) 48%, transparent);
+    color: color-mix(in srgb, var(--primary-dark) 78%, var(--muted));
+    font: inherit;
+    font-size: 0.6rem;
+    font-weight: 800;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+
+  .downloads-topic-toggle:hover,
+  .downloads-topic-toggle:focus-visible {
+    border-color: color-mix(in srgb, var(--button-bg) 50%, var(--border));
+    background: color-mix(in srgb, var(--button-bg) 10%, var(--panel-bg));
   }
 
   .downloads-heading-bar {
