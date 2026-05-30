@@ -410,7 +410,7 @@
       navOverflows = navAvailableWidth > 0 && navRequiredWidth > navAvailableWidth + 1;
     }
 
-    const shouldMoveHomeToBrand = viewportWidth <= 1360 || titleOverflows || navOverflows;
+    const shouldMoveHomeToBrand = viewportWidth <= 1480 || titleOverflows || navOverflows;
 
     header.classList.toggle("is-home-in-brand", shouldMoveHomeToBrand);
 
