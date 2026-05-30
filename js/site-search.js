@@ -55,6 +55,39 @@
     return normalized ? normalized.split(" ").filter((word) => word.length >= 2) : [];
   }
 
+  function getInitialSearchQuery() {
+    try {
+      if (typeof URLSearchParams !== "function") {
+        return "";
+      }
+
+      const query = new URLSearchParams(window.location.search).get("q") || "";
+      return query && query.trim().length > 1 ? query : "";
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function clearSearchQueryParam() {
+    try {
+      if (typeof URLSearchParams !== "function" || !window.history || !window.history.replaceState) {
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      if (!params.has("q")) {
+        return;
+      }
+
+      params.delete("q");
+      const query = params.toString();
+      const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash || ""}`;
+      window.history.replaceState(null, document.title, nextUrl);
+    } catch (error) {
+      // URL cleanup is progressive enhancement only.
+    }
+  }
+
   function getRecordFields(record, locale) {
     return [
       getLocalizedValue(record.title, locale, ""),
@@ -335,6 +368,10 @@
     const input = document.querySelector("[data-site-search-input]");
     const results = document.querySelector("[data-site-search-results]");
     const status = document.querySelector("[data-site-search-status]");
+    const field = input && input.closest ? input.closest(".site-search-field") : input ? input.parentElement : null;
+    const clearButton = document.createElement("button");
+    const clearIcon = document.createElement("span");
+    const clearLabel = document.createElement("span");
     let indexItems = [];
     let baseIndexItems = [];
     let downloadsIndexLoaded = false;
@@ -345,12 +382,18 @@
       return;
     }
 
+    function updateClearState() {
+      clearButton.hidden = !input.value;
+    }
+
     function applyChrome() {
       const locale = getLocale(site);
       const title = ui.pageTitle || "Пошук";
       document.title = `${title} | ${site.meta && site.meta.siteTitle ? site.meta.siteTitle : "Віталій Ігнатьєв"}`;
       input.placeholder = ui.placeholder || "Пошук по сайту...";
       input.setAttribute("aria-label", input.placeholder);
+      clearButton.setAttribute("aria-label", ui.searchClear || "Очистити пошук");
+      clearButton.setAttribute("title", ui.searchClear || "Очистити пошук");
       const titleElement = document.querySelector("[data-search-title]");
       const headingElement = document.querySelector("[data-search-heading]");
       const introElement = document.querySelector("[data-search-intro]");
@@ -369,6 +412,7 @@
       }
       status.textContent = ui.emptyInitial || "";
       document.documentElement.lang = locale;
+      updateClearState();
     }
 
     function render(query) {
@@ -434,6 +478,7 @@
     };
 
     input.addEventListener("input", () => {
+      updateClearState();
       if (searchTimer) {
         window.clearTimeout(searchTimer);
       }
@@ -443,6 +488,34 @@
       }, 300);
     });
 
+    clearButton.type = "button";
+    clearButton.className = "site-search-clear";
+    clearButton.hidden = true;
+    clearIcon.className = "site-search-clear-icon";
+    clearIcon.setAttribute("aria-hidden", "true");
+    clearIcon.textContent = ui.searchClearShort || "×";
+    clearLabel.className = "site-search-clear-label";
+    clearLabel.textContent = ui.searchClearButton || "Очистити";
+    clearButton.appendChild(clearIcon);
+    clearButton.appendChild(clearLabel);
+    clearButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (searchTimer) {
+        window.clearTimeout(searchTimer);
+        searchTimer = 0;
+      }
+      input.value = "";
+      updateClearState();
+      clearSearchQueryParam();
+      render("");
+      input.focus();
+    });
+
+    if (field) {
+      field.appendChild(clearButton);
+    }
+
+    input.value = getInitialSearchQuery();
     applyChrome();
 
     if (typeof fetch !== "function") {

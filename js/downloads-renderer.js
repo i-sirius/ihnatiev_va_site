@@ -204,6 +204,26 @@
       return query && query.trim().length > 1 ? query : "";
     }
 
+    function clearDownloadsQueryParam() {
+      try {
+        if (typeof URLSearchParams !== "function" || !window.history || !window.history.replaceState) {
+          return;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        if (!params.has("q")) {
+          return;
+        }
+
+        params.delete("q");
+        const query = params.toString();
+        const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash || ""}`;
+        window.history.replaceState(null, document.title, nextUrl);
+      } catch (error) {
+        // URL cleanup is progressive enhancement only.
+      }
+    }
+
     function getInitialDownloadsTopic() {
       const topic = getInitialDownloadsParam("topic");
       return topic && topic.trim() ? topic.trim() : "all";
@@ -957,8 +977,21 @@
       const search = document.createElement("div");
       const field = document.createElement("label");
       const input = document.createElement("input");
+      const clearButton = document.createElement("button");
+      const clearIcon = document.createElement("span");
+      const clearLabel = document.createElement("span");
       let searchTimer = 0;
       let lastSearchValue = "";
+
+      function updateClearState() {
+        const hasValue = Boolean(input.value);
+        clearButton.hidden = !hasValue;
+        if (hasValue) {
+          search.classList.add("has-value");
+        } else {
+          search.classList.remove("has-value");
+        }
+      }
 
       function runSearch(value) {
         const rawValue = value || "";
@@ -992,13 +1025,42 @@
       input.setAttribute("aria-label", input.placeholder);
       input.autocomplete = "off";
       input.value = getInitialDownloadsQuery();
+      lastSearchValue = input.value.trim().length === 1 ? "" : input.value;
 
       input.addEventListener("input", () => {
+        updateClearState();
         scheduleSearch(input.value || "");
       });
 
+      clearButton.type = "button";
+      clearButton.className = "downloads-search-clear";
+      clearButton.hidden = true;
+      clearButton.setAttribute("aria-label", downloadsUi.searchClear || "Очистити пошук");
+      clearButton.setAttribute("title", downloadsUi.searchClear || "Очистити пошук");
+      clearIcon.className = "downloads-search-clear-icon";
+      clearIcon.setAttribute("aria-hidden", "true");
+      clearIcon.textContent = downloadsUi.searchClearShort || "×";
+      clearLabel.className = "downloads-search-clear-label";
+      clearLabel.textContent = downloadsUi.searchClearButton || "Очистити";
+      clearButton.appendChild(clearIcon);
+      clearButton.appendChild(clearLabel);
+      clearButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (searchTimer) {
+          window.clearTimeout(searchTimer);
+          searchTimer = 0;
+        }
+        input.value = "";
+        updateClearState();
+        clearDownloadsQueryParam();
+        runSearch("");
+        input.focus();
+      });
+
       field.appendChild(input);
+      field.appendChild(clearButton);
       search.appendChild(field);
+      updateClearState();
 
       return search;
     }

@@ -93,7 +93,7 @@
   z-index: 1;
   width: 100%;
   min-height: 46px;
-  padding: 11px 14px 11px 42px;
+  padding: 11px 116px 11px 42px;
   border: 1px solid color-mix(in srgb, var(--border) 78%, var(--primary));
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.58);
@@ -107,10 +107,54 @@
   transition: border-color 0.18s ease, box-shadow 0.18s ease, width 0.22s ease;
 }
 
+.downloads-search-field input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
 .downloads-search-field input:focus {
   border-color: color-mix(in srgb, var(--primary) 62%, var(--border));
   outline: 2px solid color-mix(in srgb, var(--primary) 18%, transparent);
   outline-offset: 2px;
+}
+
+.downloads-search-clear {
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 32px;
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--panel-bg) 76%, transparent);
+  color: color-mix(in srgb, var(--primary-dark) 78%, var(--muted));
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.downloads-search-clear[hidden] {
+  display: none;
+}
+
+.downloads-search-clear:hover,
+.downloads-search-clear:focus-visible {
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--border));
+  background: color-mix(in srgb, var(--primary) 8%, var(--panel-bg));
+}
+
+.downloads-search-clear-icon {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .downloads-groups-list {
@@ -914,6 +958,10 @@ html[data-theme="dark"] .download-subgroup {
     width: 100%;
   }
 
+  .downloads-heading-search .downloads-search.has-value {
+    width: 100%;
+  }
+
   .downloads-heading-search .downloads-search-field input {
     min-height: 42px;
     padding: 9px 0 9px 42px;
@@ -921,18 +969,32 @@ html[data-theme="dark"] .download-subgroup {
     cursor: pointer;
   }
 
+  .downloads-heading-search .downloads-search.has-value .downloads-search-field input {
+    padding-right: 48px;
+    color: var(--text);
+  }
+
   .downloads-heading-search .downloads-search-field input::placeholder {
     color: transparent;
   }
 
   .downloads-heading-search:focus-within .downloads-search-field input {
-    padding-right: 12px;
+    padding-right: 48px;
     color: var(--text);
     cursor: text;
   }
 
   .downloads-heading-search:focus-within .downloads-search-field input::placeholder {
     color: var(--muted);
+  }
+
+  .downloads-search-clear {
+    width: 32px;
+    padding: 0;
+  }
+
+  .downloads-search-clear-label {
+    display: none;
   }
 }
 

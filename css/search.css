@@ -23,6 +23,7 @@
 }
 
 .site-search-field {
+  position: relative;
   display: grid;
   gap: 7px;
   color: var(--muted);
@@ -33,7 +34,7 @@
 .site-search-field input {
   width: 100%;
   min-height: 48px;
-  padding: 11px 14px;
+  padding: 11px 112px 11px 14px;
   border: 1px solid color-mix(in srgb, var(--border) 78%, var(--primary));
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.64);
@@ -44,10 +45,53 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.42);
 }
 
+.site-search-field input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
 .site-search-field input:focus {
   border-color: color-mix(in srgb, var(--primary) 62%, var(--border));
   outline: 2px solid color-mix(in srgb, var(--primary) 18%, transparent);
   outline-offset: 2px;
+}
+
+.site-search-clear {
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--panel-bg) 76%, transparent);
+  color: color-mix(in srgb, var(--primary-dark) 78%, var(--muted));
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.site-search-clear[hidden] {
+  display: none;
+}
+
+.site-search-clear:hover,
+.site-search-clear:focus-visible {
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--border));
+  background: color-mix(in srgb, var(--primary) 8%, var(--panel-bg));
+}
+
+.site-search-clear-icon {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .site-search-status {
@@ -121,6 +165,19 @@ html[data-theme="dark"] .site-search-field input {
 }
 
 @media (max-width: 640px) {
+  .site-search-field input {
+    padding-right: 48px;
+  }
+
+  .site-search-clear {
+    width: 34px;
+    padding: 0;
+  }
+
+  .site-search-clear-label {
+    display: none;
+  }
+
   .site-search-result {
     padding: 12px;
   }
