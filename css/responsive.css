@@ -759,3 +759,429 @@ html.no-modern-effects .gallery-item img {
     margin-left: 0;
   }
 }
+
+/* Legacy/accessibility patch after 0.7.77d. Keep these overrides scoped. */
+html[data-theme="accessible"] .site-header .theme-toggle {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+html[data-theme="accessible"] .language-toggle,
+html.no-modern-effects .language-toggle {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="accessible"] .language-toggle-options {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 84px !important;
+  height: auto !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="accessible"] .language-toggle-option,
+html.no-modern-effects .language-toggle-option {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  transform: none !important;
+  text-decoration: none !important;
+}
+
+html[data-theme="accessible"] .language-toggle-option {
+  width: 38px !important;
+  min-width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  margin-left: 6px !important;
+  padding: 0 !important;
+  border: 2px solid #000000 !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="accessible"] .language-toggle-option:first-child {
+  margin-left: 0 !important;
+}
+
+html[data-theme="accessible"] .language-toggle-option.is-active {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="accessible"] .language-toggle-flag,
+html.no-modern-effects .language-toggle-flag {
+  display: none !important;
+}
+
+html[data-theme="accessible"] .language-toggle-code,
+html[data-theme="accessible"] .language-toggle-code.is-flag-fallback,
+html.no-modern-effects .language-toggle-code.is-flag-fallback {
+  position: static !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: inherit !important;
+  font-size: 0.82rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  transform: none !important;
+}
+
+html[data-theme="accessible"] .language-toggle-code.is-flag-fallback::before,
+html[data-theme="accessible"] .language-toggle-code.is-flag-fallback::after,
+html.no-modern-effects .language-toggle-code.is-flag-fallback::before,
+html.no-modern-effects .language-toggle-code.is-flag-fallback::after {
+  content: none !important;
+  display: none !important;
+}
+
+html[data-theme="accessible"] .language-toggle-option:nth-child(1) .language-toggle-code.is-flag-fallback {
+  position: static !important;
+  font-size: 0.82rem !important;
+  line-height: 1 !important;
+}
+
+html[data-theme="accessible"] .language-toggle-option:nth-child(1) .language-toggle-code.is-flag-fallback::before,
+html[data-theme="accessible"] .language-toggle-option:nth-child(1) .language-toggle-code.is-flag-fallback::after {
+  content: none !important;
+  display: none !important;
+  position: static !important;
+  transform: none !important;
+}
+
+html.no-modern-effects .language-toggle-option,
+html.no-modern-effects .language-toggle-option:hover,
+html.no-modern-effects .language-toggle-option:active {
+  box-shadow: none !important;
+  text-decoration: none !important;
+  transform: none !important;
+}
+
+html.no-modern-effects .site-brand-link,
+html.no-modern-effects .site-brand-logo,
+html.no-modern-effects .site-brand-link::after {
+  transform: none !important;
+}
+
+@media (max-width: 900px) {
+  html.no-modern-effects .site-brand-link {
+    left: 8px !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    padding: 0 !important;
+    border-radius: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  html.no-modern-effects .site-brand-logo {
+    width: auto !important;
+    max-width: 30px !important;
+    max-height: 30px !important;
+    margin: 0 auto !important;
+    object-fit: contain !important;
+  }
+
+  html[data-theme="accessible"].no-modern-effects .site-header-controls {
+    width: auto !important;
+    min-width: 92px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 3px !important;
+    flex-direction: row !important;
+  }
+}
+
+html[data-theme="dark"].no-modern-effects .site-brand-link,
+html[data-theme="dark"].no-modern-effects .site-header-controls,
+html[data-theme="dark"].no-modern-effects .language-toggle-options,
+html[data-theme="dark"].no-modern-effects .theme-toggle-track {
+  border-color: var(--border) !important;
+  background: var(--panel-bg) !important;
+  color: var(--text) !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2) !important;
+}
+
+html[data-theme="dark"].no-modern-effects .language-toggle-option,
+html[data-theme="dark"].no-modern-effects .theme-toggle {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"].no-modern-effects .language-toggle-option.is-active {
+  border-color: var(--button-bg) !important;
+  background: var(--button-bg) !important;
+  color: var(--button-text) !important;
+}
+
+html[data-theme="accessible"] .about-details-publications,
+html[data-theme="accessible"] .about-details-publications .about-details-body {
+  overflow: visible !important;
+}
+
+html[data-theme="accessible"] .about-details-publications > summary,
+html[data-theme="accessible"] .about-details-publications[open] > summary {
+  position: static !important;
+  display: block !important;
+  min-height: 0 !important;
+  padding: 14px !important;
+  background: #ffffff !important;
+  border-bottom: 2px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="accessible"] .about-details-publications > summary::before {
+  display: none !important;
+}
+
+html[data-theme="accessible"] .about-details-publications .about-details-summary-text {
+  display: block !important;
+  max-width: none !important;
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  color: #000000 !important;
+  font-size: 1rem !important;
+  line-height: 1.45 !important;
+  text-align: left !important;
+}
+
+html[data-theme="accessible"] .about-details-publications .about-details-arrow,
+html[data-theme="accessible"] .about-details-publications[open] .about-details-arrow,
+html[data-theme="accessible"] .about-details-publications .about-details-arrow:hover {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 168px !important;
+  max-width: 100% !important;
+  min-height: 42px !important;
+  padding: 8px 14px !important;
+  border: 2px solid #000000 !important;
+  border-radius: 6px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme="accessible"] .about-details-publications .about-details-arrow-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 20px !important;
+  width: 20px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  margin-right: 8px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="accessible"] .about-details-publications .about-details-arrow-icon::before {
+  content: "v" !important;
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  border: 0 !important;
+  color: inherit !important;
+  font-size: 1rem !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  transform: none !important;
+}
+
+html[data-theme="accessible"] .about-details-publications[open] .about-details-arrow-icon::before {
+  content: "^" !important;
+}
+
+html[data-theme="accessible"] .about-details-publications .about-details-arrow-label {
+  display: block !important;
+  width: auto !important;
+  min-width: 0 !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  letter-spacing: 0 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+}
+
+html[data-theme="accessible"] .about-details-publications .about-details-arrow-label::before {
+  content: attr(data-open-label) !important;
+  position: static !important;
+  inset: auto !important;
+  display: block !important;
+  color: #000000 !important;
+  font-size: 0.88rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.25 !important;
+  white-space: normal !important;
+}
+
+html[data-theme="accessible"] .about-details-publications[open] .about-details-arrow-label::before {
+  content: attr(data-close-label) !important;
+}
+
+html[data-theme="accessible"] .about-publications-tools {
+  position: static !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+  margin: 0 !important;
+  padding: 14px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+html[data-theme="accessible"] .about-publications-field {
+  display: block !important;
+  color: #000000 !important;
+  font-size: 0.92rem !important;
+  letter-spacing: 0 !important;
+  line-height: 1.35 !important;
+  text-transform: none !important;
+}
+
+html[data-theme="accessible"] .about-publications-field input,
+html[data-theme="accessible"] .about-publications-field select {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 42px !important;
+  margin-top: 5px !important;
+  padding: 8px 10px !important;
+  border: 2px solid #000000 !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-sizing: border-box !important;
+}
+
+html[data-theme="accessible"] .about-publications-list {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 14px 16px 40px !important;
+  list-style: decimal !important;
+  color: #000000 !important;
+}
+
+html[data-theme="accessible"] .about-publications-list li {
+  position: relative !important;
+  display: list-item !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  margin: 0 0 12px !important;
+  padding: 12px !important;
+  overflow: visible !important;
+  border: 2px solid #000000 !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  line-height: 1.5 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="accessible"] .about-publications-list li::before {
+  content: none !important;
+  display: none !important;
+}
+
+html[data-theme="accessible"] .about-publication-meta {
+  position: static !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 0 10px !important;
+  gap: 0 !important;
+}
+
+html[data-theme="accessible"] .about-publication-meta button {
+  position: static !important;
+  display: inline-flex !important;
+  flex: 0 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 30px !important;
+  height: auto !important;
+  margin: 0 6px 6px 0 !important;
+  padding: 4px 9px !important;
+  border: 2px solid #000000 !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-size: 0.82rem !important;
+  line-height: 1.2 !important;
+  white-space: normal !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="accessible"] .about-publication-copy {
+  width: 34px !important;
+  min-width: 34px !important;
+  padding: 0 !important;
+}
+
+html[data-theme="accessible"] .about-publication-copy.is-copied {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="accessible"] .about-publication-text {
+  display: block !important;
+  color: #000000 !important;
+  line-height: 1.5 !important;
+  overflow: visible !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+html[data-theme="accessible"] .about-publication-file {
+  display: inline-flex !important;
+  width: auto !important;
+  max-width: 100% !important;
+  min-height: 34px !important;
+  margin-top: 10px !important;
+  padding: 6px 10px !important;
+  border: 2px solid #000000 !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+}

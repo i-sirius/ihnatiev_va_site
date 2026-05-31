@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.7.77d.305026-r1";
+﻿const CACHE_NAME = "ihnatiev-site-v0.7.77e.310526-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -124,3 +124,4 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
+
