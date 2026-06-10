@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.77h.100626
+
+- **Legacy/accessibility CSS cleanup після 0.7.77g:**
+  - Прибрано невдалий compact-controls підхід із 0.7.77g.
+  - Стабілізовано шапку у спрощеній версії під час скролу без left/transform зсувів.
+  - Спрощено legacy-панель UK/EN/теми без clip-path, halo і круглої форми.
+  - Відновлено видимість half-moon / contrast icon без зміни форми кнопки спрощеної версії.
+
 ## 0.7.77g.100626
 
 - **Legacy/accessibility visual hotfix:**

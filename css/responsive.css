@@ -1186,35 +1186,84 @@ html[data-theme="accessible"] .about-publication-file {
   box-shadow: none !important;
 }
 
-/* Hotfix 0.7.77f: keep legacy header controls plain and singular. */
+/* Hotfix 0.7.77h candidate: iOS 12-safe legacy/accessibility cleanup. */
 @media (max-width: 900px) {
-  html.no-modern-effects .site-header-controls {
+  html.no-modern-effects .site-header-controls,
+  html.no-modern-effects .site-header.is-compact .site-header-controls {
+    display: flex !important;
     width: 96px !important;
     min-width: 96px !important;
     height: auto !important;
     min-height: 84px !important;
-    padding: 4px !important;
+    padding: 6px !important;
+    gap: 6px !important;
     flex-direction: column !important;
     align-items: center !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 18px !important;
+    background: var(--panel-bg) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    clip-path: none !important;
     overflow: visible !important;
+    transform: none !important;
+    box-sizing: border-box !important;
   }
 
-  html.no-modern-effects .language-toggle {
-    width: auto !important;
+  html[data-theme="dark"].no-modern-effects .site-header-controls,
+  html[data-theme="dark"].no-modern-effects .site-header.is-compact .site-header-controls {
+    background: var(--panel-bg) !important;
+    box-shadow: none !important;
+  }
+
+  html.no-modern-effects .language-toggle,
+  html.no-modern-effects .theme-toggle,
+  html.no-modern-effects .site-header.is-compact .language-toggle,
+  html.no-modern-effects .site-header.is-compact .theme-toggle {
+    width: 84px !important;
+    height: auto !important;
+    min-height: 34px !important;
     gap: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
-  html.no-modern-effects .language-toggle-label {
+  html.no-modern-effects .language-toggle-label,
+  html.no-modern-effects .site-header.is-compact .language-toggle-label {
     display: none !important;
   }
 
-  html.no-modern-effects .language-toggle-options {
+  html.no-modern-effects .language-toggle-options,
+  html.no-modern-effects .theme-toggle-track,
+  html.no-modern-effects .site-header.is-compact .language-toggle-options,
+  html.no-modern-effects .site-header.is-compact .theme-toggle-track {
     width: 84px !important;
     min-width: 84px !important;
     height: 34px !important;
     min-height: 34px !important;
     padding: 3px !important;
+    border-radius: 16px !important;
+    clip-path: none !important;
+    overflow: visible !important;
     box-sizing: border-box !important;
+  }
+
+  html.no-modern-effects .language-toggle-options,
+  html.no-modern-effects .site-header.is-compact .language-toggle-options {
+    display: inline-flex !important;
+    gap: 3px !important;
+  }
+
+  html.no-modern-effects .language-toggle-option,
+  html.no-modern-effects .site-header.is-compact .language-toggle-option,
+  html.no-modern-effects .site-header.is-compact .language-toggle-option.is-active {
+    display: inline-flex !important;
+    width: 37px !important;
+    min-width: 37px !important;
+    height: 26px !important;
+    min-height: 26px !important;
   }
 
   html.no-modern-effects .site-brand-logo {
@@ -1241,90 +1290,30 @@ html[data-theme="accessible"] .about-publication-file {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='M3 10.6 12 3l9 7.6V21h-6v-6H9v6H3V10.6Z'/%3E%3C/svg%3E") !important;
   }
 
-  html[data-theme="accessible"].no-modern-effects .site-header-controls {
+  html[data-theme="accessible"].no-modern-effects .site-header-controls,
+  html[data-theme="accessible"].no-modern-effects .site-header.is-compact .site-header-controls {
     height: 44px !important;
     min-height: 44px !important;
     flex-direction: row !important;
   }
 }
 
-/* Hotfix: legacy compact controls must remain a plain capsule, not round buttons. */
-@media (max-width: 900px) {
-  html.no-modern-effects .site-header.is-compact .site-header-controls {
-    display: flex !important;
-    width: 96px !important;
-    min-width: 96px !important;
-    height: auto !important;
-    min-height: 84px !important;
-    padding: 6px !important;
-    gap: 6px !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 20px !important;
-    background: var(--panel-bg) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-    clip-path: none !important;
-    overflow: hidden !important;
-  }
-
-  html.no-modern-effects .site-header.is-compact .language-toggle,
-  html.no-modern-effects .site-header.is-compact .theme-toggle {
-    width: 84px !important;
-    height: auto !important;
-    min-height: 34px !important;
-  }
-
-  html.no-modern-effects .site-header.is-compact .language-toggle-options,
-  html.no-modern-effects .site-header.is-compact .theme-toggle-track {
-    width: 84px !important;
-    min-width: 84px !important;
-    height: 34px !important;
-    min-height: 34px !important;
-    padding: 3px !important;
-    border-radius: 17px !important;
-    clip-path: none !important;
-    overflow: hidden !important;
-  }
-
-  html.no-modern-effects .site-header.is-compact .language-toggle-options {
-    display: inline-flex !important;
-    gap: 3px !important;
-  }
-
-  html.no-modern-effects .site-header.is-compact .language-toggle-option,
-  html.no-modern-effects .site-header.is-compact .language-toggle-option.is-active {
-    display: inline-flex !important;
-    width: 37px !important;
-    min-width: 37px !important;
-    height: 26px !important;
-    min-height: 26px !important;
-  }
-
-  html[data-theme="dark"].no-modern-effects .site-header.is-compact .site-header-controls {
-    background: var(--panel-bg) !important;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2) !important;
-  }
-}
-
-/* Hotfix: accessible mode should not visually collapse the header on scroll. */
 html[data-theme="accessible"] .site-header.is-compact {
-  display: block !important;
-  min-height: auto !important;
-  padding: 14px !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
   overflow: visible !important;
+  clip-path: none !important;
   transform: none !important;
 }
 
-html[data-theme="accessible"] .site-header.is-compact h1 {
-  display: block !important;
-  max-height: none !important;
-  margin: 0 0 4px !important;
-  opacity: 1 !important;
-  transform: none !important;
-  pointer-events: auto !important;
-}
-
+html[data-theme="accessible"] .site-header.is-compact h1,
 html[data-theme="accessible"] .site-header.is-compact .site-header-socials {
-  display: flex !important;
+  display: block !important;
   max-height: none !important;
   opacity: 1 !important;
   transform: none !important;
@@ -1334,25 +1323,23 @@ html[data-theme="accessible"] .site-header.is-compact .site-header-socials {
 
 html[data-theme="accessible"] .site-header.is-compact nav {
   display: block !important;
+  width: auto !important;
   min-height: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
   line-height: 1.42 !important;
-}
-
-html[data-theme="accessible"] .site-header.is-compact .site-header-controls {
   transform: none !important;
-  clip-path: none !important;
-  overflow: visible !important;
 }
 
-html[data-theme="accessible"].no-modern-effects .site-header.is-compact .site-header-controls {
-  height: 44px !important;
-  min-height: 44px !important;
-  border-radius: 20px !important;
+html[data-theme="accessible"] .site-header.is-compact nav a {
+  min-height: 0 !important;
+  margin: 0 8px !important;
+  padding: 4px 8px !important;
+  font-size: 0.84rem !important;
+  line-height: 1.42 !important;
+  white-space: normal !important;
 }
 
-/* Hotfix: restore the visible contrast/half-moon glyph without changing the side tab. */
 html.no-modern-effects .accessible-fab svg,
 html[data-theme="accessible"] .accessible-fab svg {
   display: block !important;
@@ -1370,7 +1357,14 @@ html[data-theme="accessible"] .accessible-fab svg path {
   opacity: 1 !important;
 }
 
-html.no-modern-effects .accessible-fab svg path + path,
+html.no-modern-effects .accessible-fab svg path + path {
+  fill: var(--panel-bg) !important;
+}
+
 html[data-theme="accessible"] .accessible-fab svg path + path {
-  opacity: 0.58 !important;
+  fill: #ffffff !important;
+}
+
+html[data-theme="accessible"] .accessible-fab:hover svg path + path {
+  fill: #000000 !important;
 }

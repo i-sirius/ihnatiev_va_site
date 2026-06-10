@@ -4,7 +4,7 @@ const SITE = {
     ownerName: "Sirius",
     authorRealName: "Віталій Ігнатьєв",
     siteDeveloperName: "Sirius",
-    buildVersion: "0.7.77g",
+    buildVersion: "0.7.77h",
     buildDate: "100626",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
