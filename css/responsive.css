@@ -1247,3 +1247,130 @@ html[data-theme="accessible"] .about-publication-file {
     flex-direction: row !important;
   }
 }
+
+/* Hotfix: legacy compact controls must remain a plain capsule, not round buttons. */
+@media (max-width: 900px) {
+  html.no-modern-effects .site-header.is-compact .site-header-controls {
+    display: flex !important;
+    width: 96px !important;
+    min-width: 96px !important;
+    height: auto !important;
+    min-height: 84px !important;
+    padding: 6px !important;
+    gap: 6px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 20px !important;
+    background: var(--panel-bg) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    clip-path: none !important;
+    overflow: hidden !important;
+  }
+
+  html.no-modern-effects .site-header.is-compact .language-toggle,
+  html.no-modern-effects .site-header.is-compact .theme-toggle {
+    width: 84px !important;
+    height: auto !important;
+    min-height: 34px !important;
+  }
+
+  html.no-modern-effects .site-header.is-compact .language-toggle-options,
+  html.no-modern-effects .site-header.is-compact .theme-toggle-track {
+    width: 84px !important;
+    min-width: 84px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 3px !important;
+    border-radius: 17px !important;
+    clip-path: none !important;
+    overflow: hidden !important;
+  }
+
+  html.no-modern-effects .site-header.is-compact .language-toggle-options {
+    display: inline-flex !important;
+    gap: 3px !important;
+  }
+
+  html.no-modern-effects .site-header.is-compact .language-toggle-option,
+  html.no-modern-effects .site-header.is-compact .language-toggle-option.is-active {
+    display: inline-flex !important;
+    width: 37px !important;
+    min-width: 37px !important;
+    height: 26px !important;
+    min-height: 26px !important;
+  }
+
+  html[data-theme="dark"].no-modern-effects .site-header.is-compact .site-header-controls {
+    background: var(--panel-bg) !important;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+/* Hotfix: accessible mode should not visually collapse the header on scroll. */
+html[data-theme="accessible"] .site-header.is-compact {
+  display: block !important;
+  min-height: auto !important;
+  padding: 14px !important;
+  overflow: visible !important;
+  transform: none !important;
+}
+
+html[data-theme="accessible"] .site-header.is-compact h1 {
+  display: block !important;
+  max-height: none !important;
+  margin: 0 0 4px !important;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+html[data-theme="accessible"] .site-header.is-compact .site-header-socials {
+  display: flex !important;
+  max-height: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  overflow: visible !important;
+}
+
+html[data-theme="accessible"] .site-header.is-compact nav {
+  display: block !important;
+  min-height: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  line-height: 1.42 !important;
+}
+
+html[data-theme="accessible"] .site-header.is-compact .site-header-controls {
+  transform: none !important;
+  clip-path: none !important;
+  overflow: visible !important;
+}
+
+html[data-theme="accessible"].no-modern-effects .site-header.is-compact .site-header-controls {
+  height: 44px !important;
+  min-height: 44px !important;
+  border-radius: 20px !important;
+}
+
+/* Hotfix: restore the visible contrast/half-moon glyph without changing the side tab. */
+html.no-modern-effects .accessible-fab svg,
+html[data-theme="accessible"] .accessible-fab svg {
+  display: block !important;
+  flex: 0 0 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+  overflow: visible !important;
+}
+
+html.no-modern-effects .accessible-fab svg path,
+html[data-theme="accessible"] .accessible-fab svg path {
+  fill: currentColor !important;
+  stroke: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+html.no-modern-effects .accessible-fab svg path + path,
+html[data-theme="accessible"] .accessible-fab svg path + path {
+  opacity: 0.58 !important;
+}
