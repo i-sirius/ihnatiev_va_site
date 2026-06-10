@@ -1443,3 +1443,103 @@ html[data-theme="accessible"] .accessible-fab svg path + path {
 html[data-theme="accessible"] .accessible-fab:hover svg path + path {
   fill: #000000 !important;
 }
+
+/* Hotfix 0.7.77j candidate: stable activity expand/collapse blocks. */
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary {
+  color: var(--text);
+}
+
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary .about-details-summary-text {
+  color: var(--primary-dark);
+}
+
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary .about-details-arrow {
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary .about-details-arrow-label::before {
+  color: var(--button-text);
+}
+
+body[data-page="activity"][data-activity-id="2"] .about-details-content {
+  max-width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel-bg);
+  box-shadow: var(--liquid-glass-shadow);
+  overflow: visible;
+}
+
+body[data-page="activity"][data-activity-id="2"] .about-details-content > summary,
+body[data-page="activity"][data-activity-id="2"] .about-details-content[open] > summary {
+  min-height: 72px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: var(--panel-bg);
+  color: var(--text);
+  box-shadow: none;
+}
+
+body[data-page="activity"][data-activity-id="2"] .about-details-content[open] > summary {
+  border-bottom: 1px solid var(--border);
+  border-radius: 14px 14px 0 0;
+}
+
+body[data-page="activity"][data-activity-id="2"] .about-details-content .about-details-summary-text {
+  color: var(--muted);
+}
+
+html[data-theme="dark"] body[data-page="activity"][data-activity-id="2"] .about-details-content,
+html[data-theme="dark"] body[data-page="activity"][data-activity-id="2"] .about-details-content > summary,
+html[data-theme="dark"] body[data-page="activity"][data-activity-id="2"] .about-details-content[open] > summary {
+  background: var(--panel-bg);
+  color: var(--text);
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details,
+html[data-theme="accessible"] body[data-page="activity"] .about-details-content,
+html[data-theme="accessible"] body[data-page="activity"] .about-details-body,
+html[data-theme="accessible"] body[data-page="activity"] .about-details-description,
+html[data-theme="accessible"] body[data-page="activity"] .about-details-copy,
+html[data-theme="accessible"] body[data-page="activity"] .about-details-list,
+html[data-theme="accessible"] body[data-page="activity"] .about-details-copy p,
+html[data-theme="accessible"] body[data-page="activity"] .about-details-list li {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details[open],
+html[data-theme="accessible"] body[data-page="activity"] .about-details[open] .about-details-body,
+html[data-theme="accessible"] body[data-page="activity"] .about-details[open] .about-details-copy,
+html[data-theme="accessible"] body[data-page="activity"] .about-details[open] .about-details-list {
+  overflow-x: hidden !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details > summary,
+html[data-theme="accessible"] body[data-page="activity"] .about-details[open] > summary {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details:not(.about-details-publications) .about-details-arrow {
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details:not(.about-details-publications) .about-details-arrow-label::before {
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+}
