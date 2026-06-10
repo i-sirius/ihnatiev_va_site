@@ -1239,6 +1239,10 @@ html[data-theme="accessible"] .about-publication-file {
   html.no-modern-effects .theme-toggle-track,
   html.no-modern-effects .site-header.is-compact .language-toggle-options,
   html.no-modern-effects .site-header.is-compact .theme-toggle-track {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
     width: 84px !important;
     min-width: 84px !important;
     height: 34px !important;
@@ -1248,6 +1252,48 @@ html[data-theme="accessible"] .about-publication-file {
     clip-path: none !important;
     overflow: visible !important;
     box-sizing: border-box !important;
+  }
+
+  html.no-modern-effects .theme-toggle-track-icon,
+  html.no-modern-effects .site-header.is-compact .theme-toggle-track-icon {
+    position: relative !important;
+    z-index: 1 !important;
+    display: inline-flex !important;
+    width: 26px !important;
+    height: 26px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
+  }
+
+  html.no-modern-effects .theme-toggle-track-icon::before,
+  html.no-modern-effects .site-header.is-compact .theme-toggle-track-icon::before {
+    display: block !important;
+    width: 24px !important;
+    height: 24px !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  html.no-modern-effects .theme-toggle-thumb,
+  html.no-modern-effects .site-header.is-compact .theme-toggle-thumb {
+    position: absolute !important;
+    left: 3px !important;
+    z-index: 2 !important;
+    display: block !important;
+    width: 30px !important;
+    height: 22px !important;
+    border-radius: 999px !important;
+    background: var(--liquid-glass-active-bg) !important;
+    box-shadow: var(--liquid-glass-active-shadow) !important;
+    transform: none !important;
+    transition: left 0.2s ease, background 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  html.no-modern-effects .theme-toggle.is-dark .theme-toggle-thumb,
+  html.no-modern-effects .site-header.is-compact .theme-toggle.is-dark .theme-toggle-thumb {
+    left: 51px !important;
+    transform: none !important;
   }
 
   html.no-modern-effects .language-toggle-options,
@@ -1313,12 +1359,33 @@ html[data-theme="accessible"] .site-header.is-compact {
 
 html[data-theme="accessible"] .site-header.is-compact h1,
 html[data-theme="accessible"] .site-header.is-compact .site-header-socials {
-  display: block !important;
   max-height: none !important;
   opacity: 1 !important;
   transform: none !important;
   pointer-events: auto !important;
   overflow: visible !important;
+}
+
+html[data-theme="accessible"] .site-header.is-compact h1 {
+  display: block !important;
+}
+
+html[data-theme="accessible"] .site-header.is-compact .site-header-socials,
+html[data-theme="accessible"] .site-header.is-expanding-header .site-header-socials,
+html[data-theme="accessible"] .site-header.is-collapsing-header .site-header-socials {
+  display: inline-flex !important;
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  width: 284px !important;
+  max-width: 100% !important;
+  margin: 0 auto 7px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  transform: none !important;
 }
 
 html[data-theme="accessible"] .site-header.is-compact nav {
@@ -1358,7 +1425,15 @@ html[data-theme="accessible"] .accessible-fab svg path {
 }
 
 html.no-modern-effects .accessible-fab svg path + path {
-  fill: var(--panel-bg) !important;
+  fill: #ffffff !important;
+}
+
+html[data-theme="dark"].no-modern-effects .accessible-fab svg path {
+  fill: #ffffff !important;
+}
+
+html[data-theme="dark"].no-modern-effects .accessible-fab svg path + path {
+  fill: #000000 !important;
 }
 
 html[data-theme="accessible"] .accessible-fab svg path + path {
