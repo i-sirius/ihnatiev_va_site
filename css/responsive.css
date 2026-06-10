@@ -1444,22 +1444,63 @@ html[data-theme="accessible"] .accessible-fab:hover svg path + path {
   fill: #000000 !important;
 }
 
-/* Hotfix 0.7.77j candidate: stable activity expand/collapse blocks. */
-html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary {
+/* Hotfix 0.7.77k candidate: real activity details and FAB icon selectors. */
+.accessible-fab svg {
+  box-sizing: border-box !important;
+  padding: 2px !important;
+  border: 1px solid #000000 !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.accessible-fab svg path {
+  fill: #000000 !important;
+  stroke: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.accessible-fab svg path + path {
+  fill: #ffffff !important;
+}
+
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open],
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] .about-details-body {
+  background: var(--panel-bg);
   color: var(--text);
 }
 
-html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary .about-details-summary-text {
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary {
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-bg);
+  color: var(--text);
+}
+
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] .about-details-summary-text {
   color: var(--primary-dark);
 }
 
-html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary .about-details-arrow {
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] .about-details-description,
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] .about-details-copy,
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] .about-details-copy p,
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] .about-details-list,
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] .about-details-list li {
+  background: transparent;
+  color: var(--text);
+}
+
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] .about-details-arrow,
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details summary:hover .about-details-arrow,
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details summary:focus-visible .about-details-arrow {
   border-color: var(--button-bg);
   background: var(--button-bg);
   color: var(--button-text);
 }
 
-html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary .about-details-arrow-label::before {
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] .about-details-arrow-label::before,
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details summary:hover .about-details-arrow-label::before,
+html:not([data-theme="accessible"]) body[data-page="activity"] .about-details summary:focus-visible .about-details-arrow-label::before {
   color: var(--button-text);
 }
 
@@ -1500,6 +1541,145 @@ html[data-theme="dark"] body[data-page="activity"][data-activity-id="2"] .about-
 
 html[data-theme="accessible"] body[data-page="activity"] .about-details,
 html[data-theme="accessible"] body[data-page="activity"] .about-details-content,
+html[data-theme="accessible"] body[data-page="activity"] .about-details-publications {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  border: 2px solid #000000 !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  overflow: visible !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details > summary,
+html[data-theme="accessible"] body[data-page="activity"] .about-details[open] > summary {
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 14px !important;
+  box-sizing: border-box !important;
+  border-bottom: 2px solid #000000 !important;
+  border-radius: 0 !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  overflow-x: hidden !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details > summary::before {
+  display: none !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details-summary-text {
+  display: block !important;
+  max-width: 100% !important;
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  color: #000000 !important;
+  font-size: 1rem !important;
+  line-height: 1.45 !important;
+  text-align: left !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details-arrow,
+html[data-theme="accessible"] body[data-page="activity"] .about-details[open] .about-details-arrow,
+html[data-theme="accessible"] body[data-page="activity"] .about-details summary:hover .about-details-arrow,
+html[data-theme="accessible"] body[data-page="activity"] .about-details summary:focus-visible .about-details-arrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: 42px !important;
+  padding: 8px 14px !important;
+  box-sizing: border-box !important;
+  border: 2px solid #000000 !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details-arrow-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 20px !important;
+  width: 20px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  margin-right: 8px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details-arrow-icon::before {
+  content: "v" !important;
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  border: 0 !important;
+  color: inherit !important;
+  font-size: 1rem !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  transform: none !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details[open] .about-details-arrow-icon::before {
+  content: "^" !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details-arrow-label {
+  display: block !important;
+  width: auto !important;
+  min-width: 0 !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  letter-spacing: 0 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details-arrow-label::before {
+  content: attr(data-open-label) !important;
+  position: static !important;
+  inset: auto !important;
+  display: block !important;
+  color: #000000 !important;
+  font-size: 0.88rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.25 !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .about-details[open] .about-details-arrow-label::before {
+  content: attr(data-close-label) !important;
+}
+
 html[data-theme="accessible"] body[data-page="activity"] .about-details-body,
 html[data-theme="accessible"] body[data-page="activity"] .about-details-description,
 html[data-theme="accessible"] body[data-page="activity"] .about-details-copy,
@@ -1510,6 +1690,8 @@ html[data-theme="accessible"] body[data-page="activity"] .about-details-list li 
   max-width: 100% !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
+  background: #ffffff !important;
+  color: #000000 !important;
   white-space: normal !important;
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
@@ -1523,23 +1705,18 @@ html[data-theme="accessible"] body[data-page="activity"] .about-details[open] .a
   overflow-x: hidden !important;
 }
 
-html[data-theme="accessible"] body[data-page="activity"] .about-details > summary,
-html[data-theme="accessible"] body[data-page="activity"] .about-details[open] > summary {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-  overflow-x: hidden !important;
+html[data-theme="accessible"] body[data-page="activity"] .about-details-list {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 14px 16px 34px !important;
+  list-style: decimal !important;
 }
 
-html[data-theme="accessible"] body[data-page="activity"] .about-details:not(.about-details-publications) .about-details-arrow {
-  max-width: 100% !important;
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-}
-
-html[data-theme="accessible"] body[data-page="activity"] .about-details:not(.about-details-publications) .about-details-arrow-label::before {
-  white-space: normal !important;
-  overflow-wrap: break-word !important;
-  word-wrap: break-word !important;
+html[data-theme="accessible"] body[data-page="activity"] .about-details-list li {
+  display: list-item !important;
+  margin: 0 0 12px !important;
+  padding: 10px !important;
+  border: 2px solid #000000 !important;
+  border-radius: 4px !important;
+  line-height: 1.5 !important;
 }

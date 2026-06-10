@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.77k.100626
+
+- **Activity details contrast/accessibility hotfix:**
+  - Виправлено контраст розгорнутих блоків “Про себе” у світлій і темній темах.
+  - Уніфіковано вигляд розгорнутих списків у спрощеній версії.
+  - Виправлено переноси й ширину expanded content для старого Safari / iPad Air 1.
+  - Зроблено half-moon / contrast icon кнопки спрощеної версії самоконтрастним.
+
 ## 0.7.77j.100626
 
 - **Activity expand/collapse hotfix:**
