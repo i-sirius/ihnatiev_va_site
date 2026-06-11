@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.77u.110626
+
+* **PWA Home Screen title hotfix:**
+
+  * Змінено назву для iOS Add to Home Screen на `I V A`.
+  * Оновлено `name` і `short_name` у manifest для Android/Chromium PWA.
+  * Звичайні SEO/page titles не змінювались.
+  * Оновлено service worker cache version для PWA metadata refresh.
+
 ## 0.7.77t.110626
 
 * **Icon and PWA assets refresh:**
