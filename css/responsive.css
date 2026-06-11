@@ -374,6 +374,20 @@ html.no-modern-effects .about-details summary:hover .about-details-arrow {
   transform: none;
 }
 
+html.no-modern-effects body[data-page="activity"] .about-details,
+html.no-modern-effects body[data-page="activity"] .about-details[open] {
+  overflow: visible !important;
+}
+
+html.no-modern-effects body[data-page="activity"] .about-details[open] > summary {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: calc(var(--site-header-offset) + 12px) !important;
+  z-index: 8 !important;
+  overflow: visible !important;
+  transform: none !important;
+}
+
 @media (max-width: 900px) {
   html.no-modern-effects body[data-page="activity"] .about-details[open] > summary {
     display: grid !important;
@@ -1427,6 +1441,101 @@ html[data-theme="accessible"] .about-publication-file {
     -webkit-backdrop-filter: none !important;
     clip-path: none !important;
     overflow: visible !important;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header-controls,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .site-header-controls {
+    width: 96px !important;
+    min-width: 96px !important;
+    max-width: 96px !important;
+    right: 12px !important;
+    grid-template-columns: 84px !important;
+    grid-template-rows: repeat(2, 34px) !important;
+    align-items: center !important;
+    justify-items: center !important;
+    padding: 0 !important;
+    gap: 6px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    clip-path: none !important;
+    overflow: visible !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .language-toggle,
+  html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .language-toggle,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle {
+    width: 84px !important;
+    min-width: 84px !important;
+    max-width: 84px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    overflow: visible !important;
+    clip-path: none !important;
+    transform: none !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .language-toggle-label,
+  html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle-label,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .language-toggle-label,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle-label {
+    display: none !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .language-toggle-options,
+  html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle-track,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .language-toggle-options,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle-track {
+    position: relative !important;
+    display: inline-flex !important;
+    width: 84px !important;
+    min-width: 84px !important;
+    max-width: 84px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 3px !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    clip-path: none !important;
+    overflow: visible !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .language-toggle-option,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .language-toggle-option,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .language-toggle-option.is-active {
+    display: inline-flex !important;
+    width: 37px !important;
+    min-width: 37px !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle-thumb,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle-thumb {
+    display: block !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle.is-dark .theme-toggle-thumb,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle.is-dark .theme-toggle-thumb {
+    transform: translateX(46px) !important;
   }
 }
 

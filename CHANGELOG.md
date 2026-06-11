@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.77q.110626
+
+* **iPad legacy fixes:**
+
+  * Додано `-webkit-sticky` для кнопки “Згорнути” у standard mode на старому iPad/Safari.
+  * Виправлено clipping language/theme controls у tablet landscape legacy-режимі.
+  * Стабілізовано перемикачі UK/EN і теми у верхньому та compact/scroll станах.
+  * JS/HTML не змінювались.
+
 ## 0.7.77p.110626
 
 * **Accessible header/details cleanup:**
