@@ -77,7 +77,9 @@
   const { escapeHtml, getLocalizedValue, setText } = window.SiteUtils;
   const themeAssets = {
     light: "files/media/logo-light.png",
-    dark: "files/media/logo-dark.png"
+    dark: "files/media/logo-dark.png",
+    faviconLight: "/icons/favicon-light-32.png",
+    faviconDark: "/icons/favicon-dark-32.png"
   };
   const homeFallbackImage = SITE && SITE.home && SITE.home.aboutImage || {
     src: "files/media/about-me-photo.jpg",

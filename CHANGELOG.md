@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.77t.110626
+
+* **Icon and PWA assets refresh:**
+
+  * Оновлено favicon-и для світлого й темного режимів браузера у зелено-золотавій айдентиці сайту.
+  * Додано новий `apple-touch-icon` зі скляною PWA-іконкою для iOS.
+  * Оновлено manifest icons для PWA/Android, включно з maskable-версіями.
+  * Додано fallback favicon assets для браузерів без theme-aware favicon.
+  * Оновлено service worker cache version для нових icon assets.
+
 ## 0.7.77s.110626
 
 * **iPad landscape standard fixes:**

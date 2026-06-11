@@ -207,6 +207,9 @@
 
   function applyThemeAssets({ theme = "light", themeAssets = {} } = {}) {
     const asset = theme === "dark" ? themeAssets.dark : themeAssets.light;
+    const faviconAsset = theme === "dark"
+      ? (themeAssets.faviconDark || asset)
+      : (themeAssets.faviconLight || asset);
 
     document.querySelectorAll("[data-site-brand-logo]").forEach((element) => {
       element.src = asset;
@@ -222,7 +225,7 @@
       document.head.appendChild(favicon);
     }
 
-    favicon.href = asset;
+    favicon.href = faviconAsset;
   }
 
   function initHeaderBrand({ site = window.SITE || {}, themeAssets = {} } = {}) {

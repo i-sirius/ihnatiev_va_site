@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.7.77s.110626-r1";
+const CACHE_NAME = "ihnatiev-site-v0.7.77t.110626-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -50,8 +50,18 @@ const APP_SHELL = [
   "./js/menu-loader.js",
   "./app.js",
   "./manifest.webmanifest",
-  "./files/media/icon-192.png",
-  "./files/media/icon-512.png",
+  "./icons/favicon.ico",
+  "./icons/favicon-light-16.png",
+  "./icons/favicon-light-32.png",
+  "./icons/favicon-light-48.png",
+  "./icons/favicon-dark-16.png",
+  "./icons/favicon-dark-32.png",
+  "./icons/favicon-dark-48.png",
+  "./icons/apple-touch-icon.png",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png",
+  "./icons/icon-maskable-192.png",
+  "./icons/icon-maskable-512.png",
   "./files/media/logo-light.png",
   "./files/media/logo-dark.png",
   "./files/media/about-me-photo.jpg"
