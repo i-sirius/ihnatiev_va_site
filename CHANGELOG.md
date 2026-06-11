@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.77l.110626
+
+- **Legacy/accessibility style cleanup:**
+  - Прибрано конфліктні накопичені overrides для activity details і accessible FAB.
+  - Уніфіковано вигляд розгорнутих блоків “Наука” і “Освіта”.
+  - Виправлено контраст open/hover/focus станів details-блоків у світлій, темній і спрощеній версіях.
+  - Додано стабільний CSS fallback для half-moon / contrast icon.
+  - Зафіксовано чорний колір усіх іконок соцмереж у спрощеній версії на старому Safari.
+
 ## 0.7.77k.100626
 
 - **Activity details contrast/accessibility hotfix:**
