@@ -379,13 +379,26 @@ html.no-modern-effects body[data-page="activity"] .about-details[open] {
   overflow: visible !important;
 }
 
-html.no-modern-effects body[data-page="activity"] .about-details[open] > summary {
+html.no-modern-effects:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary {
   position: -webkit-sticky !important;
   position: sticky !important;
   top: calc(var(--site-header-offset) + 12px) !important;
   z-index: 8 !important;
+  background: var(--panel-bg) !important;
+  box-shadow: 0 1px 0 var(--border) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   overflow: visible !important;
   transform: none !important;
+}
+
+html[data-theme="dark"].no-modern-effects:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary {
+  background: var(--panel-bg) !important;
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"].no-modern-effects:not([data-theme="accessible"]) body[data-page="activity"] .about-details[open] > summary .about-details-summary-text {
+  color: var(--text) !important;
 }
 
 @media (max-width: 900px) {
@@ -1445,12 +1458,91 @@ html[data-theme="accessible"] .about-publication-file {
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header nav a[data-menu-home],
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact nav a[data-menu-home],
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-expanding-header nav a[data-menu-home],
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-collapsing-header nav a[data-menu-home] {
+    display: none !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header .site-brand-link,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-home-in-brand:not(.is-compact) .site-brand-link,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .site-brand-link {
+    display: flex !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    top: 10px !important;
+    bottom: auto !important;
+    left: 12px !important;
+    padding: 8px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 999px !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header .site-brand-logo,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-home-in-brand:not(.is-compact) .site-brand-logo,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .site-brand-logo {
+    width: 28px !important;
+    max-width: 28px !important;
+    max-height: 28px !important;
+    flex: 0 0 28px !important;
+    margin: 0 auto !important;
+    object-fit: contain !important;
+    transform: none !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header .site-brand-link::before,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-home-in-brand:not(.is-compact) .site-brand-link::before,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .site-brand-link::before {
+    content: "Головна" !important;
+    position: absolute !important;
+    top: calc(100% + 3px) !important;
+    left: -12px !important;
+    right: -12px !important;
+    display: block !important;
+    color: var(--text) !important;
+    font-family: var(--font-ui) !important;
+    font-size: 0.58rem !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: 0 !important;
+    text-align: center !important;
+    text-transform: none !important;
+    white-space: nowrap !important;
+    pointer-events: none !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header .site-brand-link::after,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-home-in-brand:not(.is-compact) .site-brand-link::after,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .site-brand-link::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header nav,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact nav,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-home-in-brand:not(.is-compact) nav {
+    padding-left: 70px !important;
+    padding-right: 112px !important;
+  }
+
   html.no-modern-effects:not([data-theme="accessible"]) .site-header-controls,
   html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .site-header-controls {
     width: 96px !important;
     min-width: 96px !important;
     max-width: 96px !important;
+    height: 74px !important;
+    min-height: 74px !important;
+    top: 50% !important;
     right: 12px !important;
+    margin-top: -37px !important;
     grid-template-columns: 84px !important;
     grid-template-rows: repeat(2, 34px) !important;
     align-items: center !important;
@@ -1473,9 +1565,12 @@ html[data-theme="accessible"] .about-publication-file {
   html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle,
   html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .language-toggle,
   html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle {
+    display: inline-flex !important;
     width: 84px !important;
     min-width: 84px !important;
     max-width: 84px !important;
+    height: 34px !important;
+    min-height: 34px !important;
     padding: 0 !important;
     border: 0 !important;
     background: transparent !important;
@@ -1500,6 +1595,8 @@ html[data-theme="accessible"] .about-publication-file {
   html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle-track {
     position: relative !important;
     display: inline-flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
     width: 84px !important;
     min-width: 84px !important;
     max-width: 84px !important;
@@ -1516,6 +1613,31 @@ html[data-theme="accessible"] .about-publication-file {
     box-sizing: border-box !important;
   }
 
+  html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle-track-icon,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle-track-icon {
+    position: relative !important;
+    z-index: 1 !important;
+    display: inline-flex !important;
+    width: 26px !important;
+    height: 26px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle-track-icon::before,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle-track-icon::before {
+    display: block !important;
+    width: 24px !important;
+    height: 24px !important;
+    margin: 0 !important;
+    background-position: center !important;
+    background-size: contain !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
   html.no-modern-effects:not([data-theme="accessible"]) .language-toggle-option,
   html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .language-toggle-option,
   html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .language-toggle-option.is-active {
@@ -1530,12 +1652,19 @@ html[data-theme="accessible"] .about-publication-file {
 
   html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle-thumb,
   html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle-thumb {
+    position: absolute !important;
+    left: 3px !important;
+    z-index: 2 !important;
     display: block !important;
+    width: 30px !important;
+    height: 22px !important;
+    transform: none !important;
   }
 
   html.no-modern-effects:not([data-theme="accessible"]) .theme-toggle.is-dark .theme-toggle-thumb,
   html.no-modern-effects:not([data-theme="accessible"]) .site-header.is-compact .theme-toggle.is-dark .theme-toggle-thumb {
-    transform: translateX(46px) !important;
+    left: 51px !important;
+    transform: none !important;
   }
 }
 

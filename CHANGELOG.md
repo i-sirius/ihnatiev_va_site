@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.7.77s.110626
+
+* **iPad landscape standard fixes:**
+
+  * Прибрано зайвий пункт “Головна” з меню standard/no-modern tablet landscape.
+  * Додано компактний підпис “Головна” під logo/home у standard/no-modern tablet landscape.
+  * Стабілізовано праву панель UA/EN і перемикача теми на старому iPad у горизонтальній орієнтації.
+  * Виправлено відображення іконок місяця/сонця у перемикачі теми в legacy Safari.
+  * Зменшено накладання тексту під sticky-кнопкою “Згорнути” у standard/no-modern activity details.
+  * JS/HTML не змінювались.
+
 ## 0.7.77r.110626
 
 * **Fallback content cleanup:**
