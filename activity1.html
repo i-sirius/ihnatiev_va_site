@@ -78,15 +78,25 @@
       </div>
     </section>
 
-    <section class="panel">
-      <h2 data-activity-videos-heading>Відео</h2>
-      <div class="video-gallery" data-activity-videos></div>
-    </section>
+    <details class="panel activity-collapsible-section" open>
+      <summary class="activity-collapsible-summary">
+        <span class="activity-collapsible-title" data-activity-videos-heading>Відео</span>
+        <span class="activity-collapsible-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="activity-collapsible-body">
+        <div class="video-gallery" data-activity-videos></div>
+      </div>
+    </details>
 
-    <section class="panel">
-      <h2 data-activity-photos-heading>Фото</h2>
-      <div class="gallery" data-activity-gallery></div>
-    </section>
+    <details class="panel activity-collapsible-section" open>
+      <summary class="activity-collapsible-summary">
+        <span class="activity-collapsible-title" data-activity-photos-heading>Фото</span>
+        <span class="activity-collapsible-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="activity-collapsible-body">
+        <div class="gallery" data-activity-gallery></div>
+      </div>
+    </details>
   </main>
 
   <footer>

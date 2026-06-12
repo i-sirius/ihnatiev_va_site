@@ -20,6 +20,12 @@
   display: none;
 }
 
+.audio-test-heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .audio-test-kicker {
   flex: 0 0 auto;
   color: var(--primary);
@@ -60,14 +66,6 @@
   line-height: 1.2;
 }
 
-.audio-test-toggle::before {
-  content: "Розгорнути";
-}
-
-.audio-test-section[open] .audio-test-toggle::before {
-  content: "Згорнути";
-}
-
 .audio-test-body {
   box-sizing: border-box;
   width: 100%;
@@ -82,6 +80,18 @@
   line-height: 1.58;
   overflow-wrap: break-word;
   word-wrap: break-word;
+}
+
+.audio-locale-en {
+  display: none;
+}
+
+html[lang="en"] .audio-test-section .audio-locale-uk {
+  display: none;
+}
+
+html[lang="en"] .audio-test-section .audio-locale-en {
+  display: inline;
 }
 
 .audio-test-section .audio-list {
@@ -264,17 +274,16 @@ html.no-modern-effects .audio-test-section .audio-empty {
 
 @media (max-width: 640px) {
   .audio-test-section > summary {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 10px;
   }
 
   .audio-test-section > summary > * + * {
-    margin-left: 0;
-    margin-top: 8px;
+    margin-left: 10px;
+    margin-top: 0;
   }
 
   .audio-test-toggle {
-    width: 100%;
+    width: auto;
   }
 }

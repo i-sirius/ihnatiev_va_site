@@ -1,4 +1,4 @@
-﻿.activity-cards {
+.activity-cards {
   display: grid;
   gap: 18px;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -44,4 +44,148 @@
   font-family: var(--font-content);
   font-optical-sizing: auto;
   line-height: 1.58;
+}
+
+body[data-page="activity"] .activity-collapsible-section {
+  display: block;
+  overflow: visible;
+}
+
+body[data-page="activity"] .activity-collapsible-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  margin: 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+body[data-page="activity"] .activity-collapsible-summary::-webkit-details-marker {
+  display: none;
+}
+
+body[data-page="activity"] .activity-collapsible-summary::marker {
+  content: "";
+}
+
+body[data-page="activity"] .activity-collapsible-title,
+body[data-page="activity"] .activity-collapsible-heading {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+body[data-page="activity"] .activity-collapsible-title {
+  display: block;
+  color: var(--primary-dark);
+  font-family: var(--font-display);
+  font-size: 1.42rem;
+  font-weight: 650;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+body[data-page="activity"] .activity-collapsible-toggle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  margin-left: 16px;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-bg);
+  color: var(--primary-dark);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+
+body[data-page="activity"] .activity-collapsible-toggle::before {
+  content: "Розгорнути";
+}
+
+body[data-page="activity"] .activity-collapsible-section[open] .activity-collapsible-toggle::before {
+  content: "Згорнути";
+}
+
+html[lang="en"] body[data-page="activity"] .activity-collapsible-toggle::before {
+  content: "Expand";
+}
+
+html[lang="en"] body[data-page="activity"] .activity-collapsible-section[open] .activity-collapsible-toggle::before {
+  content: "Collapse";
+}
+
+body[data-page="activity"] .activity-collapsible-section[open] .activity-collapsible-body {
+  padding-top: 18px;
+}
+
+body[data-page="activity"] .activity-collapsible-body {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+body[data-page="activity"] .activity-collapsible-summary:hover .activity-collapsible-toggle,
+body[data-page="activity"] .activity-collapsible-summary:focus .activity-collapsible-toggle {
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-section,
+html.no-modern-effects[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-section {
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+  box-shadow: none;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-title,
+html.no-modern-effects[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-title {
+  color: #000;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-toggle,
+html.no-modern-effects[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-toggle {
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+  box-shadow: none;
+}
+
+html[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-summary:hover .activity-collapsible-toggle,
+html[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-summary:focus .activity-collapsible-toggle,
+html.no-modern-effects[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-summary:hover .activity-collapsible-toggle,
+html.no-modern-effects[data-theme="accessible"] body[data-page="activity"] .activity-collapsible-summary:focus .activity-collapsible-toggle {
+  background: #000;
+  color: #fff;
+}
+
+html.no-modern-effects body[data-page="activity"] .activity-collapsible-section {
+  overflow: visible;
+}
+
+@media (max-width: 900px) {
+  body[data-page="activity"] .activity-collapsible-title {
+    font-size: 1.32rem;
+  }
+}
+
+@media (max-width: 520px) {
+  body[data-page="activity"] .activity-collapsible-summary {
+    align-items: flex-start;
+  }
+
+  body[data-page="activity"] .activity-collapsible-toggle {
+    margin-left: 12px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
 }

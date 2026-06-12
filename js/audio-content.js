@@ -2,7 +2,22 @@
   const AUDIO_DATA_PATH = "files/content/audio.json";
   const AUDIO_SECTION = "church";
   const AUDIO_CATEGORY = "sermons";
-  const EMPTY_MESSAGE = "Аудіозаписи проповідей буде додано після перевірки формату відображення.";
+  const UI_TEXT = {
+    uk: {
+      empty: "Аудіозаписи проповідей буде додано після перевірки формату відображення.",
+      fallbackTitle: "Аудіозапис проповіді",
+      download: "Завантажити",
+      transcript: "Текст",
+      unsupported: "Ваш браузер не підтримує аудіопрогравач."
+    },
+    en: {
+      empty: "Sermon audio recordings will be added after the display format is tested.",
+      fallbackTitle: "Sermon audio recording",
+      download: "Download",
+      transcript: "Transcript",
+      unsupported: "Your browser does not support the audio player."
+    }
+  };
   const siteUtils = window.SiteUtils || {};
   const isSafeUrl = siteUtils.isSafeUrl || function (value) {
     var raw = String(value || "").trim();
@@ -35,6 +50,17 @@
     }
 
     return "audio/mpeg";
+  }
+
+  function getLocale() {
+    return document.documentElement.lang === "en" ? "en" : "uk";
+  }
+
+  function getUiText(key) {
+    var locale = getLocale();
+    var texts = UI_TEXT[locale] || UI_TEXT.uk;
+
+    return texts[key] || UI_TEXT.uk[key] || "";
   }
 
   function normalizeItems(payload) {
@@ -130,13 +156,13 @@
 
   function createAudioCard(item) {
     var card = document.createElement("article");
-    var title = createTextElement("h3", item.title || "Аудіозапис проповіді", "audio-card-title");
+    var title = createTextElement("h3", item.title || getUiText("fallbackTitle"), "audio-card-title");
     var meta = createMeta(item);
     var audio = document.createElement("audio");
     var source = document.createElement("source");
     var actions = document.createElement("div");
-    var downloadLink = createActionLink(item.downloadUrl, "Завантажити");
-    var transcriptLink = createActionLink(item.transcriptUrl, "Текст");
+    var downloadLink = createActionLink(item.downloadUrl, getUiText("download"));
+    var transcriptLink = createActionLink(item.transcriptUrl, getUiText("transcript"));
     var tags = createTags(item.tags);
 
     card.className = "audio-card";
@@ -155,7 +181,7 @@
     source.src = item.src.trim();
     source.type = item.type || getAudioType(item.src);
     audio.appendChild(source);
-    audio.appendChild(document.createTextNode("Ваш браузер не підтримує аудіопрогравач."));
+    audio.appendChild(document.createTextNode(getUiText("unsupported")));
     card.appendChild(audio);
 
     actions.className = "audio-card-actions";
@@ -187,7 +213,7 @@
       list.removeChild(list.firstChild);
     }
 
-    list.appendChild(createTextElement("p", message || EMPTY_MESSAGE, "audio-empty"));
+    list.appendChild(createTextElement("p", message || getUiText("empty"), "audio-empty"));
   }
 
   function renderAudioItems(container, items) {
@@ -199,7 +225,7 @@
     }
 
     if (!renderableItems.length) {
-      setEmptyState(container, EMPTY_MESSAGE);
+      setEmptyState(container, getUiText("empty"));
       return;
     }
 
@@ -230,7 +256,7 @@
         renderAudioItems(container, normalizeItems(payload));
       })
       .catch(function () {
-        setEmptyState(container, EMPTY_MESSAGE);
+        setEmptyState(container, getUiText("empty"));
       });
   }
 

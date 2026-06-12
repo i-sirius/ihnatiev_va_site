@@ -1,3 +1,21 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "sermon-test-001",
+      "section": "church",
+      "category": "sermons",
+      "enabled": true,
+      "title": "Тестовий запис проповіді",
+      "description": "Тестова перевірка відображення аудіозапису в блоці проповідей.",
+      "date": "",
+      "src": "/files/audio/sermons/test-sermon.mp3",
+      "duration": "",
+      "downloadUrl": "/files/audio/sermons/test-sermon.mp3",
+      "transcriptUrl": "",
+      "tags": [
+        "проповідь",
+        "тест"
+      ]
+    }
+  ]
 }
