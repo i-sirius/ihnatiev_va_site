@@ -47,6 +47,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
   <link rel="canonical" href="https://iva.net.ua/activity3.html" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/audio.css" />
   <title>Священнослужіння | Віталій Ігнатьєв</title>
   <meta name="description" content="Священнослужіння Віталія Ігнатьєва: біографічні відомості, служіння, нагороди та фото." />
   <meta property="og:title" content="Священнослужіння | Віталій Ігнатьєв" />
@@ -82,6 +83,25 @@
       <h2 data-activity-photos-heading>Фото</h2>
       <div class="gallery" data-activity-gallery></div>
     </section>
+
+    <details class="panel audio-test-section" aria-labelledby="church-sermons-audio-title" data-audio-section="church-sermons">
+      <summary class="audio-test-summary">
+        <span class="audio-test-kicker">Тестовий аудіоблок</span>
+        <span class="audio-test-title" id="church-sermons-audio-title">Проповіді</span>
+        <span class="audio-test-toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="audio-test-body">
+        <p class="audio-test-description">
+          Тут тестово перевіряється формат розміщення аудіозаписів проповідей. Після
+          перевірки блок буде наповнено реальними записами.
+        </p>
+        <div class="audio-list" data-audio-list>
+          <p class="audio-empty" data-audio-empty>
+            Аудіозаписи проповідей буде додано після перевірки формату відображення.
+          </p>
+        </div>
+      </div>
+    </details>
   </main>
 
   <footer>
@@ -102,6 +122,7 @@
   <script src="js/social-icons.js"></script>
   <script src="js/header-ui.js"></script>
   <script src="js/page-content.js"></script>
+  <script src="js/audio-content.js"></script>
   <script src="js/menu-loader.js"></script>
   <script src="app.js"></script>
 </body>

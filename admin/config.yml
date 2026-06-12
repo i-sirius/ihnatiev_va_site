@@ -357,6 +357,39 @@ collections:
               - { label: "Показувати", name: enabled, widget: boolean, default: true, hint: "Вимкнене посилання не показується на сайті, але залишається в JSON." }
               - { label: "Нотатка для редактора", name: description, widget: string, required: false }
 
+  - name: audio_content
+    label: "Аудіо: проповіді"
+    description: "Тестовий список аудіозаписів для блоку проповідей на сторінці Священнослужіння."
+    files:
+      - name: church_sermons
+        label: "Проповіді"
+        file: files/content/audio.json
+        format: json
+        fields:
+          - label: "Аудіозаписи"
+            name: items
+            widget: list
+            collapsed: true
+            summary: "{{fields.title}}"
+            hint: "Показуються тільки записи з увімкненим перемикачем і заповненим шляхом до аудіофайлу."
+            fields:
+              - { label: "ID", name: id, widget: string, required: false, hint: "Короткий унікальний ідентифікатор, наприклад sermon-2026-001." }
+              - { label: "Показувати", name: enabled, widget: boolean, default: false, hint: "Вимкнений запис не показується на сайті." }
+              - { label: "Розділ", name: section, widget: hidden, default: church }
+              - { label: "Категорія", name: category, widget: hidden, default: sermons }
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Опис", name: description, widget: text, required: false }
+              - { label: "Дата", name: date, widget: string, required: false, hint: "Можна залишити порожнім або вказати дату у зручному форматі." }
+              - { label: "Аудіофайл", name: src, widget: string, required: false, hint: "Локальний шлях або https URL. Порожній шлях не створює аудіоплеєр." }
+              - { label: "Тривалість", name: duration, widget: string, required: false }
+              - { label: "Посилання для завантаження", name: downloadUrl, widget: string, required: false }
+              - { label: "Посилання на текст", name: transcriptUrl, widget: string, required: false }
+              - label: "Теги"
+                name: tags
+                widget: list
+                required: false
+                field: { label: "Тег", name: tag, widget: string }
+
   - name: gallery_activity1
     label: "Галерея: Наукова активність"
     description: "Зображення галереї на сторінці наукової активності."

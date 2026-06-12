@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.78.120626
+
+* **Test sermons audio block:**
+
+  * Додано тестовий аудіоблок “Проповіді” на сторінку духовної діяльності.
+  * Додано окремий renderer для аудіокарток на базі native HTML5 `<audio controls>`.
+  * Додано `files/content/audio.json` як джерело даних для майбутніх аудіозаписів.
+  * Додано scoped-стилі `css/audio.css` без впливу на інші сторінки.
+  * Додано Decap CMS collection для редагування аудіоконтенту.
+
 ## 0.7.77u.110626
 
 * **PWA Home Screen title hotfix:**

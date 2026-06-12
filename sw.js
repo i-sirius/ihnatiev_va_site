@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.7.77u.110626-r1";
+const CACHE_NAME = "ihnatiev-site-v0.7.78.120626-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -17,6 +17,7 @@ const APP_SHELL = [
   "./css/activity.css",
   "./css/gallery.css",
   "./css/video.css",
+  "./css/audio.css",
   "./css/document-lightbox.css",
   "./css/downloads.css",
   "./css/search.css",
@@ -32,6 +33,7 @@ const APP_SHELL = [
   "./files/content/pages.json",
   "./files/content/publications.json",
   "./files/content/social-links.json",
+  "./files/content/audio.json",
   "./js/site-utils.js",
   "./js/gallery-lightbox.js",
   "./js/gallery-renderer.js",
@@ -47,6 +49,7 @@ const APP_SHELL = [
   "./js/social-icons.js",
   "./js/header-ui.js",
   "./js/page-content.js",
+  "./js/audio-content.js",
   "./js/menu-loader.js",
   "./app.js",
   "./manifest.webmanifest",
