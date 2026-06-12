@@ -11,7 +11,7 @@
       unsupported: "Ваш браузер не підтримує аудіопрогравач."
     },
     en: {
-      empty: "Sermon audio recordings will be added after the format is tested.",
+      empty: "Sermon audio recordings. Materials will be added gradually.",
       fallbackTitle: "Sermon audio recording",
       text: "Text",
       transcript: "Transcript",
@@ -160,10 +160,23 @@
         return;
       }
 
-      list.appendChild(createTextElement("li", tag.trim(), ""));
+      list.appendChild(createTagItem(tag.trim()));
     });
 
     return list.children.length ? list : null;
+  }
+
+  function createTagItem(tag) {
+    var item = document.createElement("li");
+    var link = document.createElement("a");
+    var query = encodeURIComponent(tag).replace(/'/g, "%27");
+
+    link.className = "audio-tag-link";
+    link.href = "search.html?q=" + query;
+    link.textContent = tag;
+    item.appendChild(link);
+
+    return item;
   }
 
   function createActionLink(url, label) {

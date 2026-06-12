@@ -22,6 +22,27 @@
         "sermon",
         "test"
       ]
+    },
+    {
+      "id": "sermon-test-002",
+      "section": "church",
+      "category": "sermons",
+      "enabled": true,
+      "title": "Другий тестовий аудіозапис",
+      "titleEn": "Second test audio recording",
+      "description": "Тестова перевірка відображення кількох аудіозаписів у блоці проповідей.",
+      "descriptionEn": "A test check of how multiple audio recordings are displayed in the sermons section.",
+      "date": "",
+      "src": "/files/audio/sermons/Afraid.mp3",
+      "duration": "",
+      "downloadUrl": "",
+      "transcriptUrl": "",
+      "tags": [
+        "тест"
+      ],
+      "tagsEn": [
+        "test"
+      ]
     }
   ]
 }
