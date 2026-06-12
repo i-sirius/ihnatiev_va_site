@@ -6,15 +6,21 @@
       "category": "sermons",
       "enabled": true,
       "title": "Тестовий запис проповіді",
+      "titleEn": "Test sermon recording",
       "description": "Тестова перевірка відображення аудіозапису в блоці проповідей.",
+      "descriptionEn": "A test check of how an audio recording is displayed in the sermons section.",
       "date": "",
       "src": "/files/audio/sermons/test-sermon.mp3",
       "duration": "",
-      "downloadUrl": "/files/audio/sermons/test-sermon.mp3",
+      "downloadUrl": "",
       "transcriptUrl": "",
       "tags": [
         "проповідь",
         "тест"
+      ],
+      "tagsEn": [
+        "sermon",
+        "test"
       ]
     }
   ]

@@ -4,16 +4,16 @@
   const AUDIO_CATEGORY = "sermons";
   const UI_TEXT = {
     uk: {
-      empty: "Аудіозаписи проповідей буде додано після перевірки формату відображення.",
+      empty: "Аудіозаписи проповідей буде додано після перевірки формату.",
       fallbackTitle: "Аудіозапис проповіді",
-      download: "Завантажити",
-      transcript: "Текст",
+      text: "Текст",
+      transcript: "Конспект",
       unsupported: "Ваш браузер не підтримує аудіопрогравач."
     },
     en: {
-      empty: "Sermon audio recordings will be added after the display format is tested.",
+      empty: "Sermon audio recordings will be added after the format is tested.",
       fallbackTitle: "Sermon audio recording",
-      download: "Download",
+      text: "Text",
       transcript: "Transcript",
       unsupported: "Your browser does not support the audio player."
     }
@@ -61,6 +61,34 @@
     var texts = UI_TEXT[locale] || UI_TEXT.uk;
 
     return texts[key] || UI_TEXT.uk[key] || "";
+  }
+
+  function getLocalizedField(item, fieldName) {
+    var locale = getLocale();
+    var localizedName = fieldName + "En";
+    var localizedValue;
+    var fallbackValue;
+
+    if (!item || typeof item !== "object") {
+      return "";
+    }
+
+    localizedValue = locale === "en" ? item[localizedName] : "";
+    fallbackValue = item[fieldName];
+
+    if (typeof localizedValue === "string" && localizedValue.trim()) {
+      return localizedValue;
+    }
+
+    return typeof fallbackValue === "string" ? fallbackValue : "";
+  }
+
+  function getLocalizedTags(item) {
+    if (getLocale() === "en" && Array.isArray(item.tagsEn) && item.tagsEn.length) {
+      return item.tagsEn;
+    }
+
+    return item.tags;
   }
 
   function normalizeItems(payload) {
@@ -156,14 +184,15 @@
 
   function createAudioCard(item) {
     var card = document.createElement("article");
-    var title = createTextElement("h3", item.title || getUiText("fallbackTitle"), "audio-card-title");
+    var title = createTextElement("h3", getLocalizedField(item, "title") || getUiText("fallbackTitle"), "audio-card-title");
     var meta = createMeta(item);
     var audio = document.createElement("audio");
     var source = document.createElement("source");
     var actions = document.createElement("div");
-    var downloadLink = createActionLink(item.downloadUrl, getUiText("download"));
+    var textLink = createActionLink(item.textUrl, getUiText("text"));
     var transcriptLink = createActionLink(item.transcriptUrl, getUiText("transcript"));
-    var tags = createTags(item.tags);
+    var tags = createTags(getLocalizedTags(item));
+    var description = getLocalizedField(item, "description");
 
     card.className = "audio-card";
     card.appendChild(title);
@@ -172,8 +201,8 @@
       card.appendChild(meta);
     }
 
-    if (item.description) {
-      card.appendChild(createTextElement("p", item.description, "audio-card-description"));
+    if (description) {
+      card.appendChild(createTextElement("p", description, "audio-card-description"));
     }
 
     audio.controls = true;
@@ -185,8 +214,8 @@
     card.appendChild(audio);
 
     actions.className = "audio-card-actions";
-    if (downloadLink) {
-      actions.appendChild(downloadLink);
+    if (textLink) {
+      actions.appendChild(textLink);
     }
     if (transcriptLink) {
       actions.appendChild(transcriptLink);
