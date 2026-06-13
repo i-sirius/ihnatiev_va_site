@@ -5,6 +5,7 @@
   const UI_TEXT = {
     uk: {
       empty: "Аудіозаписи проповідей буде додано після перевірки формату.",
+      audioLabelPrefix: "Аудіозапис",
       fallbackTitle: "Аудіозапис проповіді",
       text: "Текст",
       transcript: "Конспект",
@@ -12,12 +13,15 @@
     },
     en: {
       empty: "Sermon audio recordings. Materials will be added gradually.",
+      audioLabelPrefix: "Audio recording",
       fallbackTitle: "Sermon audio recording",
       text: "Text",
       transcript: "Transcript",
       unsupported: "Your browser does not support the audio player."
     }
   };
+  var audioHashScrollTimers = [];
+  var audioHashLoadHandler = null;
   const siteUtils = window.SiteUtils || {};
   const isSafeUrl = siteUtils.isSafeUrl || function (value) {
     var raw = String(value || "").trim();
@@ -195,9 +199,18 @@
     return link;
   }
 
+  function getAudioCardId(item) {
+    var id = item && item.id ? String(item.id).trim() : "";
+
+    return id ? "audio-" + id : "";
+  }
+
   function createAudioCard(item) {
     var card = document.createElement("article");
-    var title = createTextElement("h3", getLocalizedField(item, "title") || getUiText("fallbackTitle"), "audio-card-title");
+    var cardId = getAudioCardId(item);
+    var locale = getLocale();
+    var localizedTitle = getLocalizedField(item, "title") || getUiText("fallbackTitle");
+    var title = createTextElement("h3", localizedTitle, "audio-card-title");
     var meta = createMeta(item);
     var audio = document.createElement("audio");
     var source = document.createElement("source");
@@ -208,6 +221,10 @@
     var description = getLocalizedField(item, "description");
 
     card.className = "audio-card";
+    card.lang = locale;
+    if (cardId) {
+      card.id = cardId;
+    }
     card.appendChild(title);
 
     if (meta) {
@@ -220,6 +237,8 @@
 
     audio.controls = true;
     audio.preload = "metadata";
+    audio.lang = locale;
+    audio.setAttribute("aria-label", getUiText("audioLabelPrefix") + ": " + localizedTitle);
     source.src = item.src.trim();
     source.type = item.type || getAudioType(item.src);
     audio.appendChild(source);
@@ -242,6 +261,119 @@
     }
 
     return card;
+  }
+
+  function clearTargetCards(container) {
+    var targets = container.querySelectorAll(".audio-card--target");
+    var index;
+
+    for (index = 0; index < targets.length; index += 1) {
+      targets[index].classList.remove("audio-card--target");
+    }
+  }
+
+  function scrollToAudioTarget(target) {
+    var rect;
+    var top;
+
+    if (!target || !target.getBoundingClientRect || !window.scrollTo) {
+      return;
+    }
+
+    rect = target.getBoundingClientRect();
+    top = rect.top + (window.pageYOffset || document.documentElement.scrollTop || 0) - 90;
+    if (top < 0) {
+      top = 0;
+    }
+    window.scrollTo(0, top);
+  }
+
+  function isAudioHash(hash) {
+    return hash === "#sermons-audio" || hash.indexOf("#audio-") === 0;
+  }
+
+  function getAudioHashTarget(container, hash) {
+    if (hash === "#sermons-audio") {
+      return container;
+    }
+
+    if (hash.indexOf("#audio-") === 0) {
+      return document.getElementById(hash.slice(1));
+    }
+
+    return null;
+  }
+
+  function clearScheduledAudioHashScrolls() {
+    var index;
+
+    for (index = 0; index < audioHashScrollTimers.length; index += 1) {
+      window.clearTimeout(audioHashScrollTimers[index]);
+    }
+    audioHashScrollTimers = [];
+
+    if (audioHashLoadHandler) {
+      window.removeEventListener("load", audioHashLoadHandler);
+      audioHashLoadHandler = null;
+    }
+  }
+
+  function scheduleAudioHashScroll(container, hash) {
+    var delays = [0, 250, 700, 1500, 2500];
+    var index;
+
+    clearScheduledAudioHashScrolls();
+
+    if (!isAudioHash(hash)) {
+      return;
+    }
+
+    function runScheduledScroll() {
+      var target;
+
+      if ((window.location.hash || "") !== hash) {
+        return;
+      }
+
+      target = getAudioHashTarget(container, hash);
+      if (target) {
+        scrollToAudioTarget(target);
+      }
+    }
+
+    for (index = 0; index < delays.length; index += 1) {
+      audioHashScrollTimers.push(window.setTimeout(runScheduledScroll, delays[index]));
+    }
+
+    if (document.readyState !== "complete" && !audioHashLoadHandler) {
+      audioHashLoadHandler = function () {
+        runScheduledScroll();
+        window.removeEventListener("load", audioHashLoadHandler);
+        audioHashLoadHandler = null;
+      };
+      window.addEventListener("load", audioHashLoadHandler);
+    }
+  }
+
+  function handleAudioHash(container) {
+    var hash = window.location.hash || "";
+    var target = null;
+
+    if (!isAudioHash(hash)) {
+      clearTargetCards(container);
+      clearScheduledAudioHashScrolls();
+      return;
+    }
+
+    container.open = true;
+    clearTargetCards(container);
+
+    target = getAudioHashTarget(container, hash);
+    if (target && hash.indexOf("#audio-") === 0) {
+      target.classList.add("audio-card--target");
+    }
+
+    scheduleAudioHashScroll(container, hash);
   }
 
   function setEmptyState(container, message) {
@@ -268,6 +400,7 @@
 
     if (!renderableItems.length) {
       setEmptyState(container, getUiText("empty"));
+      handleAudioHash(container);
       return;
     }
 
@@ -278,12 +411,23 @@
     renderableItems.forEach(function (item) {
       list.appendChild(createAudioCard(item));
     });
+
+    handleAudioHash(container);
   }
 
   function initAudioContent() {
     var container = document.querySelector('[data-audio-section="church-sermons"]');
 
-    if (!container || !window.fetch) {
+    if (!container) {
+      return;
+    }
+
+    handleAudioHash(container);
+    window.addEventListener("hashchange", function () {
+      handleAudioHash(container);
+    });
+
+    if (!window.fetch) {
       return;
     }
 
@@ -299,6 +443,7 @@
       })
       .catch(function () {
         setEmptyState(container, getUiText("empty"));
+        handleAudioHash(container);
       });
   }
 

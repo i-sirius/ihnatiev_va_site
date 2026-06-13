@@ -229,6 +229,10 @@
       return label;
     }
 
+    if (normalizedType === "audio") {
+      return locale === "en" ? "Audio / Sermons" : "Аудіо / Проповіді";
+    }
+
     return normalizedType
       .replace(/[-_]+/g, " ")
       .replace(/\b\w/g, (letter) => letter.toLocaleUpperCase(locale));

@@ -3,9 +3,10 @@ $ErrorActionPreference = "Stop"
 $Root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $IndexPath = Join-Path $Root "files/search/site-search-index.json"
 $DownloadsManifestPath = Join-Path $Root "files/downloads/files.json"
+$AudioContentPath = Join-Path $Root "files/content/audio.json"
 $Errors = New-Object System.Collections.Generic.List[string]
 $Warnings = New-Object System.Collections.Generic.List[string]
-$AllowedTypes = @("page", "activity", "publication", "download")
+$AllowedTypes = @("page", "activity", "publication", "download", "audio")
 
 function Add-CheckError {
   param([string]$Message)
@@ -101,7 +102,20 @@ if (-not (Test-Path -LiteralPath $IndexPath)) {
 
 $Index = if (Test-Path -LiteralPath $IndexPath) { Read-JsonFile $IndexPath } else { $null }
 $DownloadsManifest = Read-JsonFile $DownloadsManifestPath
+$AudioContent = Read-JsonFile $AudioContentPath
 $DownloadHrefs = if ($DownloadsManifest) { Get-DownloadsManifestHrefs $DownloadsManifest } else { @{} }
+$ExpectedAudioRecords = 0
+foreach ($AudioItem in @($AudioContent.items)) {
+  if (
+    $AudioItem -and
+    $AudioItem.enabled -ne $false -and
+    ([string]$AudioItem.section) -eq "church" -and
+    ([string]$AudioItem.category) -eq "sermons" -and
+    ([string]$AudioItem.src).Trim()
+  ) {
+    $ExpectedAudioRecords += 1
+  }
+}
 
 if ($Index) {
   $RawIndex = Get-Content -Raw -Encoding UTF8 $IndexPath
@@ -122,6 +136,7 @@ if ($Index) {
 
   $Ids = @{}
   $DownloadRecords = 0
+  $AudioRecords = 0
   foreach ($Item in $Items) {
     $Context = "site-search record $($Item.id)"
     if (-not $Item.id) {
@@ -163,10 +178,21 @@ if ($Index) {
         Add-CheckError "${Context}: href not present in files/downloads/files.json"
       }
     }
+
+    if ($Item.type -eq "audio") {
+      $AudioRecords += 1
+      $ExpectedAudioUrl = "activity3.html#$($Item.id)"
+      if (([string]$Item.url) -ne $ExpectedAudioUrl) {
+        Add-CheckError "${Context}: audio record should link to ${ExpectedAudioUrl}"
+      }
+    }
   }
 
   if ($DownloadRecords -ne $DownloadHrefs.Count) {
     Add-CheckError "files/search/site-search-index.json: download record count ${DownloadRecords} does not match files.json $($DownloadHrefs.Count)"
+  }
+  if ($AudioRecords -ne $ExpectedAudioRecords) {
+    Add-CheckError "files/search/site-search-index.json: audio record count ${AudioRecords} does not match files/content/audio.json ${ExpectedAudioRecords}"
   }
 }
 

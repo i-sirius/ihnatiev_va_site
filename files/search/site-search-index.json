@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-05-29T18:46:33Z",
+    "generatedAt":  "2026-06-13T09:52:06Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  118,
+    "itemCount":  120,
     "items":  [
                   {
                       "id":  "page-home",
@@ -2915,6 +2915,80 @@
                       "searchText":  {
                                          "uk":  "Ігнатьєв В.А. «Ісихазм у контексті некласичної філософсько-релігійної парадигми»: монографія / В.А. Ігнатьєв. – Кропивницький, 2025, - 336 с. 2025 monograph",
                                          "en":  "Ігнатьєв В.А. «Ісихазм у контексті некласичної філософсько-релігійної парадигми»: монографія / В.А. Ігнатьєв. – Кропивницький, 2025, - 336 с. 2025 monograph"
+                                     }
+                  },
+                  {
+                      "id":  "audio-sermon-test-001",
+                      "type":  "audio",
+                      "url":  "activity3.html#audio-sermon-test-001",
+                      "title":  {
+                                    "uk":  "Проповіді: Тестовий запис проповіді",
+                                    "en":  "Sermons: Test sermon recording"
+                                },
+                      "section":  {
+                                      "uk":  "Проповіді",
+                                      "en":  "Sermons"
+                                  },
+                      "description":  {
+                                          "uk":  "Тестова перевірка відображення аудіозапису в блоці проповідей.",
+                                          "en":  "A test check of how an audio recording is displayed in the sermons section."
+                                      },
+                      "topics":  [
+                                     "audio",
+                                     "sermons",
+                                     "проповідь",
+                                     "тест",
+                                     "sermon",
+                                     "test"
+                                 ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "проповідь",
+                                                  "тест"
+                                              ],
+                                       "en":  [
+                                                  "sermon",
+                                                  "test"
+                                              ]
+                                   },
+                      "searchText":  {
+                                         "uk":  "Проповіді: Тестовий запис проповіді Тестова перевірка відображення аудіозапису в блоці проповідей. проповідь тест Аудіо Проповіді Духовна діяльність",
+                                         "en":  "Sermons: Test sermon recording A test check of how an audio recording is displayed in the sermons section. sermon test Audio Sermons Spiritual activity Church"
+                                     }
+                  },
+                  {
+                      "id":  "audio-sermon-test-002",
+                      "type":  "audio",
+                      "url":  "activity3.html#audio-sermon-test-002",
+                      "title":  {
+                                    "uk":  "Проповіді: Другий тестовий аудіозапис",
+                                    "en":  "Sermons: Second test audio recording"
+                                },
+                      "section":  {
+                                      "uk":  "Проповіді",
+                                      "en":  "Sermons"
+                                  },
+                      "description":  {
+                                          "uk":  "Тестова перевірка відображення кількох аудіозаписів у блоці проповідей.",
+                                          "en":  "A test check of how multiple audio recordings are displayed in the sermons section."
+                                      },
+                      "topics":  [
+                                     "audio",
+                                     "sermons",
+                                     "тест",
+                                     "test"
+                                 ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "тест"
+                                              ],
+                                       "en":  [
+                                                  "test"
+                                              ]
+                                   },
+                      "searchText":  {
+                                         "uk":  "Проповіді: Другий тестовий аудіозапис Тестова перевірка відображення кількох аудіозаписів у блоці проповідей. тест Аудіо Проповіді Духовна діяльність",
+                                         "en":  "Sermons: Second test audio recording A test check of how multiple audio recordings are displayed in the sermons section. test Audio Sermons Spiritual activity Church"
                                      }
                   },
                   {

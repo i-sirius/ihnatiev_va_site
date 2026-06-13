@@ -146,6 +146,14 @@ html[lang="en"] .audio-test-section .audio-locale-en {
   margin-top: 16px;
 }
 
+.audio-test-section .audio-card.audio-card--target {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--card-bg) 88%, var(--primary) 12%);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--primary) 24%, transparent),
+    var(--shadow);
+}
+
 .audio-test-section .audio-card-title {
   margin: 0 0 7px;
   color: var(--primary-dark);
@@ -309,8 +317,22 @@ html.no-modern-effects[data-theme="accessible"] .audio-test-section .audio-tag-l
   color: #fff;
 }
 
+html[data-theme="accessible"] .audio-test-section .audio-card.audio-card--target,
+html.no-modern-effects[data-theme="accessible"] .audio-test-section .audio-card.audio-card--target {
+  border-color: #000;
+  outline: 3px solid #000;
+  outline-offset: 3px;
+  background: #fff;
+  box-shadow: none;
+}
+
 html.no-modern-effects .audio-test-section .audio-empty {
   background: var(--panel-bg);
+}
+
+html.no-modern-effects .audio-test-section .audio-card.audio-card--target {
+  border-color: var(--primary);
+  background: var(--card-bg);
 }
 
 @media (max-width: 640px) {

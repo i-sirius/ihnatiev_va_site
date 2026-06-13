@@ -378,7 +378,9 @@ collections:
               - { label: "Розділ", name: section, widget: hidden, default: church }
               - { label: "Категорія", name: category, widget: hidden, default: sermons }
               - { label: "Назва", name: title, widget: string }
+              - { label: "Назва (EN)", name: titleEn, widget: string, required: false }
               - { label: "Опис", name: description, widget: text, required: false }
+              - { label: "Опис (EN)", name: descriptionEn, widget: text, required: false }
               - { label: "Дата", name: date, widget: string, required: false, hint: "Можна залишити порожнім або вказати дату у зручному форматі." }
               - { label: "Аудіофайл", name: src, widget: string, required: false, hint: "Локальний шлях або https URL. Порожній шлях не створює аудіоплеєр." }
               - { label: "Тривалість", name: duration, widget: string, required: false }
@@ -389,6 +391,11 @@ collections:
                 widget: list
                 required: false
                 field: { label: "Тег", name: tag, widget: string }
+              - label: "Теги (EN)"
+                name: tagsEn
+                widget: list
+                required: false
+                field: { label: "Tag", name: tag, widget: string }
 
   - name: gallery_activity1
     label: "Галерея: Наукова активність"

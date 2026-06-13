@@ -86,6 +86,9 @@ $UkLabelContacts = Get-UnicodeText "041A 043E 043D 0442 0430 043A 0442 0438"
 $UkLabelPublications = Get-UnicodeText "041F 0443 0431 043B 0456 043A 0430 0446 0456 0457"
 $UkLabelMonographs = Get-UnicodeText "041C 043E 043D 043E 0433 0440 0430 0444 0456 0457"
 $UkLabelArticles = Get-UnicodeText "0421 0442 0430 0442 0442 0456"
+$UkLabelAudio = Get-UnicodeText "0410 0443 0434 0456 043E"
+$UkLabelSermons = Get-UnicodeText "041F 0440 043E 043F 043E 0432 0456 0434 0456"
+$UkLabelSpiritualActivity = Get-UnicodeText "0414 0443 0445 043E 0432 043D 0430 0020 0434 0456 044F 043B 044C 043D 0456 0441 0442 044C"
 
 function Get-ShortText {
   param(
@@ -182,6 +185,7 @@ $Activities = Read-JsonFile "files/content/activities.json"
 $Pages = Read-JsonFile "files/content/pages.json"
 $Publications = Read-JsonFile "files/content/publications.json"
 $SocialLinks = Read-JsonFile "files/content/social-links.json"
+$AudioContent = Read-JsonFile "files/content/audio.json"
 $Downloads = Read-JsonFile "files/downloads/files.json"
 $DownloadsIndex = Read-JsonFile "files/downloads/search-index.json"
 $Items = New-Object System.Collections.Generic.List[object]
@@ -289,6 +293,54 @@ foreach ($Publication in @($Publications.items)) {
     SearchText = (Get-LocalizedObject $PublicationSearch $PublicationSearch)
   }
   Add-Record @PublicationRecord
+}
+
+$AudioNumber = 0
+foreach ($AudioItem in @($AudioContent.items)) {
+  if (
+    -not $AudioItem -or
+    $AudioItem.enabled -eq $false -or
+    ([string]$AudioItem.section) -ne "church" -or
+    ([string]$AudioItem.category) -ne "sermons" -or
+    -not ([string]$AudioItem.src).Trim()
+  ) {
+    continue
+  }
+
+  $AudioNumber += 1
+  $AudioId = if ($AudioItem.id) { [string]$AudioItem.id } else { "sermon-$AudioNumber" }
+  $TitleUk = ([string]$AudioItem.title).Trim()
+  $TitleEn = if ($AudioItem.titleEn) { ([string]$AudioItem.titleEn).Trim() } else { $TitleUk }
+  $DescriptionUk = ([string]$AudioItem.description).Trim()
+  $DescriptionEn = if ($AudioItem.descriptionEn) { ([string]$AudioItem.descriptionEn).Trim() } else { $DescriptionUk }
+  $TagsUk = @($AudioItem.tags | ForEach-Object { ([string]$_).Trim() } | Where-Object { $_ })
+  $TagsEn = @($AudioItem.tagsEn | ForEach-Object { ([string]$_).Trim() } | Where-Object { $_ })
+  if (-not $TagsEn.Count) {
+    $TagsEn = $TagsUk
+  }
+
+  $AudioTitleUk = ("{0}: {1}" -f $UkLabelSermons, $TitleUk).Trim()
+  $AudioTitleEn = ("Sermons: {0}" -f $TitleEn).Trim()
+  $AudioSearchUk = Join-SearchParts @($AudioTitleUk, $DescriptionUk, ($TagsUk -join " "), $UkLabelAudio, $UkLabelSermons, $UkLabelSpiritualActivity) 900
+  $AudioSearchEn = Join-SearchParts @($AudioTitleEn, $DescriptionEn, ($TagsEn -join " "), "Audio", "Sermons", "Spiritual activity", "Church") 900
+  $AudioKeywords = [ordered]@{
+    uk = $TagsUk
+    en = $TagsEn
+  }
+  $AudioTopics = @("audio", "sermons") + $TagsUk + $TagsEn
+  $AudioRecord = @{
+    Items = $Items
+    Id = "audio-$AudioId"
+    Type = "audio"
+    Url = "activity3.html#audio-$AudioId"
+    Title = (Get-LocalizedObject $AudioTitleUk $AudioTitleEn)
+    Section = (Get-LocalizedObject $UkLabelSermons "Sermons")
+    Description = (Get-LocalizedObject $DescriptionUk $DescriptionEn)
+    Topics = $AudioTopics
+    Keywords = $AudioKeywords
+    SearchText = (Get-LocalizedObject $AudioSearchUk $AudioSearchEn)
+  }
+  Add-Record @AudioRecord
 }
 
 $DownloadsIndexByHref = @{}
