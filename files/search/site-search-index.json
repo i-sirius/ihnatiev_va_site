@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-06-13T09:52:06Z",
+    "generatedAt":  "2026-06-13T12:35:55Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  120,
+    "itemCount":  119,
     "items":  [
                   {
                       "id":  "page-home",
@@ -2918,77 +2918,62 @@
                                      }
                   },
                   {
-                      "id":  "audio-sermon-test-001",
+                      "id":  "audio-sermon-2026-01-26-gods-gifts-path-to-christ",
                       "type":  "audio",
-                      "url":  "activity3.html#audio-sermon-test-001",
+                      "url":  "activity3.html#audio-sermon-2026-01-26-gods-gifts-path-to-christ",
                       "title":  {
-                                    "uk":  "Проповіді: Тестовий запис проповіді",
-                                    "en":  "Sermons: Test sermon recording"
+                                    "uk":  "Проповіді: Дари Божі як шлях до Христа",
+                                    "en":  "Sermons: God\u0027s Gifts as a Path to Christ"
                                 },
                       "section":  {
                                       "uk":  "Проповіді",
                                       "en":  "Sermons"
                                   },
                       "description":  {
-                                          "uk":  "Тестова перевірка відображення аудіозапису в блоці проповідей.",
-                                          "en":  "A test check of how an audio recording is displayed in the sermons section."
+                                          "uk":  "Проповідь про те, як дари Божі, талант і людський геній можуть стати шляхом до Христа, якщо ведуть людину до вдячності, смирення й покаяння.",
+                                          "en":  "A sermon on how God\u0027s gifts, talent, and human genius can become a path to Christ when they lead a person toward gratitude, humility, and repentance."
                                       },
                       "topics":  [
                                      "audio",
                                      "sermons",
-                                     "проповідь",
-                                     "тест",
-                                     "sermon",
-                                     "test"
+                                     "дари Божі",
+                                     "талант",
+                                     "геній",
+                                     "Йоганн Себастьян Бах",
+                                     "Річард Бах",
+                                     "Закхей",
+                                     "дар покаяння",
+                                     "God\u0027s gifts",
+                                     "talent",
+                                     "genius",
+                                     "Johann Sebastian Bach",
+                                     "Richard Bach",
+                                     "Zacchaeus",
+                                     "gift of repentance"
                                  ],
                       "keywords":  {
                                        "uk":  [
-                                                  "проповідь",
-                                                  "тест"
+                                                  "дари Божі",
+                                                  "талант",
+                                                  "геній",
+                                                  "Йоганн Себастьян Бах",
+                                                  "Річард Бах",
+                                                  "Закхей",
+                                                  "дар покаяння"
                                               ],
                                        "en":  [
-                                                  "sermon",
-                                                  "test"
+                                                  "God\u0027s gifts",
+                                                  "talent",
+                                                  "genius",
+                                                  "Johann Sebastian Bach",
+                                                  "Richard Bach",
+                                                  "Zacchaeus",
+                                                  "gift of repentance"
                                               ]
                                    },
                       "searchText":  {
-                                         "uk":  "Проповіді: Тестовий запис проповіді Тестова перевірка відображення аудіозапису в блоці проповідей. проповідь тест Аудіо Проповіді Духовна діяльність",
-                                         "en":  "Sermons: Test sermon recording A test check of how an audio recording is displayed in the sermons section. sermon test Audio Sermons Spiritual activity Church"
-                                     }
-                  },
-                  {
-                      "id":  "audio-sermon-test-002",
-                      "type":  "audio",
-                      "url":  "activity3.html#audio-sermon-test-002",
-                      "title":  {
-                                    "uk":  "Проповіді: Другий тестовий аудіозапис",
-                                    "en":  "Sermons: Second test audio recording"
-                                },
-                      "section":  {
-                                      "uk":  "Проповіді",
-                                      "en":  "Sermons"
-                                  },
-                      "description":  {
-                                          "uk":  "Тестова перевірка відображення кількох аудіозаписів у блоці проповідей.",
-                                          "en":  "A test check of how multiple audio recordings are displayed in the sermons section."
-                                      },
-                      "topics":  [
-                                     "audio",
-                                     "sermons",
-                                     "тест",
-                                     "test"
-                                 ],
-                      "keywords":  {
-                                       "uk":  [
-                                                  "тест"
-                                              ],
-                                       "en":  [
-                                                  "test"
-                                              ]
-                                   },
-                      "searchText":  {
-                                         "uk":  "Проповіді: Другий тестовий аудіозапис Тестова перевірка відображення кількох аудіозаписів у блоці проповідей. тест Аудіо Проповіді Духовна діяльність",
-                                         "en":  "Sermons: Second test audio recording A test check of how multiple audio recordings are displayed in the sermons section. test Audio Sermons Spiritual activity Church"
+                                         "uk":  "Проповіді: Дари Божі як шлях до Христа Проповідь про те, як дари Божі, талант і людський геній можуть стати шляхом до Христа, якщо ведуть людину до вдячності, смирення й покаяння. дари Божі талант геній Йоганн Себастьян Бах Річард Бах Закхей дар покаяння Аудіо Проповіді Духовна діяльність",
+                                         "en":  "Sermons: God\u0027s Gifts as a Path to Christ A sermon on how God\u0027s gifts, talent, and human genius can become a path to Christ when they lead a person toward gratitude, humility, and repentance. God\u0027s gifts talent genius Johann Sebastian Bach Richard Bach Zacchaeus gift of repentance Audio Sermons Spiritual activity Church"
                                      }
                   },
                   {

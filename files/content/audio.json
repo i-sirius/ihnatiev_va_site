@@ -1,10 +1,43 @@
 {
   "items": [
     {
-      "id": "sermon-test-001",
+      "id": "sermon-2026-01-26-gods-gifts-path-to-christ",
       "section": "church",
       "category": "sermons",
       "enabled": true,
+      "title": "Дари Божі як шлях до Христа",
+      "titleEn": "God's Gifts as a Path to Christ",
+      "description": "Проповідь про те, як дари Божі, талант і людський геній можуть стати шляхом до Христа, якщо ведуть людину до вдячності, смирення й покаяння.",
+      "descriptionEn": "A sermon on how God's gifts, talent, and human genius can become a path to Christ when they lead a person toward gratitude, humility, and repentance.",
+      "date": "2026-01-26",
+      "src": "/files/audio/sermons/2026-01-26-gods-gifts-path-to-christ.mp3",
+      "duration": "13:49",
+      "downloadUrl": "",
+      "transcriptUrl": "",
+      "tags": [
+        "дари Божі",
+        "талант",
+        "геній",
+        "Йоганн Себастьян Бах",
+        "Річард Бах",
+        "Закхей",
+        "дар покаяння"
+      ],
+      "tagsEn": [
+        "God's gifts",
+        "talent",
+        "genius",
+        "Johann Sebastian Bach",
+        "Richard Bach",
+        "Zacchaeus",
+        "gift of repentance"
+      ]
+    },
+    {
+      "id": "sermon-test-001",
+      "section": "church",
+      "category": "sermons",
+      "enabled": false,
       "title": "Тестовий запис проповіді",
       "titleEn": "Test sermon recording",
       "description": "Тестова перевірка відображення аудіозапису в блоці проповідей.",
@@ -27,7 +60,7 @@
       "id": "sermon-test-002",
       "section": "church",
       "category": "sermons",
-      "enabled": true,
+      "enabled": false,
       "title": "Другий тестовий аудіозапис",
       "titleEn": "Second test audio recording",
       "description": "Тестова перевірка відображення кількох аудіозаписів у блоці проповідей.",

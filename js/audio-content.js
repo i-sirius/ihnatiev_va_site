@@ -22,6 +22,8 @@
   };
   var audioHashScrollTimers = [];
   var audioHashLoadHandler = null;
+  var audioItemsCache = null;
+  var audioLoadFailed = false;
   const siteUtils = window.SiteUtils || {};
   const isSafeUrl = siteUtils.isSafeUrl || function (value) {
     var raw = String(value || "").trim();
@@ -415,6 +417,46 @@
     handleAudioHash(container);
   }
 
+  function refreshAudioLocale(container) {
+    if (!container) {
+      return;
+    }
+
+    if (Array.isArray(audioItemsCache)) {
+      renderAudioItems(container, audioItemsCache);
+      return;
+    }
+
+    if (audioLoadFailed) {
+      setEmptyState(container, getUiText("empty"));
+      handleAudioHash(container);
+    }
+  }
+
+  function watchAudioLocale(container) {
+    var activeLocale = getLocale();
+
+    function refreshIfLocaleChanged() {
+      var nextLocale = getLocale();
+
+      if (nextLocale === activeLocale) {
+        return;
+      }
+
+      activeLocale = nextLocale;
+      refreshAudioLocale(container);
+    }
+
+    if (window.MutationObserver) {
+      new MutationObserver(refreshIfLocaleChanged).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["lang"]
+      });
+    }
+
+    document.addEventListener("site:localechange", refreshIfLocaleChanged);
+  }
+
   function initAudioContent() {
     var container = document.querySelector('[data-audio-section="church-sermons"]');
 
@@ -422,6 +464,7 @@
       return;
     }
 
+    watchAudioLocale(container);
     handleAudioHash(container);
     window.addEventListener("hashchange", function () {
       handleAudioHash(container);
@@ -439,9 +482,12 @@
         return response.json();
       })
       .then(function (payload) {
-        renderAudioItems(container, normalizeItems(payload));
+        audioItemsCache = normalizeItems(payload);
+        audioLoadFailed = false;
+        renderAudioItems(container, audioItemsCache);
       })
       .catch(function () {
+        audioLoadFailed = true;
         setEmptyState(container, getUiText("empty"));
         handleAudioHash(container);
       });

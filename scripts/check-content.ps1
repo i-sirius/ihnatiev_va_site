@@ -639,6 +639,16 @@ function Test-NonEmptyString {
   return ($Value -is [string] -and $Value.Trim())
 }
 
+function Get-NonEmptyStringList {
+  param($Value)
+
+  if ($Value -isnot [array]) {
+    return @()
+  }
+
+  @($Value | Where-Object { Test-NonEmptyString $_ })
+}
+
 function Test-HttpUrlOrEmpty {
   param($Value)
   if (-not (Test-NonEmptyString $Value)) {
@@ -646,6 +656,70 @@ function Test-HttpUrlOrEmpty {
   }
 
   return ([string]$Value -match "^https?://")
+}
+
+function Test-AudioContentManifest {
+  param([string]$RelativePath)
+  $Payload = Read-JsonFile $RelativePath
+  if (-not $Payload) {
+    return
+  }
+
+  $Items = Get-JsonList $Payload @("items")
+  for ($Index = 0; $Index -lt $Items.Count; $Index++) {
+    $Item = $Items[$Index]
+    if (-not $Item -or $Item -is [string]) {
+      Add-CheckError "${RelativePath}: items[$Index] must be an object"
+      continue
+    }
+
+    if ($Item.enabled -eq $false) {
+      continue
+    }
+
+    foreach ($Field in @("id", "title", "titleEn", "description", "descriptionEn", "src")) {
+      if (-not (Test-NonEmptyString $Item.$Field)) {
+        Add-CheckError "${RelativePath}: enabled items[$Index].${Field} must be a non-empty string"
+      }
+    }
+
+    $Tags = Get-NonEmptyStringList $Item.tags
+    if (-not $Tags.Count) {
+      Add-CheckError "${RelativePath}: enabled items[$Index].tags must contain at least one non-empty tag"
+    }
+
+    $TagsEn = Get-NonEmptyStringList $Item.tagsEn
+    if (-not $TagsEn.Count) {
+      Add-CheckError "${RelativePath}: enabled items[$Index].tagsEn must contain at least one non-empty English tag"
+    }
+
+    if ((Test-NonEmptyString $Item.section) -and $Item.section -ne "church") {
+      Add-CheckError "${RelativePath}: enabled items[$Index].section must be church"
+    }
+
+    if ((Test-NonEmptyString $Item.category) -and $Item.category -ne "sermons") {
+      Add-CheckError "${RelativePath}: enabled items[$Index].category must be sermons"
+    }
+
+    if (Test-NonEmptyString $Item.src) {
+      $Src = ([string]$Item.src).Trim() -replace "\\", "/"
+      if (-not $Src.StartsWith("/files/audio/sermons/")) {
+        Add-CheckError "${RelativePath}: enabled items[$Index].src must use /files/audio/sermons/..."
+      }
+
+      if ($Src -notmatch "\.mp3$") {
+        Add-CheckError "${RelativePath}: enabled items[$Index].src must point to an .mp3 file"
+      }
+
+      Test-LocalReference $RelativePath $Src "items[$Index].src"
+    }
+
+    foreach ($OptionalUrlField in @("downloadUrl", "transcriptUrl")) {
+      if ($null -ne $Item.$OptionalUrlField -and $Item.$OptionalUrlField -isnot [string]) {
+        Add-CheckError "${RelativePath}: enabled items[$Index].${OptionalUrlField} must be a string when present"
+      }
+    }
+  }
 }
 
 function Test-HomeContentManifest {
@@ -951,6 +1025,7 @@ Test-ActivitiesContentManifest "files/content/activities.json"
 Test-PagesContentManifest "files/content/pages.json"
 Test-PublicationsContentManifest "files/content/publications.json"
 Test-SocialLinksContentManifest "files/content/social-links.json"
+Test-AudioContentManifest "files/content/audio.json"
 Test-PhotoManifest "files/media/activity1/photos.json"
 Test-PhotoManifest "files/media/activity2/photos.json"
 Test-PhotoManifest "files/media/activity3/photos.json"
@@ -1045,6 +1120,7 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     "pages_content",
     "publications_content",
     "social_links",
+    "audio_content",
     "gallery_activity1",
     "gallery_activity2",
     "gallery_activity3",
@@ -1060,6 +1136,7 @@ if (-not (Test-Path -LiteralPath (Get-RepoPath $AdminConfigPath))) {
     "files/content/pages.json",
     "files/content/publications.json",
     "files/content/social-links.json",
+    "files/content/audio.json",
     "files/media/activity1/photos.json",
     "files/media/activity2/photos.json",
     "files/media/activity3/photos.json",
