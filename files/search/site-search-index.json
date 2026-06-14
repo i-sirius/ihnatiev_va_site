@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-06-13T12:35:55Z",
+    "generatedAt":  "2026-06-14T17:54:37Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  119,
+    "itemCount":  120,
     "items":  [
                   {
                       "id":  "page-home",
@@ -2974,6 +2974,75 @@
                       "searchText":  {
                                          "uk":  "Проповіді: Дари Божі як шлях до Христа Проповідь про те, як дари Божі, талант і людський геній можуть стати шляхом до Христа, якщо ведуть людину до вдячності, смирення й покаяння. дари Божі талант геній Йоганн Себастьян Бах Річард Бах Закхей дар покаяння Аудіо Проповіді Духовна діяльність",
                                          "en":  "Sermons: God\u0027s Gifts as a Path to Christ A sermon on how God\u0027s gifts, talent, and human genius can become a path to Christ when they lead a person toward gratitude, humility, and repentance. God\u0027s gifts talent genius Johann Sebastian Bach Richard Bach Zacchaeus gift of repentance Audio Sermons Spiritual activity Church"
+                                     }
+                  },
+                  {
+                      "id":  "audio-sermon-2026-06-14-all-saints-of-rus",
+                      "type":  "audio",
+                      "url":  "activity3.html#audio-sermon-2026-06-14-all-saints-of-rus",
+                      "title":  {
+                                    "uk":  "Проповіді: Проповідь на день «Всіх Святих в землі Руській просіявших»",
+                                    "en":  "Sermons: Sermon on the Day of All Saints Who Shone Forth in the Land of Rus’"
+                                },
+                      "section":  {
+                                      "uk":  "Проповіді",
+                                      "en":  "Sermons"
+                                  },
+                      "description":  {
+                                          "uk":  "Проповідь про святість як справжній вимір церковного життя, про пам’ять святих Руської землі та про те, як співвідношення Церкви, держави й нації має очищуватися від етнофілетизму.",
+                                          "en":  "A sermon on holiness as the true measure of church life, on the commemoration of the saints of the Land of Rus’, and on how the relationship between Church, state, and nation must be purified from ethno-phyletism."
+                                      },
+                      "topics":  [
+                                     "audio",
+                                     "sermons",
+                                     "еклезіологія",
+                                     "церква",
+                                     "держава",
+                                     "нація",
+                                     "етнофілетизм",
+                                     "святість",
+                                     "Всі Святі",
+                                     "земля Руська",
+                                     "пам’ять святих",
+                                     "ecclesiology",
+                                     "Church",
+                                     "state",
+                                     "nation",
+                                     "ethno-phyletism",
+                                     "phyletism",
+                                     "holiness",
+                                     "All Saints",
+                                     "Land of Rus’",
+                                     "commemoration of saints"
+                                 ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "еклезіологія",
+                                                  "церква",
+                                                  "держава",
+                                                  "нація",
+                                                  "етнофілетизм",
+                                                  "святість",
+                                                  "Всі Святі",
+                                                  "земля Руська",
+                                                  "пам’ять святих"
+                                              ],
+                                       "en":  [
+                                                  "ecclesiology",
+                                                  "Church",
+                                                  "state",
+                                                  "nation",
+                                                  "ethno-phyletism",
+                                                  "phyletism",
+                                                  "holiness",
+                                                  "All Saints",
+                                                  "Land of Rus’",
+                                                  "commemoration of saints"
+                                              ]
+                                   },
+                      "searchText":  {
+                                         "uk":  "Проповіді: Проповідь на день «Всіх Святих в землі Руській просіявших» Проповідь про святість як справжній вимір церковного життя, про пам’ять святих Руської землі та про те, як співвідношення Церкви, держави й нації має очищуватися від етнофілетизму. еклезіологія церква держава нація етнофілетизм святість Всі Святі земля Руська пам’ять святих Аудіо Проповіді Духовна діяльність",
+                                         "en":  "Sermons: Sermon on the Day of All Saints Who Shone Forth in the Land of Rus’ A sermon on holiness as the true measure of church life, on the commemoration of the saints of the Land of Rus’, and on how the relationship between Church, state, and nation must be purified from ethno-phyletism. ecclesiology Church state nation ethno-phyletism phyletism holiness All Saints Land of Rus’ commemoration of saints Audio Sermons Spiritual activity Church"
                                      }
                   },
                   {
