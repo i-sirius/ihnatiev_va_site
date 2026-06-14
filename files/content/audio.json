@@ -1,19 +1,24 @@
 {
   "items": [
     {
-      "id": "sermon-2026-01-26-gods-gifts-path-to-christ",
-      "section": "church",
-      "category": "sermons",
-      "enabled": true,
-      "title": "Дари Божі як шлях до Христа",
       "titleEn": "God's Gifts as a Path to Christ",
-      "description": "Проповідь про те, як дари Божі, талант і людський геній можуть стати шляхом до Христа, якщо ведуть людину до вдячності, смирення й покаяння.",
-      "descriptionEn": "A sermon on how God's gifts, talent, and human genius can become a path to Christ when they lead a person toward gratitude, humility, and repentance.",
-      "date": "2026-01-26",
+      "enabled": true,
+      "tagsEn": [
+        "God's gifts",
+        "talent",
+        "genius",
+        "Johann Sebastian Bach",
+        "Richard Bach",
+        "Zacchaeus",
+        "gift of repentance"
+      ],
       "src": "/files/audio/sermons/2026-01-26-gods-gifts-path-to-christ.m4a",
-      "duration": "13:49",
+      "descriptionEn": "A sermon on how God's gifts, talent, and human genius can become a path to Christ when they lead a person toward gratitude, humility, and repentance.",
+      "section": "church",
       "downloadUrl": "",
-      "transcriptUrl": "",
+      "date": "2026-01-26",
+      "duration": "13:49",
+      "title": "Дари Божі як шлях до Христа",
       "tags": [
         "дари Божі",
         "талант",
@@ -23,59 +28,66 @@
         "Закхей",
         "дар покаяння"
       ],
-      "tagsEn": [
-        "God's gifts",
-        "talent",
-        "genius",
-        "Johann Sebastian Bach",
-        "Richard Bach",
-        "Zacchaeus",
-        "gift of repentance"
-      ]
+      "transcriptUrl": "",
+      "id": "sermon-2026-01-26-gods-gifts-path-to-christ",
+      "description": "Проповідь про те, як дари Божі, талант і людський геній можуть стати шляхом до Христа, якщо ведуть людину до вдячності, смирення й покаяння.",
+      "category": "sermons"
     },
     {
-      "id": "sermon-test-001",
-      "section": "church",
-      "category": "sermons",
-      "enabled": false,
-      "title": "Тестовий запис проповіді",
       "titleEn": "Test sermon recording",
-      "description": "Тестова перевірка відображення аудіозапису в блоці проповідей.",
-      "descriptionEn": "A test check of how an audio recording is displayed in the sermons section.",
-      "date": "",
+      "enabled": false,
+      "tagsEn": [
+        "sermon",
+        "test"
+      ],
       "src": "/files/audio/sermons/test-sermon.mp3",
-      "duration": "",
+      "descriptionEn": "A test check of how an audio recording is displayed in the sermons section.",
+      "section": "church",
       "downloadUrl": "",
-      "transcriptUrl": "",
+      "date": "",
+      "duration": "",
+      "title": "Тестовий запис проповіді",
       "tags": [
         "проповідь",
         "тест"
       ],
-      "tagsEn": [
-        "sermon",
-        "test"
-      ]
+      "transcriptUrl": "",
+      "id": "sermon-test-001",
+      "description": "Тестова перевірка відображення аудіозапису в блоці проповідей.",
+      "category": "sermons"
     },
     {
+      "titleEn": "Second test audio recording",
+      "enabled": true,
+      "tagsEn": [
+        "",
+        ""
+      ],
+      "src": "/files/audio/sermons/audio_2026-06-14_14-44-35.ogg",
+      "descriptionEn": "A test check of how multiple audio recordings are displayed in the sermons section.",
+      "section": "church",
+      "downloadUrl": "",
+      "date": "14/06/2026",
+      "duration": "13:56",
+      "title": "Проповідь на день «Всіх Святих в землі Руській просіявших»",
+      "tags": [
+        "еклезіологія",
+        "церква",
+        "держава",
+        "нація",
+        "етнофілетизм",
+        "святість"
+      ],
+      "transcriptUrl": "",
       "id": "sermon-test-002",
+      "description": "Проповідь на день «Всіх Святих в землі Руській просіявших»",
+      "category": "sermons"
+    },
+    {
+      "enabled": false,
       "section": "church",
       "category": "sermons",
-      "enabled": false,
-      "title": "Другий тестовий аудіозапис",
-      "titleEn": "Second test audio recording",
-      "description": "Тестова перевірка відображення кількох аудіозаписів у блоці проповідей.",
-      "descriptionEn": "A test check of how multiple audio recordings are displayed in the sermons section.",
-      "date": "",
-      "src": "/files/audio/sermons/Afraid.mp3",
-      "duration": "",
-      "downloadUrl": "",
-      "transcriptUrl": "",
-      "tags": [
-        "тест"
-      ],
-      "tagsEn": [
-        "test"
-      ]
+      "id": ""
     }
   ]
 }
