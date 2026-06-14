@@ -60,10 +60,10 @@
       "titleEn": "Second test audio recording",
       "enabled": true,
       "tagsEn": [
-        "",
-        ""
+        "church",
+        "nation"
       ],
-      "src": "/files/audio/sermons/audio_2026-06-14_14-44-35.ogg",
+      "src": "/files/audio/sermons/audio_2026-06-14_14-44-35.m4a",
       "descriptionEn": "A test check of how multiple audio recordings are displayed in the sermons section.",
       "section": "church",
       "downloadUrl": "",
@@ -82,12 +82,6 @@
       "id": "sermon-test-002",
       "description": "Проповідь на день «Всіх Святих в землі Руській просіявших»",
       "category": "sermons"
-    },
-    {
-      "enabled": false,
-      "section": "church",
-      "category": "sermons",
-      "id": ""
     }
   ]
 }
