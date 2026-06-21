@@ -139,22 +139,50 @@ html[data-theme="dark"] .video-gallery::after {
   transform: none;
 }
 
-.video-card-thumb {
-  width: 100%;
+.video-card-media {
+  position: relative;
   display: block;
+  width: 100%;
+  overflow: hidden;
   aspect-ratio: 16 / 9;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+
+.video-card-media::before {
+  content: "";
+  display: block;
+  padding-top: 56.25%;
+}
+
+@supports (aspect-ratio: 16 / 9) {
+  .video-card-media::before {
+    display: none;
+    padding-top: 0;
+  }
+}
+
+.video-card-thumb,
+.video-card-thumb-fallback,
+.video-card-thumb-loading {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
   object-fit: cover;
   border-radius: 0;
   border: 0;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-soft);
 }
 
 .video-card-thumb-fallback {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 118px;
+  box-sizing: border-box;
   padding: 18px;
   color: var(--primary-dark);
   font-size: 1.05rem;
@@ -169,7 +197,6 @@ html[data-theme="dark"] .video-gallery::after {
 
 .video-card h3 {
   margin: 14px 16px 12px;
-  flex: 1;
   font-family: "YouTube Sans", Roboto, Arial, sans-serif;
   font-size: 1rem;
   font-weight: 600;
@@ -181,6 +208,7 @@ html[data-theme="dark"] .video-gallery::after {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
   grid-column: 1 / -1;
   margin: -2px 0 2px;
@@ -189,6 +217,10 @@ html[data-theme="dark"] .video-gallery::after {
   font-size: 0.95rem;
   line-height: 1.55;
   text-align: center;
+}
+
+.video-status-text.is-error {
+  color: var(--primary-dark);
 }
 
 .video-status-text.is-loading::before {
@@ -216,6 +248,22 @@ html[data-theme="dark"] .video-gallery::after {
   white-space: normal;
 }
 
+.video-retry-button {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 8px 18px;
+  font-family: "YouTube Sans", Roboto, Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+
+.video-retry-button:disabled {
+  cursor: progress;
+  opacity: 0.64;
+}
+
 .video-card-link {
   position: relative;
   z-index: 4;
@@ -223,7 +271,7 @@ html[data-theme="dark"] .video-gallery::after {
   overflow: visible;
   width: calc(100% - 32px);
   min-height: 48px;
-  margin: auto 16px 0;
+  margin: 0 16px;
   padding-left: 78px;
   padding-right: 78px;
   pointer-events: none;
@@ -373,8 +421,6 @@ html[data-theme="dark"] .video-card-link {
 
 .video-card-thumb-loading {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  border-bottom: 1px solid var(--border);
 }
 
 .video-card-line {

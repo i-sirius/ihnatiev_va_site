@@ -1,5 +1,6 @@
 (() => {
   const youtubeCacheMaxAgeMs = 6 * 60 * 60 * 1000;
+  const youtubeFeedTimeoutMs = 6000;
   let youtubeFeedLoading = false;
 
   function formatVideoViews(value, viewsLabel, locale = "uk") {
@@ -15,42 +16,48 @@
     }
   }
 
-  function fetchWithTimeout(url, responseParser, timeoutMs = 4500) {
-    if (!window.AbortController) {
-      return fetch(url).then((response) => {
-        if (!response.ok) {
-          throw new Error(`Request failed for ${url}`);
+  function fetchWithTimeout(url, responseParser, timeoutMs = youtubeFeedTimeoutMs) {
+    let controller = null;
+    let timeoutId = null;
+    const fetchOptions = {};
+    const timeoutPromise = new Promise((resolve, reject) => {
+      timeoutId = window.setTimeout(() => {
+        if (controller) {
+          controller.abort();
         }
+        reject(new Error(`Request timed out for ${url}`));
+      }, timeoutMs);
+    });
 
-        return responseParser(response);
-      });
+    if (window.AbortController) {
+      controller = new AbortController();
+      fetchOptions.signal = controller.signal;
     }
 
-    const controller = new AbortController();
-    const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
-
-    return fetch(url, { signal: controller.signal })
+    const requestPromise = fetch(url, fetchOptions)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Request failed for ${url}`);
         }
 
         return responseParser(response);
-      })
-      .then(
-        (result) => {
-          window.clearTimeout(timeoutId);
-          return result;
-        },
-        (error) => {
-          window.clearTimeout(timeoutId);
-          throw error;
-        }
-      );
+      });
+
+    return Promise.race([requestPromise, timeoutPromise]).then(
+      (result) => {
+        window.clearTimeout(timeoutId);
+        return result;
+      },
+      (error) => {
+        window.clearTimeout(timeoutId);
+        throw error;
+      }
+    );
   }
 
-  function fetchYoutubeFeedXml(channelId) {
-    const cacheBuster = `t=${Date.now()}`;
+  function fetchYoutubeFeedXml(channelId, options = {}) {
+    const retryToken = options.retryToken ? String(options.retryToken) : "";
+    const cacheBuster = retryToken ? `retry=${encodeURIComponent(retryToken)}` : `t=${Date.now()}`;
     const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${encodeURIComponent(channelId)}&${cacheBuster}`;
     const getUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
     const rawUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`;
@@ -80,8 +87,24 @@
     getLocalizedValue = (value, fallback = "") => value || fallback,
     escapeHtml = (value) => String(value)
   } = {}) {
+    let lastRenderedVideos = [];
+
     function getVideoUi() {
       return site.ui && site.ui.video ? site.ui.video : {};
+    }
+
+    function getVideoLocale() {
+      return site.currentLocale === "en" ? "en" : "uk";
+    }
+
+    function getVideoErrorText() {
+      return getVideoLocale() === "en"
+        ? "Could not load the latest videos. Fallback links are shown."
+        : "Не вдалося завантажити актуальні відео. Показано резервні посилання.";
+    }
+
+    function getRetryText() {
+      return getVideoLocale() === "en" ? "Try again" : "Спробувати ще раз";
     }
 
     function getFallbackVideos(channelId) {
@@ -110,10 +133,14 @@
       const watchLabel = videoUi.watch || "ДИВИТИСЬ";
       const fallbackTitle = videoUi.fallbackTitle || "YouTube";
       const viewsLabel = videoUi.views || "переглядів";
+      const validVideos = videos.filter((video) => video && video.url);
+
+      if (validVideos.length) {
+        lastRenderedVideos = validVideos.slice(0, 6);
+      }
 
       document.querySelectorAll(selector).forEach((element) => {
-        element.innerHTML = videos
-          .filter((video) => video && video.url)
+        element.innerHTML = validVideos
           .map((video) => {
             const title = getLocalizedValue(video.title, fallbackTitle);
             const url = escapeHtml(video.url);
@@ -138,8 +165,8 @@
                 </span>
               `;
             const thumb = video.thumbnail
-              ? `<img class="video-card-thumb" src="${thumbnail}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">`
-              : `<div class="video-card-thumb video-card-thumb-fallback">${escapeHtml(fallbackTitle)}</div>`;
+              ? `<span class="video-card-media"><img class="video-card-thumb" src="${thumbnail}" alt="${escapeHtml(title)}" loading="lazy" decoding="async"></span>`
+              : `<span class="video-card-media"><span class="video-card-thumb video-card-thumb-fallback">${escapeHtml(fallbackTitle)}</span></span>`;
 
             return `
               <a class="activity-card video-card" href="${url}" target="_blank" rel="noopener noreferrer">
@@ -186,6 +213,9 @@
 
       document.querySelectorAll(selector).forEach((element) => {
         let status = element.querySelector("[data-youtube-status]");
+        let message = null;
+        let retryButton = null;
+
         if (!status) {
           status = document.createElement("div");
           status.className = "video-status-text";
@@ -194,7 +224,29 @@
         }
 
         status.classList.toggle("is-loading", Boolean(options.loading));
-        status.textContent = fallbackText;
+        status.classList.toggle("is-error", Boolean(options.error));
+        status.textContent = "";
+
+        if (fallbackText) {
+          message = document.createElement("span");
+          message.className = "video-status-message";
+          message.textContent = fallbackText;
+          status.appendChild(message);
+        }
+
+        if (options.retry) {
+          retryButton = document.createElement("button");
+          retryButton.className = "button-link video-retry-button";
+          retryButton.type = "button";
+          retryButton.textContent = getRetryText();
+          retryButton.disabled = Boolean(options.retryDisabled || options.loading);
+          retryButton.addEventListener("click", () => {
+            retryButton.disabled = true;
+            load({ retry: true });
+          });
+          status.appendChild(retryButton);
+        }
+
         status.hidden = !fallbackText;
       });
     }
@@ -210,7 +262,9 @@
           .map(
             () => `
               <article class="activity-card video-card video-card-loading" aria-hidden="true">
-                <div class="video-card-thumb video-card-thumb-loading"></div>
+                <div class="video-card-media video-card-media-loading">
+                  <div class="video-card-thumb-loading"></div>
+                </div>
                 <div class="video-card-line video-card-line-title"></div>
                 <div class="video-card-line video-card-line-button"></div>
               </article>
@@ -307,9 +361,28 @@
         .filter(Boolean);
     }
 
-    function load() {
+    function renderFailure(channelId, cachedVideos) {
+      const preservedVideos = cachedVideos.length ? cachedVideos : lastRenderedVideos;
+
+      if (preservedVideos.length) {
+        renderVideoCards(preservedVideos);
+        renderStatus(getVideoErrorText(), {
+          error: true,
+          retry: true
+        });
+        return;
+      }
+
+      renderFallback(channelId, getVideoErrorText(), {
+        error: true,
+        retry: true
+      });
+    }
+
+    function load(options = {}) {
       const target = document.querySelector(selector);
       const channelId = site.youtubeChannelId;
+      const isRetry = Boolean(options.retry);
 
       if (!target || !channelId || youtubeFeedLoading) {
         return;
@@ -322,24 +395,30 @@
 
       if (cachedVideos.length) {
         renderVideoCards(cachedVideos);
-        if (cache.isFresh) {
+        if (cache.isFresh && !isRetry) {
           renderStatus("");
           youtubeFeedLoading = false;
           return;
         }
 
-        renderStatus(getVideoUi().cachedText, {
-          loading: true
+        renderStatus(isRetry ? getVideoUi().updating : getVideoUi().cachedText, {
+          loading: true,
+          retry: isRetry,
+          retryDisabled: isRetry
         });
       } else if (fallbackVideos.length) {
         renderFallback(channelId, getVideoUi().updating, {
-          loading: true
+          loading: true,
+          retry: isRetry,
+          retryDisabled: isRetry
         });
       } else {
         renderLoading();
       }
 
-      fetchYoutubeFeedXml(channelId)
+      fetchYoutubeFeedXml(channelId, {
+        retryToken: isRetry ? Date.now() : ""
+      })
         .then((xmlText) => {
           const videos = normalizeFeedItems(xmlText);
 
@@ -348,17 +427,13 @@
             renderStatus("");
             renderVideoCards(videos);
           } else if (cachedVideos.length) {
-            renderStatus(getVideoUi().cachedFallbackText || getVideoUi().cachedText);
+            renderFailure(channelId, cachedVideos);
           } else if (!cachedVideos.length) {
-            renderFallback(channelId, getVideoUi().fallbackText);
+            renderFailure(channelId, cachedVideos);
           }
         })
         .catch(() => {
-          if (cachedVideos.length) {
-            renderStatus(getVideoUi().cachedFallbackText || getVideoUi().cachedText);
-          } else {
-            renderFallback(channelId, getVideoUi().fallbackText);
-          }
+          renderFailure(channelId, cachedVideos);
         })
         .then(
           () => {
