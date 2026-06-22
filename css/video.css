@@ -1,6 +1,8 @@
 ﻿.video-gallery {
   display: grid;
   gap: 18px;
+  align-items: flex-start;
+  align-items: start;
   --video-lens-x: 0px;
   --video-lens-y: 0px;
   --video-lens-width: 0px;
@@ -129,9 +131,14 @@ html[data-theme="dark"] .video-gallery::after {
 .video-card {
   position: relative;
   gap: 0;
+  align-self: flex-start;
+  align-self: start;
+  height: auto;
+  min-height: 0;
   padding: 0 0 16px;
   overflow: hidden;
   align-items: stretch;
+  justify-content: flex-start;
   font-family: "YouTube Sans", Roboto, Arial, sans-serif;
 }
 
@@ -142,6 +149,7 @@ html[data-theme="dark"] .video-gallery::after {
 .video-card-media {
   position: relative;
   display: block;
+  flex: 0 0 auto;
   width: 100%;
   overflow: hidden;
   aspect-ratio: 16 / 9;
@@ -196,6 +204,7 @@ html[data-theme="dark"] .video-gallery::after {
 }
 
 .video-card h3 {
+  flex: 0 0 auto;
   margin: 14px 16px 12px;
   font-family: "YouTube Sans", Roboto, Arial, sans-serif;
   font-size: 1rem;
@@ -267,6 +276,7 @@ html[data-theme="dark"] .video-gallery::after {
 .video-card-link {
   position: relative;
   z-index: 4;
+  flex: 0 0 auto;
   isolation: isolate;
   overflow: visible;
   width: calc(100% - 32px);
