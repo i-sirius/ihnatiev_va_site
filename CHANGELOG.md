@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.79e.220626
+
+- **Video fallback UI polish:**
+  - Акуратніше оформлено fallback/error повідомлення у відеоблоці.
+  - Кнопку `Спробувати ще раз` зроблено компактною secondary/ghost дією.
+  - Додано адаптивне розташування тексту повідомлення і retry-кнопки.
+  - Логіку YouTube fallback/retry не змінено.
+
 ## 0.7.79d.220626
 
 * **Video card layout follow-up fix:**
