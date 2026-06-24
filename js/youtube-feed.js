@@ -1,6 +1,28 @@
 (() => {
   const youtubeCacheMaxAgeMs = 6 * 60 * 60 * 1000;
   const youtubeFeedTimeoutMs = 6000;
+  var VIDEO_SUPPORT_DOCS = {
+    /*
+    "YOUTUBE_VIDEO_ID": {
+      url: "/files/video-docs/activity1/example.pdf",
+      label: "Матеріали",
+      labelEn: "Materials",
+      type: "pdf"
+    }
+    */
+    "bL44iPuxY84": {
+      url: "/files/video-docs/activity1/hesychasm-and-frequent-communion.pdf",
+      label: "Матеріали",
+      labelEn: "Materials",
+      type: "pdf"
+    },
+    "Q8KNXpftoJE": {
+      url: "/files/video-docs/activity1/corporeality-and-synergy.pdf",
+      label: "Матеріали",
+      labelEn: "Materials",
+      type: "pdf"
+    }
+  };
   let youtubeFeedLoading = false;
 
   function formatVideoViews(value, viewsLabel, locale = "uk") {
@@ -81,6 +103,26 @@
     return chain;
   }
 
+  function getYoutubeVideoId(video) {
+    const url = video && video.url ? String(video.url) : "";
+
+    if (video && video.videoId) {
+      return String(video.videoId);
+    }
+
+    const watchMatch = url.match(/[?&]v=([^&#]+)/);
+    if (watchMatch && watchMatch[1]) {
+      return watchMatch[1];
+    }
+
+    const shortMatch = url.match(/youtu\.be\/([^?&#]+)/);
+    if (shortMatch && shortMatch[1]) {
+      return shortMatch[1];
+    }
+
+    return "";
+  }
+
   function createYoutubeFeed({
     site = window.SITE || {},
     selector = "[data-activity-videos]",
@@ -105,6 +147,31 @@
 
     function getRetryText() {
       return getVideoLocale() === "en" ? "Try again" : "Спробувати ще раз";
+    }
+
+    function getWatchAriaLabel(title) {
+      return getVideoLocale() === "en" ? `Watch video: ${title}` : `Дивитись відео: ${title}`;
+    }
+
+    function getSupportDocForVideo(video) {
+      const videoId = getYoutubeVideoId(video);
+      const doc = videoId ? VIDEO_SUPPORT_DOCS[videoId] : null;
+
+      if (!doc || !doc.url) {
+        return null;
+      }
+
+      return doc;
+    }
+
+    function getSupportDocLabel(doc) {
+      const fallbackLabel = getVideoLocale() === "en" ? "Materials" : "Матеріали";
+
+      if (getVideoLocale() === "en") {
+        return doc.labelEn || doc.label || fallbackLabel;
+      }
+
+      return doc.label || fallbackLabel;
     }
 
     function getFallbackVideos(channelId) {
@@ -150,6 +217,8 @@
               viewsLabel,
               site.currentLocale || "uk"
             );
+            const supportDoc = getSupportDocForVideo(video);
+            const watchAriaLabel = getWatchAriaLabel(title);
             const actionMarkup = viewsText
               ? `
                 <span class="video-card-link-icon is-youtube" aria-hidden="true"></span>
@@ -164,16 +233,30 @@
                   <span class="video-card-link-label">${escapeHtml(watchLabel)}</span>
                 </span>
               `;
+            const supportDocMarkup = supportDoc
+              ? `
+                <a class="button-link video-card-doc-link" href="${escapeHtml(
+                  supportDoc.url
+                )}" target="_blank" rel="noopener">
+                  <span class="video-card-doc-label">${escapeHtml(
+                    getSupportDocLabel(supportDoc)
+                  )}</span>
+                </a>
+              `
+              : "";
             const thumb = video.thumbnail
-              ? `<span class="video-card-media"><img class="video-card-thumb" src="${thumbnail}" alt="${escapeHtml(title)}" loading="lazy" decoding="async"></span>`
-              : `<span class="video-card-media"><span class="video-card-thumb video-card-thumb-fallback">${escapeHtml(fallbackTitle)}</span></span>`;
+              ? `<a class="video-card-media" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(watchAriaLabel)}"><img class="video-card-thumb" src="${thumbnail}" alt="${escapeHtml(title)}" loading="lazy" decoding="async"></a>`
+              : `<a class="video-card-media" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(watchAriaLabel)}"><span class="video-card-thumb video-card-thumb-fallback">${escapeHtml(fallbackTitle)}</span></a>`;
 
             return `
-              <a class="activity-card video-card" href="${url}" target="_blank" rel="noopener noreferrer">
+              <article class="activity-card video-card">
                 ${thumb}
                 <h3>${escapeHtml(title)}</h3>
-                <span class="button-link video-card-link">${actionMarkup}</span>
-              </a>
+                <div class="video-card-actions">
+                  <a class="button-link video-card-link" href="${url}" target="_blank" rel="noopener noreferrer">${actionMarkup}</a>
+                  ${supportDocMarkup}
+                </div>
+              </article>
             `;
           })
           .join("");
@@ -346,6 +429,7 @@
           }
 
           return {
+            videoId,
             title:
               (titleNode && titleNode.textContent ? titleNode.textContent.trim() : "") ||
               getVideoUi().fallbackTitle ||
