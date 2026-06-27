@@ -20,8 +20,8 @@ button {
   text-transform: uppercase;
   cursor: pointer;
   box-shadow: var(--liquid-glass-active-shadow);
-  backdrop-filter: blur(12px) saturate(1.16);
-  -webkit-backdrop-filter: blur(12px) saturate(1.16);
+  backdrop-filter: blur(var(--glass-blur-action)) saturate(1.12);
+  -webkit-backdrop-filter: blur(var(--glass-blur-action)) saturate(1.12);
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
@@ -36,8 +36,8 @@ button:hover:not(:disabled) {
   color: var(--button-text);
   transform: translateY(-1px);
   box-shadow: var(--action-glass-hover-shadow);
-  backdrop-filter: blur(14px) saturate(1.18);
-  -webkit-backdrop-filter: blur(14px) saturate(1.18);
+  backdrop-filter: blur(var(--glass-blur-action)) saturate(1.12);
+  -webkit-backdrop-filter: blur(var(--glass-blur-action)) saturate(1.12);
 }
 
 .button-link:focus-visible,

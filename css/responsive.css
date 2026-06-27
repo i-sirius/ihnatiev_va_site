@@ -301,6 +301,13 @@
 }
 
 html.no-modern-effects {
+  --glass-bg: var(--panel-bg);
+  --glass-border: var(--border);
+  --glass-shadow: var(--shadow);
+  --glass-blur: 0px;
+  --glass-blur-soft: 0px;
+  --glass-blur-action: 0px;
+  --glass-blur-strong: 0px;
   --gold-glass-text: var(--primary-dark);
   --gold-glass-shadow: var(--shadow);
   --liquid-glass-bg: var(--panel-bg);
@@ -312,6 +319,47 @@ html.no-modern-effects {
   --action-glass-hover-bg: var(--button-bg-hover);
   --action-glass-fill: none;
   --action-glass-hover-shadow: var(--shadow);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .panel,
+  .about-details,
+  .activity-card,
+  .about-photo-link,
+  .contact-social-button,
+  .site-header-controls,
+  .site-header-social-link,
+  .language-toggle-options,
+  .theme-toggle-track,
+  .download-subgroup,
+  .downloads-search-field input,
+  .site-search-field input,
+  .mobile-nav-host nav,
+  .mobile-nav-host nav a,
+  .accessible-fab,
+  .button-link,
+  button {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .panel,
+  .about-details,
+  .activity-card,
+  .download-subgroup,
+  .downloads-search-field input,
+  .site-search-field input {
+    background: var(--panel-bg);
+  }
+
+  html[data-theme="dark"] .panel,
+  html[data-theme="dark"] .about-details,
+  html[data-theme="dark"] .activity-card,
+  html[data-theme="dark"] .download-subgroup,
+  html[data-theme="dark"] .downloads-search-field input,
+  html[data-theme="dark"] .site-search-field input {
+    background: var(--panel-bg);
+  }
 }
 
 html.no-modern-effects .panel,

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.79g.270626
+
+- **Glass/performance polish:**
+  - Полегшено glass-ефекти сайту без зміни загальної візуальної стилістики.
+  - Зменшено інтенсивність `backdrop-filter`, blur і багатошарових тіней у ключових UI-блоках.
+  - Покращено вигляд великих матових панелей, header/nav, downloads/search/contact/activity блоків.
+  - Додано/уточнено fallback для браузерів без підтримки `backdrop-filter`.
+  - Збережено роботу відеокарток, кнопок `Дивитись` / `Матеріали`, audio/downloads/search та спрощеного режиму.
+
 ## 0.7.79f.240626
 
 - **Video support documents:**
