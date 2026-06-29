@@ -119,6 +119,29 @@
       return getLocalizedValue(value, fallback) || fallback || "";
     }
 
+    function getAllFieldText(value, fallback = "") {
+      if (value == null) {
+        return fallback || "";
+      }
+
+      if (typeof value === "string") {
+        return value;
+      }
+
+      if (Array.isArray(value)) {
+        return value.map((item) => getAllFieldText(item, "")).filter(Boolean).join(" ");
+      }
+
+      if (typeof value === "object") {
+        return Object.keys(value)
+          .map((key) => getAllFieldText(value[key], ""))
+          .filter(Boolean)
+          .join(" ") || fallback || "";
+      }
+
+      return String(value || fallback || "");
+    }
+
     function getContentKind(file = {}) {
       return String(file.contentKind || "").toLowerCase();
     }
@@ -176,6 +199,25 @@
       return href && currentSearchIndex[href] ? currentSearchIndex[href] : null;
     }
 
+    function getDownloadItemKeys(file = {}) {
+      const keys = [];
+      const href = getFileHref(file);
+      const indexEntry = getSearchIndexEntry(file);
+
+      if (indexEntry && indexEntry.id) {
+        keys.push(String(indexEntry.id));
+        keys.push(`downloads-${indexEntry.id}`);
+      }
+      if (file.id) {
+        keys.push(String(file.id));
+      }
+      if (href) {
+        keys.push(String(href));
+      }
+
+      return keys.filter(Boolean);
+    }
+
     function normalizeSearchText(value) {
       return String(value || "")
         .toLocaleLowerCase(getRendererLocale())
@@ -200,8 +242,14 @@
     }
 
     function getInitialDownloadsQuery() {
-      const query = getInitialDownloadsParam("q");
+      const search = getInitialDownloadsParam("search");
+      const query = search || getInitialDownloadsParam("q") || getInitialDownloadsParam("item");
       return query && query.trim().length > 1 ? query : "";
+    }
+
+    function getInitialDownloadsItemId() {
+      const item = getInitialDownloadsParam("item");
+      return item && item.trim() ? item.trim() : "";
     }
 
     function clearDownloadsQueryParam() {
@@ -211,11 +259,13 @@
         }
 
         const params = new URLSearchParams(window.location.search);
-        if (!params.has("q")) {
+        if (!params.has("q") && !params.has("search") && !params.has("item")) {
           return;
         }
 
         params.delete("q");
+        params.delete("search");
+        params.delete("item");
         const query = params.toString();
         const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash || ""}`;
         window.history.replaceState(null, document.title, nextUrl);
@@ -492,30 +542,33 @@
     function getSearchFields(file = {}, context = {}) {
       const fileType = getFileType(file);
       const indexEntry = getSearchIndexEntry(file);
+      const indexId = indexEntry && indexEntry.id ? String(indexEntry.id) : "";
       return [
-        getFileLabel(file),
-        getFieldText(file.description),
-        getFieldText(file.keywords),
-        getFieldText(file.topics),
-        getFieldText(file.aliases),
-        getFieldText(file.summary),
-        getFieldText(file.bibliography),
-        getFieldText(file.category, context.category || ""),
-        getFieldText(file.searchText),
-        indexEntry ? getFieldText(indexEntry.title) : "",
-        indexEntry ? getFieldText(indexEntry.category) : "",
-        indexEntry ? getFieldText(indexEntry.keywords) : "",
-        indexEntry ? getFieldText(indexEntry.topics) : "",
-        indexEntry ? getFieldText(indexEntry.aliases) : "",
-        indexEntry ? getFieldText(indexEntry.summary) : "",
-        indexEntry ? getFieldText(indexEntry.bibliography) : "",
-        indexEntry ? getFieldText(indexEntry.searchText) : "",
-        getFieldText(file.contentKind),
-        indexEntry ? getFieldText(indexEntry.contentKind) : "",
+        getAllFieldText(file.title || file.label),
+        getAllFieldText(file.description),
+        getAllFieldText(file.keywords),
+        getAllFieldText(file.topics),
+        getAllFieldText(file.aliases),
+        getAllFieldText(file.summary),
+        getAllFieldText(file.bibliography),
+        getAllFieldText(file.category, context.category || ""),
+        getAllFieldText(file.searchText),
+        indexEntry ? getAllFieldText(indexEntry.id) : "",
+        indexId ? `downloads-${indexId}` : "",
+        indexEntry ? getAllFieldText(indexEntry.title) : "",
+        indexEntry ? getAllFieldText(indexEntry.category) : "",
+        indexEntry ? getAllFieldText(indexEntry.keywords) : "",
+        indexEntry ? getAllFieldText(indexEntry.topics) : "",
+        indexEntry ? getAllFieldText(indexEntry.aliases) : "",
+        indexEntry ? getAllFieldText(indexEntry.summary) : "",
+        indexEntry ? getAllFieldText(indexEntry.bibliography) : "",
+        indexEntry ? getAllFieldText(indexEntry.searchText) : "",
+        getAllFieldText(file.contentKind),
+        indexEntry ? getAllFieldText(indexEntry.contentKind) : "",
         getTextLayerState(file),
-        getFieldText(file.year),
-        getFieldText(file.date),
-        getFieldText(fileType),
+        getAllFieldText(file.year),
+        getAllFieldText(file.date),
+        getAllFieldText(fileType),
         getFileHref(file)
       ].map(normalizeSearchText).filter(Boolean);
     }
@@ -922,7 +975,12 @@
     function createListItem(file = {}, context = {}) {
       const listItem = document.createElement("li");
       const row = document.createElement("div");
+      const itemKeys = getDownloadItemKeys(file);
 
+      if (itemKeys.length) {
+        listItem.setAttribute("data-download-item", itemKeys[0]);
+        listItem.setAttribute("data-download-item-aliases", itemKeys.join(" "));
+      }
       row.className = "download-row";
       row.appendChild(createDownloadSummary(file, context));
       row.appendChild(createDownloadActions(file));
@@ -938,6 +996,78 @@
         list.appendChild(createListItem(file, context));
       });
       return list;
+    }
+
+    function findDownloadItemElement(container, itemId) {
+      const normalizedItemId = String(itemId || "").trim();
+      if (!container || !normalizedItemId) {
+        return null;
+      }
+
+      const items = container.querySelectorAll("[data-download-item]");
+      for (let index = 0; index < items.length; index += 1) {
+        const aliases = ` ${items[index].getAttribute("data-download-item-aliases") || ""} `;
+        if (aliases.indexOf(` ${normalizedItemId} `) !== -1) {
+          return items[index];
+        }
+      }
+
+      return null;
+    }
+
+    function markDownloadItem(container, itemId) {
+      const target = findDownloadItemElement(container, itemId);
+      if (!target) {
+        return false;
+      }
+
+      if (target.classList) {
+        target.classList.add("is-targeted");
+      }
+      target.style.scrollMarginTop = "96px";
+      target.style.outline = "2px solid rgba(145, 110, 42, 0.45)";
+      target.style.outlineOffset = "4px";
+      if (typeof target.scrollIntoView === "function") {
+        target.scrollIntoView(true);
+        if (typeof window.scrollBy === "function") {
+          window.setTimeout(() => window.scrollBy(0, -88), 20);
+        }
+      }
+      window.setTimeout(() => {
+        if (target.classList) {
+          target.classList.remove("is-targeted");
+        }
+        target.style.outline = "";
+        target.style.outlineOffset = "";
+      }, 2800);
+      return true;
+    }
+
+    function markFirstDownloadResult(container) {
+      const target = container ? container.querySelector("[data-download-item]") : null;
+      if (!target) {
+        return false;
+      }
+
+      return markDownloadItem(container, target.getAttribute("data-download-item"));
+    }
+
+    function scheduleDownloadsTargetResolve(container, state) {
+      const delays = [0, 120, 300, 700, 1200, 2000, 3200];
+      if (!state || (!state.item && !state.query)) {
+        return;
+      }
+
+      delays.forEach((delay) => {
+        window.setTimeout(() => {
+          if (state.item && markDownloadItem(container, state.item)) {
+            return;
+          }
+          if (state.query) {
+            markFirstDownloadResult(container);
+          }
+        }, delay);
+      });
     }
 
     function createEmptyMessage(text, className) {
@@ -1276,6 +1406,7 @@
         const filters = document.createElement("div");
         const state = {
           query: getInitialDownloadsQuery(),
+          item: getInitialDownloadsItemId(),
           topic: getInitialDownloadsTopic(),
           topicFiltersExpanded: getInitialDownloadsTopic() !== "all"
         };
@@ -1307,9 +1438,11 @@
             )
           );
           renderGroupsInto(results, groups, state.query, state.topic);
+          scheduleDownloadsTargetResolve(results, state);
         }
         const searchControls = createSearchControls((query) => {
           state.query = query;
+          state.item = "";
           renderCurrentGroups();
         });
         const searchMount = document.querySelector("[data-downloads-search]");

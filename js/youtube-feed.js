@@ -103,6 +103,36 @@
     return chain;
   }
 
+  function fetchLocalVideoIndex() {
+    return fetchWithTimeout("files/content/video-index.json", (response) => response.json(), 3000)
+      .then((payload) => {
+        const items = payload && Array.isArray(payload.items) ? payload.items : [];
+
+        return items
+          .filter((item) => item && item.enabled !== false && (item.id || item.videoId || item.url))
+          .map((item) => {
+            const videoId = item.videoId || item.id || getYoutubeVideoId(item);
+
+            if (!videoId) {
+              return null;
+            }
+
+            return {
+              videoId,
+              title: {
+                uk: item.title || item.titleEn || "YouTube video",
+                en: item.titleEn || item.title || "YouTube video"
+              },
+              thumbnail: `https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg`,
+              url: item.url || `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`,
+              viewCount: null
+            };
+          })
+          .filter(Boolean)
+          .slice(0, 6);
+      });
+  }
+
   function getYoutubeVideoId(video) {
     const url = video && video.url ? String(video.url) : "";
 
@@ -130,6 +160,10 @@
     escapeHtml = (value) => String(value)
   } = {}) {
     let lastRenderedVideos = [];
+    var videoTargetTimer = 0;
+    var videoTargetAttempt = 0;
+    var videoResolvedTargetId = "";
+    var videoPendingScrollId = "";
 
     function getVideoUi() {
       return site.ui && site.ui.video ? site.ui.video : {};
@@ -191,6 +225,195 @@
       ];
     }
 
+    function getTargetVideoIdFromHash() {
+      const rawHash = window.location && window.location.hash ? window.location.hash.slice(1) : "";
+      if (!rawHash) {
+        return "";
+      }
+
+      try {
+        return decodeURIComponent(rawHash);
+      } catch (error) {
+        return rawHash;
+      }
+    }
+
+    function getComfortHeaderOffset() {
+      var headerOffsetValue = "";
+      var headerOffset = 0;
+      var header = document.querySelector(".site-header");
+
+      try {
+        headerOffsetValue = getComputedStyle(document.documentElement)
+          .getPropertyValue("--site-header-offset")
+          .trim();
+        headerOffset = parseFloat(headerOffsetValue) || 0;
+      } catch (error) {
+        headerOffset = 0;
+      }
+
+      if (!headerOffset && header && header.getBoundingClientRect) {
+        headerOffset = header.getBoundingClientRect().height || 0;
+      }
+
+      return headerOffset;
+    }
+
+    function findParentDetails(element) {
+      var current = element;
+
+      while (current && current !== document.body) {
+        if (current.tagName && current.tagName.toLowerCase() === "details") {
+          return current;
+        }
+        current = current.parentNode;
+      }
+
+      return null;
+    }
+
+    function ensureTargetSectionOpen(target) {
+      var details = findParentDetails(target);
+
+      if (details && !details.open) {
+        details.open = true;
+        if (typeof window.CustomEvent === "function") {
+          window.dispatchEvent(new CustomEvent("site:layout-shift"));
+        }
+      }
+    }
+
+    function isVisibleVideoTarget(target) {
+      var rect;
+
+      if (!target || !target.getBoundingClientRect) {
+        return false;
+      }
+
+      rect = target.getBoundingClientRect();
+      if (rect.height <= 0 || rect.width <= 0) {
+        return false;
+      }
+
+      if (target.offsetParent === null && getComputedStyle(target).position !== "fixed") {
+        return false;
+      }
+
+      return true;
+    }
+
+    function scrollTargetIntoComfortView(target) {
+      var rect;
+      var headerOffset;
+      var viewportHeight;
+      var comfortOffset;
+      var top;
+
+      if (!target || !target.getBoundingClientRect || !window.scrollTo) {
+        return;
+      }
+
+      rect = target.getBoundingClientRect();
+      headerOffset = getComfortHeaderOffset();
+      viewportHeight = window.innerHeight || document.documentElement.clientHeight || 720;
+      comfortOffset = Math.max(96, Math.floor(viewportHeight * 0.32));
+      top = rect.top + (window.pageYOffset || document.documentElement.scrollTop || 0) - headerOffset - comfortOffset;
+      window.scrollTo(0, Math.max(0, top));
+    }
+
+    function markTargetVideoCard(target) {
+      if (!target) {
+        return;
+      }
+
+      if (target.classList) {
+        target.classList.add("is-targeted");
+      } else if (target.className.indexOf("is-targeted") < 0) {
+        target.className += " is-targeted";
+      }
+
+      target.setAttribute("tabindex", "-1");
+      target.style.scrollMarginTop = "96px";
+      target.style.outline = "2px solid rgba(145, 110, 42, 0.5)";
+      target.style.outlineOffset = "4px";
+
+      window.setTimeout(() => {
+        if (target.classList) {
+          target.classList.remove("is-targeted");
+        }
+        target.style.outline = "";
+        target.style.outlineOffset = "";
+      }, 2800);
+    }
+
+    function resolveTargetVideoCard() {
+      var targetId = getTargetVideoIdFromHash();
+      var target;
+
+      if (!targetId || targetId.indexOf("video-") !== 0) {
+        return true;
+      }
+
+      target = document.getElementById(targetId);
+      if (!target) {
+        return false;
+      }
+
+      ensureTargetSectionOpen(target);
+      if (!isVisibleVideoTarget(target)) {
+        return false;
+      }
+
+      if (videoResolvedTargetId === targetId) {
+        return true;
+      }
+
+      videoResolvedTargetId = targetId;
+      videoPendingScrollId = "";
+      scrollTargetIntoComfortView(target);
+      markTargetVideoCard(target);
+      return true;
+    }
+
+    function scheduleTargetVideoCardScroll() {
+      var targetId = getTargetVideoIdFromHash();
+      var maxAttempts = 22;
+
+      if (!targetId || targetId.indexOf("video-") !== 0) {
+        return;
+      }
+
+      if (videoTargetTimer) {
+        window.clearTimeout(videoTargetTimer);
+        videoTargetTimer = 0;
+      }
+
+      if (videoPendingScrollId !== targetId) {
+        videoTargetAttempt = 0;
+        videoPendingScrollId = targetId;
+      }
+
+      function tryResolve() {
+        var resolved = false;
+
+        try {
+          resolved = resolveTargetVideoCard();
+        } catch (error) {
+          resolved = true;
+        }
+
+        videoTargetAttempt += 1;
+        if (resolved || videoTargetAttempt >= maxAttempts) {
+          videoTargetTimer = 0;
+          return;
+        }
+
+        videoTargetTimer = window.setTimeout(tryResolve, videoTargetAttempt < 3 ? 120 : 220);
+      }
+
+      videoTargetTimer = window.setTimeout(tryResolve, 120);
+    }
+
     function renderVideoCards(videos) {
       if (!Array.isArray(videos)) {
         return;
@@ -211,6 +434,11 @@
           .map((video) => {
             const title = getLocalizedValue(video.title, fallbackTitle);
             const url = escapeHtml(video.url);
+            const videoId = getYoutubeVideoId(video);
+            const cardId = videoId ? `video-${videoId}` : "";
+            const cardAttributes = cardId
+              ? ` id="${escapeHtml(cardId)}" data-video-id="${escapeHtml(videoId)}"`
+              : "";
             const thumbnail = video.thumbnail ? escapeHtml(video.thumbnail) : "";
             const viewsText = formatVideoViews(
               video.viewCount,
@@ -249,7 +477,7 @@
               : `<a class="video-card-media" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(watchAriaLabel)}"><span class="video-card-thumb video-card-thumb-fallback">${escapeHtml(fallbackTitle)}</span></a>`;
 
             return `
-              <article class="activity-card video-card">
+              <article class="activity-card video-card"${cardAttributes}>
                 ${thumb}
                 <h3>${escapeHtml(title)}</h3>
                 <div class="video-card-actions">
@@ -261,6 +489,8 @@
           })
           .join("");
       });
+
+      scheduleTargetVideoCardScroll();
     }
 
     function renderFallbackLinks(videos) {
@@ -463,6 +693,25 @@
       });
     }
 
+    function renderFailureWithLocalIndex(channelId, cachedVideos) {
+      return fetchLocalVideoIndex()
+        .then((localVideos) => {
+          if (localVideos.length) {
+            renderVideoCards(localVideos);
+            renderStatus(getVideoErrorText(), {
+              error: true,
+              retry: true
+            });
+            return;
+          }
+
+          renderFailure(channelId, cachedVideos);
+        })
+        .catch(() => {
+          renderFailure(channelId, cachedVideos);
+        });
+    }
+
     function load(options = {}) {
       const target = document.querySelector(selector);
       const channelId = site.youtubeChannelId;
@@ -511,13 +760,13 @@
             renderStatus("");
             renderVideoCards(videos);
           } else if (cachedVideos.length) {
-            renderFailure(channelId, cachedVideos);
+            return renderFailureWithLocalIndex(channelId, cachedVideos);
           } else if (!cachedVideos.length) {
-            renderFailure(channelId, cachedVideos);
+            return renderFailureWithLocalIndex(channelId, cachedVideos);
           }
         })
         .catch(() => {
-          renderFailure(channelId, cachedVideos);
+          return renderFailureWithLocalIndex(channelId, cachedVideos);
         })
         .then(
           () => {
@@ -527,6 +776,10 @@
             youtubeFeedLoading = false;
           }
         );
+    }
+
+    if (window.addEventListener) {
+      window.addEventListener("hashchange", scheduleTargetVideoCardScroll);
     }
 
     return {

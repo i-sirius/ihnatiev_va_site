@@ -1,0 +1,186 @@
+{
+  "items": [
+    {
+      "id": "bL44iPuxY84",
+      "enabled": true,
+      "section": "research",
+      "category": "videos",
+      "pageUrl": "activity1.html",
+      "url": "https://www.youtube.com/watch?v=bL44iPuxY84",
+      "date": "2026-05-24",
+      "title": "Ісихазм і часте Причастя",
+      "titleEn": "Hesychasm and Frequent Communion",
+      "description": "Доповідь прот. Віталія Ігнатьєва про ісихазм, часте Причастя, паламітське богослов’я та духовну практику православної традиції.",
+      "descriptionEn": "A report by Archpriest Vitalii Ihnatiev on hesychasm, frequent Communion, Palamite theology, and spiritual practice in the Orthodox tradition.",
+      "tags": [
+        "ісихазм",
+        "часте Причастя",
+        "Причастя",
+        "Євхаристія",
+        "Григорій Палама",
+        "Палама",
+        "паламізм",
+        "богослов’я",
+        "православна традиція",
+        "духовна практика",
+        "доповідь",
+        "відео"
+      ],
+      "tagsEn": [
+        "hesychasm",
+        "frequent Communion",
+        "Communion",
+        "Eucharist",
+        "Gregory Palamas",
+        "Palamas",
+        "Palamism",
+        "theology",
+        "Orthodox tradition",
+        "spiritual practice",
+        "report",
+        "video"
+      ],
+      "supportDocuments": [
+        {
+          "id": "hesychasm-and-frequent-communion",
+          "enabled": true,
+          "url": "/files/video-docs/activity1/hesychasm-and-frequent-communion.pdf",
+          "type": "pdf",
+          "language": "uk",
+          "title": "Ісихазм і часте Причастя",
+          "titleEn": "Hesychasm and Frequent Communion",
+          "description": "PDF-матеріали до відео про ісихазм, часте Причастя, паламітське богослов’я та православну духовну практику.",
+          "descriptionEn": "PDF materials for the video on hesychasm, frequent Communion, Palamite theology, and Orthodox spiritual practice.",
+          "tags": [
+            "Матеріали",
+            "PDF",
+            "ісихазм",
+            "часте Причастя",
+            "Причастя",
+            "Євхаристія",
+            "Григорій Палама",
+            "Палама",
+            "богослов’я"
+          ],
+          "tagsEn": [
+            "Materials",
+            "PDF",
+            "hesychasm",
+            "frequent Communion",
+            "Communion",
+            "Eucharist",
+            "Gregory Palamas",
+            "Palamas",
+            "theology"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q8KNXpftoJE",
+      "enabled": true,
+      "section": "research",
+      "category": "videos",
+      "pageUrl": "activity1.html",
+      "url": "https://www.youtube.com/watch?v=Q8KNXpftoJE",
+      "date": "2026-04-26",
+      "title": "Антропологія ісихазму: тілесність і синергія",
+      "titleEn": "Anthropology of Hesychasm: Corporeality and Synergy",
+      "description": "Доповідь прот. Віталія Ігнатьєва про антропологію ісихазму, тілесність, синергію, енергійний дискурс і православне розуміння людини.",
+      "descriptionEn": "A report by Archpriest Vitalii Ihnatiev on the anthropology of hesychasm, corporeality, synergy, energetic discourse, and the Orthodox understanding of the human person.",
+      "tags": [
+        "ісихазм",
+        "антропологія ісихазму",
+        "тілесність",
+        "синергія",
+        "енергія",
+        "енергійний дискурс",
+        "православна антропологія",
+        "богослов’я",
+        "доповідь",
+        "відео"
+      ],
+      "tagsEn": [
+        "hesychasm",
+        "anthropology of hesychasm",
+        "corporeality",
+        "synergy",
+        "energy",
+        "energetic discourse",
+        "Orthodox anthropology",
+        "theology",
+        "report",
+        "video"
+      ],
+      "supportDocuments": [
+        {
+          "id": "corporeality-and-synergy",
+          "enabled": true,
+          "url": "/files/video-docs/activity1/corporeality-and-synergy.pdf",
+          "type": "pdf",
+          "language": "uk",
+          "title": "Антропологія ісихазму: тілесність і синергія",
+          "titleEn": "Anthropology of Hesychasm: Corporeality and Synergy",
+          "description": "PDF-матеріали до відео про тілесність, синергію, антропологію ісихазму та енергійний дискурс.",
+          "descriptionEn": "PDF materials for the video on corporeality, synergy, the anthropology of hesychasm, and energetic discourse.",
+          "tags": [
+            "Матеріали",
+            "PDF",
+            "ісихазм",
+            "тілесність",
+            "синергія",
+            "антропологія ісихазму",
+            "енергійний дискурс",
+            "богослов’я"
+          ],
+          "tagsEn": [
+            "Materials",
+            "PDF",
+            "hesychasm",
+            "corporeality",
+            "synergy",
+            "anthropology of hesychasm",
+            "energetic discourse",
+            "theology"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "_6mz7_ZkonE",
+      "enabled": true,
+      "section": "research",
+      "category": "videos",
+      "pageUrl": "activity1.html",
+      "url": "https://www.youtube.com/watch?v=_6mz7_ZkonE",
+      "date": "2026-06-21",
+      "title": "Практичні аспекти вчення Григорія Палами",
+      "titleEn": "Practical Aspects of Gregory Palamas’s Teaching",
+      "description": "Доповідь Ігоря Спаського про практичні аспекти вчення Григорія Палами, паламізм, ісихазм і православне богослов’я.",
+      "descriptionEn": "A report by Ihor Spaskyi on practical aspects of Gregory Palamas’s teaching, Palamism, hesychasm, and Orthodox theology.",
+      "tags": [
+        "Григорій Палама",
+        "Палама",
+        "паламізм",
+        "ісихазм",
+        "богослов’я",
+        "православна традиція",
+        "духовна практика",
+        "доповідь",
+        "відео"
+      ],
+      "tagsEn": [
+        "Gregory Palamas",
+        "Palamas",
+        "Palamism",
+        "hesychasm",
+        "theology",
+        "Orthodox tradition",
+        "spiritual practice",
+        "report",
+        "video"
+      ],
+      "supportDocuments": []
+    }
+  ]
+}

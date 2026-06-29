@@ -1,0 +1,234 @@
+{
+  "pageKeywords": {
+    "home": {
+      "topics": ["home", "about", "philosophy", "religious-studies"],
+      "uk": ["Віталій Ігнатьєв", "філософ", "викладач", "священнослужитель", "наукова діяльність", "освітня діяльність", "духовна діяльність", "ісихазм"],
+      "en": ["Vitalii Ihnatiev", "philosopher", "lecturer", "priest", "research activity", "educational activity", "spiritual activity", "hesychasm"]
+    },
+    "activity1": {
+      "topics": ["research", "publications", "video", "philosophy", "religious-studies", "theology", "hesychasm"],
+      "uk": ["наукова діяльність", "наукова активність", "публікації", "відео", "доповіді", "ісихазм", "Палама", "богослов’я", "філософія релігії"],
+      "en": ["research activity", "publications", "videos", "reports", "hesychasm", "Palamas", "theology", "philosophy of religion"]
+    },
+    "activity2": {
+      "topics": ["education", "teaching", "philosophy", "files"],
+      "uk": ["освітня діяльність", "викладання", "філософія", "навчальні матеріали", "лекції", "студенти"],
+      "en": ["educational activity", "teaching", "philosophy", "teaching materials", "lectures", "students"]
+    },
+    "activity3": {
+      "topics": ["spiritual", "church", "audio", "sermons", "theology"],
+      "uk": ["священнослужіння", "духовна діяльність", "проповідь", "проповіді", "аудіо", "церква", "богослов’я"],
+      "en": ["priestly ministry", "spiritual activity", "sermon", "sermons", "audio", "church", "theology"]
+    },
+    "downloads": {
+      "topics": ["downloads", "materials", "pdf", "monographs", "articles"],
+      "uk": ["завантаження", "матеріали", "PDF", "монографії", "статті", "downloads", "файли"],
+      "en": ["downloads", "materials", "PDF", "monographs", "articles", "files"]
+    },
+    "contact": {
+      "topics": ["contacts", "social-links"],
+      "uk": ["контакти", "форма", "повідомлення", "соціальні мережі", "YouTube", "Facebook", "Telegram", "ORCID", "Web of Science", "Google Академія"],
+      "en": ["contacts", "contact form", "message", "social networks", "YouTube", "Facebook", "Telegram", "ORCID", "Web of Science", "Google Scholar"]
+    },
+    "menu": {
+      "topics": ["navigation", "menu"],
+      "uk": ["меню", "навігація", "пошук", "контакти", "завантаження"],
+      "en": ["menu", "navigation", "search", "contacts", "downloads"]
+    },
+    "audio": {
+      "topics": ["audio", "sermons", "church", "theology"],
+      "uk": ["проповідь", "проповіді", "аудіо", "церковна проповідь"],
+      "en": ["sermon", "sermons", "audio", "church sermon"]
+    }
+  },
+  "menu": {
+    "description": {
+      "uk": "Навігація сайту: головна сторінка, діяльність, завантаження, пошук і контакти.",
+      "en": "Site navigation: home, activities, downloads, search, and contacts."
+    }
+  },
+  "sections": [
+    {
+      "id": "section-home-about",
+      "url": "index.html#about",
+      "title": { "uk": "Про мене", "en": "About Me" },
+      "section": { "uk": "Головна", "en": "Home" },
+      "description": {
+        "uk": "Біографічний блок про освіту, науковий шлях, викладання, священнослужіння та дослідження ісихазму.",
+        "en": "Biographical block about education, research, teaching, priestly ministry, and hesychasm studies."
+      },
+      "tags": ["about", "bio", "philosophy", "hesychasm"],
+      "keywords": {
+        "uk": ["біографія", "освіта", "філософ", "викладач", "священнослужитель", "ісихазм"],
+        "en": ["biography", "education", "philosopher", "lecturer", "priest", "hesychasm"]
+      }
+    },
+    {
+      "id": "section-home-activities",
+      "url": "index.html",
+      "title": { "uk": "Моя діяльність", "en": "My Activities" },
+      "section": { "uk": "Головна", "en": "Home" },
+      "description": {
+        "uk": "Короткі переходи до наукової, освітньої та духовної діяльності.",
+        "en": "Short links to research, educational, and spiritual activity."
+      },
+      "tags": ["activity", "research", "education", "spiritual"],
+      "keywords": {
+        "uk": ["діяльність", "наукова діяльність", "освітня діяльність", "духовна діяльність"],
+        "en": ["activity", "research activity", "educational activity", "spiritual activity"]
+      }
+    },
+    {
+      "id": "section-research-videos",
+      "url": "activity1.html",
+      "title": { "uk": "Відео і доповіді", "en": "Videos and Reports" },
+      "section": { "uk": "Наукова діяльність", "en": "Research Activity" },
+      "description": {
+        "uk": "Відеодоповіді з філософії релігії, ісихазму, паламітського богослов’я та православної антропології.",
+        "en": "Video reports on philosophy of religion, hesychasm, Palamite theology, and Orthodox anthropology."
+      },
+      "tags": ["video", "reports", "hesychasm", "palamas", "theology"],
+      "keywords": {
+        "uk": ["відео", "доповідь", "доповіді", "ісихазм", "Палама", "богослов’я", "антропологія"],
+        "en": ["video", "report", "reports", "hesychasm", "Palamas", "theology", "anthropology"]
+      }
+    },
+    {
+      "id": "section-research-publications",
+      "url": "activity1.html",
+      "title": { "uk": "Публікації", "en": "Publications" },
+      "section": { "uk": "Наукова діяльність", "en": "Research Activity" },
+      "description": {
+        "uk": "Список наукових публікацій, конференційних матеріалів, статей і монографій.",
+        "en": "List of research publications, conference materials, articles, and monographs."
+      },
+      "tags": ["publications", "articles", "monographs", "philosophy"],
+      "keywords": {
+        "uk": ["публікації", "статті", "монографії", "конференції", "наукові матеріали"],
+        "en": ["publications", "articles", "monographs", "conferences", "research materials"]
+      }
+    },
+    {
+      "id": "section-education-files",
+      "url": "activity2.html",
+      "title": { "uk": "Освітні файли", "en": "Educational Files" },
+      "section": { "uk": "Освітня діяльність", "en": "Educational Activity" },
+      "description": {
+        "uk": "Навчальні матеріали, файли й ресурси для освітньої діяльності.",
+        "en": "Teaching materials, files, and resources for educational activity."
+      },
+      "tags": ["education", "teaching", "files"],
+      "keywords": {
+        "uk": ["освіта", "навчальні матеріали", "лекції", "файли", "студенти"],
+        "en": ["education", "teaching materials", "lectures", "files", "students"]
+      }
+    },
+    {
+      "id": "section-spiritual-audio",
+      "url": "activity3.html#sermons-audio",
+      "title": { "uk": "Аудіо / Проповіді", "en": "Audio / Sermons" },
+      "section": { "uk": "Духовна діяльність", "en": "Spiritual Activity" },
+      "description": {
+        "uk": "Аудіозаписи проповідей і церковно-просвітницькі матеріали.",
+        "en": "Audio recordings of sermons and church educational materials."
+      },
+      "tags": ["audio", "sermons", "church", "theology"],
+      "keywords": {
+        "uk": ["аудіо", "проповідь", "проповіді", "церква", "богослов’я", "священнослужіння"],
+        "en": ["audio", "sermon", "sermons", "church", "theology", "priestly ministry"]
+      }
+    },
+    {
+      "id": "section-downloads",
+      "url": "downloads.html",
+      "title": { "uk": "Завантаження", "en": "Downloads" },
+      "section": { "uk": "Завантаження", "en": "Downloads" },
+      "description": {
+        "uk": "Монографії, статті, PDF-файли та матеріали для завантаження.",
+        "en": "Monographs, articles, PDF files, and downloadable materials."
+      },
+      "tags": ["downloads", "materials", "pdf", "files"],
+      "keywords": {
+        "uk": ["завантаження", "матеріали", "PDF", "файли", "монографії", "статті"],
+        "en": ["downloads", "materials", "PDF", "files", "monographs", "articles"]
+      }
+    },
+    {
+      "id": "section-contact-socials",
+      "url": "contact.html",
+      "title": { "uk": "Контакти і соціальні мережі", "en": "Contacts and Social Networks" },
+      "section": { "uk": "Контакти", "en": "Contacts" },
+      "description": {
+        "uk": "Форма зв’язку та профільні посилання: YouTube, Facebook, Telegram, Web of Science, ORCID, Google Академія.",
+        "en": "Contact form and profile links: YouTube, Facebook, Telegram, Web of Science, ORCID, Google Scholar."
+      },
+      "tags": ["contacts", "social-links"],
+      "keywords": {
+        "uk": ["контакти", "соціальні мережі", "форма", "повідомлення", "ORCID", "Google Академія"],
+        "en": ["contacts", "social networks", "form", "message", "ORCID", "Google Scholar"]
+      }
+    }
+  ],
+  "checks": [
+    {
+      "query": "ісихазм",
+      "expectedAnyTypes": ["video", "document", "page"],
+      "expectedAnyIds": ["video-bL44iPuxY84", "document-hesychasm-and-frequent-communion", "page-activity1"]
+    },
+    {
+      "query": "причастя",
+      "expectedAnyTypes": ["video", "document"],
+      "expectedAnyIds": ["video-bL44iPuxY84", "document-hesychasm-and-frequent-communion"]
+    },
+    {
+      "query": "Палама",
+      "expectedAnyTypes": ["video", "document"],
+      "expectedAnyIds": ["video-bL44iPuxY84", "document-hesychasm-and-frequent-communion", "video-_6mz7_ZkonE"]
+    },
+    {
+      "query": "тілесність",
+      "expectedAnyTypes": ["video", "document"],
+      "expectedAnyIds": ["video-Q8KNXpftoJE", "document-corporeality-and-synergy"]
+    },
+    {
+      "query": "синергія",
+      "expectedAnyTypes": ["video", "document"],
+      "expectedAnyIds": ["video-Q8KNXpftoJE", "document-corporeality-and-synergy"]
+    },
+    {
+      "query": "проповідь",
+      "expectedAnyTypes": ["audio", "section"],
+      "expectedAnyIds": ["section-spiritual-audio", "audio-sermon-2026-01-26-gods-gifts-path-to-christ", "audio-sermon-2026-06-14-all-saints-of-rus"]
+    },
+    {
+      "query": "проповіді",
+      "expectedAnyTypes": ["audio", "section"],
+      "expectedAnyIds": ["section-spiritual-audio", "audio-sermon-2026-01-26-gods-gifts-path-to-christ", "audio-sermon-2026-06-14-all-saints-of-rus"]
+    },
+    {
+      "query": "аудіо",
+      "expectedAnyTypes": ["audio", "section"],
+      "expectedAnyIds": ["section-spiritual-audio", "page-activity3"]
+    },
+    {
+      "query": "етнофілетизм",
+      "expectedAnyTypes": ["audio", "download", "publication"],
+      "expectedAnyIds": ["audio-sermon-2026-06-14-all-saints-of-rus"]
+    },
+    {
+      "query": "Матеріали",
+      "expectedAnyTypes": ["document", "download", "page"],
+      "expectedAnyIds": ["document-hesychasm-and-frequent-communion", "document-corporeality-and-synergy"]
+    },
+    {
+      "query": "PDF",
+      "expectedAnyTypes": ["document", "download"],
+      "expectedAnyIds": ["document-hesychasm-and-frequent-communion", "document-corporeality-and-synergy"]
+    },
+    {
+      "query": "downloads",
+      "expectedAnyTypes": ["page", "section", "download"],
+      "expectedAnyIds": ["page-downloads", "section-downloads"]
+    }
+  ]
+}
