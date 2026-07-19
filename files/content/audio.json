@@ -117,20 +117,37 @@
     },
     {
       "enabled": true,
-      "src": "files/audio/sermons/about-two-blind-men-and-mute-demon-possessed-man.ogg",
+      "src": "/files/audio/sermons/2026-07-19-about-two-blind-men-and-mute-demon-possessed-man.m4a",
       "section": "church",
-      "date": "19.07.2026",
+      "date": "2026-07-19",
       "title": "Проповідь про двох сліпих і німого біснуватого",
+      "titleEn": "Sermon on the Two Blind Men and the Mute Demon-Possessed Man",
       "tags": [
-        "духовна сліпота",
-        "духовна німота",
-        "фарисейство",
-        "технології",
-        "цивілізація",
-        "церква"
+        "віра",
+        "зцілення",
+        "духовний зір",
+        "сліпі",
+        "німий біснуватий",
+        "Христос",
+        "Євангеліє",
+        "духовна сліпота"
+      ],
+      "tagsEn": [
+        "faith",
+        "healing",
+        "spiritual sight",
+        "blind men",
+        "mute demon-possessed man",
+        "Christ",
+        "Gospel",
+        "spiritual blindness"
       ],
       "id": "sermon-2026-07-19-about-two-blind-men-and-mute-demon-possessed-man",
-      "description": "Проповідь про двох сліпих і німого біснуватого",
+      "description": "Проповідь про віру, духовний зір і зцілюючу силу Христа на прикладі євангельської розповіді про двох сліпих і німого біснуватого.",
+      "descriptionEn": "A sermon on faith, spiritual sight, and the healing power of Christ through the Gospel account of the two blind men and the mute demon-possessed man.",
+      "duration": "19:06",
+      "downloadUrl": "",
+      "transcriptUrl": "",
       "category": "sermons"
     }
   ]

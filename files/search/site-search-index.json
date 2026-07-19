@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-06-29T06:40:45Z",
+    "generatedAt":  "2026-07-19T16:35:59Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  134,
+    "itemCount":  135,
     "items":  [
                   {
                       "id":  "page-home",
@@ -5613,6 +5613,118 @@
                       "fileType":  "audio",
                       "date":  "2026-06-14",
                       "duration":  "13:57",
+                      "rankBoost":  38
+                  },
+                  {
+                      "id":  "audio-sermon-2026-07-19-about-two-blind-men-and-mute-demon-possessed-man",
+                      "type":  "audio",
+                      "url":  "activity3.html#audio-sermon-2026-07-19-about-two-blind-men-and-mute-demon-possessed-man",
+                      "title":  {
+                                    "uk":  "Проповіді: Проповідь про двох сліпих і німого біснуватого",
+                                    "en":  "Sermons: Sermon on the Two Blind Men and the Mute Demon-Possessed Man"
+                                },
+                      "titleEn":  "Sermons: Sermon on the Two Blind Men and the Mute Demon-Possessed Man",
+                      "section":  {
+                                      "uk":  "Проповіді",
+                                      "en":  "Sermons"
+                                  },
+                      "description":  {
+                                          "uk":  "Проповідь про віру, духовний зір і зцілюючу силу Христа на прикладі євангельської розповіді про двох сліпих і німого біснуватого.",
+                                          "en":  "A sermon on faith, spiritual sight, and the healing power of Christ through the Gospel account of the two blind men and the mute demon-possessed man."
+                                      },
+                      "descriptionEn":  "A sermon on faith, spiritual sight, and the healing power of Christ through the Gospel account of the two blind men and the mute demon-possessed man.",
+                      "topics":  [
+                                     "audio",
+                                     "sermons",
+                                     "віра",
+                                     "зцілення",
+                                     "духовний зір",
+                                     "сліпі",
+                                     "німий біснуватий",
+                                     "Христос",
+                                     "Євангеліє",
+                                     "духовна сліпота",
+                                     "faith",
+                                     "healing",
+                                     "spiritual sight",
+                                     "blind men",
+                                     "mute demon-possessed man",
+                                     "Christ",
+                                     "Gospel",
+                                     "spiritual blindness"
+                                 ],
+                      "tags":  [
+                                   "audio",
+                                   "sermons",
+                                   "віра",
+                                   "зцілення",
+                                   "духовний зір",
+                                   "сліпі",
+                                   "німий біснуватий",
+                                   "Христос",
+                                   "Євангеліє",
+                                   "духовна сліпота",
+                                   "faith",
+                                   "healing",
+                                   "spiritual sight",
+                                   "blind men",
+                                   "mute demon-possessed man",
+                                   "Christ",
+                                   "Gospel",
+                                   "spiritual blindness",
+                                   "проповідь",
+                                   "проповіді",
+                                   "аудіо",
+                                   "церковна проповідь",
+                                   "sermon",
+                                   "church sermon"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "віра",
+                                                  "зцілення",
+                                                  "духовний зір",
+                                                  "сліпі",
+                                                  "німий біснуватий",
+                                                  "Христос",
+                                                  "Євангеліє",
+                                                  "духовна сліпота",
+                                                  "проповідь",
+                                                  "проповіді",
+                                                  "аудіо",
+                                                  "церковна проповідь"
+                                              ],
+                                       "en":  [
+                                                  "faith",
+                                                  "healing",
+                                                  "spiritual sight",
+                                                  "blind men",
+                                                  "mute demon-possessed man",
+                                                  "Christ",
+                                                  "Gospel",
+                                                  "spiritual blindness",
+                                                  "sermon",
+                                                  "sermons",
+                                                  "audio",
+                                                  "church sermon"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Проповіді: Проповідь про двох сліпих і німого біснуватого Проповідь про віру, духовний зір і зцілюючу силу Христа на прикладі євангельської розповіді про двох сліпих і німого біснуватого. віра зцілення духовний зір сліпі німий біснуватий Христос Євангеліє духовна сліпота Аудіо Проповіді Духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                         "en":  "Sermons: Sermon on the Two Blind Men and the Mute Demon-Possessed Man A sermon on faith, spiritual sight, and the healing power of Christ through the Gospel account of the two blind men and the mute demon-possessed man. faith healing spiritual sight blind men mute demon-possessed man Christ Gospel spiritual blindness Audio Sermons Spiritual activity Church sermon sermons audio church sermon"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "проповіді проповідь про двох сліпих і німого біснуватого проповідь про віру духовний зір і зцілюючу силу христа на прикладі євангельської розповіді про двох сліпих і німого біснуватого віра зцілення духовний зір сліпі німий біснуватий христос євангеліє духовна сліпота аудіо проповіді духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                             "en":  "sermons sermon on the two blind men and the mute demon possessed man a sermon on faith spiritual sight and the healing power of christ through the gospel account of the two blind men and the mute demon possessed man faith healing spiritual sight blind men mute demon possessed man christ gospel spiritual blindness audio sermons spiritual activity church sermon sermons audio church sermon"
+                                         },
+                      "category":  "sermons",
+                      "fileType":  "audio",
+                      "date":  "2026-07-19",
+                      "duration":  "19:06",
                       "rankBoost":  38
                   },
                   {
