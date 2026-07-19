@@ -34,30 +34,8 @@
       "category": "sermons"
     },
     {
-      "id": "sermon-2026-06-14-all-saints-of-rus",
-      "section": "church",
-      "category": "sermons",
-      "enabled": true,
-      "title": "Проповідь на день «Всіх Святих в землі Руській просіявших»",
       "titleEn": "Sermon on the Day of All Saints Who Shone Forth in the Land of Rus’",
-      "description": "Проповідь про святість як справжній вимір церковного життя, про пам’ять святих Руської землі та про те, як співвідношення Церкви, держави й нації має очищуватися від етнофілетизму.",
-      "descriptionEn": "A sermon on holiness as the true measure of church life, on the commemoration of the saints of the Land of Rus’, and on how the relationship between Church, state, and nation must be purified from ethno-phyletism.",
-      "date": "2026-06-14",
-      "src": "/files/audio/sermons/2026-06-14-all-saints-of-rus.m4a",
-      "duration": "13:57",
-      "downloadUrl": "",
-      "transcriptUrl": "",
-      "tags": [
-        "еклезіологія",
-        "церква",
-        "держава",
-        "нація",
-        "етнофілетизм",
-        "святість",
-        "Всі Святі",
-        "земля Руська",
-        "пам’ять святих"
-      ],
+      "enabled": true,
       "tagsEn": [
         "ecclesiology",
         "Church",
@@ -69,14 +47,31 @@
         "All Saints",
         "Land of Rus’",
         "commemoration of saints"
-      ]
+      ],
+      "src": "/files/audio/sermons/2026-06-14-all-saints-of-rus.m4a",
+      "descriptionEn": "A sermon on holiness as the true measure of church life, on the commemoration of the saints of the Land of Rus’, and on how the relationship between Church, state, and nation must be purified from ethno-phyletism.",
+      "section": "church",
+      "downloadUrl": "",
+      "date": "2026-06-14",
+      "duration": "13:57",
+      "title": "Проповідь на день «Всіх Святих в землі Руській просіявших»",
+      "tags": [
+        "еклезіологія",
+        "церква",
+        "держава",
+        "нація",
+        "етнофілетизм",
+        "святість",
+        "Всі Святі",
+        "земля Руська",
+        "пам’ять святих"
+      ],
+      "transcriptUrl": "",
+      "id": "sermon-2026-06-14-all-saints-of-rus",
+      "description": "Проповідь про святість як справжній вимір церковного життя, про пам’ять святих Руської землі та про те, як співвідношення Церкви, держави й нації має очищуватися від етнофілетизму.",
+      "category": "sermons"
     },
     {
-      "id": "sermon-test-001",
-      "section": "church",
-      "category": "sermons",
-      "enabled": false,
-      "title": "Тестовий запис проповіді",
       "titleEn": "Test sermon recording",
       "enabled": false,
       "tagsEn": [
@@ -100,24 +95,41 @@
       "category": "sermons"
     },
     {
-      "id": "sermon-test-002",
-      "section": "church",
-      "category": "sermons",
-      "enabled": false,
-      "title": "Другий тестовий аудіозапис",
       "titleEn": "Second test audio recording",
-      "description": "Тестова перевірка відображення кількох аудіозаписів у блоці проповідей.",
-      "descriptionEn": "A test check of how multiple audio recordings are displayed in the sermons section.",
-      "date": "",
+      "enabled": false,
+      "tagsEn": [
+        "test"
+      ],
       "src": "/files/audio/sermons/Afraid.mp3",
-      "duration": "",
+      "descriptionEn": "A test check of how multiple audio recordings are displayed in the sermons section.",
+      "section": "church",
       "downloadUrl": "",
-      "transcriptUrl": "",
+      "date": "",
+      "duration": "",
+      "title": "Другий тестовий аудіозапис",
       "tags": [
         "тест"
       ],
-      "tagsEn": [
-        "test"
+      "transcriptUrl": "",
+      "id": "sermon-test-002",
+      "description": "Тестова перевірка відображення кількох аудіозаписів у блоці проповідей.",
+      "category": "sermons"
+    },
+    {
+      "enabled": true,
+      "section": "church",
+      "category": "sermons",
+      "id": "sermon-2026-07-19-about-two-blind-men-and-mute-demon-possessed-man",
+      "title": "Проповідь про двох сліпих і німого біснуватого",
+      "date": "19.07.2026",
+      "src": "C:\\Users\\pollu\\Desktop\\audio_2026-07-19_15-05-56.ogg",
+      "tags": [
+        "духовна сліпота",
+        "духовна німота",
+        "фарисейство",
+        "технології",
+        "цивілізація",
+        "церква"
       ]
     }
   ]
