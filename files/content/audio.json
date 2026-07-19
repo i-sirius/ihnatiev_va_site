@@ -117,12 +117,10 @@
     },
     {
       "enabled": true,
+      "src": "files/audio/sermons/about-two-blind-men-and-mute-demon-possessed-man.ogg",
       "section": "church",
-      "category": "sermons",
-      "id": "sermon-2026-07-19-about-two-blind-men-and-mute-demon-possessed-man",
-      "title": "Проповідь про двох сліпих і німого біснуватого",
       "date": "19.07.2026",
-      "src": "C:\\Users\\pollu\\Desktop\\audio_2026-07-19_15-05-56.ogg",
+      "title": "Проповідь про двох сліпих і німого біснуватого",
       "tags": [
         "духовна сліпота",
         "духовна німота",
@@ -130,7 +128,10 @@
         "технології",
         "цивілізація",
         "церква"
-      ]
+      ],
+      "id": "sermon-2026-07-19-about-two-blind-men-and-mute-demon-possessed-man",
+      "description": "Проповідь про двох сліпих і німого біснуватого",
+      "category": "sermons"
     }
   ]
 }
