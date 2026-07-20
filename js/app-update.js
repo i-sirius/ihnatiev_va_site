@@ -32,6 +32,7 @@
   var registrationListenersBound = false;
   var refreshButton = null;
   var refreshButtonLabel = null;
+  var toastBackdrop = null;
   var toast = null;
   var toastTitle = null;
   var toastDescription = null;
@@ -210,6 +211,16 @@
       return;
     }
 
+    toastBackdrop = document.querySelector("[data-app-update-backdrop]");
+    if (!toastBackdrop) {
+      toastBackdrop = document.createElement("div");
+      toastBackdrop.className = "app-update-backdrop";
+      toastBackdrop.setAttribute("data-app-update-backdrop", "");
+      toastBackdrop.setAttribute("aria-hidden", "true");
+      toastBackdrop.hidden = true;
+      document.body.appendChild(toastBackdrop);
+    }
+
     toast = document.querySelector("[data-app-update-toast]");
     if (!toast) {
       toast = document.createElement("section");
@@ -318,6 +329,11 @@
     toast.hidden = false;
     toast.classList.add("is-visible");
     toast.classList.remove("is-update-available");
+    toast.classList.add("is-status-only");
+    if (toastBackdrop) {
+      toastBackdrop.classList.remove("is-visible");
+      toastBackdrop.hidden = true;
+    }
 
     toastHideTimer = window.setTimeout(function () {
       if (!waitingWorker) {
@@ -347,6 +363,15 @@
       toast.hidden = false;
       toast.classList.add("is-visible");
       toast.classList.add("is-update-available");
+      toast.classList.remove("is-status-only");
+    }
+    if (toastBackdrop) {
+      toastBackdrop.hidden = false;
+      window.setTimeout(function () {
+        if (toastBackdrop && toast && toast.classList.contains("is-update-available")) {
+          toastBackdrop.classList.add("is-visible");
+        }
+      }, 20);
     }
   }
 
@@ -358,8 +383,12 @@
       return;
     }
 
-    toast.classList.remove("is-visible", "is-update-available");
+    toast.classList.remove("is-visible", "is-update-available", "is-status-only");
     toast.hidden = true;
+    if (toastBackdrop) {
+      toastBackdrop.classList.remove("is-visible");
+      toastBackdrop.hidden = true;
+    }
     if (toastUpdateButton) {
       toastUpdateButton.hidden = false;
     }

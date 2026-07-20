@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.7.81a.200726
+
+- **PWA update UI polish:**
+  - Виправлено розміри й вирівнювання refresh control у desktop, wide та compact layouts.
+  - Усунуто обрізання controls у sticky header і overlap навігації з brand та правими controls.
+  - Виправлено розміщення language/theme/refresh у спеціальному accessibility mode.
+  - UA, EN і Refresh тепер мають однаковий вертикальний центр у standard accessibility viewport.
+  - Update prompt отримав окремий backdrop і чіткіший системний вигляд.
+  - Checking/status повідомлення більше не затемнюють сторінку.
+  - PWA lifecycle, ручне оновлення і захист від подвійного reload збережені.
+
 ## 0.7.81.200726
 
 - **PWA update manager, video materials and activity polish:**
