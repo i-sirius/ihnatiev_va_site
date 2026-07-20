@@ -1,0 +1,365 @@
+.site-header-controls.has-app-refresh {
+  grid-template-columns: 104px;
+  grid-template-rows: auto auto auto;
+  right: 16px;
+  right: max(16px, env(safe-area-inset-right));
+  overflow: visible;
+}
+
+.app-refresh-button {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  width: 84px;
+  height: 34px;
+  min-width: 84px;
+  min-height: 34px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--border) 74%, var(--liquid-glass-border));
+  border-radius: 999px;
+  background: var(--liquid-glass-bg);
+  color: var(--primary);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -1px 0 rgba(196, 151, 57, 0.06);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.app-refresh-button:hover:not(:disabled),
+.app-refresh-button:focus-visible {
+  border-color: var(--primary);
+  border-color: color-mix(in srgb, var(--gold-glass-border) 68%, var(--liquid-glass-border));
+  background: var(--liquid-glass-hover-bg);
+  color: var(--primary-dark);
+  box-shadow: var(--liquid-glass-hover-shadow);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.app-refresh-button:disabled {
+  cursor: wait;
+  opacity: 0.78;
+}
+
+.app-refresh-button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: currentColor;
+  line-height: 1;
+}
+
+.app-refresh-button-icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.app-refresh-button-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.app-refresh-button.is-checking .app-refresh-button-icon svg {
+  animation: app-refresh-spin 0.9s linear infinite;
+}
+
+.app-update-toast {
+  position: fixed;
+  right: auto;
+  bottom: 24px;
+  left: 18px;
+  left: max(18px, env(safe-area-inset-left));
+  z-index: 120;
+  width: calc(100vw - 36px);
+  max-width: 420px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--border) 76%, transparent);
+  border-radius: 14px;
+  background: var(--panel-bg);
+  background: color-mix(in srgb, var(--panel-bg) 94%, var(--bg-soft));
+  color: var(--text);
+  box-shadow: 0 16px 36px rgba(40, 34, 28, 0.16);
+}
+
+.app-update-toast[hidden] {
+  display: none;
+}
+
+.app-update-toast-title {
+  display: block;
+  margin: 0 0 4px;
+  color: var(--primary-dark);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.app-update-toast-description {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.app-update-toast-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.app-update-toast-button {
+  min-height: 36px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-bg);
+  color: var(--primary);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.app-update-toast-button:hover,
+.app-update-toast-button:focus-visible {
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.app-update-toast-button.is-primary {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--button-text);
+}
+
+html[data-theme="dark"] .app-refresh-button {
+  background: var(--liquid-glass-bg);
+  color: var(--text);
+}
+
+html[data-theme="dark"] .app-refresh-button:hover:not(:disabled),
+html[data-theme="dark"] .app-refresh-button:focus-visible {
+  color: var(--button-text);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.16),
+    0 8px 18px rgba(0, 0, 0, 0.24);
+}
+
+html[data-theme="dark"] .app-update-toast {
+  background: var(--panel-bg);
+  background: color-mix(in srgb, var(--panel-bg) 96%, #000000);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
+}
+
+html[data-theme="dark"] .app-update-toast-title {
+  color: var(--text);
+}
+
+html[data-theme="accessible"] .app-refresh-button,
+html.no-modern-effects .app-refresh-button,
+html[data-theme="accessible"] .app-update-toast-button,
+html.no-modern-effects .app-update-toast-button {
+  border: 2px solid #000000;
+  background: #ffffff;
+  color: #000000;
+  box-shadow: none;
+}
+
+html[data-theme="accessible"] .site-header-controls.has-app-refresh,
+html.no-modern-effects .site-header-controls.has-app-refresh {
+  display: grid !important;
+  grid-template-columns: 84px !important;
+  grid-template-rows: auto auto 40px !important;
+  gap: 6px !important;
+  width: 84px !important;
+  min-width: 84px !important;
+  max-width: 84px !important;
+}
+
+html[data-theme="accessible"] .site-header-controls.has-app-refresh .app-refresh-button,
+html.no-modern-effects .site-header-controls.has-app-refresh .app-refresh-button {
+  width: 84px;
+  min-width: 84px;
+  min-height: 40px;
+}
+
+html[data-theme="accessible"] .app-refresh-button-icon svg,
+html.no-modern-effects .app-refresh-button-icon svg {
+  stroke-width: 2.4;
+}
+
+html[data-theme="accessible"] .app-update-toast,
+html.no-modern-effects .app-update-toast {
+  border: 2px solid #000000;
+  background: #ffffff;
+  color: #000000;
+  box-shadow: none;
+}
+
+html[data-theme="accessible"] .app-update-toast-title,
+html.no-modern-effects .app-update-toast-title,
+html[data-theme="accessible"] .app-update-toast-description,
+html.no-modern-effects .app-update-toast-description {
+  color: #000000;
+}
+
+@keyframes app-refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-refresh-button,
+  .app-refresh-button-icon svg,
+  .app-update-toast-button {
+    transition: none;
+  }
+
+  .app-refresh-button.is-checking .app-refresh-button-icon svg {
+    animation: none;
+  }
+}
+
+.site-header.is-compact .site-header-controls.has-app-refresh {
+  grid-template-columns: 34px;
+  grid-template-rows: repeat(3, 34px);
+}
+
+.site-header.is-compact .app-refresh-button {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
+}
+
+.site-header.is-compact .app-refresh-button-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.site-header.is-compact .app-refresh-button-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+@media (min-width: 1181px) {
+  .site-header.is-compact .site-header-controls.has-app-refresh {
+    top: 50%;
+    right: 10px;
+    right: max(10px, env(safe-area-inset-right));
+    grid-template-columns: var(--header-control-size);
+    grid-template-rows: repeat(3, var(--header-control-size));
+    gap: 6px;
+    transform: translateY(-50%);
+  }
+
+  .site-header.is-compact .app-refresh-button {
+    width: var(--header-control-size);
+    height: var(--header-control-size);
+    min-width: var(--header-control-size);
+    min-height: var(--header-control-size);
+  }
+
+  .site-header.is-compact nav {
+    padding-right: 76px;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-header-controls.has-app-refresh,
+  .site-header.is-compact .site-header-controls.has-app-refresh {
+    right: 8px;
+    right: max(8px, env(safe-area-inset-right));
+    grid-template-columns: 44px;
+    grid-template-rows: repeat(3, 44px);
+    gap: 4px;
+  }
+
+  .site-header.is-compact .app-refresh-button,
+  .app-refresh-button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .app-refresh-button-icon {
+    width: 21px;
+    height: 21px;
+  }
+
+  .app-refresh-button-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .app-update-toast {
+    right: 12px;
+    right: max(12px, env(safe-area-inset-right));
+    bottom: calc(var(--mobile-nav-height, 68px) + 72px + env(safe-area-inset-bottom));
+    left: 12px;
+    left: max(12px, env(safe-area-inset-left));
+    width: auto;
+    max-width: none;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .app-update-toast-actions {
+    gap: 6px;
+  }
+
+  .app-update-toast-button {
+    flex: 1 1 120px;
+    min-height: 38px;
+    padding: 8px 10px;
+    font-size: 0.76rem;
+  }
+
+  html[data-theme="accessible"] .site-header-controls.has-app-refresh,
+  html.no-modern-effects .site-header-controls.has-app-refresh {
+    grid-template-columns: 44px !important;
+    grid-template-rows: repeat(3, 44px) !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+  }
+
+  html[data-theme="accessible"] .site-header-controls.has-app-refresh .app-refresh-button,
+  html.no-modern-effects .site-header-controls.has-app-refresh .app-refresh-button {
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

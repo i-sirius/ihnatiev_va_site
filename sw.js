@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.7.80a.290626-r1";
+const CACHE_NAME = "ihnatiev-site-v0.7.81.200726-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -22,6 +22,7 @@ const APP_SHELL = [
   "./css/downloads.css",
   "./css/search.css",
   "./css/contact.css",
+  "./css/app-update.css",
   "./css/effects.css",
   "./css/header.css",
   "./css/accessibility.css",
@@ -50,6 +51,7 @@ const APP_SHELL = [
   "./js/header-ui.js",
   "./js/page-content.js",
   "./js/audio-content.js",
+  "./js/app-update.js",
   "./js/menu-loader.js",
   "./app.js",
   "./manifest.webmanifest",
@@ -74,9 +76,20 @@ function isCacheableAsset(requestUrl) {
   return /\.(?:css|js|json|png|jpg|jpeg|webp|gif|svg|ico|woff2?|ttf|otf)$/i.test(requestUrl.pathname);
 }
 
+function isNetworkFirstContent(requestUrl) {
+  return (
+    /\.json$/i.test(requestUrl.pathname) &&
+    (
+      requestUrl.pathname.indexOf("/files/content/") === 0 ||
+      requestUrl.pathname.indexOf("/files/search/") === 0 ||
+      requestUrl.pathname.indexOf("/files/downloads/") === 0
+    )
+  );
+}
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
   );
 });
 
@@ -90,6 +103,12 @@ self.addEventListener("activate", (event) => {
       )
     ).then(() => self.clients.claim())
   );
+});
+
+self.addEventListener("message", function (event) {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("fetch", (event) => {
@@ -120,6 +139,23 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (!isCacheableAsset(requestUrl)) {
+    return;
+  }
+
+  if (isNetworkFirstContent(requestUrl)) {
+    event.respondWith(
+      fetch(request)
+        .then(function (response) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(request, responseClone);
+          });
+          return response;
+        })
+        .catch(function () {
+          return caches.match(request);
+        })
+    );
     return;
   }
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.7.81.200726
+
+- **PWA update manager, video materials and activity polish:**
+  - Додано власну компактну кнопку оновлення сторінки для встановленого PWA.
+  - Виправлено responsive-вигляд refresh control: кнопка стала icon-only у header і більше не ламає layout довгим текстом.
+  - Додано localized update/checking/offline toast із діями `Оновити` / `Пізніше`.
+  - Збережено одну service worker registration і додано керовану активацію update через `SKIP_WAITING`.
+  - Додано network-first обробку актуальних JSON із cache fallback.
+  - Додано PDF-матеріал `Теологічна енологія` до відео `cfcq_70pfKI`.
+  - Додано production PDF `/files/video-docs/activity1/theological-enology.pdf`.
+  - Оновлено video fallback metadata і deep-search index для нового відео та PDF-матеріалу.
+  - Додано фото `activity3-photo32.jpg` і `activity3-photo33.jpg` у галерею духовної діяльності.
+  - Проповіді тепер показуються від найновішої до найстарішої.
+
 ## 0.7.80a.290626
 
 - **Activity3 audio update:**

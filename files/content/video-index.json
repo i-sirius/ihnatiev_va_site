@@ -1,6 +1,68 @@
 {
   "items": [
     {
+      "id": "cfcq_70pfKI",
+      "enabled": true,
+      "section": "research",
+      "category": "videos",
+      "pageUrl": "activity1.html",
+      "url": "https://www.youtube.com/watch?v=cfcq_70pfKI",
+      "date": "2026-07-20",
+      "title": "ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова)",
+      "titleEn": "ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова)",
+      "description": "Зустріч 19/07/2026. Доповідь прот. Георгія Анєнкова — ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ.",
+      "descriptionEn": "Зустріч 19/07/2026. Доповідь прот. Георгія Анєнкова — ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ.",
+      "tags": [
+        "теологічна енологія",
+        "енологія",
+        "ісихазм",
+        "космічні принципи буття",
+        "божествений сенс",
+        "особистісний смисловий дискурс",
+        "серце",
+        "доповідь",
+        "відео"
+      ],
+      "tagsEn": [
+        "theological enology",
+        "enology",
+        "hesychasm",
+        "cosmic principles of being",
+        "heart",
+        "report",
+        "video"
+      ],
+      "supportDocuments": [
+        {
+          "id": "theological-enology",
+          "enabled": true,
+          "url": "/files/video-docs/activity1/theological-enology.pdf",
+          "type": "pdf",
+          "language": "uk",
+          "title": "Теологічна енологія",
+          "titleEn": "Theological Enology",
+          "description": "PDF-матеріали до відео про ісихазм і космічні принципи буття.",
+          "descriptionEn": "PDF materials for the video on hesychasm and cosmic principles of being.",
+          "tags": [
+            "Матеріали",
+            "PDF",
+            "теологічна енологія",
+            "енологія",
+            "ісихазм",
+            "космічні принципи буття"
+          ],
+          "tagsEn": [
+            "Materials",
+            "PDF",
+            "theological enology",
+            "enology",
+            "hesychasm",
+            "cosmic principles of being"
+          ]
+        }
+      ]
+    },
+    {
       "id": "bL44iPuxY84",
       "enabled": true,
       "section": "research",

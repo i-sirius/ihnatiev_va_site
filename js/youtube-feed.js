@@ -21,6 +21,12 @@
       label: "Матеріали",
       labelEn: "Materials",
       type: "pdf"
+    },
+    "cfcq_70pfKI": {
+      url: "/files/video-docs/activity1/theological-enology.pdf",
+      label: "Матеріали",
+      labelEn: "Materials",
+      type: "pdf"
     }
   };
   let youtubeFeedLoading = false;

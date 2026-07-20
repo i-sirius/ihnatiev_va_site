@@ -122,6 +122,46 @@
     );
   }
 
+  function getDateSortValue(item) {
+    var rawDate = item && item.date ? String(item.date).trim() : "";
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(rawDate)) {
+      return "";
+    }
+
+    return rawDate;
+  }
+
+  function sortAudioItemsByNewest(items) {
+    var wrappedItems = items.slice().map(function (item, index) {
+      return {
+        item: item,
+        index: index,
+        date: getDateSortValue(item)
+      };
+    });
+
+    wrappedItems.sort(function (left, right) {
+      if (left.date && right.date && left.date !== right.date) {
+        return left.date < right.date ? 1 : -1;
+      }
+
+      if (left.date && !right.date) {
+        return -1;
+      }
+
+      if (!left.date && right.date) {
+        return 1;
+      }
+
+      return left.index - right.index;
+    });
+
+    return wrappedItems.map(function (entry) {
+      return entry.item;
+    });
+  }
+
   function createTextElement(tagName, text, className) {
     var element = document.createElement(tagName);
 
@@ -394,7 +434,7 @@
 
   function renderAudioItems(container, items) {
     var list = container.querySelector("[data-audio-list]");
-    var renderableItems = items.filter(isRenderableAudioItem);
+    var renderableItems = sortAudioItemsByNewest(items.filter(isRenderableAudioItem));
 
     if (!list) {
       return;

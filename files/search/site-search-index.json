@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-07-19T16:35:59Z",
+    "generatedAt":  "2026-07-20T19:09:17Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  135,
+    "itemCount":  137,
     "items":  [
                   {
                       "id":  "page-home",
@@ -4745,6 +4745,233 @@
                                              "uk":  "ігнатьєв в а ісихазм у контексті некласичної філософсько релігійної парадигми монографія в а ігнатьєв кропивницький 2025 336 с 2025 monograph",
                                              "en":  "ігнатьєв в а ісихазм у контексті некласичної філософсько релігійної парадигми монографія в а ігнатьєв кропивницький 2025 336 с 2025 monograph"
                                          }
+                  },
+                  {
+                      "id":  "video-cfcq_70pfKI",
+                      "type":  "video",
+                      "url":  "activity1.html#video-cfcq_70pfKI",
+                      "title":  {
+                                    "uk":  "ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова)",
+                                    "en":  "ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова)"
+                                },
+                      "titleEn":  "ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова)",
+                      "section":  {
+                                      "uk":  "Відео",
+                                      "en":  "Video"
+                                  },
+                      "description":  {
+                                          "uk":  "Зустріч 19/07/2026. Доповідь прот. Георгія Анєнкова — ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ.",
+                                          "en":  "Зустріч 19/07/2026. Доповідь прот. Георгія Анєнкова — ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ."
+                                      },
+                      "descriptionEn":  "Зустріч 19/07/2026. Доповідь прот. Георгія Анєнкова — ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ.",
+                      "topics":  [
+                                     "video",
+                                     "reports",
+                                     "research",
+                                     "теологічна енологія",
+                                     "енологія",
+                                     "ісихазм",
+                                     "космічні принципи буття",
+                                     "божествений сенс",
+                                     "особистісний смисловий дискурс",
+                                     "серце",
+                                     "доповідь",
+                                     "відео",
+                                     "theological enology",
+                                     "enology",
+                                     "hesychasm",
+                                     "cosmic principles of being",
+                                     "heart",
+                                     "report"
+                                 ],
+                      "tags":  [
+                                   "video",
+                                   "reports",
+                                   "research",
+                                   "теологічна енологія",
+                                   "енологія",
+                                   "ісихазм",
+                                   "космічні принципи буття",
+                                   "божествений сенс",
+                                   "особистісний смисловий дискурс",
+                                   "серце",
+                                   "доповідь",
+                                   "відео",
+                                   "theological enology",
+                                   "enology",
+                                   "hesychasm",
+                                   "cosmic principles of being",
+                                   "heart",
+                                   "report",
+                                   "Відео",
+                                   "Доповіді",
+                                   "Матеріали",
+                                   "Video",
+                                   "Reports",
+                                   "Materials"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "теологічна енологія",
+                                                  "енологія",
+                                                  "ісихазм",
+                                                  "космічні принципи буття",
+                                                  "божествений сенс",
+                                                  "особистісний смисловий дискурс",
+                                                  "серце",
+                                                  "доповідь",
+                                                  "відео",
+                                                  "Відео",
+                                                  "Доповіді",
+                                                  "Матеріали"
+                                              ],
+                                       "en":  [
+                                                  "theological enology",
+                                                  "enology",
+                                                  "hesychasm",
+                                                  "cosmic principles of being",
+                                                  "heart",
+                                                  "report",
+                                                  "video",
+                                                  "Video",
+                                                  "Reports",
+                                                  "Materials"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова) Зустріч 19/07/2026. Доповідь прот. Георгія Анєнкова — ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. теологічна енологія енологія ісихазм космічні принципи буття божествений сенс особистісний смисловий дискурс серце доповідь відео Теологічна енологія Відео Доповіді Матеріали",
+                                         "en":  "ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова) Зустріч 19/07/2026. Доповідь прот. Георгія Анєнкова — ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. theological enology enology hesychasm cosmic principles of being heart report video Theological Enology Video Reports Materials"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "ісихазм і космічні принципи буття частина 1 доповідь прот георгія анєнкова зустріч 19 07 2026 доповідь прот георгія анєнкова ісихазм і космічні принципи буття теологічна енологія енологія ісихазм космічні принципи буття божествений сенс особистісний смисловий дискурс серце доповідь відео теологічна енологія відео доповіді матеріали",
+                                             "en":  "ісихазм і космічні принципи буття частина 1 доповідь прот георгія анєнкова зустріч 19 07 2026 доповідь прот георгія анєнкова ісихазм і космічні принципи буття theological enology enology hesychasm cosmic principles of being heart report video theological enology video reports materials"
+                                         },
+                      "date":  "2026-07-20",
+                      "videoId":  "cfcq_70pfKI",
+                      "pageUrl":  "activity1.html#video-cfcq_70pfKI",
+                      "externalUrl":  "https://www.youtube.com/watch?v=cfcq_70pfKI",
+                      "rankBoost":  45
+                  },
+                  {
+                      "id":  "document-theological-enology",
+                      "type":  "document",
+                      "url":  "/files/video-docs/activity1/theological-enology.pdf",
+                      "title":  {
+                                    "uk":  "Теологічна енологія",
+                                    "en":  "Theological Enology"
+                                },
+                      "titleEn":  "Theological Enology",
+                      "section":  {
+                                      "uk":  "Матеріали до відео",
+                                      "en":  "Video Materials"
+                                  },
+                      "description":  {
+                                          "uk":  "PDF-матеріали до відео про ісихазм і космічні принципи буття.",
+                                          "en":  "PDF materials for the video on hesychasm and cosmic principles of being."
+                                      },
+                      "descriptionEn":  "PDF materials for the video on hesychasm and cosmic principles of being.",
+                      "topics":  [
+                                     "document",
+                                     "pdf",
+                                     "materials",
+                                     "video-support",
+                                     "Матеріали",
+                                     "PDF",
+                                     "теологічна енологія",
+                                     "енологія",
+                                     "ісихазм",
+                                     "космічні принципи буття",
+                                     "божествений сенс",
+                                     "особистісний смисловий дискурс",
+                                     "серце",
+                                     "доповідь",
+                                     "відео",
+                                     "пдф",
+                                     "Materials",
+                                     "theological enology",
+                                     "enology",
+                                     "hesychasm",
+                                     "cosmic principles of being",
+                                     "heart",
+                                     "report",
+                                     "video"
+                                 ],
+                      "tags":  [
+                                   "document",
+                                   "pdf",
+                                   "materials",
+                                   "video-support",
+                                   "Матеріали",
+                                   "PDF",
+                                   "теологічна енологія",
+                                   "енологія",
+                                   "ісихазм",
+                                   "космічні принципи буття",
+                                   "божествений сенс",
+                                   "особистісний смисловий дискурс",
+                                   "серце",
+                                   "доповідь",
+                                   "відео",
+                                   "пдф",
+                                   "Materials",
+                                   "theological enology",
+                                   "enology",
+                                   "hesychasm",
+                                   "cosmic principles of being",
+                                   "heart",
+                                   "report",
+                                   "video"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "Матеріали",
+                                                  "PDF",
+                                                  "теологічна енологія",
+                                                  "енологія",
+                                                  "ісихазм",
+                                                  "космічні принципи буття",
+                                                  "божествений сенс",
+                                                  "особистісний смисловий дискурс",
+                                                  "серце",
+                                                  "доповідь",
+                                                  "відео",
+                                                  "пдф"
+                                              ],
+                                       "en":  [
+                                                  "Materials",
+                                                  "PDF",
+                                                  "theological enology",
+                                                  "enology",
+                                                  "hesychasm",
+                                                  "cosmic principles of being",
+                                                  "heart",
+                                                  "report",
+                                                  "video"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Теологічна енологія PDF-матеріали до відео про ісихазм і космічні принципи буття. ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова) Матеріали PDF теологічна енологія енологія ісихазм космічні принципи буття божествений сенс особистісний смисловий дискурс серце доповідь відео пдф /files/video-docs/activity1/theological-enology.pdf Матеріали до відео Матеріали PDF",
+                                         "en":  "Theological Enology PDF materials for the video on hesychasm and cosmic principles of being. ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова) Materials PDF theological enology enology hesychasm cosmic principles of being heart report video /files/video-docs/activity1/theological-enology.pdf Video support documents Materials PDF"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "теологічна енологія pdf матеріали до відео про ісихазм і космічні принципи буття ісихазм і космічні принципи буття частина 1 доповідь прот георгія анєнкова матеріали pdf теологічна енологія енологія ісихазм космічні принципи буття божествений сенс особистісний смисловий дискурс серце доповідь відео пдф files video docs activity1 theological enology pdf матеріали до відео матеріали pdf",
+                                             "en":  "theological enology pdf materials for the video on hesychasm and cosmic principles of being ісихазм і космічні принципи буття частина 1 доповідь прот георгія анєнкова materials pdf theological enology enology hesychasm cosmic principles of being heart report video files video docs activity1 theological enology pdf video support documents materials pdf"
+                                         },
+                      "href":  "/files/video-docs/activity1/theological-enology.pdf",
+                      "fileType":  "pdf",
+                      "language":  "uk",
+                      "videoId":  "cfcq_70pfKI",
+                      "pageUrl":  "activity1.html#video-cfcq_70pfKI",
+                      "documentType":  "video-support",
+                      "rankBoost":  55
                   },
                   {
                       "id":  "video-bL44iPuxY84",

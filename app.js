@@ -612,14 +612,29 @@
   }
 
   function initPwa() {
+    var appUpdate = window.SiteAppUpdate;
+
     if (document.body.dataset.pwaReady === "true") {
+      if (appUpdate && typeof appUpdate.init === "function") {
+        appUpdate.init({ site: SITE });
+      }
       return;
     }
 
+    if (appUpdate && typeof appUpdate.init === "function") {
+      appUpdate.init({ site: SITE });
+    }
+
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js").catch(() => {
+      navigator.serviceWorker.register("sw.js").then(function (registration) {
+        if (appUpdate && typeof appUpdate.handleRegistration === "function") {
+          appUpdate.handleRegistration(registration);
+        }
+      }).catch(function () {
         // Ignore registration failures on unsupported hosting modes.
       });
+    } else if (appUpdate && typeof appUpdate.handleUnsupported === "function") {
+      appUpdate.handleUnsupported();
     }
 
     document.body.dataset.pwaReady = "true";
