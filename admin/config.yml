@@ -382,7 +382,13 @@ collections:
               - { label: "Опис", name: description, widget: text, required: false }
               - { label: "Опис (EN)", name: descriptionEn, widget: text, required: false }
               - { label: "Дата", name: date, widget: string, required: false, hint: "Можна залишити порожнім або вказати дату у зручному форматі." }
-              - { label: "Аудіофайл", name: src, widget: string, required: false, hint: "Локальний шлях або https URL. Порожній шлях не створює аудіоплеєр." }
+              - label: "Аудіофайл"
+                name: src
+                widget: file
+                required: false
+                media_folder: /files/audio/sermons
+                public_folder: /files/audio/sermons
+                hint: "Завантажте аудіофайл проповіді (.m4a, .mp3 тощо). Порожнє поле не створює аудіоплеєр."
               - { label: "Тривалість", name: duration, widget: string, required: false }
               - { label: "Посилання для завантаження", name: downloadUrl, widget: string, required: false }
               - { label: "Посилання на текст", name: transcriptUrl, widget: string, required: false }
