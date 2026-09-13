@@ -107,7 +107,7 @@
       "category": "sermons"
     },
     {
-      "enabled": true,
+      "enabled": false,
       "section": "church",
       "category": "sermons",
       "title": "проповідь на свято Успіння Пресвятої Богородиці",
