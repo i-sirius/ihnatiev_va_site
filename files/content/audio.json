@@ -114,6 +114,23 @@
       "src": "/files/audio/sermons/проповідь-на-успіння-28.08.26.m4a",
       "date": "2026-08-28",
       "duration": "18:50"
+    },
+    {
+      "enabled": true,
+      "section": "church",
+      "category": "sermons",
+      "title": "Про найбільшу заповідь",
+      "tags": [
+        "закон",
+        "пізнання",
+        "любов",
+        "Бог",
+        "особистість",
+        "індивід"
+      ],
+      "duration": "23:08",
+      "date": "2026-09-13",
+      "src": "/files/audio/sermons/audio_2026-09-13_17-59-59.ogg"
     }
   ]
 }
