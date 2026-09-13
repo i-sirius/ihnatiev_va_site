@@ -72,66 +72,8 @@
       "category": "sermons"
     },
     {
-      "titleEn": "Test sermon recording",
-      "enabled": false,
-      "tagsEn": [
-        "sermon",
-        "test"
-      ],
-      "src": "/files/audio/sermons/test-sermon.mp3",
-      "descriptionEn": "A test check of how an audio recording is displayed in the sermons section.",
-      "section": "church",
-      "downloadUrl": "",
-      "date": "",
-      "duration": "",
-      "title": "Тестовий запис проповіді",
-      "tags": [
-        "проповідь",
-        "тест"
-      ],
-      "transcriptUrl": "",
-      "id": "sermon-test-001",
-      "description": "Тестова перевірка відображення аудіозапису в блоці проповідей.",
-      "category": "sermons"
-    },
-    {
-      "titleEn": "Second test audio recording",
-      "enabled": false,
-      "tagsEn": [
-        "test"
-      ],
-      "src": "/files/audio/sermons/Afraid.mp3",
-      "descriptionEn": "A test check of how multiple audio recordings are displayed in the sermons section.",
-      "section": "church",
-      "downloadUrl": "",
-      "date": "",
-      "duration": "",
-      "title": "Другий тестовий аудіозапис",
-      "tags": [
-        "тест"
-      ],
-      "transcriptUrl": "",
-      "id": "sermon-test-002",
-      "description": "Тестова перевірка відображення кількох аудіозаписів у блоці проповідей.",
-      "category": "sermons"
-    },
-    {
-      "enabled": true,
-      "src": "/files/audio/sermons/2026-07-19-about-two-blind-men-and-mute-demon-possessed-man.m4a",
-      "section": "church",
-      "date": "2026-07-19",
-      "title": "Проповідь про двох сліпих і німого біснуватого",
       "titleEn": "Sermon on the Two Blind Men and the Mute Demon-Possessed Man",
-      "tags": [
-        "віра",
-        "зцілення",
-        "духовний зір",
-        "сліпі",
-        "німий біснуватий",
-        "Христос",
-        "Євангеліє",
-        "духовна сліпота"
-      ],
+      "enabled": true,
       "tagsEn": [
         "faith",
         "healing",
@@ -142,13 +84,34 @@
         "Gospel",
         "spiritual blindness"
       ],
+      "src": "/files/audio/sermons/2026-07-19-about-two-blind-men-and-mute-demon-possessed-man.m4a",
+      "descriptionEn": "A sermon on faith, spiritual sight, and the healing power of Christ through the Gospel account of the two blind men and the mute demon-possessed man.",
+      "section": "church",
+      "downloadUrl": "",
+      "date": "2026-07-19",
+      "duration": "19:06",
+      "title": "Проповідь про двох сліпих і німого біснуватого",
+      "tags": [
+        "віра",
+        "зцілення",
+        "духовний зір",
+        "сліпі",
+        "німий біснуватий",
+        "Христос",
+        "Євангеліє",
+        "духовна сліпота"
+      ],
+      "transcriptUrl": "",
       "id": "sermon-2026-07-19-about-two-blind-men-and-mute-demon-possessed-man",
       "description": "Проповідь про віру, духовний зір і зцілюючу силу Христа на прикладі євангельської розповіді про двох сліпих і німого біснуватого.",
-      "descriptionEn": "A sermon on faith, spiritual sight, and the healing power of Christ through the Gospel account of the two blind men and the mute demon-possessed man.",
-      "duration": "19:06",
-      "downloadUrl": "",
-      "transcriptUrl": "",
       "category": "sermons"
+    },
+    {
+      "enabled": false,
+      "section": "church",
+      "category": "sermons",
+      "title": "проповідь на свято Успіння Пресвятої Богородиці",
+      "src": "file:///Users/artist_macbook/Library/Containers/com.apple.Safari/Data/tmp/WebKitDropDestination-zMoIEkYF/Проповідь%20на%20Успіння%2028.08.26.m4a"
     }
   ]
 }
