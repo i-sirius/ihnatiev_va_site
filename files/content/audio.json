@@ -131,6 +131,21 @@
       "duration": "23:08",
       "date": "2026-09-13",
       "src": "/files/audio/sermons/audio_2026-09-13_17-59-59.ogg"
+    },
+    {
+      "enabled": true,
+      "section": "church",
+      "category": "sermons",
+      "src": "/files/audio/sermons/про-таланти-.m4a",
+      "title": "Про роздачу талантів",
+      "date": "20-09-2026",
+      "duration": "16:37",
+      "tags": [
+        "талант",
+        "здібність",
+        "геніальність",
+        "святість"
+      ]
     }
   ]
 }
