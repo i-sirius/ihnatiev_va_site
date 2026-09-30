@@ -8,7 +8,7 @@
   max-width: calc(100vw - 80px);
   color: var(--text);
   filter: drop-shadow(0 5px 10px rgba(0, 0, 0, .15));
-  animation: new-video-arrive 500ms ease-out both;
+  animation: new-video-arrive 2800ms cubic-bezier(.22, .61, .36, 1) both;
 }
 .new-video-note-link {
   display: flex;
@@ -39,7 +39,7 @@
   position: relative;
   width: 100px;
   height: 56px;
-  animation: new-video-hover 2.8s ease-in-out 3;
+  animation: new-video-hover 2.8s ease-in-out 2800ms 2;
 }
 .new-video-note-dome {
   position: absolute;
@@ -105,7 +105,18 @@
 }
 .new-video-note-link:hover .new-video-note-copy { border-color: var(--primary); }
 .new-video-note-link:focus-visible, .new-video-note-close:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-@keyframes new-video-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+/* One short approach flight; settle in the corner instead of orbiting the page. */
+@keyframes new-video-arrive {
+  0% { opacity: 0; transform: translate(calc(100vw - 230px), -150px) scale(.65) rotate(-12deg); }
+  12% { opacity: 1; }
+  42% { transform: translate(calc((100vw - 230px) * .55), -200px) scale(.9) rotate(8deg); }
+  72% { transform: translate(28px, -36px) scale(1) rotate(-6deg); }
+  88% { transform: translate(0, -8px) rotate(3deg); }
+  100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0); }
+}
+.new-video-note:hover, .new-video-note:focus-within,
+.new-video-note:hover .new-video-note-saucer,
+.new-video-note:focus-within .new-video-note-saucer { animation-play-state: paused; }
 @keyframes new-video-hover { 50% { transform: translateY(-4px) rotate(-3deg); } }
 @keyframes new-video-signal { 50% { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) {
