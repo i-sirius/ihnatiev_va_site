@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.7.81a.300926-r4";
+const CACHE_NAME = "ihnatiev-site-v0.7.81a.300926-r5";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -28,6 +28,7 @@ const APP_SHELL = [
   "./css/accessibility.css",
   "./css/responsive.css",
   "./css/styles.css",
+  "./css/new-video-note.css",
   "./config.js",
   "./files/content/home.json",
   "./files/content/activities.json",
@@ -43,6 +44,8 @@ const APP_SHELL = [
   "./js/site-search.js",
   "./js/content-loader.js",
   "./js/youtube-feed.js",
+  "./js/new-video-note.js",
+  "./files/content/video-index.json",
   "./js/mobile-navigation.js",
   "./js/contact-page.js",
   "./js/visitor-counter.js",

@@ -47,6 +47,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
   <link rel="canonical" href="https://iva.net.ua/" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/new-video-note.css" />
   <title>Віталій Ігнатьєв — філософ, викладач, священнослужитель</title>
   <meta name="description" content="Персональний сайт Віталія Ігнатьєва: наукова, освітня та духовна діяльність, публікації, матеріали й контакти." />
   <meta property="og:title" content="Віталій Ігнатьєв — філософ, викладач, священнослужитель" />
@@ -88,6 +89,17 @@
   </header>
 
   <main>
+    <aside class="new-video-note" data-new-video-note hidden>
+      <a class="new-video-note-link" data-new-video-link>
+        <span class="new-video-note-play" aria-hidden="true">▶</span>
+        <span class="new-video-note-copy">
+          <span class="new-video-note-label" data-new-video-label></span>
+          <span class="new-video-note-title" data-new-video-title></span>
+        </span>
+        <span aria-hidden="true">↗</span>
+      </a>
+      <button type="button" class="new-video-note-close" data-new-video-close>×</button>
+    </aside>
     <section id="about" class="panel about">
       <h2 data-home-about-heading>Про мене</h2>
       <div class="about-container">
@@ -143,5 +155,6 @@
   <script src="js/menu-loader.js"></script>
   <script src="js/app-update.js"></script>
   <script src="app.js"></script>
+  <script src="js/new-video-note.js"></script>
 </body>
 </html>
