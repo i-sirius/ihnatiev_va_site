@@ -25,12 +25,13 @@
     const remaining = Date.parse(video.publishedAt) + lifetime - Date.now();
     if (remaining <= 0) { hide(); return; }
     const english = document.documentElement.lang === "en";
-    note.querySelector("[data-new-video-label]").textContent = english ? "Fresh from the channel" : "Свіже на каналі";
+    note.querySelector("[data-new-video-label]").textContent = english ? "New video aboard!" : "Новий відос на борту!";
     note.querySelector("[data-new-video-title]").textContent = english
       ? video.titleEn || video.title
       : video.title || video.titleEn;
     close.setAttribute("aria-label", english ? "Dismiss new video notice" : "Приховати повідомлення про нове відео");
-    link.href = `activity1.html#video-${encodeURIComponent(video.id)}`;
+    link.href = `https://www.youtube.com/watch?v=${encodeURIComponent(video.id)}`;
+    link.title = note.querySelector("[data-new-video-title]").textContent;
     note.hidden = false;
     clearTimeout(timer);
     timer = setTimeout(hide, remaining);
