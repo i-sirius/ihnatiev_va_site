@@ -1112,6 +1112,31 @@ function checkAdminConfig() {
   });
 }
 
+function checkVideoCatalogue() {
+  const source = "files/content/video-index.json";
+  const payload = readJson(source);
+  const videos = payload && Array.isArray(payload.items)
+    ? payload.items.filter((item) => item && item.enabled !== false)
+    : [];
+  if (videos.length < 6) {
+    fail(`${source}: at least six enabled videos are required for the video grid`);
+  }
+  const ids = new Set();
+  let previousDate = Infinity;
+  videos.slice(0, 6).forEach((video) => {
+    if (!/^[A-Za-z0-9_-]{11}$/.test(video.id || "") || ids.has(video.id)) {
+      fail(`${source}: video grid requires unique valid YouTube IDs`);
+    }
+    ids.add(video.id);
+    const published = Date.parse(video.publishedAt);
+    if (!Number.isFinite(published) || published > previousDate) {
+      fail(`${source}: first six videos must be ordered by publishedAt, newest first`);
+    }
+    previousDate = published;
+  });
+}
+
+checkVideoCatalogue();
 checkJsonFiles();
 checkKnownContentManifests();
 checkHtmlLocalLinks();

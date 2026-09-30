@@ -60,7 +60,33 @@
             "hesychasm"
           ]
         }
-      ]
+      ],
+      "publishedAt": "2026-09-29T19:21:46+00:00"
+    },
+    {
+      "id": "0fp8I4b2i5Y",
+      "enabled": true,
+      "section": "research",
+      "category": "videos",
+      "pageUrl": "activity1.html",
+      "url": "https://www.youtube.com/watch?v=0fp8I4b2i5Y",
+      "date": "2026-09-02",
+      "title": "ЛЮДИНА ЯК ПОЄДНАНЯ ДВОХ СТОРІН КОСМІЧНОГО БУТТЯ. Частина 2 (доповідь прот. Георгія Анєнкова)",
+      "titleEn": "The Human Being as a Union of Two Sides of Cosmic Being. Part 2 (report by Archpriest Heorhii Anienkov)",
+      "description": "Людина як поєднання двох сторін космічного буття. Частина 2. Доповідь прот. Георгія Анєнкова.",
+      "descriptionEn": "The human being as a union of two sides of cosmic being. Part 2. A report by Archpriest Heorhii Anienkov.",
+      "tags": [
+        "людина",
+        "космічне буття",
+        "ісихазм"
+      ],
+      "tagsEn": [
+        "human being",
+        "cosmic being",
+        "hesychasm"
+      ],
+      "supportDocuments": [],
+      "publishedAt": "2026-09-02T17:42:40+00:00"
     },
     {
       "id": "cfcq_70pfKI",
@@ -122,7 +148,45 @@
             "cosmic principles of being"
           ]
         }
-      ]
+      ],
+      "publishedAt": "2026-07-20T18:00:20+00:00"
+    },
+    {
+      "id": "_6mz7_ZkonE",
+      "enabled": true,
+      "section": "research",
+      "category": "videos",
+      "pageUrl": "activity1.html",
+      "url": "https://www.youtube.com/watch?v=_6mz7_ZkonE",
+      "date": "2026-06-21",
+      "title": "Практичні аспекти вчення Григорія Палами",
+      "titleEn": "Practical Aspects of Gregory Palamas’s Teaching",
+      "description": "Доповідь Ігоря Спаського про практичні аспекти вчення Григорія Палами, паламізм, ісихазм і православне богослов’я.",
+      "descriptionEn": "A report by Ihor Spaskyi on practical aspects of Gregory Palamas’s teaching, Palamism, hesychasm, and Orthodox theology.",
+      "tags": [
+        "Григорій Палама",
+        "Палама",
+        "паламізм",
+        "ісихазм",
+        "богослов’я",
+        "православна традиція",
+        "духовна практика",
+        "доповідь",
+        "відео"
+      ],
+      "tagsEn": [
+        "Gregory Palamas",
+        "Palamas",
+        "Palamism",
+        "hesychasm",
+        "theology",
+        "Orthodox tradition",
+        "spiritual practice",
+        "report",
+        "video"
+      ],
+      "supportDocuments": [],
+      "publishedAt": "2026-06-21T20:40:11+00:00"
     },
     {
       "id": "bL44iPuxY84",
@@ -198,7 +262,8 @@
             "theology"
           ]
         }
-      ]
+      ],
+      "publishedAt": "2026-05-24T20:04:27+00:00"
     },
     {
       "id": "Q8KNXpftoJE",
@@ -268,43 +333,8 @@
             "theology"
           ]
         }
-      ]
-    },
-    {
-      "id": "_6mz7_ZkonE",
-      "enabled": true,
-      "section": "research",
-      "category": "videos",
-      "pageUrl": "activity1.html",
-      "url": "https://www.youtube.com/watch?v=_6mz7_ZkonE",
-      "date": "2026-06-21",
-      "title": "Практичні аспекти вчення Григорія Палами",
-      "titleEn": "Practical Aspects of Gregory Palamas’s Teaching",
-      "description": "Доповідь Ігоря Спаського про практичні аспекти вчення Григорія Палами, паламізм, ісихазм і православне богослов’я.",
-      "descriptionEn": "A report by Ihor Spaskyi on practical aspects of Gregory Palamas’s teaching, Palamism, hesychasm, and Orthodox theology.",
-      "tags": [
-        "Григорій Палама",
-        "Палама",
-        "паламізм",
-        "ісихазм",
-        "богослов’я",
-        "православна традиція",
-        "духовна практика",
-        "доповідь",
-        "відео"
       ],
-      "tagsEn": [
-        "Gregory Palamas",
-        "Palamas",
-        "Palamism",
-        "hesychasm",
-        "theology",
-        "Orthodox tradition",
-        "spiritual practice",
-        "report",
-        "video"
-      ],
-      "supportDocuments": []
+      "publishedAt": "2026-04-27T11:08:25+00:00"
     }
   ]
 }

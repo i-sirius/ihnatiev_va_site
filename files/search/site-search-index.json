@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-09-30T11:33:23Z",
+    "generatedAt":  "2026-09-30T17:29:55Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  141,
+    "itemCount":  142,
     "items":  [
                   {
                       "id":  "page-home",
@@ -164,12 +164,12 @@
                                    "en"
                                ],
                       "searchText":  {
-                                         "uk":  "Наукова активність Дослідження з питань некласичної філософії та філософії релігії Наукова діяльність (Віталій Аркадійович Ігнатьєв) наукова діяльність наукова активність публікації відео доповіді ісихазм Палама богослов’я філософія релігії",
-                                         "en":  "Research Activity Research in non-classical philosophy and philosophy of religion Research activity (Vitalii Ihnatiev) research activity publications videos reports hesychasm Palamas theology philosophy of religion"
+                                         "uk":  "Наукова активність Дослідження з питань некласичної філософії та філософії релігії Наукова діяльність (Віталій Аркадійович Ігнатьєв) /files/media/activity1/hero-2026-09.jpg наукова діяльність наукова активність публікації відео доповіді ісихазм Палама богослов’я філософія релігії",
+                                         "en":  "Research Activity Research in non-classical philosophy and philosophy of religion Research activity (Vitalii Ihnatiev) /files/media/activity1/hero-2026-09.jpg research activity publications videos reports hesychasm Palamas theology philosophy of religion"
                                      },
                       "normalizedText":  {
-                                             "uk":  "наукова активність дослідження з питань некласичної філософії та філософії релігії наукова діяльність віталій аркадійович ігнатьєв наукова діяльність наукова активність публікації відео доповіді ісихазм палама богослов\u0027я філософія релігії",
-                                             "en":  "research activity research in non classical philosophy and philosophy of religion research activity vitalii ihnatiev research activity publications videos reports hesychasm palamas theology philosophy of religion"
+                                             "uk":  "наукова активність дослідження з питань некласичної філософії та філософії релігії наукова діяльність віталій аркадійович ігнатьєв files media activity1 hero 2026 09 jpg наукова діяльність наукова активність публікації відео доповіді ісихазм палама богослов\u0027я філософія релігії",
+                                             "en":  "research activity research in non classical philosophy and philosophy of religion research activity vitalii ihnatiev files media activity1 hero 2026 09 jpg research activity publications videos reports hesychasm palamas theology philosophy of religion"
                                          },
                       "rankBoost":  30
                   },
@@ -236,12 +236,12 @@
                                    "en"
                                ],
                       "searchText":  {
-                                         "uk":  "Освітня діяльність Викладач філософії в Донецькому національному медичному університеті у м. Кропивницький Освітній процес (Віталій Ігнатьєв) освітня діяльність викладання філософія навчальні матеріали лекції студенти",
-                                         "en":  "Educational Activity Lecturer in philosophy at Donetsk National Medical University in Kropyvnytskyi Educational activity (Vitalii Ihnatiev) educational activity teaching philosophy teaching materials lectures students"
+                                         "uk":  "Освітня діяльність Викладач філософії в Донецькому національному медичному університеті у м. Кропивницький Освітній процес (Віталій Ігнатьєв) /files/media/activity2/hero.jpg освітня діяльність викладання філософія навчальні матеріали лекції студенти",
+                                         "en":  "Educational Activity Lecturer in philosophy at Donetsk National Medical University in Kropyvnytskyi Educational activity (Vitalii Ihnatiev) /files/media/activity2/hero.jpg educational activity teaching philosophy teaching materials lectures students"
                                      },
                       "normalizedText":  {
-                                             "uk":  "освітня діяльність викладач філософії в донецькому національному медичному університеті у м кропивницький освітній процес віталій ігнатьєв освітня діяльність викладання філософія навчальні матеріали лекції студенти",
-                                             "en":  "educational activity lecturer in philosophy at donetsk national medical university in kropyvnytskyi educational activity vitalii ihnatiev educational activity teaching philosophy teaching materials lectures students"
+                                             "uk":  "освітня діяльність викладач філософії в донецькому національному медичному університеті у м кропивницький освітній процес віталій ігнатьєв files media activity2 hero jpg освітня діяльність викладання філософія навчальні матеріали лекції студенти",
+                                             "en":  "educational activity lecturer in philosophy at donetsk national medical university in kropyvnytskyi educational activity vitalii ihnatiev files media activity2 hero jpg educational activity teaching philosophy teaching materials lectures students"
                                          },
                       "rankBoost":  30
                   },
@@ -312,12 +312,12 @@
                                    "en"
                                ],
                       "searchText":  {
-                                         "uk":  "Священнослужіння Священник, протоієрей Свято-Покровського Храму у м. Кропивницький Священнослужіння (Віталій Ігнатьєв) священнослужіння духовна діяльність проповідь проповіді аудіо церква богослов’я",
-                                         "en":  "Priestly Ministry Priest, Archpriest of the Holy Protection Church in Kropyvnytskyi Priestly ministry (Vitalii Ihnatiev) priestly ministry spiritual activity sermon sermons audio church theology"
+                                         "uk":  "Священнослужіння Священник, протоієрей Свято-Покровського Храму у м. Кропивницький Священнослужіння (Віталій Ігнатьєв) /files/media/activity3/hero.jpg священнослужіння духовна діяльність проповідь проповіді аудіо церква богослов’я",
+                                         "en":  "Priestly Ministry Priest, Archpriest of the Holy Protection Church in Kropyvnytskyi Priestly ministry (Vitalii Ihnatiev) /files/media/activity3/hero.jpg priestly ministry spiritual activity sermon sermons audio church theology"
                                      },
                       "normalizedText":  {
-                                             "uk":  "священнослужіння священник протоієрей свято покровського храму у м кропивницький священнослужіння віталій ігнатьєв священнослужіння духовна діяльність проповідь проповіді аудіо церква богослов\u0027я",
-                                             "en":  "priestly ministry priest archpriest of the holy protection church in kropyvnytskyi priestly ministry vitalii ihnatiev priestly ministry spiritual activity sermon sermons audio church theology"
+                                             "uk":  "священнослужіння священник протоієрей свято покровського храму у м кропивницький священнослужіння віталій ігнатьєв files media activity3 hero jpg священнослужіння духовна діяльність проповідь проповіді аудіо церква богослов\u0027я",
+                                             "en":  "priestly ministry priest archpriest of the holy protection church in kropyvnytskyi priestly ministry vitalii ihnatiev files media activity3 hero jpg priestly ministry spiritual activity sermon sermons audio church theology"
                                          },
                       "rankBoost":  30
                   },
@@ -4952,6 +4952,88 @@
                       "rankBoost":  55
                   },
                   {
+                      "id":  "video-0fp8I4b2i5Y",
+                      "type":  "video",
+                      "url":  "activity1.html#video-0fp8I4b2i5Y",
+                      "title":  {
+                                    "uk":  "ЛЮДИНА ЯК ПОЄДНАНЯ ДВОХ СТОРІН КОСМІЧНОГО БУТТЯ. Частина 2 (доповідь прот. Георгія Анєнкова)",
+                                    "en":  "The Human Being as a Union of Two Sides of Cosmic Being. Part 2 (report by Archpriest Heorhii Anienkov)"
+                                },
+                      "titleEn":  "The Human Being as a Union of Two Sides of Cosmic Being. Part 2 (report by Archpriest Heorhii Anienkov)",
+                      "section":  {
+                                      "uk":  "Відео",
+                                      "en":  "Video"
+                                  },
+                      "description":  {
+                                          "uk":  "Людина як поєднання двох сторін космічного буття. Частина 2. Доповідь прот. Георгія Анєнкова.",
+                                          "en":  "The human being as a union of two sides of cosmic being. Part 2. A report by Archpriest Heorhii Anienkov."
+                                      },
+                      "descriptionEn":  "The human being as a union of two sides of cosmic being. Part 2. A report by Archpriest Heorhii Anienkov.",
+                      "topics":  [
+                                     "video",
+                                     "reports",
+                                     "research",
+                                     "людина",
+                                     "космічне буття",
+                                     "ісихазм",
+                                     "human being",
+                                     "cosmic being",
+                                     "hesychasm"
+                                 ],
+                      "tags":  [
+                                   "video",
+                                   "reports",
+                                   "research",
+                                   "людина",
+                                   "космічне буття",
+                                   "ісихазм",
+                                   "human being",
+                                   "cosmic being",
+                                   "hesychasm",
+                                   "Відео",
+                                   "Доповіді",
+                                   "Матеріали",
+                                   "Video",
+                                   "Reports",
+                                   "Materials"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "людина",
+                                                  "космічне буття",
+                                                  "ісихазм",
+                                                  "Відео",
+                                                  "Доповіді",
+                                                  "Матеріали"
+                                              ],
+                                       "en":  [
+                                                  "human being",
+                                                  "cosmic being",
+                                                  "hesychasm",
+                                                  "Video",
+                                                  "Reports",
+                                                  "Materials"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "ЛЮДИНА ЯК ПОЄДНАНЯ ДВОХ СТОРІН КОСМІЧНОГО БУТТЯ. Частина 2 (доповідь прот. Георгія Анєнкова) Людина як поєднання двох сторін космічного буття. Частина 2. Доповідь прот. Георгія Анєнкова. людина космічне буття ісихазм Відео Доповіді Матеріали",
+                                         "en":  "The Human Being as a Union of Two Sides of Cosmic Being. Part 2 (report by Archpriest Heorhii Anienkov) The human being as a union of two sides of cosmic being. Part 2. A report by Archpriest Heorhii Anienkov. human being cosmic being hesychasm Video Reports Materials"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "людина як поєднаня двох сторін космічного буття частина 2 доповідь прот георгія анєнкова людина як поєднання двох сторін космічного буття частина 2 доповідь прот георгія анєнкова людина космічне буття ісихазм відео доповіді матеріали",
+                                             "en":  "the human being as a union of two sides of cosmic being part 2 report by archpriest heorhii anienkov the human being as a union of two sides of cosmic being part 2 a report by archpriest heorhii anienkov human being cosmic being hesychasm video reports materials"
+                                         },
+                      "date":  "2026-09-02",
+                      "videoId":  "0fp8I4b2i5Y",
+                      "pageUrl":  "activity1.html#video-0fp8I4b2i5Y",
+                      "externalUrl":  "https://www.youtube.com/watch?v=0fp8I4b2i5Y",
+                      "rankBoost":  45
+                  },
+                  {
                       "id":  "video-cfcq_70pfKI",
                       "type":  "video",
                       "url":  "activity1.html#video-cfcq_70pfKI",
@@ -5177,6 +5259,122 @@
                       "pageUrl":  "activity1.html#video-cfcq_70pfKI",
                       "documentType":  "video-support",
                       "rankBoost":  55
+                  },
+                  {
+                      "id":  "video-_6mz7_ZkonE",
+                      "type":  "video",
+                      "url":  "activity1.html#video-_6mz7_ZkonE",
+                      "title":  {
+                                    "uk":  "Практичні аспекти вчення Григорія Палами",
+                                    "en":  "Practical Aspects of Gregory Palamas’s Teaching"
+                                },
+                      "titleEn":  "Practical Aspects of Gregory Palamas’s Teaching",
+                      "section":  {
+                                      "uk":  "Відео",
+                                      "en":  "Video"
+                                  },
+                      "description":  {
+                                          "uk":  "Доповідь Ігоря Спаського про практичні аспекти вчення Григорія Палами, паламізм, ісихазм і православне богослов’я.",
+                                          "en":  "A report by Ihor Spaskyi on practical aspects of Gregory Palamas’s teaching, Palamism, hesychasm, and Orthodox theology."
+                                      },
+                      "descriptionEn":  "A report by Ihor Spaskyi on practical aspects of Gregory Palamas’s teaching, Palamism, hesychasm, and Orthodox theology.",
+                      "topics":  [
+                                     "video",
+                                     "reports",
+                                     "research",
+                                     "Григорій Палама",
+                                     "Палама",
+                                     "паламізм",
+                                     "ісихазм",
+                                     "богослов’я",
+                                     "православна традиція",
+                                     "духовна практика",
+                                     "доповідь",
+                                     "відео",
+                                     "Gregory Palamas",
+                                     "Palamas",
+                                     "Palamism",
+                                     "hesychasm",
+                                     "theology",
+                                     "Orthodox tradition",
+                                     "spiritual practice",
+                                     "report"
+                                 ],
+                      "tags":  [
+                                   "video",
+                                   "reports",
+                                   "research",
+                                   "Григорій Палама",
+                                   "Палама",
+                                   "паламізм",
+                                   "ісихазм",
+                                   "богослов’я",
+                                   "православна традиція",
+                                   "духовна практика",
+                                   "доповідь",
+                                   "відео",
+                                   "Gregory Palamas",
+                                   "Palamas",
+                                   "Palamism",
+                                   "hesychasm",
+                                   "theology",
+                                   "Orthodox tradition",
+                                   "spiritual practice",
+                                   "report",
+                                   "Відео",
+                                   "Доповіді",
+                                   "Матеріали",
+                                   "Video",
+                                   "Reports",
+                                   "Materials"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "Григорій Палама",
+                                                  "Палама",
+                                                  "паламізм",
+                                                  "ісихазм",
+                                                  "богослов’я",
+                                                  "православна традиція",
+                                                  "духовна практика",
+                                                  "доповідь",
+                                                  "відео",
+                                                  "Відео",
+                                                  "Доповіді",
+                                                  "Матеріали"
+                                              ],
+                                       "en":  [
+                                                  "Gregory Palamas",
+                                                  "Palamas",
+                                                  "Palamism",
+                                                  "hesychasm",
+                                                  "theology",
+                                                  "Orthodox tradition",
+                                                  "spiritual practice",
+                                                  "report",
+                                                  "video",
+                                                  "Video",
+                                                  "Reports",
+                                                  "Materials"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Практичні аспекти вчення Григорія Палами Доповідь Ігоря Спаського про практичні аспекти вчення Григорія Палами, паламізм, ісихазм і православне богослов’я. Григорій Палама Палама паламізм ісихазм богослов’я православна традиція духовна практика доповідь відео Відео Доповіді Матеріали",
+                                         "en":  "Practical Aspects of Gregory Palamas’s Teaching A report by Ihor Spaskyi on practical aspects of Gregory Palamas’s teaching, Palamism, hesychasm, and Orthodox theology. Gregory Palamas Palamas Palamism hesychasm theology Orthodox tradition spiritual practice report video Video Reports Materials"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "практичні аспекти вчення григорія палами доповідь ігоря спаського про практичні аспекти вчення григорія палами паламізм ісихазм і православне богослов\u0027я григорій палама палама паламізм ісихазм богослов\u0027я православна традиція духовна практика доповідь відео відео доповіді матеріали",
+                                             "en":  "practical aspects of gregory palamas\u0027s teaching a report by ihor spaskyi on practical aspects of gregory palamas\u0027s teaching palamism hesychasm and orthodox theology gregory palamas palamas palamism hesychasm theology orthodox tradition spiritual practice report video video reports materials"
+                                         },
+                      "date":  "2026-06-21",
+                      "videoId":  "_6mz7_ZkonE",
+                      "pageUrl":  "activity1.html#video-_6mz7_ZkonE",
+                      "externalUrl":  "https://www.youtube.com/watch?v=_6mz7_ZkonE",
+                      "rankBoost":  45
                   },
                   {
                       "id":  "video-bL44iPuxY84",
@@ -5703,122 +5901,6 @@
                       "pageUrl":  "activity1.html#video-Q8KNXpftoJE",
                       "documentType":  "video-support",
                       "rankBoost":  55
-                  },
-                  {
-                      "id":  "video-_6mz7_ZkonE",
-                      "type":  "video",
-                      "url":  "activity1.html#video-_6mz7_ZkonE",
-                      "title":  {
-                                    "uk":  "Практичні аспекти вчення Григорія Палами",
-                                    "en":  "Practical Aspects of Gregory Palamas’s Teaching"
-                                },
-                      "titleEn":  "Practical Aspects of Gregory Palamas’s Teaching",
-                      "section":  {
-                                      "uk":  "Відео",
-                                      "en":  "Video"
-                                  },
-                      "description":  {
-                                          "uk":  "Доповідь Ігоря Спаського про практичні аспекти вчення Григорія Палами, паламізм, ісихазм і православне богослов’я.",
-                                          "en":  "A report by Ihor Spaskyi on practical aspects of Gregory Palamas’s teaching, Palamism, hesychasm, and Orthodox theology."
-                                      },
-                      "descriptionEn":  "A report by Ihor Spaskyi on practical aspects of Gregory Palamas’s teaching, Palamism, hesychasm, and Orthodox theology.",
-                      "topics":  [
-                                     "video",
-                                     "reports",
-                                     "research",
-                                     "Григорій Палама",
-                                     "Палама",
-                                     "паламізм",
-                                     "ісихазм",
-                                     "богослов’я",
-                                     "православна традиція",
-                                     "духовна практика",
-                                     "доповідь",
-                                     "відео",
-                                     "Gregory Palamas",
-                                     "Palamas",
-                                     "Palamism",
-                                     "hesychasm",
-                                     "theology",
-                                     "Orthodox tradition",
-                                     "spiritual practice",
-                                     "report"
-                                 ],
-                      "tags":  [
-                                   "video",
-                                   "reports",
-                                   "research",
-                                   "Григорій Палама",
-                                   "Палама",
-                                   "паламізм",
-                                   "ісихазм",
-                                   "богослов’я",
-                                   "православна традиція",
-                                   "духовна практика",
-                                   "доповідь",
-                                   "відео",
-                                   "Gregory Palamas",
-                                   "Palamas",
-                                   "Palamism",
-                                   "hesychasm",
-                                   "theology",
-                                   "Orthodox tradition",
-                                   "spiritual practice",
-                                   "report",
-                                   "Відео",
-                                   "Доповіді",
-                                   "Матеріали",
-                                   "Video",
-                                   "Reports",
-                                   "Materials"
-                               ],
-                      "keywords":  {
-                                       "uk":  [
-                                                  "Григорій Палама",
-                                                  "Палама",
-                                                  "паламізм",
-                                                  "ісихазм",
-                                                  "богослов’я",
-                                                  "православна традиція",
-                                                  "духовна практика",
-                                                  "доповідь",
-                                                  "відео",
-                                                  "Відео",
-                                                  "Доповіді",
-                                                  "Матеріали"
-                                              ],
-                                       "en":  [
-                                                  "Gregory Palamas",
-                                                  "Palamas",
-                                                  "Palamism",
-                                                  "hesychasm",
-                                                  "theology",
-                                                  "Orthodox tradition",
-                                                  "spiritual practice",
-                                                  "report",
-                                                  "video",
-                                                  "Video",
-                                                  "Reports",
-                                                  "Materials"
-                                              ]
-                                   },
-                      "lang":  [
-                                   "uk",
-                                   "en"
-                               ],
-                      "searchText":  {
-                                         "uk":  "Практичні аспекти вчення Григорія Палами Доповідь Ігоря Спаського про практичні аспекти вчення Григорія Палами, паламізм, ісихазм і православне богослов’я. Григорій Палама Палама паламізм ісихазм богослов’я православна традиція духовна практика доповідь відео Відео Доповіді Матеріали",
-                                         "en":  "Practical Aspects of Gregory Palamas’s Teaching A report by Ihor Spaskyi on practical aspects of Gregory Palamas’s teaching, Palamism, hesychasm, and Orthodox theology. Gregory Palamas Palamas Palamism hesychasm theology Orthodox tradition spiritual practice report video Video Reports Materials"
-                                     },
-                      "normalizedText":  {
-                                             "uk":  "практичні аспекти вчення григорія палами доповідь ігоря спаського про практичні аспекти вчення григорія палами паламізм ісихазм і православне богослов\u0027я григорій палама палама паламізм ісихазм богослов\u0027я православна традиція духовна практика доповідь відео відео доповіді матеріали",
-                                             "en":  "practical aspects of gregory palamas\u0027s teaching a report by ihor spaskyi on practical aspects of gregory palamas\u0027s teaching palamism hesychasm and orthodox theology gregory palamas palamas palamism hesychasm theology orthodox tradition spiritual practice report video video reports materials"
-                                         },
-                      "date":  "2026-06-21",
-                      "videoId":  "_6mz7_ZkonE",
-                      "pageUrl":  "activity1.html#video-_6mz7_ZkonE",
-                      "externalUrl":  "https://www.youtube.com/watch?v=_6mz7_ZkonE",
-                      "rankBoost":  45
                   },
                   {
                       "id":  "audio-sermon-2026-01-26-gods-gifts-path-to-christ",
