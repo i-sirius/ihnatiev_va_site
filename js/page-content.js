@@ -1017,7 +1017,7 @@
     setText("[data-activity-page-heading]", activity.name);
 
     const heroImage = {
-      src: `files/media/activity${activityId}/hero.jpg`,
+      src: activity.heroImage && activity.heroImage.src ? activity.heroImage.src : `files/media/activity${activityId}/hero.jpg`,
       alt: activity.heroImage && activity.heroImage.alt ? activity.heroImage.alt : activity.name
     };
     updateImage("[data-activity-hero-image]", heroImage, homeFallbackImage);

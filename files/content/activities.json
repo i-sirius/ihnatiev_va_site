@@ -4,21 +4,24 @@
       "name": "Наукова активність",
       "cardDescription": "Дослідження з питань некласичної філософії та філософії релігії",
       "heroImage": {
-        "alt": "Наукова діяльність (Віталій Аркадійович Ігнатьєв)"
+        "alt": "Наукова діяльність (Віталій Аркадійович Ігнатьєв)",
+        "src": "/files/media/activity1/hero-2026-09.jpg"
       }
     },
     "2": {
       "name": "Освітня діяльність",
       "cardDescription": "Викладач філософії в Донецькому національному медичному університеті у м. Кропивницький",
       "heroImage": {
-        "alt": "Освітній процес (Віталій Ігнатьєв)"
+        "alt": "Освітній процес (Віталій Ігнатьєв)",
+        "src": "/files/media/activity2/hero.jpg"
       }
     },
     "3": {
       "name": "Священнослужіння",
       "cardDescription": "Священник, протоієрей Свято-Покровського Храму у м. Кропивницький",
       "heroImage": {
-        "alt": "Священнослужіння (Віталій Ігнатьєв)"
+        "alt": "Священнослужіння (Віталій Ігнатьєв)",
+        "src": "/files/media/activity3/hero.jpg"
       }
     }
   },
@@ -27,21 +30,24 @@
       "name": "Research Activity",
       "cardDescription": "Research in non-classical philosophy and philosophy of religion",
       "heroImage": {
-        "alt": "Research activity (Vitalii Ihnatiev)"
+        "alt": "Research activity (Vitalii Ihnatiev)",
+        "src": "/files/media/activity1/hero-2026-09.jpg"
       }
     },
     "2": {
       "name": "Educational Activity",
       "cardDescription": "Lecturer in philosophy at Donetsk National Medical University in Kropyvnytskyi",
       "heroImage": {
-        "alt": "Educational activity (Vitalii Ihnatiev)"
+        "alt": "Educational activity (Vitalii Ihnatiev)",
+        "src": "/files/media/activity2/hero.jpg"
       }
     },
     "3": {
       "name": "Priestly Ministry",
       "cardDescription": "Priest, Archpriest of the Holy Protection Church in Kropyvnytskyi",
       "heroImage": {
-        "alt": "Priestly ministry (Vitalii Ihnatiev)"
+        "alt": "Priestly ministry (Vitalii Ihnatiev)",
+        "src": "/files/media/activity3/hero.jpg"
       }
     }
   }

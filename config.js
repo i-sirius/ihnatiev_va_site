@@ -94,7 +94,7 @@ const SITE = {
         }
       ],
       heroImage: {
-        src: "files/media/activity1-photo1.jpg",
+        src: "files/media/activity1/hero-2026-09.jpg",
         alt: "Наукова діяльність (Віталій Ігнатьєв)"
       }
     },
@@ -116,7 +116,7 @@ const SITE = {
         }
       ],
       heroImage: {
-        src: "files/media/activity2-photo1.jpg",
+        src: "files/media/activity2/hero.jpg",
         alt: "Освітній процес (Віталій Ігнатьєв)"
       }
     },
@@ -137,7 +137,7 @@ const SITE = {
         }
       ],
       heroImage: {
-        src: "files/media/activity3-photo1.jpg",
+        src: "files/media/activity3/hero.jpg",
         alt: "Священнослужіння (Віталій Ігнатьєв)"
       }
     }

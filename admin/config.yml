@@ -76,10 +76,10 @@ collections:
 
   - name: activities_content
     label: "Розділи діяльності"
-    description: "Назви, короткі описи карток і alt-тексти hero-зображень. Повні тексти сторінок тут не редагуються."
+    description: "Головні фото розділів, назви та короткі описи карток. Фото обирається окремо для кожної мови."
     files:
       - name: activities
-        label: "Назви та короткі описи"
+        label: "Фото, назви та короткі описи"
         file: files/content/activities.json
         format: json
         fields:
@@ -93,10 +93,17 @@ collections:
                 fields:
                   - { label: "Назва", name: name, widget: string }
                   - { label: "Короткий опис картки", name: cardDescription, widget: text, hint: "Короткий текст для картки на головній сторінці." }
-                  - label: "Hero image"
+                  - label: "Головне фото / Main photo"
                     name: heroImage
                     widget: object
                     fields:
+                      - label: "Зображення / Image"
+                        name: src
+                        widget: image
+                        choose_url: false
+                        media_folder: /files/media/uploads
+                        public_folder: /files/media/uploads
+                        hint: "Оберіть або завантажте фото. Для однакового фото обома мовами оберіть цей самий файл у блоках Українська та English."
                       - { label: "Alt-текст", name: alt, widget: string, hint: "Опис зображення для доступності, без HTML." }
               - label: "Освітня діяльність"
                 name: "2"
@@ -104,10 +111,17 @@ collections:
                 fields:
                   - { label: "Назва", name: name, widget: string }
                   - { label: "Короткий опис картки", name: cardDescription, widget: text, hint: "Короткий текст для картки на головній сторінці." }
-                  - label: "Hero image"
+                  - label: "Головне фото / Main photo"
                     name: heroImage
                     widget: object
                     fields:
+                      - label: "Зображення / Image"
+                        name: src
+                        widget: image
+                        choose_url: false
+                        media_folder: /files/media/uploads
+                        public_folder: /files/media/uploads
+                        hint: "Оберіть або завантажте фото. Для однакового фото обома мовами оберіть цей самий файл у блоках Українська та English."
                       - { label: "Alt-текст", name: alt, widget: string, hint: "Опис зображення для доступності, без HTML." }
               - label: "Священнослужіння"
                 name: "3"
@@ -115,10 +129,17 @@ collections:
                 fields:
                   - { label: "Назва", name: name, widget: string }
                   - { label: "Короткий опис картки", name: cardDescription, widget: text, hint: "Короткий текст для картки на головній сторінці." }
-                  - label: "Hero image"
+                  - label: "Головне фото / Main photo"
                     name: heroImage
                     widget: object
                     fields:
+                      - label: "Зображення / Image"
+                        name: src
+                        widget: image
+                        choose_url: false
+                        media_folder: /files/media/uploads
+                        public_folder: /files/media/uploads
+                        hint: "Оберіть або завантажте фото. Для однакового фото обома мовами оберіть цей самий файл у блоках Українська та English."
                       - { label: "Alt-текст", name: alt, widget: string, hint: "Опис зображення для доступності, без HTML." }
           - label: "English"
             name: en
@@ -130,10 +151,17 @@ collections:
                 fields:
                   - { label: "Name", name: name, widget: string }
                   - { label: "Short card description", name: cardDescription, widget: text, hint: "Short text for the home page card." }
-                  - label: "Hero image"
+                  - label: "Головне фото / Main photo"
                     name: heroImage
                     widget: object
                     fields:
+                      - label: "Зображення / Image"
+                        name: src
+                        widget: image
+                        choose_url: false
+                        media_folder: /files/media/uploads
+                        public_folder: /files/media/uploads
+                        hint: "Оберіть або завантажте фото. Для однакового фото обома мовами оберіть цей самий файл у блоках Українська та English."
                       - { label: "Alt text", name: alt, widget: string, hint: "Accessible image description, no HTML." }
               - label: "Educational Activity"
                 name: "2"
@@ -141,10 +169,17 @@ collections:
                 fields:
                   - { label: "Name", name: name, widget: string }
                   - { label: "Short card description", name: cardDescription, widget: text, hint: "Short text for the home page card." }
-                  - label: "Hero image"
+                  - label: "Головне фото / Main photo"
                     name: heroImage
                     widget: object
                     fields:
+                      - label: "Зображення / Image"
+                        name: src
+                        widget: image
+                        choose_url: false
+                        media_folder: /files/media/uploads
+                        public_folder: /files/media/uploads
+                        hint: "Оберіть або завантажте фото. Для однакового фото обома мовами оберіть цей самий файл у блоках Українська та English."
                       - { label: "Alt text", name: alt, widget: string, hint: "Accessible image description, no HTML." }
               - label: "Priestly Ministry"
                 name: "3"
@@ -152,10 +187,17 @@ collections:
                 fields:
                   - { label: "Name", name: name, widget: string }
                   - { label: "Short card description", name: cardDescription, widget: text, hint: "Short text for the home page card." }
-                  - label: "Hero image"
+                  - label: "Головне фото / Main photo"
                     name: heroImage
                     widget: object
                     fields:
+                      - label: "Зображення / Image"
+                        name: src
+                        widget: image
+                        choose_url: false
+                        media_folder: /files/media/uploads
+                        public_folder: /files/media/uploads
+                        hint: "Оберіть або завантажте фото. Для однакового фото обома мовами оберіть цей самий файл у блоках Українська та English."
                       - { label: "Alt text", name: alt, widget: string, hint: "Accessible image description, no HTML." }
 
   - name: pages_content
