@@ -1,5 +1,4 @@
 (() => {
-  const youtubeCacheMaxAgeMs = 6 * 60 * 60 * 1000;
   const youtubeFeedTimeoutMs = 6000;
   var VIDEO_SUPPORT_DOCS = {
     "_W5SGM5gTQk": {
@@ -35,9 +34,12 @@
       type: "pdf"
     }
   };
-  let youtubeFeedLoading = false;
+  let youtubeFeedRequest = 0;
 
   function formatVideoViews(value, viewsLabel, locale = "uk") {
+    if (value === null || value === undefined || value === "") {
+      return "";
+    }
     const numericValue = Number(value);
     if (!Number.isFinite(numericValue) || numericValue < 0) {
       return "";
@@ -172,6 +174,7 @@
     escapeHtml = (value) => String(value)
   } = {}) {
     let lastRenderedVideos = [];
+    let loading = false;
     var videoTargetTimer = 0;
     var videoTargetAttempt = 0;
     var videoResolvedTargetId = "";
@@ -581,54 +584,18 @@
       renderStatus(statusText, options);
     }
 
-    function renderLoading() {
-      document.querySelectorAll(selector).forEach((element) => {
-        element.innerHTML = Array.from({ length: 3 })
-          .map(
-            () => `
-              <article class="activity-card video-card video-card-loading" aria-hidden="true">
-                <div class="video-card-media video-card-media-loading">
-                  <div class="video-card-thumb-loading"></div>
-                </div>
-                <div class="video-card-line video-card-line-title"></div>
-                <div class="video-card-line video-card-line-button"></div>
-              </article>
-            `
-          )
-          .join("");
-      });
-    }
-
     function getCacheKey(channelId) {
       return `youtube-feed:${channelId}`;
     }
 
     function readCache(channelId) {
       try {
-        const raw = localStorage.getItem(getCacheKey(channelId));
-        if (!raw) {
-          return {
-            videos: [],
-            updatedAt: 0,
-            isFresh: false
-          };
-        }
-
-        const parsed = JSON.parse(raw);
-        const updatedAt = Number(parsed && parsed.updatedAt) || 0;
-        const videos = parsed && Array.isArray(parsed.videos) ? parsed.videos.slice(0, 6) : [];
-
-        return {
-          videos,
-          updatedAt,
-          isFresh: videos.length > 0 && Date.now() - updatedAt < youtubeCacheMaxAgeMs
-        };
+        const parsed = JSON.parse(localStorage.getItem(getCacheKey(channelId)) || "null");
+        return parsed && Array.isArray(parsed.videos)
+          ? parsed.videos.filter((video) => video && video.url).slice(0, 6)
+          : [];
       } catch {
-        return {
-          videos: [],
-          updatedAt: 0,
-          isFresh: false
-        };
+        return [];
       }
     }
 
@@ -687,107 +654,62 @@
         .filter(Boolean);
     }
 
-    function renderFailure(channelId, cachedVideos) {
-      const preservedVideos = cachedVideos.length ? cachedVideos : lastRenderedVideos;
-
-      if (preservedVideos.length) {
-        renderVideoCards(preservedVideos);
-        renderStatus(getVideoErrorText(), {
-          error: true,
-          retry: true
-        });
-        return;
-      }
-
-      renderFallback(channelId, getVideoErrorText(), {
-        error: true,
-        retry: true
-      });
-    }
-
-    function renderFailureWithLocalIndex(channelId, cachedVideos) {
-      return fetchLocalVideoIndex()
-        .then((localVideos) => {
-          if (localVideos.length) {
-            renderVideoCards(localVideos);
-            renderStatus(getVideoErrorText(), {
-              error: true,
-              retry: true
-            });
-            return;
-          }
-
-          renderFailure(channelId, cachedVideos);
-        })
-        .catch(() => {
-          renderFailure(channelId, cachedVideos);
-        });
-    }
-
     function load(options = {}) {
       const target = document.querySelector(selector);
       const channelId = site.youtubeChannelId;
-      const isRetry = Boolean(options.retry);
-
-      if (!target || !channelId || youtubeFeedLoading) {
-        return;
+      if (!target || !channelId || loading) {
+        return Promise.resolve();
       }
 
-      youtubeFeedLoading = true;
-      const cache = readCache(channelId);
-      const cachedVideos = cache.videos;
-      const fallbackVideos = getFallbackVideos(channelId);
-
+      loading = true;
+      const request = ++youtubeFeedRequest;
+      const isCurrent = () => request === youtubeFeedRequest;
+      const cachedVideos = readCache(channelId);
       if (cachedVideos.length) {
         renderVideoCards(cachedVideos);
-        if (cache.isFresh && !isRetry) {
-          renderStatus("");
-          youtubeFeedLoading = false;
-          return;
-        }
-
-        renderStatus(isRetry ? getVideoUi().updating : getVideoUi().cachedText, {
-          loading: true,
-          retry: isRetry,
-          retryDisabled: isRetry
-        });
-      } else if (fallbackVideos.length) {
-        renderFallback(channelId, getVideoUi().updating, {
-          loading: true,
-          retry: isRetry,
-          retryDisabled: isRetry
-        });
       } else {
-        renderLoading();
+        renderFallback(channelId);
       }
+      renderStatus("");
 
-      fetchYoutubeFeedXml(channelId, {
-        retryToken: isRetry ? Date.now() : ""
-      })
-        .then((xmlText) => {
-          const videos = normalizeFeedItems(xmlText);
-
-          if (videos.length) {
-            writeCache(channelId, videos);
-            renderStatus("");
-            renderVideoCards(videos);
-          } else if (cachedVideos.length) {
-            return renderFailureWithLocalIndex(channelId, cachedVideos);
-          } else if (!cachedVideos.length) {
-            return renderFailureWithLocalIndex(channelId, cachedVideos);
+      // Load our own catalogue first; the visitor never waits for the RSS proxy.
+      return fetchLocalVideoIndex()
+        .then((localVideos) => {
+          if (isCurrent() && localVideos.length) {
+            renderVideoCards(localVideos);
           }
         })
         .catch(() => {
-          return renderFailureWithLocalIndex(channelId, cachedVideos);
+          // Keep cached cards or usable channel links if the local file is unavailable.
         })
-        .then(
-          () => {
-            youtubeFeedLoading = false;
-          },
-          () => {
-            youtubeFeedLoading = false;
+        .then(() => {
+          if (!isCurrent()) {
+            return;
           }
-        );
+          return fetchYoutubeFeedXml(channelId, {
+            retryToken: options.retry ? Date.now() : ""
+          }).then((xmlText) => {
+            if (!isCurrent()) {
+              return;
+            }
+            const videos = normalizeFeedItems(xmlText);
+            if (!videos.length) {
+              throw new Error("Empty YouTube feed");
+            }
+            writeCache(channelId, videos);
+            renderVideoCards(videos);
+            renderStatus("");
+          });
+        })
+        .catch(() => {
+          // A background refresh failure is not a page error when cards are available.
+          if (isCurrent() && !lastRenderedVideos.length) {
+            renderFallback(channelId, getVideoErrorText(), { error: true, retry: true });
+          }
+        })
+        .then(() => {
+          loading = false;
+        });
     }
 
     if (window.addEventListener) {
