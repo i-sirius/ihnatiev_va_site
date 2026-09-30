@@ -61,7 +61,7 @@ const SITE = {
   home: {
     aboutHeading: "Про мене",
     aboutImage: {
-      src: "files/media/about-me-photo.jpg",
+      src: "files/media/about-me-photo-2026-09.jpg",
       alt: "Фото Віталія Ігнатьєва"
     },
     aboutParagraphs: [

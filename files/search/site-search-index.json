@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-07-20T19:09:17Z",
+    "generatedAt":  "2026-09-30T11:33:23Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  137,
+    "itemCount":  141,
     "items":  [
                   {
                       "id":  "page-home",
@@ -4747,6 +4747,211 @@
                                          }
                   },
                   {
+                      "id":  "video-_W5SGM5gTQk",
+                      "type":  "video",
+                      "url":  "activity1.html#video-_W5SGM5gTQk",
+                      "title":  {
+                                    "uk":  "Чи існує особистість без Христа? (каппадокійський поворот)",
+                                    "en":  "Can Personhood Exist Without Christ? (The Cappadocian Turn)"
+                                },
+                      "titleEn":  "Can Personhood Exist Without Christ? (The Cappadocian Turn)",
+                      "section":  {
+                                      "uk":  "Відео",
+                                      "en":  "Video"
+                                  },
+                      "description":  {
+                                          "uk":  "Доповідь прот. Віталія Ігнатьєва. Зустріч 27/09/2026. Особистість, індивід та індивідуальність у контексті каппадокійського повороту в історії філософської думки.",
+                                          "en":  "A report by Archpriest Vitalii Ihnatiev. Meeting on 27 September 2026. Personhood, the individual, and individuality in the context of the Cappadocian turn in the history of philosophical thought."
+                                      },
+                      "descriptionEn":  "A report by Archpriest Vitalii Ihnatiev. Meeting on 27 September 2026. Personhood, the individual, and individuality in the context of the Cappadocian turn in the history of philosophical thought.",
+                      "topics":  [
+                                     "video",
+                                     "reports",
+                                     "research",
+                                     "особистість",
+                                     "Христос",
+                                     "каппадокійський поворот",
+                                     "індивід",
+                                     "індивідуальність",
+                                     "ісихазм",
+                                     "personhood",
+                                     "Christ",
+                                     "Cappadocian turn",
+                                     "individual",
+                                     "individuality",
+                                     "hesychasm"
+                                 ],
+                      "tags":  [
+                                   "video",
+                                   "reports",
+                                   "research",
+                                   "особистість",
+                                   "Христос",
+                                   "каппадокійський поворот",
+                                   "індивід",
+                                   "індивідуальність",
+                                   "ісихазм",
+                                   "personhood",
+                                   "Christ",
+                                   "Cappadocian turn",
+                                   "individual",
+                                   "individuality",
+                                   "hesychasm",
+                                   "Відео",
+                                   "Доповіді",
+                                   "Матеріали",
+                                   "Video",
+                                   "Reports",
+                                   "Materials"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "особистість",
+                                                  "Христос",
+                                                  "каппадокійський поворот",
+                                                  "індивід",
+                                                  "індивідуальність",
+                                                  "ісихазм",
+                                                  "Відео",
+                                                  "Доповіді",
+                                                  "Матеріали"
+                                              ],
+                                       "en":  [
+                                                  "personhood",
+                                                  "Christ",
+                                                  "Cappadocian turn",
+                                                  "individual",
+                                                  "individuality",
+                                                  "hesychasm",
+                                                  "Video",
+                                                  "Reports",
+                                                  "Materials"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Чи існує особистість без Христа? (каппадокійський поворот) Доповідь прот. Віталія Ігнатьєва. Зустріч 27/09/2026. Особистість, індивід та індивідуальність у контексті каппадокійського повороту в історії філософської думки. особистість Христос каппадокійський поворот індивід індивідуальність ісихазм Відео Доповіді Матеріали",
+                                         "en":  "Can Personhood Exist Without Christ? (The Cappadocian Turn) A report by Archpriest Vitalii Ihnatiev. Meeting on 27 September 2026. Personhood, the individual, and individuality in the context of the Cappadocian turn in the history of philosophical thought. personhood Christ Cappadocian turn individual individuality hesychasm Video Reports Materials"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "чи існує особистість без христа каппадокійський поворот доповідь прот віталія ігнатьєва зустріч 27 09 2026 особистість індивід та індивідуальність у контексті каппадокійського повороту в історії філософської думки особистість христос каппадокійський поворот індивід індивідуальність ісихазм відео доповіді матеріали",
+                                             "en":  "can personhood exist without christ the cappadocian turn a report by archpriest vitalii ihnatiev meeting on 27 september 2026 personhood the individual and individuality in the context of the cappadocian turn in the history of philosophical thought personhood christ cappadocian turn individual individuality hesychasm video reports materials"
+                                         },
+                      "date":  "2026-09-27",
+                      "videoId":  "_W5SGM5gTQk",
+                      "pageUrl":  "activity1.html#video-_W5SGM5gTQk",
+                      "externalUrl":  "https://www.youtube.com/watch?v=_W5SGM5gTQk",
+                      "rankBoost":  45
+                  },
+                  {
+                      "id":  "document-personhood-without-christ",
+                      "type":  "document",
+                      "url":  "/files/video-docs/activity1/personhood-without-christ.pdf",
+                      "title":  {
+                                    "uk":  "Чи існує особистість без Христа? (каппадокійський поворот)",
+                                    "en":  "Can Personhood Exist Without Christ? (The Cappadocian Turn)"
+                                },
+                      "titleEn":  "Can Personhood Exist Without Christ? (The Cappadocian Turn)",
+                      "section":  {
+                                      "uk":  "Матеріали до відео",
+                                      "en":  "Video Materials"
+                                  },
+                      "description":  {
+                                          "uk":  "Текст доповіді прот. Віталія Ігнатьєва до зустрічі 27/09/2026. PDF, 6 сторінок.",
+                                          "en":  "Text of the report by Archpriest Vitalii Ihnatiev for the meeting on 27 September 2026. PDF, 6 pages."
+                                      },
+                      "descriptionEn":  "Text of the report by Archpriest Vitalii Ihnatiev for the meeting on 27 September 2026. PDF, 6 pages.",
+                      "topics":  [
+                                     "document",
+                                     "pdf",
+                                     "materials",
+                                     "video-support",
+                                     "Матеріали",
+                                     "PDF",
+                                     "особистість",
+                                     "Христос",
+                                     "каппадокійський поворот",
+                                     "індивід",
+                                     "індивідуальність",
+                                     "ісихазм",
+                                     "пдф",
+                                     "Materials",
+                                     "personhood",
+                                     "Christ",
+                                     "Cappadocian turn",
+                                     "individual",
+                                     "individuality",
+                                     "hesychasm"
+                                 ],
+                      "tags":  [
+                                   "document",
+                                   "pdf",
+                                   "materials",
+                                   "video-support",
+                                   "Матеріали",
+                                   "PDF",
+                                   "особистість",
+                                   "Христос",
+                                   "каппадокійський поворот",
+                                   "індивід",
+                                   "індивідуальність",
+                                   "ісихазм",
+                                   "пдф",
+                                   "Materials",
+                                   "personhood",
+                                   "Christ",
+                                   "Cappadocian turn",
+                                   "individual",
+                                   "individuality",
+                                   "hesychasm"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "Матеріали",
+                                                  "PDF",
+                                                  "особистість",
+                                                  "Христос",
+                                                  "каппадокійський поворот",
+                                                  "індивід",
+                                                  "індивідуальність",
+                                                  "ісихазм",
+                                                  "пдф"
+                                              ],
+                                       "en":  [
+                                                  "Materials",
+                                                  "PDF",
+                                                  "personhood",
+                                                  "Christ",
+                                                  "Cappadocian turn",
+                                                  "individual",
+                                                  "individuality",
+                                                  "hesychasm"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Чи існує особистість без Христа? (каппадокійський поворот) Текст доповіді прот. Віталія Ігнатьєва до зустрічі 27/09/2026. PDF, 6 сторінок. Матеріали PDF особистість Христос каппадокійський поворот індивід індивідуальність ісихазм пдф /files/video-docs/activity1/personhood-without-christ.pdf Матеріали до відео Матеріали PDF",
+                                         "en":  "Can Personhood Exist Without Christ? (The Cappadocian Turn) Text of the report by Archpriest Vitalii Ihnatiev for the meeting on 27 September 2026. PDF, 6 pages. Materials PDF personhood Christ Cappadocian turn individual individuality hesychasm /files/video-docs/activity1/personhood-without-christ.pdf Video support documents Materials PDF"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "чи існує особистість без христа каппадокійський поворот текст доповіді прот віталія ігнатьєва до зустрічі 27 09 2026 pdf 6 сторінок матеріали pdf особистість христос каппадокійський поворот індивід індивідуальність ісихазм пдф files video docs activity1 personhood without christ pdf матеріали до відео матеріали pdf",
+                                             "en":  "can personhood exist without christ the cappadocian turn text of the report by archpriest vitalii ihnatiev for the meeting on 27 september 2026 pdf 6 pages materials pdf personhood christ cappadocian turn individual individuality hesychasm files video docs activity1 personhood without christ pdf video support documents materials pdf"
+                                         },
+                      "href":  "/files/video-docs/activity1/personhood-without-christ.pdf",
+                      "fileType":  "pdf",
+                      "language":  "uk",
+                      "videoId":  "_W5SGM5gTQk",
+                      "pageUrl":  "activity1.html#video-_W5SGM5gTQk",
+                      "documentType":  "video-support",
+                      "rankBoost":  55
+                  },
+                  {
                       "id":  "video-cfcq_70pfKI",
                       "type":  "video",
                       "url":  "activity1.html#video-cfcq_70pfKI",
@@ -5952,6 +6157,194 @@
                       "fileType":  "audio",
                       "date":  "2026-07-19",
                       "duration":  "19:06",
+                      "rankBoost":  38
+                  },
+                  {
+                      "id":  "audio-sermon-2026-09-13-greatest-commandment",
+                      "type":  "audio",
+                      "url":  "activity3.html#audio-sermon-2026-09-13-greatest-commandment",
+                      "title":  {
+                                    "uk":  "Проповіді: Про найбільшу заповідь",
+                                    "en":  "Sermons: On the Greatest Commandment"
+                                },
+                      "titleEn":  "Sermons: On the Greatest Commandment",
+                      "section":  {
+                                      "uk":  "Проповіді",
+                                      "en":  "Sermons"
+                                  },
+                      "description":  {
+                                          "uk":  "Проповідь «Про найбільшу заповідь» від 13 вересня 2026 року.",
+                                          "en":  "Sermon \"On the Greatest Commandment\", 13 September 2026."
+                                      },
+                      "descriptionEn":  "Sermon \"On the Greatest Commandment\", 13 September 2026.",
+                      "topics":  [
+                                     "audio",
+                                     "sermons",
+                                     "закон",
+                                     "пізнання",
+                                     "любов",
+                                     "Бог",
+                                     "особистість",
+                                     "індивід",
+                                     "law",
+                                     "knowledge",
+                                     "love",
+                                     "God",
+                                     "personhood",
+                                     "individual"
+                                 ],
+                      "tags":  [
+                                   "audio",
+                                   "sermons",
+                                   "закон",
+                                   "пізнання",
+                                   "любов",
+                                   "Бог",
+                                   "особистість",
+                                   "індивід",
+                                   "law",
+                                   "knowledge",
+                                   "love",
+                                   "God",
+                                   "personhood",
+                                   "individual",
+                                   "проповідь",
+                                   "проповіді",
+                                   "аудіо",
+                                   "церковна проповідь",
+                                   "sermon",
+                                   "church sermon"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "закон",
+                                                  "пізнання",
+                                                  "любов",
+                                                  "Бог",
+                                                  "особистість",
+                                                  "індивід",
+                                                  "проповідь",
+                                                  "проповіді",
+                                                  "аудіо",
+                                                  "церковна проповідь"
+                                              ],
+                                       "en":  [
+                                                  "law",
+                                                  "knowledge",
+                                                  "love",
+                                                  "God",
+                                                  "personhood",
+                                                  "individual",
+                                                  "sermon",
+                                                  "sermons",
+                                                  "audio",
+                                                  "church sermon"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Проповіді: Про найбільшу заповідь Проповідь «Про найбільшу заповідь» від 13 вересня 2026 року. закон пізнання любов Бог особистість індивід Аудіо Проповіді Духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                         "en":  "Sermons: On the Greatest Commandment Sermon \"On the Greatest Commandment\", 13 September 2026. law knowledge love God personhood individual Audio Sermons Spiritual activity Church sermon sermons audio church sermon"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "проповіді про найбільшу заповідь проповідь про найбільшу заповідь від 13 вересня 2026 року закон пізнання любов бог особистість індивід аудіо проповіді духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                             "en":  "sermons on the greatest commandment sermon on the greatest commandment 13 september 2026 law knowledge love god personhood individual audio sermons spiritual activity church sermon sermons audio church sermon"
+                                         },
+                      "category":  "sermons",
+                      "fileType":  "audio",
+                      "date":  "2026-09-13",
+                      "duration":  "23:08",
+                      "rankBoost":  38
+                  },
+                  {
+                      "id":  "audio-sermon-2026-09-20-talents",
+                      "type":  "audio",
+                      "url":  "activity3.html#audio-sermon-2026-09-20-talents",
+                      "title":  {
+                                    "uk":  "Проповіді: Про роздачу талантів",
+                                    "en":  "Sermons: On the Distribution of Talents"
+                                },
+                      "titleEn":  "Sermons: On the Distribution of Talents",
+                      "section":  {
+                                      "uk":  "Проповіді",
+                                      "en":  "Sermons"
+                                  },
+                      "description":  {
+                                          "uk":  "Проповідь «Про роздачу талантів» від 20 вересня 2026 року.",
+                                          "en":  "Sermon \"On the Distribution of Talents\", 20 September 2026."
+                                      },
+                      "descriptionEn":  "Sermon \"On the Distribution of Talents\", 20 September 2026.",
+                      "topics":  [
+                                     "audio",
+                                     "sermons",
+                                     "талант",
+                                     "здібність",
+                                     "геніальність",
+                                     "святість",
+                                     "talent",
+                                     "ability",
+                                     "genius",
+                                     "holiness"
+                                 ],
+                      "tags":  [
+                                   "audio",
+                                   "sermons",
+                                   "талант",
+                                   "здібність",
+                                   "геніальність",
+                                   "святість",
+                                   "talent",
+                                   "ability",
+                                   "genius",
+                                   "holiness",
+                                   "проповідь",
+                                   "проповіді",
+                                   "аудіо",
+                                   "церковна проповідь",
+                                   "sermon",
+                                   "church sermon"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "талант",
+                                                  "здібність",
+                                                  "геніальність",
+                                                  "святість",
+                                                  "проповідь",
+                                                  "проповіді",
+                                                  "аудіо",
+                                                  "церковна проповідь"
+                                              ],
+                                       "en":  [
+                                                  "talent",
+                                                  "ability",
+                                                  "genius",
+                                                  "holiness",
+                                                  "sermon",
+                                                  "sermons",
+                                                  "audio",
+                                                  "church sermon"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Проповіді: Про роздачу талантів Проповідь «Про роздачу талантів» від 20 вересня 2026 року. талант здібність геніальність святість Аудіо Проповіді Духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                         "en":  "Sermons: On the Distribution of Talents Sermon \"On the Distribution of Talents\", 20 September 2026. talent ability genius holiness Audio Sermons Spiritual activity Church sermon sermons audio church sermon"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "проповіді про роздачу талантів проповідь про роздачу талантів від 20 вересня 2026 року талант здібність геніальність святість аудіо проповіді духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                             "en":  "sermons on the distribution of talents sermon on the distribution of talents 20 september 2026 talent ability genius holiness audio sermons spiritual activity church sermon sermons audio church sermon"
+                                         },
+                      "category":  "sermons",
+                      "fileType":  "audio",
+                      "date":  "2026-09-20",
+                      "duration":  "16:37",
                       "rankBoost":  38
                   },
                   {

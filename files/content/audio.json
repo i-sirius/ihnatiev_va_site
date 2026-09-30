@@ -130,7 +130,19 @@
       ],
       "duration": "23:08",
       "date": "2026-09-13",
-      "src": "/files/audio/sermons/audio_2026-09-13_17-59-59.ogg"
+      "src": "/files/audio/sermons/2026-09-13-greatest-commandment.m4a",
+      "id": "sermon-2026-09-13-greatest-commandment",
+      "titleEn": "On the Greatest Commandment",
+      "description": "Проповідь «Про найбільшу заповідь» від 13 вересня 2026 року.",
+      "descriptionEn": "Sermon \"On the Greatest Commandment\", 13 September 2026.",
+      "tagsEn": [
+        "law",
+        "knowledge",
+        "love",
+        "God",
+        "personhood",
+        "individual"
+      ]
     },
     {
       "enabled": true,
@@ -145,6 +157,16 @@
         "здібність",
         "геніальність",
         "святість"
+      ],
+      "id": "sermon-2026-09-20-talents",
+      "titleEn": "On the Distribution of Talents",
+      "description": "Проповідь «Про роздачу талантів» від 20 вересня 2026 року.",
+      "descriptionEn": "Sermon \"On the Distribution of Talents\", 20 September 2026.",
+      "tagsEn": [
+        "talent",
+        "ability",
+        "genius",
+        "holiness"
       ]
     }
   ]

@@ -16,10 +16,10 @@ public_folder: /files/media/uploads
 collections:
   - name: home_content
     label: "Головна сторінка"
-    description: "Короткі тексти головної сторінки. Довгі біографічні блоки краще змінювати обережно."
+    description: "Фото автора та тексти головної сторінки. Фото можна обрати або завантажити окремо для кожної мови."
     files:
       - name: home
-        label: "Тексти головної сторінки"
+        label: "Фото та тексти головної сторінки"
         file: files/content/home.json
         format: json
         fields:
@@ -32,6 +32,13 @@ collections:
                 name: aboutImage
                 widget: object
                 fields:
+                  - label: "Зображення"
+                    name: src
+                    widget: image
+                    choose_url: false
+                    media_folder: /files/media/uploads
+                    public_folder: /files/media/uploads
+                    hint: "Оберіть або завантажте фото. Щоб фото було однаковим для обох мов, оберіть цей самий файл також у блоці English."
                   - { label: "Опис для доступності", name: alt, widget: string }
               - label: "Абзаци про автора"
                 name: aboutParagraphs
@@ -50,6 +57,13 @@ collections:
                 name: aboutImage
                 widget: object
                 fields:
+                  - label: "Image"
+                    name: src
+                    widget: image
+                    choose_url: false
+                    media_folder: /files/media/uploads
+                    public_folder: /files/media/uploads
+                    hint: "Choose or upload a photo. Select the same file as in the Ukrainian section to use one photo for both languages."
                   - { label: "Accessible description", name: alt, widget: string }
               - label: "About paragraphs"
                 name: aboutParagraphs

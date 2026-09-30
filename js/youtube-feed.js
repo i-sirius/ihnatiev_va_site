@@ -2,6 +2,12 @@
   const youtubeCacheMaxAgeMs = 6 * 60 * 60 * 1000;
   const youtubeFeedTimeoutMs = 6000;
   var VIDEO_SUPPORT_DOCS = {
+    "_W5SGM5gTQk": {
+      url: "/files/video-docs/activity1/personhood-without-christ.pdf",
+      label: "Матеріали",
+      labelEn: "Materials",
+      type: "pdf"
+    },
     /*
     "YOUTUBE_VIDEO_ID": {
       url: "/files/video-docs/activity1/example.pdf",

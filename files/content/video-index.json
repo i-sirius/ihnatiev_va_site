@@ -1,6 +1,68 @@
 {
   "items": [
     {
+      "id": "_W5SGM5gTQk",
+      "enabled": true,
+      "section": "research",
+      "category": "videos",
+      "pageUrl": "activity1.html",
+      "url": "https://www.youtube.com/watch?v=_W5SGM5gTQk",
+      "date": "2026-09-27",
+      "title": "Чи існує особистість без Христа? (каппадокійський поворот)",
+      "titleEn": "Can Personhood Exist Without Christ? (The Cappadocian Turn)",
+      "description": "Доповідь прот. Віталія Ігнатьєва. Зустріч 27/09/2026. Особистість, індивід та індивідуальність у контексті каппадокійського повороту в історії філософської думки.",
+      "descriptionEn": "A report by Archpriest Vitalii Ihnatiev. Meeting on 27 September 2026. Personhood, the individual, and individuality in the context of the Cappadocian turn in the history of philosophical thought.",
+      "tags": [
+        "особистість",
+        "Христос",
+        "каппадокійський поворот",
+        "індивід",
+        "індивідуальність",
+        "ісихазм"
+      ],
+      "tagsEn": [
+        "personhood",
+        "Christ",
+        "Cappadocian turn",
+        "individual",
+        "individuality",
+        "hesychasm"
+      ],
+      "supportDocuments": [
+        {
+          "id": "personhood-without-christ",
+          "enabled": true,
+          "url": "/files/video-docs/activity1/personhood-without-christ.pdf",
+          "type": "pdf",
+          "language": "uk",
+          "title": "Чи існує особистість без Христа? (каппадокійський поворот)",
+          "titleEn": "Can Personhood Exist Without Christ? (The Cappadocian Turn)",
+          "description": "Текст доповіді прот. Віталія Ігнатьєва до зустрічі 27/09/2026. PDF, 6 сторінок.",
+          "descriptionEn": "Text of the report by Archpriest Vitalii Ihnatiev for the meeting on 27 September 2026. PDF, 6 pages.",
+          "tags": [
+            "Матеріали",
+            "PDF",
+            "особистість",
+            "Христос",
+            "каппадокійський поворот",
+            "індивід",
+            "індивідуальність",
+            "ісихазм"
+          ],
+          "tagsEn": [
+            "Materials",
+            "PDF",
+            "personhood",
+            "Christ",
+            "Cappadocian turn",
+            "individual",
+            "individuality",
+            "hesychasm"
+          ]
+        }
+      ]
+    },
+    {
       "id": "cfcq_70pfKI",
       "enabled": true,
       "section": "research",

@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.7.81a.200726-r1";
+const CACHE_NAME = "ihnatiev-site-v0.7.81a.300926-r1";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -69,7 +69,7 @@ const APP_SHELL = [
   "./icons/icon-maskable-512.png",
   "./files/media/logo-light.png",
   "./files/media/logo-dark.png",
-  "./files/media/about-me-photo.jpg"
+  "./files/media/about-me-photo-2026-09.jpg"
 ];
 
 function isCacheableAsset(requestUrl) {
