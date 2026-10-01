@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.7.81a.011026-r1";
+const CACHE_NAME = "ihnatiev-site-v0.7.81a.011026-r2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -18,6 +18,7 @@ const APP_SHELL = [
   "./css/gallery.css",
   "./css/video.css",
   "./css/audio.css",
+  "./css/church-calendar.css",
   "./css/document-lightbox.css",
   "./css/downloads.css",
   "./css/search.css",
@@ -52,6 +53,11 @@ const APP_SHELL = [
   "./js/header-ui.js",
   "./js/page-content.js",
   "./js/audio-content.js",
+  "./js/church-calendar-engine.js",
+  "./js/church-calendar.js",
+  "./files/content/church-calendar/index.json",
+  "./files/content/church-calendar/2026.json",
+  "./files/content/church-calendar/2027.json",
   "./js/app-update.js",
   "./js/menu-loader.js",
   "./app.js",

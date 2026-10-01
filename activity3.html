@@ -48,6 +48,7 @@
   <link rel="canonical" href="https://iva.net.ua/activity3.html" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/audio.css" />
+  <link rel="stylesheet" href="css/church-calendar.css" />
   <title>Священнослужіння | Віталій Ігнатьєв</title>
   <meta name="description" content="Священнослужіння Віталія Ігнатьєва: біографічні відомості, служіння, нагороди та фото." />
   <meta property="og:title" content="Священнослужіння | Віталій Ігнатьєв" />
@@ -77,6 +78,34 @@
           <p>На цій сторінці зібрано матеріали, пов’язані з духовною діяльністю: проповіді, бесіди, відео та інші церковно-просвітницькі матеріали.</p>
         </div>
       </div>
+    </section>
+
+    <section id="church-calendar" class="panel church-calendar" aria-labelledby="church-calendar-title">
+      <div class="church-calendar-heading">
+        <div><h2 id="church-calendar-title">Православний календар</h2><p data-cal-intro>За старим стилем · Українська Православна Церква</p></div>
+        <div class="church-calendar-modes" role="group" aria-label="Режим календаря" data-cal-modes>
+          <button type="button" data-cal-mode="simple" aria-pressed="true">Спрощений</button>
+          <button type="button" data-cal-mode="full" aria-pressed="false">Повний</button>
+        </div>
+      </div>
+      <div class="church-calendar-controls">
+        <button type="button" data-cal-prev aria-label="Попередній день">←</button>
+        <label><span data-cal-date-label>Дата</span> <input type="date" data-cal-date /></label>
+        <button type="button" data-cal-next aria-label="Наступний день">→</button>
+        <button type="button" data-cal-today>Сьогодні</button>
+      </div>
+      <p class="church-calendar-date-meta" data-cal-range></p>
+      <p class="church-calendar-status" data-cal-status role="status"></p>
+      <div data-cal-month hidden>
+        <div class="church-calendar-month-nav"><button type="button" data-cal-month-prev aria-label="Попередній місяць">←</button><h3 data-cal-month-title></h3><button type="button" data-cal-month-next aria-label="Наступний місяць">→</button></div>
+        <div class="church-calendar-weekdays" data-cal-weekdays aria-hidden="true"></div>
+        <div class="church-calendar-grid" data-cal-grid></div>
+        <p class="church-calendar-legend" data-cal-legend>Крапка — велике свято або початок посту. Оберіть день, щоб побачити подробиці.</p>
+      </div>
+      <article class="church-calendar-day" data-cal-day aria-live="polite"></article>
+      <div data-cal-upcoming></div>
+      <p class="church-calendar-source"><span data-cal-source-label>Джерело щоденних відомостей: </span><a href="https://blagovist.info/calendar/" target="_blank" rel="noopener">Благовіст</a><span data-cal-source-context> — календар, який використовує </span><a href="https://rivne.church.ua/sviati-dnia/" target="_blank" rel="noopener" data-cal-diocese>Рівненська єпархія УПЦ</a>.</p>
+      <noscript>Для перегляду календаря увімкніть JavaScript або відкрийте <a href="https://blagovist.info/calendar/">календар у джерелі</a>.</noscript>
     </section>
 
     <details id="sermons-audio" class="panel activity-collapsible-section audio-test-section" aria-labelledby="church-sermons-audio-title" data-audio-section="church-sermons" open>
@@ -144,5 +173,7 @@
   <script src="js/menu-loader.js"></script>
   <script src="js/app-update.js"></script>
   <script src="app.js"></script>
+  <script src="js/church-calendar-engine.js"></script>
+  <script src="js/church-calendar.js"></script>
 </body>
 </html>
