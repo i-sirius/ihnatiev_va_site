@@ -1,4 +1,4 @@
-const CACHE_NAME = "ihnatiev-site-v0.7.81a.011026-r3";
+const CACHE_NAME = "ihnatiev-site-v0.7.81a.011026-r4";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -99,7 +99,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((key) => key !== CACHE_NAME)
+          .filter((key) => key.startsWith("ihnatiev-site-") && key !== CACHE_NAME)
           .map((key) => caches.delete(key))
       )
     ).then(() => self.clients.claim())
@@ -112,9 +112,30 @@ self.addEventListener("message", function (event) {
   }
 });
 
+async function matchCachedResponse(request) {
+  try {
+    return await caches.match(request);
+  } catch {
+    return undefined;
+  }
+}
+
+// Cache failures (for example, full storage) must not break a successful request.
+async function cacheSuccessfulResponse(request, response) {
+  if (!response.ok || response.status === 206) {
+    return;
+  }
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(request, response.clone());
+  } catch {
+    // The network response remains usable even when storage is unavailable.
+  }
+}
+
 self.addEventListener("fetch", (event) => {
   const { request } = event;
-  if (request.method !== "GET") {
+  if (request.method !== "GET" || request.headers.has("range")) {
     return;
   }
 
@@ -123,54 +144,43 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
-          return response;
-        })
-        .catch(async () => {
-          const cachedResponse = await caches.match(request);
-          return cachedResponse || caches.match("./index.html");
-        })
-    );
+  const isNavigation = request.mode === "navigate";
+  if (!isNavigation && !isCacheableAsset(requestUrl)) {
     return;
   }
 
-  if (!isCacheableAsset(requestUrl)) {
+  if (isNavigation || isNetworkFirstContent(requestUrl)) {
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(request);
+        if (!response.ok) {
+          return (await matchCachedResponse(request)) || response;
+        }
+        await cacheSuccessfulResponse(request, response);
+        return response;
+      } catch {
+        const cachedResponse = await matchCachedResponse(request);
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        return (isNavigation && await matchCachedResponse("./index.html")) || Response.error();
+      }
+    })());
     return;
   }
 
-  if (isNetworkFirstContent(requestUrl)) {
-    event.respondWith(
-      fetch(request)
-        .then(function (response) {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(request, responseClone);
-          });
-          return response;
-        })
-        .catch(function () {
-          return caches.match(request);
-        })
-    );
-    return;
-  }
-
-  event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      const networkFetch = fetch(request)
-        .then((response) => {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
-          return response;
-        })
-        .catch(() => cachedResponse);
-
-      return cachedResponse || networkFetch;
+  const cachedResponsePromise = matchCachedResponse(request);
+  const networkFetch = fetch(request)
+    .then(async (response) => {
+      if (!response.ok) {
+        return (await cachedResponsePromise) || response;
+      }
+      await cacheSuccessfulResponse(request, response);
+      return response;
     })
-  );
+    .catch(async () => (await cachedResponsePromise) || Response.error());
+
+  // Keep background refresh alive after a cached response has been returned.
+  event.waitUntil(networkFetch.then(() => {}));
+  event.respondWith(cachedResponsePromise.then((cachedResponse) => cachedResponse || networkFetch));
 });

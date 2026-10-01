@@ -1,4 +1,28 @@
 (() => {
+  const preferenceFallback = new Map();
+
+  function readPreference(key) {
+    if (preferenceFallback.has(key)) {
+      return preferenceFallback.get(key);
+    }
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  }
+
+  function writePreference(key, value) {
+    const storedValue = String(value);
+    try {
+      localStorage.setItem(key, storedValue);
+      preferenceFallback.delete(key);
+    } catch {
+      // Keep controls usable for this page when browser storage is blocked/full.
+      preferenceFallback.set(key, storedValue);
+    }
+  }
+
   const siteUtils = window.SiteUtils || {};
   const isSafeUrl = siteUtils.isSafeUrl || ((value) => {
     const raw = String(value || "").trim();
@@ -141,7 +165,7 @@
       return;
     }
 
-    const savedTheme = localStorage.getItem("site-theme");
+    const savedTheme = readPreference("site-theme");
     const theme = savedTheme || document.documentElement.getAttribute("data-theme") || "light";
     document.documentElement.setAttribute("data-theme", theme);
 
@@ -192,10 +216,10 @@
     }
 
     toggle.addEventListener("click", () => {
-      const currentTheme = localStorage.getItem("site-theme") || "light";
+      const currentTheme = readPreference("site-theme") || "light";
       const nextTheme = currentTheme === "dark" ? "light" : "dark";
       
-      localStorage.setItem("site-theme", nextTheme);
+      writePreference("site-theme", nextTheme);
       toggle.classList.toggle("is-dark", nextTheme === "dark");
       updateThemeToggleLabel(nextTheme);
       applyAccessibleTheme(); // Викликаємо загальний аплікатор замість прямого setAttribute
@@ -602,18 +626,18 @@
 
     toggle.onclick = (e) => {
       e.preventDefault();
-      const next = localStorage.getItem("site-accessible") !== "true";
-      localStorage.setItem("site-accessible", next);
+      const next = readPreference("site-accessible") !== "true";
+      writePreference("site-accessible", next);
       applyAccessibleTheme(next);
       update(next);
     };
 
-    update(localStorage.getItem("site-accessible") === "true");
+    update(readPreference("site-accessible") === "true");
   }
 
   function applyAccessibleTheme(state = null) {
-    const active = state !== null ? state : localStorage.getItem("site-accessible") === "true";
-    const baseTheme = localStorage.getItem("site-theme") || "light";
+    const active = state !== null ? state : readPreference("site-accessible") === "true";
+    const baseTheme = readPreference("site-theme") || "light";
     
     if (active) {
       document.documentElement.setAttribute("data-theme", "accessible");
