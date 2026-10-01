@@ -43,6 +43,7 @@
   var updateCheckInFlight = false;
   var manualRefreshInProgress = false;
   var updateReloadStarted = false;
+  var updateActivationRequested = false;
   var controllerChangeBound = false;
   var waitingWorker = null;
   var lastAutoCheckAt = 0;
@@ -403,6 +404,11 @@
     }
 
     navigator.serviceWorker.addEventListener("controllerchange", function () {
+      if (!updateActivationRequested) {
+        waitingWorker = null;
+        hideUpdateAvailable();
+        return;
+      }
       if (updateReloadStarted) {
         return;
       }
@@ -511,6 +517,7 @@
     }
 
     bindControllerChange();
+    updateActivationRequested = true;
     worker.postMessage({ type: "SKIP_WAITING" });
   }
 

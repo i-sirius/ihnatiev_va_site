@@ -262,6 +262,7 @@
     var tags = createTags(getLocalizedTags(item));
     var description = getLocalizedField(item, "description");
 
+    card.audioItem = item;
     card.className = "audio-card";
     card.lang = locale;
     if (cardId) {
@@ -289,9 +290,11 @@
 
     actions.className = "audio-card-actions";
     if (textLink) {
+      textLink.dataset.audioLabel = "text";
       actions.appendChild(textLink);
     }
     if (transcriptLink) {
+      transcriptLink.dataset.audioLabel = "transcript";
       actions.appendChild(transcriptLink);
     }
     if (actions.children.length) {
@@ -463,7 +466,42 @@
     }
 
     if (Array.isArray(audioItemsCache)) {
-      renderAudioItems(container, audioItemsCache);
+      // Update labels in place: replacing/moving <audio> interrupts playback.
+      container.querySelectorAll(".audio-card").forEach(function (card) {
+        var item = card.audioItem;
+        if (!item) return;
+        var title = getLocalizedField(item, "title") || getUiText("fallbackTitle");
+        var audio = card.querySelector("audio");
+        card.lang = getLocale();
+        card.querySelector(".audio-card-title").textContent = title;
+        audio.lang = getLocale();
+        audio.setAttribute("aria-label", getUiText("audioLabelPrefix") + ": " + title);
+        Array.from(audio.childNodes).forEach(function (node) {
+          if (node.nodeType === 3) node.textContent = getUiText("unsupported");
+        });
+        var description = getLocalizedField(item, "description");
+        var paragraph = card.querySelector(".audio-card-description");
+        if (description) {
+          if (!paragraph) {
+            paragraph = createTextElement("p", "", "audio-card-description");
+            card.insertBefore(paragraph, audio);
+          }
+          paragraph.textContent = description;
+        } else if (paragraph) {
+          paragraph.remove();
+        }
+        card.querySelectorAll("[data-audio-label]").forEach(function (link) {
+          link.textContent = getUiText(link.dataset.audioLabel);
+        });
+        var oldTags = card.querySelector(".audio-tags");
+        var newTags = createTags(getLocalizedTags(item));
+        if (oldTags && newTags) oldTags.replaceWith(newTags);
+        else if (oldTags) oldTags.remove();
+        else if (newTags) card.appendChild(newTags);
+      });
+      if (!container.querySelector(".audio-card")) {
+        setEmptyState(container, getUiText("empty"));
+      }
       return;
     }
 

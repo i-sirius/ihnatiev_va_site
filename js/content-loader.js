@@ -37,8 +37,18 @@
             }
 
             const probe = new Image();
-            probe.onload = () => resolve(image);
-            probe.onerror = () => resolve(null);
+            let settled = false;
+            const finish = (value) => {
+              if (settled) return;
+              settled = true;
+              window.clearTimeout(timeoutId);
+              probe.onload = null;
+              probe.onerror = null;
+              resolve(value);
+            };
+            const timeoutId = window.setTimeout(() => finish(null), 8000);
+            probe.onload = () => finish(image);
+            probe.onerror = () => finish(null);
             probe.src = image.src;
           })
       )

@@ -25,6 +25,11 @@
       document.body.appendChild(lightbox);
     }
 
+    lightbox.setAttribute("role", "dialog");
+    lightbox.setAttribute("aria-modal", "true");
+    lightbox.setAttribute("aria-labelledby", "gallery-lightbox-caption");
+    lightbox.querySelector("[data-lightbox-caption]").id = "gallery-lightbox-caption";
+
     const galleryUi = site.ui && site.ui.gallery || {};
     lightbox.querySelector("[data-lightbox-close]") && lightbox.querySelector("[data-lightbox-close]").setAttribute(
       "aria-label",
@@ -77,6 +82,10 @@
     function closeLightbox() {
       lightbox.hidden = true;
       document.body.classList.remove("lightbox-open");
+      if (state.returnFocus && state.returnFocus.isConnected) {
+        state.returnFocus.focus({ preventScroll: true });
+      }
+      state.returnFocus = null;
     }
 
     function showByIndex(index) {
@@ -84,10 +93,15 @@
         return;
       }
 
+      const wasHidden = lightbox.hidden;
+      if (wasHidden) state.returnFocus = document.activeElement;
       state.index = (index + state.items.length) % state.items.length;
       updateLightboxImage();
       lightbox.hidden = false;
       document.body.classList.add("lightbox-open");
+      if (wasHidden) {
+        lightbox.querySelector("[data-lightbox-close]").focus({ preventScroll: true });
+      }
     }
 
     function showItems(items = [], index = 0) {
@@ -132,6 +146,18 @@
       document.addEventListener("keydown", (event) => {
         if (lightbox.hidden) {
           return;
+        }
+
+        if (event.key === "Tab") {
+          const buttons = Array.from(lightbox.querySelectorAll("button"))
+            .filter((button) => !button.disabled && !button.hidden && button.getClientRects().length);
+          const first = buttons[0];
+          const last = buttons[buttons.length - 1];
+          if (first && (!lightbox.contains(document.activeElement) ||
+              (event.shiftKey ? document.activeElement === first : document.activeElement === last))) {
+            event.preventDefault();
+            (event.shiftKey ? last : first).focus();
+          }
         }
 
         if (event.key === "Escape") {
