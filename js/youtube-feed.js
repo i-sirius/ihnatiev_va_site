@@ -139,7 +139,8 @@
               },
               thumbnail: `https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg`,
               url: item.url || `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`,
-              viewCount: null
+              viewCount: item.viewCount ?? null,
+              viewCountUpdatedAt: item.viewCountUpdatedAt || ""
             };
           })
           .filter(Boolean)
@@ -174,6 +175,7 @@
     escapeHtml = (value) => String(value)
   } = {}) {
     let lastRenderedVideos = [];
+    let catalogueVideos = [];
     let loading = false;
     var videoTargetTimer = 0;
     var videoTargetAttempt = 0;
@@ -447,7 +449,12 @@
       document.querySelectorAll(selector).forEach((element) => {
         element.innerHTML = validVideos
           .map((video) => {
-            const title = getLocalizedValue(video.title, fallbackTitle);
+            const title = getLocalizedValue(
+              video.title && typeof video.title === "object"
+                ? video.title[getVideoLocale()] || video.title.uk || video.title.en
+                : video.title,
+              fallbackTitle
+            );
             const url = escapeHtml(video.url);
             const videoId = getYoutubeVideoId(video);
             const cardId = videoId ? `video-${videoId}` : "";
@@ -515,7 +522,12 @@
         element.innerHTML = videos
           .filter((video) => video && video.url)
           .map((video) => {
-            const title = getLocalizedValue(video.title, fallbackTitle);
+            const title = getLocalizedValue(
+              video.title && typeof video.title === "object"
+                ? video.title[getVideoLocale()] || video.title.uk || video.title.en
+                : video.title,
+              fallbackTitle
+            );
             const url = escapeHtml(video.url);
 
             return `
@@ -585,7 +597,7 @@
     }
 
     function getCacheKey(channelId) {
-      return `youtube-feed:${channelId}`;
+      return `youtube-feed:v2:${channelId}`;
     }
 
     function readCache(channelId) {
@@ -648,10 +660,30 @@
             viewCount:
               (namespacedStatisticsNode && namespacedStatisticsNode.getAttribute("views")) ||
               (statisticsNode && statisticsNode.getAttribute("views")) ||
-              null
+              null,
+            viewCountUpdatedAt: new Date().toISOString()
           };
         })
         .filter(Boolean);
+    }
+
+    function mergeVideoMetadata(videos, savedVideos = []) {
+      return videos.map((video) => {
+        const id = getYoutubeVideoId(video);
+        const canonical = catalogueVideos.find((item) => getYoutubeVideoId(item) === id);
+        const candidates = [video, ...savedVideos, ...catalogueVideos, ...lastRenderedVideos]
+          .filter((item) => getYoutubeVideoId(item) === id && item.viewCount !== null
+            && item.viewCount !== undefined && String(item.viewCount).trim() !== ""
+            && Number.isFinite(Number(item.viewCount)) && Number(item.viewCount) >= 0)
+          .sort((a, b) => (Date.parse(b.viewCountUpdatedAt) || 0) - (Date.parse(a.viewCountUpdatedAt) || 0));
+        const stats = candidates[0];
+        return {
+          ...video,
+          title: canonical ? canonical.title : video.title,
+          viewCount: stats ? Number(stats.viewCount) : null,
+          viewCountUpdatedAt: stats ? stats.viewCountUpdatedAt : ""
+        };
+      });
     }
 
     function load(options = {}) {
@@ -676,7 +708,10 @@
       return fetchLocalVideoIndex()
         .then((localVideos) => {
           if (isCurrent() && localVideos.length) {
-            renderVideoCards(localVideos);
+            catalogueVideos = localVideos;
+            const videos = mergeVideoMetadata(localVideos, cachedVideos);
+            renderVideoCards(videos);
+            writeCache(channelId, videos);
           }
         })
         .catch(() => {
@@ -692,7 +727,7 @@
             if (!isCurrent()) {
               return;
             }
-            const videos = normalizeFeedItems(xmlText);
+            const videos = mergeVideoMetadata(normalizeFeedItems(xmlText));
             if (!videos.length) {
               throw new Error("Empty YouTube feed");
             }

@@ -1128,6 +1128,9 @@ function checkVideoCatalogue() {
       fail(`${source}: video grid requires unique valid YouTube IDs`);
     }
     ids.add(video.id);
+    if (!Number.isInteger(video.viewCount) || video.viewCount < 0 || !Number.isFinite(Date.parse(video.viewCountUpdatedAt))) {
+      fail(`${source}: first six videos require a saved viewCount and viewCountUpdatedAt`);
+    }
     const published = Date.parse(video.publishedAt);
     if (!Number.isFinite(published) || published > previousDate) {
       fail(`${source}: first six videos must be ordered by publishedAt, newest first`);

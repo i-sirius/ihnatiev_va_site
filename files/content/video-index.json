@@ -61,7 +61,9 @@
           ]
         }
       ],
-      "publishedAt": "2026-09-29T19:21:46+00:00"
+      "publishedAt": "2026-09-29T19:21:46+00:00",
+      "viewCount": 38,
+      "viewCountUpdatedAt": "2026-10-01T06:42:11.246802+00:00"
     },
     {
       "id": "0fp8I4b2i5Y",
@@ -71,8 +73,8 @@
       "pageUrl": "activity1.html",
       "url": "https://www.youtube.com/watch?v=0fp8I4b2i5Y",
       "date": "2026-09-02",
-      "title": "ЛЮДИНА ЯК ПОЄДНАНЯ ДВОХ СТОРІН КОСМІЧНОГО БУТТЯ. Частина 2 (доповідь прот. Георгія Анєнкова)",
-      "titleEn": "The Human Being as a Union of Two Sides of Cosmic Being. Part 2 (report by Archpriest Heorhii Anienkov)",
+      "title": "Людина як поєднання двох сторін космічного буття. Частина 2",
+      "titleEn": "The Human Being as a Union of Two Sides of Cosmic Being. Part 2",
       "description": "Людина як поєднання двох сторін космічного буття. Частина 2. Доповідь прот. Георгія Анєнкова.",
       "descriptionEn": "The human being as a union of two sides of cosmic being. Part 2. A report by Archpriest Heorhii Anienkov.",
       "tags": [
@@ -86,7 +88,9 @@
         "hesychasm"
       ],
       "supportDocuments": [],
-      "publishedAt": "2026-09-02T17:42:40+00:00"
+      "publishedAt": "2026-09-02T17:42:40+00:00",
+      "viewCount": 68,
+      "viewCountUpdatedAt": "2026-10-01T06:42:11.246802+00:00"
     },
     {
       "id": "cfcq_70pfKI",
@@ -96,8 +100,8 @@
       "pageUrl": "activity1.html",
       "url": "https://www.youtube.com/watch?v=cfcq_70pfKI",
       "date": "2026-07-20",
-      "title": "ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова)",
-      "titleEn": "ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ. Частина 1 (доповідь прот. Георгія Анєнкова)",
+      "title": "Ісихазм і космічні принципи буття. Частина 1",
+      "titleEn": "Hesychasm and Cosmic Principles of Being. Part 1",
       "description": "Зустріч 19/07/2026. Доповідь прот. Георгія Анєнкова — ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ.",
       "descriptionEn": "Зустріч 19/07/2026. Доповідь прот. Георгія Анєнкова — ІСИХАЗМ і КОСМІЧНІ ПРИНЦИПИ БУТТЯ.",
       "tags": [
@@ -149,7 +153,9 @@
           ]
         }
       ],
-      "publishedAt": "2026-07-20T18:00:20+00:00"
+      "publishedAt": "2026-07-20T18:00:20+00:00",
+      "viewCount": 92,
+      "viewCountUpdatedAt": "2026-10-01T06:42:11.246802+00:00"
     },
     {
       "id": "_6mz7_ZkonE",
@@ -186,7 +192,9 @@
         "video"
       ],
       "supportDocuments": [],
-      "publishedAt": "2026-06-21T20:40:11+00:00"
+      "publishedAt": "2026-06-21T20:40:11+00:00",
+      "viewCount": 80,
+      "viewCountUpdatedAt": "2026-10-01T06:42:11.246802+00:00"
     },
     {
       "id": "bL44iPuxY84",
@@ -263,7 +271,9 @@
           ]
         }
       ],
-      "publishedAt": "2026-05-24T20:04:27+00:00"
+      "publishedAt": "2026-05-24T20:04:27+00:00",
+      "viewCount": 156,
+      "viewCountUpdatedAt": "2026-10-01T06:42:11.246802+00:00"
     },
     {
       "id": "Q8KNXpftoJE",
@@ -334,7 +344,9 @@
           ]
         }
       ],
-      "publishedAt": "2026-04-27T11:08:25+00:00"
+      "publishedAt": "2026-04-27T11:08:25+00:00",
+      "viewCount": 233,
+      "viewCountUpdatedAt": "2026-10-01T06:42:11.246802+00:00"
     }
   ]
 }
