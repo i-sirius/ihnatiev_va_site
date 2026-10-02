@@ -1,7 +1,6 @@
 (() => {
   function initLiquidDroplets() {
-    if (document.documentElement.classList.contains("no-modern-effects") ||
-        (window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches)) {
+    if (document.documentElement.classList.contains("no-modern-effects")) {
       return;
     }
 
@@ -25,7 +24,7 @@
         list,
         itemSelector: "a",
         defaultToFirst: false,
-        hoverDelay: 25
+        hoverDelay: 95
       })),
       ...Array.from(document.querySelectorAll(".site-header-controls")).map((list) => ({
         list,
@@ -35,30 +34,12 @@
     ].filter(({ list }) => list);
 
     dropletGroups.forEach(({ list, itemSelector, defaultToFirst, hoverDelay = 0 }) => {
-      if (list.refreshDroplet) {
-        list.refreshDroplet();
-        return;
-      }
-      let currentTarget = null;
-      let dropletInstantTimer = 0;
-      const activeTarget = () => list.matches(".site-header nav")
-        ? list.querySelector("a[aria-current='page']") : null;
       let dropletFrame = 0;
       let pendingTarget = null;
       let dropletMotionTimer = 0;
       let dropletHoverTimer = 0;
 
-      const cancelPending = () => {
-        window.cancelAnimationFrame(dropletFrame);
-        window.clearTimeout(dropletHoverTimer);
-        window.clearTimeout(dropletMotionTimer);
-        window.clearTimeout(dropletInstantTimer);
-        dropletFrame = dropletHoverTimer = dropletMotionTimer = dropletInstantTimer = 0;
-        pendingTarget = null;
-      };
       const clearDroplet = () => {
-        cancelPending();
-        currentTarget = null;
         list.classList.remove(
           "is-droplet-ready",
           "is-droplet-instant",
@@ -79,7 +60,7 @@
             ? matchedTarget
             : defaultToFirst
               ? list.querySelector(itemSelector)
-              : activeTarget();
+              : null;
 
         if (!dropletTarget || !list.contains(dropletTarget)) {
           clearDroplet();
@@ -88,20 +69,13 @@
 
         const listRect = list.getBoundingClientRect();
         const targetRect = dropletTarget.getBoundingClientRect();
-        if (!targetRect.width || !targetRect.height) {
-          clearDroplet();
-          return;
-        }
-        currentTarget = dropletTarget;
-        const bleed = list.matches(".site-header nav") ? 2 : 4;
+        const bleed = 5;
         const targetStyle = window.getComputedStyle(dropletTarget);
         const accent = targetStyle.getPropertyValue("--social-accent").trim() || targetStyle.color;
         const wasReady = list.classList.contains("is-droplet-ready");
         const previousX = Number.parseFloat(list.style.getPropertyValue("--contact-droplet-x")) || 0;
         const nextX = targetRect.left - listRect.left - bleed;
-        const previousY = Number.parseFloat(list.style.getPropertyValue("--contact-droplet-y")) || 0;
-        const nextY = targetRect.top - listRect.top - bleed;
-        const isMoving = wasReady && (Math.abs(nextX - previousX) > 2 || Math.abs(nextY - previousY) > 2);
+        const isMoving = wasReady && Math.abs(nextX - previousX) > 2;
 
         list.classList.toggle("is-droplet-instant", !wasReady);
         list.classList.toggle("is-droplet-moving-right", isMoving && nextX > previousX + 2);
@@ -135,15 +109,14 @@
         list.classList.add("is-droplet-ready");
 
         if (!wasReady) {
-          dropletInstantTimer = window.setTimeout(() => {
+          window.setTimeout(() => {
             list.classList.remove("is-droplet-instant");
-            dropletInstantTimer = 0;
-          }, 32);
+          }, 90);
         }
       };
 
       const requestDroplet = (target = null) => {
-        pendingTarget = target;
+        pendingTarget = target || pendingTarget;
 
         if (dropletFrame) {
           return;
@@ -175,42 +148,40 @@
       if (list.dataset.dropletBound !== "true") {
         list.addEventListener("pointerover", (event) => {
           const button = event.target.closest(itemSelector);
-          if (event.pointerType === "touch") return;
-          if (button && button !== (event.relatedTarget && event.relatedTarget.closest
-              ? event.relatedTarget.closest(itemSelector) : null)) {
+          if (button) {
             requestStickyDroplet(button);
           }
         });
         list.addEventListener("pointerleave", () => {
-          cancelPending();
-          const focused = list.contains(document.activeElement) ? document.activeElement : null;
-          if (focused || activeTarget()) requestDroplet(focused || activeTarget());
-          else clearDroplet();
+          if (dropletHoverTimer) {
+            window.clearTimeout(dropletHoverTimer);
+            dropletHoverTimer = 0;
+          }
+
+          if (defaultToFirst) {
+            requestDroplet();
+          } else {
+            clearDroplet();
+          }
         });
         list.addEventListener("focusin", (event) => {
           const button = event.target.closest(itemSelector);
           if (button) {
-            window.clearTimeout(dropletHoverTimer);
             requestDroplet(button);
           }
         });
-        list.addEventListener("focusout", (event) => {
-          const next = event.relatedTarget;
-          if (next && list.contains(next)) requestDroplet(next);
-          else if (activeTarget()) requestDroplet(activeTarget());
-          else clearDroplet();
+        list.addEventListener("focusout", () => {
+          if (defaultToFirst) {
+            requestDroplet();
+          } else {
+            clearDroplet();
+          }
         });
-        list.refreshDroplet = () => requestDroplet(
-          currentTarget && list.contains(currentTarget) ? currentTarget : activeTarget());
-        window.addEventListener("resize", list.refreshDroplet, { passive: true });
-        if (window.ResizeObserver) {
-          const observer = new ResizeObserver(list.refreshDroplet);
-          observer.observe(list);
-        }
+        window.addEventListener("resize", () => requestDroplet(), { passive: true });
         list.dataset.dropletBound = "true";
       }
 
-      if (defaultToFirst || activeTarget()) {
+      if (defaultToFirst) {
         requestDroplet();
       } else {
         clearDroplet();
@@ -219,13 +190,11 @@
   }
 
   function initVideoLiquidLens() {
-    if (document.documentElement.classList.contains("no-modern-effects") ||
-        (window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches)) {
+    if (document.documentElement.classList.contains("no-modern-effects")) {
       return;
     }
 
     document.querySelectorAll(".video-gallery").forEach((gallery) => {
-      if (gallery.dataset.videoLensBound === "true") return;
       let lensFrame = 0;
       let pendingTarget = null;
       let lensMotionTimer = 0;
@@ -329,24 +298,19 @@
 
       if (gallery.dataset.videoLensBound !== "true") {
         gallery.addEventListener("pointerover", (event) => {
-          if (event.pointerType === "touch") return;
           const target = getLensTarget(event.target);
-          if (target && target !== getLensTarget(event.relatedTarget)) {
+          if (target) {
             requestLens(target);
           }
         });
-        gallery.addEventListener("pointerleave", resetLens);
+        gallery.addEventListener("pointerleave", clearLens);
         gallery.addEventListener("focusin", (event) => {
           const target = getLensTarget(event.target);
           if (target) {
             requestLens(target);
           }
         });
-        gallery.addEventListener("focusout", (event) => {
-          const next = getLensTarget(event.relatedTarget);
-          if (next) requestLens(next);
-          else resetLens();
-        });
+        gallery.addEventListener("focusout", clearLens);
         window.addEventListener("resize", () => requestLens(), { passive: true });
         window.addEventListener("scroll", resetLens, { passive: true });
         window.addEventListener("site:layout-shift", resetLens);
