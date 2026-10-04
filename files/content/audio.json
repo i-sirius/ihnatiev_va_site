@@ -1,6 +1,35 @@
 {
   "items": [
     {
+      "id": "sermon-2026-10-04-cross-path-to-christ",
+      "enabled": true,
+      "section": "church",
+      "category": "sermons",
+      "title": "Хрест як шлях до Христа. Проповідь 04.10.2026",
+      "titleEn": "The Cross as a Path to Christ. Sermon 04.10.2026",
+      "description": "Проповідь «Хрест як шлях до Христа» від 4 жовтня 2026 року.",
+      "descriptionEn": "Sermon \"The Cross as a Path to Christ\", 4 October 2026.",
+      "date": "2026-10-04",
+      "src": "/files/audio/sermons/2026-10-04-cross-path-to-christ.m4a",
+      "duration": "18:57",
+      "tags": [
+        "життя",
+        "хрест",
+        "розпʼяття",
+        "Причастя",
+        "милосердя",
+        "Христос"
+      ],
+      "tagsEn": [
+        "life",
+        "cross",
+        "crucifixion",
+        "Communion",
+        "mercy",
+        "Christ"
+      ]
+    },
+    {
       "titleEn": "God's Gifts as a Path to Christ",
       "enabled": true,
       "tagsEn": [

@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-10-01T06:43:31Z",
+    "generatedAt":  "2026-10-04T13:47:25Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  142,
+    "itemCount":  143,
     "items":  [
                   {
                       "id":  "page-home",
@@ -5901,6 +5901,106 @@
                       "pageUrl":  "activity1.html#video-Q8KNXpftoJE",
                       "documentType":  "video-support",
                       "rankBoost":  55
+                  },
+                  {
+                      "id":  "audio-sermon-2026-10-04-cross-path-to-christ",
+                      "type":  "audio",
+                      "url":  "activity3.html#audio-sermon-2026-10-04-cross-path-to-christ",
+                      "title":  {
+                                    "uk":  "Проповіді: Хрест як шлях до Христа. Проповідь 04.10.2026",
+                                    "en":  "Sermons: The Cross as a Path to Christ. Sermon 04.10.2026"
+                                },
+                      "titleEn":  "Sermons: The Cross as a Path to Christ. Sermon 04.10.2026",
+                      "section":  {
+                                      "uk":  "Проповіді",
+                                      "en":  "Sermons"
+                                  },
+                      "description":  {
+                                          "uk":  "Проповідь «Хрест як шлях до Христа» від 4 жовтня 2026 року.",
+                                          "en":  "Sermon \"The Cross as a Path to Christ\", 4 October 2026."
+                                      },
+                      "descriptionEn":  "Sermon \"The Cross as a Path to Christ\", 4 October 2026.",
+                      "topics":  [
+                                     "audio",
+                                     "sermons",
+                                     "життя",
+                                     "хрест",
+                                     "розпʼяття",
+                                     "Причастя",
+                                     "милосердя",
+                                     "Христос",
+                                     "life",
+                                     "cross",
+                                     "crucifixion",
+                                     "Communion",
+                                     "mercy",
+                                     "Christ"
+                                 ],
+                      "tags":  [
+                                   "audio",
+                                   "sermons",
+                                   "життя",
+                                   "хрест",
+                                   "розпʼяття",
+                                   "Причастя",
+                                   "милосердя",
+                                   "Христос",
+                                   "life",
+                                   "cross",
+                                   "crucifixion",
+                                   "Communion",
+                                   "mercy",
+                                   "Christ",
+                                   "проповідь",
+                                   "проповіді",
+                                   "аудіо",
+                                   "церковна проповідь",
+                                   "sermon",
+                                   "church sermon"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "життя",
+                                                  "хрест",
+                                                  "розпʼяття",
+                                                  "Причастя",
+                                                  "милосердя",
+                                                  "Христос",
+                                                  "проповідь",
+                                                  "проповіді",
+                                                  "аудіо",
+                                                  "церковна проповідь"
+                                              ],
+                                       "en":  [
+                                                  "life",
+                                                  "cross",
+                                                  "crucifixion",
+                                                  "Communion",
+                                                  "mercy",
+                                                  "Christ",
+                                                  "sermon",
+                                                  "sermons",
+                                                  "audio",
+                                                  "church sermon"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Проповіді: Хрест як шлях до Христа. Проповідь 04.10.2026 Проповідь «Хрест як шлях до Христа» від 4 жовтня 2026 року. життя хрест розпʼяття Причастя милосердя Христос Аудіо Проповіді Духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                         "en":  "Sermons: The Cross as a Path to Christ. Sermon 04.10.2026 Sermon \"The Cross as a Path to Christ\", 4 October 2026. life cross crucifixion Communion mercy Christ Audio Sermons Spiritual activity Church sermon sermons audio church sermon"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "проповіді хрест як шлях до христа проповідь 04 10 2026 проповідь хрест як шлях до христа від 4 жовтня 2026 року життя хрест розп\u0027яття причастя милосердя христос аудіо проповіді духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                             "en":  "sermons the cross as a path to christ sermon 04 10 2026 sermon the cross as a path to christ 4 october 2026 life cross crucifixion communion mercy christ audio sermons spiritual activity church sermon sermons audio church sermon"
+                                         },
+                      "category":  "sermons",
+                      "fileType":  "audio",
+                      "date":  "2026-10-04",
+                      "duration":  "18:57",
+                      "rankBoost":  38
                   },
                   {
                       "id":  "audio-sermon-2026-01-26-gods-gifts-path-to-christ",
