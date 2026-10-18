@@ -1,17 +1,22 @@
 {
   "items": [
     {
-      "id": "sermon-2026-10-04-cross-path-to-christ",
-      "enabled": true,
-      "section": "church",
-      "category": "sermons",
-      "title": "Хрест як шлях до Христа. Проповідь 04.10.2026",
       "titleEn": "The Cross as a Path to Christ. Sermon 04.10.2026",
-      "description": "Проповідь «Хрест як шлях до Христа» від 4 жовтня 2026 року.",
-      "descriptionEn": "Sermon \"The Cross as a Path to Christ\", 4 October 2026.",
-      "date": "2026-10-04",
+      "enabled": true,
+      "tagsEn": [
+        "life",
+        "cross",
+        "crucifixion",
+        "Communion",
+        "mercy",
+        "Christ"
+      ],
       "src": "/files/audio/sermons/2026-10-04-cross-path-to-christ.m4a",
+      "descriptionEn": "Sermon \"The Cross as a Path to Christ\", 4 October 2026.",
+      "section": "church",
+      "date": "2026-10-04",
       "duration": "18:57",
+      "title": "Хрест як шлях до Христа. Проповідь 04.10.2026",
       "tags": [
         "життя",
         "хрест",
@@ -20,14 +25,9 @@
         "милосердя",
         "Христос"
       ],
-      "tagsEn": [
-        "life",
-        "cross",
-        "crucifixion",
-        "Communion",
-        "mercy",
-        "Christ"
-      ]
+      "id": "sermon-2026-10-04-cross-path-to-christ",
+      "description": "Проповідь «Хрест як шлях до Христа» від 4 жовтня 2026 року.",
+      "category": "sermons"
     },
     {
       "titleEn": "God's Gifts as a Path to Christ",
@@ -145,9 +145,21 @@
       "duration": "18:50"
     },
     {
+      "titleEn": "On the Greatest Commandment",
       "enabled": true,
+      "tagsEn": [
+        "law",
+        "knowledge",
+        "love",
+        "God",
+        "personhood",
+        "individual"
+      ],
+      "src": "/files/audio/sermons/2026-09-13-greatest-commandment.m4a",
+      "descriptionEn": "Sermon \"On the Greatest Commandment\", 13 September 2026.",
       "section": "church",
-      "category": "sermons",
+      "date": "2026-09-13",
+      "duration": "23:08",
       "title": "Про найбільшу заповідь",
       "tags": [
         "закон",
@@ -157,30 +169,25 @@
         "особистість",
         "індивід"
       ],
-      "duration": "23:08",
-      "date": "2026-09-13",
-      "src": "/files/audio/sermons/2026-09-13-greatest-commandment.m4a",
       "id": "sermon-2026-09-13-greatest-commandment",
-      "titleEn": "On the Greatest Commandment",
       "description": "Проповідь «Про найбільшу заповідь» від 13 вересня 2026 року.",
-      "descriptionEn": "Sermon \"On the Greatest Commandment\", 13 September 2026.",
-      "tagsEn": [
-        "law",
-        "knowledge",
-        "love",
-        "God",
-        "personhood",
-        "individual"
-      ]
+      "category": "sermons"
     },
     {
+      "titleEn": "On the Distribution of Talents",
       "enabled": true,
-      "section": "church",
-      "category": "sermons",
+      "tagsEn": [
+        "talent",
+        "ability",
+        "genius",
+        "holiness"
+      ],
       "src": "/files/audio/sermons/про-таланти-.m4a",
-      "title": "Про роздачу талантів",
+      "descriptionEn": "Sermon \"On the Distribution of Talents\", 20 September 2026.",
+      "section": "church",
       "date": "2026-09-20",
       "duration": "16:37",
+      "title": "Про роздачу талантів",
       "tags": [
         "талант",
         "здібність",
@@ -188,14 +195,26 @@
         "святість"
       ],
       "id": "sermon-2026-09-20-talents",
-      "titleEn": "On the Distribution of Talents",
       "description": "Проповідь «Про роздачу талантів» від 20 вересня 2026 року.",
-      "descriptionEn": "Sermon \"On the Distribution of Talents\", 20 September 2026.",
-      "tagsEn": [
-        "talent",
-        "ability",
-        "genius",
-        "holiness"
+      "category": "sermons"
+    },
+    {
+      "enabled": true,
+      "section": "church",
+      "category": "sermons",
+      "src": "/files/audio/sermons/audio_2026-10-18_13-07-19.ogg",
+      "title": "Про любов до ворогів і про милосердя",
+      "date": "2026-10-18",
+      "duration": "20:40",
+      "tags": [
+        "любов",
+        "ненависть",
+        "добро",
+        "зло",
+        "помисли",
+        "молитва",
+        "милосердя",
+        "Бог"
       ]
     }
   ]
