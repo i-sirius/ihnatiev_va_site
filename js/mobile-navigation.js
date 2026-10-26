@@ -156,6 +156,12 @@
         return;
       }
 
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        currentNav.classList.add("is-labels-only");
+        requestNavigationLens();
+        return;
+      }
+
       const links = Array.from(currentNav.querySelectorAll("a")).filter(
         (link) => link.offsetParent !== null
       );

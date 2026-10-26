@@ -1819,24 +1819,27 @@ html[data-theme="dark"] .theme-toggle-track {
     }
 
     .mobile-nav-host nav {
-      right: max(10px, env(safe-area-inset-right));
-      flex-wrap: nowrap;
+      left: max(6px, env(safe-area-inset-left));
+      right: max(6px, env(safe-area-inset-right));
+      justify-content: space-between;
       min-height: 48px;
       max-height: 52px;
-      padding: 4px;
+      gap: 2px;
+      padding: 3px;
       border-radius: 16px;
+      overflow-x: hidden;
     }
 
     .mobile-nav-host nav a,
     .mobile-nav-host nav.is-labels-only a,
     .mobile-nav-host nav.is-condensed-labels a,
     .mobile-nav-host nav.is-icons-only a {
-      flex: 1 0 42px;
+      flex: 1 1 44px;
       width: auto;
-      min-width: 42px;
-      min-height: 40px;
-      max-height: 44px;
-      padding: 5px;
+      min-width: 0;
+      min-height: 44px;
+      max-height: 46px;
+      padding: 5px 1px;
       gap: 0;
     }
 
@@ -1844,17 +1847,17 @@ html[data-theme="dark"] .theme-toggle-track {
     .mobile-nav-host nav.is-labels-only a::before,
     .mobile-nav-host nav.is-condensed-labels a::before,
     .mobile-nav-host nav.is-icons-only a::before {
-      display: block;
-      width: 19px;
-      height: 19px;
-      flex: 0 0 19px;
+      display: none;
     }
 
     .mobile-nav-host nav a::after,
     .mobile-nav-host nav.is-labels-only a::after,
     .mobile-nav-host nav.is-condensed-labels a::after,
     .mobile-nav-host nav.is-icons-only a::after {
-      display: none;
+      display: block !important;
+      max-width: 100%;
+      font-size: clamp(0.48rem, 2.4vw, 0.68rem);
+      white-space: nowrap;
     }
   }
 
