@@ -202,8 +202,12 @@
       "enabled": true,
       "section": "church",
       "category": "sermons",
+      "id": "sermon-2026-10-18-love-for-enemies-and-mercy",
       "src": "/files/audio/sermons/audio_2026-10-18_13-07-19.ogg",
       "title": "Про любов до ворогів і про милосердя",
+      "titleEn": "On Loving Enemies and Mercy",
+      "description": "Проповідь про євангельський заклик любити ворогів, долати ненависть добром і виявляти милосердя до ближніх.",
+      "descriptionEn": "A sermon on Christ's call to love our enemies, overcome hatred with good, and show mercy to others.",
       "date": "2026-10-18",
       "duration": "20:40",
       "tags": [
@@ -215,6 +219,16 @@
         "молитва",
         "милосердя",
         "Бог"
+      ],
+      "tagsEn": [
+        "love",
+        "hatred",
+        "goodness",
+        "evil",
+        "thoughts",
+        "prayer",
+        "mercy",
+        "God"
       ]
     }
   ]

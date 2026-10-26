@@ -429,34 +429,32 @@ collections:
             summary: "{{fields.title}}"
             hint: "Показуються тільки записи з увімкненим перемикачем і заповненим шляхом до аудіофайлу."
             fields:
-              - { label: "ID", name: id, widget: string, required: false, hint: "Короткий унікальний ідентифікатор, наприклад sermon-2026-001." }
+              - { label: "ID", name: id, widget: string, hint: "Обов'язково. Унікальний короткий ID латиницею, наприклад sermon-2026-10-18-love-for-enemies-and-mercy." }
               - { label: "Показувати", name: enabled, widget: boolean, default: false, hint: "Вимкнений запис не показується на сайті." }
               - { label: "Розділ", name: section, widget: hidden, default: church }
               - { label: "Категорія", name: category, widget: hidden, default: sermons }
               - { label: "Назва", name: title, widget: string }
-              - { label: "Назва (EN)", name: titleEn, widget: string, required: false }
-              - { label: "Опис", name: description, widget: text, required: false }
-              - { label: "Опис (EN)", name: descriptionEn, widget: text, required: false }
+              - { label: "Назва (EN)", name: titleEn, widget: string }
+              - { label: "Опис", name: description, widget: text }
+              - { label: "Опис (EN)", name: descriptionEn, widget: text }
               - { label: "Дата", name: date, widget: string, required: false, hint: "Можна залишити порожнім або вказати дату у зручному форматі." }
               - label: "Аудіофайл"
                 name: src
                 widget: file
-                required: false
+                required: true
                 media_folder: /files/audio/sermons
                 public_folder: /files/audio/sermons
-                hint: "Завантажте аудіофайл проповіді (.m4a, .mp3 тощо). Порожнє поле не створює аудіоплеєр."
+                hint: "Підтримуються .mp3, .m4a, .mp4, .aac, .ogg, .oga і .wav. Порожнє поле не створює аудіоплеєр."
               - { label: "Тривалість", name: duration, widget: string, required: false }
               - { label: "Посилання для завантаження", name: downloadUrl, widget: string, required: false }
               - { label: "Посилання на текст", name: transcriptUrl, widget: string, required: false }
               - label: "Теги"
                 name: tags
                 widget: list
-                required: false
                 field: { label: "Тег", name: tag, widget: string }
               - label: "Теги (EN)"
                 name: tagsEn
                 widget: list
-                required: false
                 field: { label: "Tag", name: tag, widget: string }
 
   - name: gallery_activity1

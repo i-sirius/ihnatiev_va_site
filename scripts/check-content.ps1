@@ -707,8 +707,8 @@ function Test-AudioContentManifest {
         Add-CheckError "${RelativePath}: enabled items[$Index].src must use /files/audio/sermons/..."
       }
 
-      if ($Src -notmatch "\.(mp3|m4a|mp4|aac)$") {
-        Add-CheckError "${RelativePath}: enabled items[$Index].src must point to a supported audio file (.mp3, .m4a, .mp4, .aac)"
+      if ($Src -notmatch "\.(mp3|m4a|mp4|aac|ogg|oga|wav)$") {
+        Add-CheckError "${RelativePath}: enabled items[$Index].src must point to a supported audio file (.mp3, .m4a, .mp4, .aac, .ogg, .oga, .wav)"
       }
 
       Test-LocalReference $RelativePath $Src "items[$Index].src"

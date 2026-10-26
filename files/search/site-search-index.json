@@ -1,6 +1,6 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-10-26T10:21:49Z",
+    "generatedAt":  "2026-10-26T10:28:15Z",
     "source":  "scripts/build-site-search-index.ps1",
     "itemCount":  145,
     "items":  [
@@ -6672,23 +6672,23 @@
                       "rankBoost":  38
                   },
                   {
-                      "id":  "audio-sermon-7",
+                      "id":  "audio-sermon-2026-10-18-love-for-enemies-and-mercy",
                       "type":  "audio",
-                      "url":  "activity3.html#audio-sermon-7",
+                      "url":  "activity3.html#audio-sermon-2026-10-18-love-for-enemies-and-mercy",
                       "title":  {
                                     "uk":  "Проповіді: Про любов до ворогів і про милосердя",
-                                    "en":  "Sermons: Про любов до ворогів і про милосердя"
+                                    "en":  "Sermons: On Loving Enemies and Mercy"
                                 },
-                      "titleEn":  "Sermons: Про любов до ворогів і про милосердя",
+                      "titleEn":  "Sermons: On Loving Enemies and Mercy",
                       "section":  {
                                       "uk":  "Проповіді",
                                       "en":  "Sermons"
                                   },
                       "description":  {
-                                          "uk":  "",
-                                          "en":  ""
+                                          "uk":  "Проповідь про євангельський заклик любити ворогів, долати ненависть добром і виявляти милосердя до ближніх.",
+                                          "en":  "A sermon on Christ\u0027s call to love our enemies, overcome hatred with good, and show mercy to others."
                                       },
-                      "descriptionEn":  "",
+                      "descriptionEn":  "A sermon on Christ\u0027s call to love our enemies, overcome hatred with good, and show mercy to others.",
                       "topics":  [
                                      "audio",
                                      "sermons",
@@ -6699,7 +6699,15 @@
                                      "помисли",
                                      "молитва",
                                      "милосердя",
-                                     "Бог"
+                                     "Бог",
+                                     "love",
+                                     "hatred",
+                                     "goodness",
+                                     "evil",
+                                     "thoughts",
+                                     "prayer",
+                                     "mercy",
+                                     "God"
                                  ],
                       "tags":  [
                                    "audio",
@@ -6712,6 +6720,14 @@
                                    "молитва",
                                    "милосердя",
                                    "Бог",
+                                   "love",
+                                   "hatred",
+                                   "goodness",
+                                   "evil",
+                                   "thoughts",
+                                   "prayer",
+                                   "mercy",
+                                   "God",
                                    "проповідь",
                                    "проповіді",
                                    "аудіо",
@@ -6735,14 +6751,14 @@
                                                   "церковна проповідь"
                                               ],
                                        "en":  [
-                                                  "любов",
-                                                  "ненависть",
-                                                  "добро",
-                                                  "зло",
-                                                  "помисли",
-                                                  "молитва",
-                                                  "милосердя",
-                                                  "Бог",
+                                                  "love",
+                                                  "hatred",
+                                                  "goodness",
+                                                  "evil",
+                                                  "thoughts",
+                                                  "prayer",
+                                                  "mercy",
+                                                  "God",
                                                   "sermon",
                                                   "sermons",
                                                   "audio",
@@ -6754,12 +6770,12 @@
                                    "en"
                                ],
                       "searchText":  {
-                                         "uk":  "Проповіді: Про любов до ворогів і про милосердя любов ненависть добро зло помисли молитва милосердя Бог Аудіо Проповіді Духовна діяльність проповідь проповіді аудіо церковна проповідь",
-                                         "en":  "Sermons: Про любов до ворогів і про милосердя любов ненависть добро зло помисли молитва милосердя Бог Audio Sermons Spiritual activity Church sermon sermons audio church sermon"
+                                         "uk":  "Проповіді: Про любов до ворогів і про милосердя Проповідь про євангельський заклик любити ворогів, долати ненависть добром і виявляти милосердя до ближніх. любов ненависть добро зло помисли молитва милосердя Бог Аудіо Проповіді Духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                         "en":  "Sermons: On Loving Enemies and Mercy A sermon on Christ\u0027s call to love our enemies, overcome hatred with good, and show mercy to others. love hatred goodness evil thoughts prayer mercy God Audio Sermons Spiritual activity Church sermon sermons audio church sermon"
                                      },
                       "normalizedText":  {
-                                             "uk":  "проповіді про любов до ворогів і про милосердя любов ненависть добро зло помисли молитва милосердя бог аудіо проповіді духовна діяльність проповідь проповіді аудіо церковна проповідь",
-                                             "en":  "sermons про любов до ворогів і про милосердя любов ненависть добро зло помисли молитва милосердя бог audio sermons spiritual activity church sermon sermons audio church sermon"
+                                             "uk":  "проповіді про любов до ворогів і про милосердя проповідь про євангельський заклик любити ворогів долати ненависть добром і виявляти милосердя до ближніх любов ненависть добро зло помисли молитва милосердя бог аудіо проповіді духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                             "en":  "sermons on loving enemies and mercy a sermon on christ\u0027s call to love our enemies overcome hatred with good and show mercy to others love hatred goodness evil thoughts prayer mercy god audio sermons spiritual activity church sermon sermons audio church sermon"
                                          },
                       "category":  "sermons",
                       "fileType":  "audio",
