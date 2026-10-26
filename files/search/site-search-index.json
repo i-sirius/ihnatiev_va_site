@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-10-04T13:47:25Z",
+    "generatedAt":  "2026-10-26T10:18:58Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  143,
+    "itemCount":  144,
     "items":  [
                   {
                       "id":  "page-home",
@@ -4745,6 +4745,148 @@
                                              "uk":  "ігнатьєв в а ісихазм у контексті некласичної філософсько релігійної парадигми монографія в а ігнатьєв кропивницький 2025 336 с 2025 monograph",
                                              "en":  "ігнатьєв в а ісихазм у контексті некласичної філософсько релігійної парадигми монографія в а ігнатьєв кропивницький 2025 336 с 2025 monograph"
                                          }
+                  },
+                  {
+                      "id":  "video-DMHGQJKWENo",
+                      "type":  "video",
+                      "url":  "activity1.html#video-DMHGQJKWENo",
+                      "title":  {
+                                    "uk":  "НЕЯВНЕ і ДОЗНАКОВЕ ЗНАННЯ В МОЛИТОВНІЙ ПРАКТИЦІ",
+                                    "en":  "IMPLICIT AND PRE-SIGNIFICATIVE KNOWLEDGE IN PRAYER PRACTICE"
+                                },
+                      "titleEn":  "IMPLICIT AND PRE-SIGNIFICATIVE KNOWLEDGE IN PRAYER PRACTICE",
+                      "section":  {
+                                      "uk":  "Відео",
+                                      "en":  "Video"
+                                  },
+                      "description":  {
+                                          "uk":  "Зустріч 25/10/2026. Доповідь Ігора Спаського — «Неявне і дознакове знання в молитовній практиці».",
+                                          "en":  "Meeting on 25 October 2026. A report by Ihor Spaskyi on implicit and pre-significative knowledge in prayer practice."
+                                      },
+                      "descriptionEn":  "Meeting on 25 October 2026. A report by Ihor Spaskyi on implicit and pre-significative knowledge in prayer practice.",
+                      "topics":  [
+                                     "video",
+                                     "reports",
+                                     "research",
+                                     "неявне знання",
+                                     "дознакове знання",
+                                     "молитовна практика",
+                                     "образ",
+                                     "знак",
+                                     "символ",
+                                     "інформація",
+                                     "знання",
+                                     "енергія",
+                                     "тиша",
+                                     "порожнеча",
+                                     "діалог",
+                                     "Христос",
+                                     "implicit knowledge",
+                                     "pre-significative knowledge",
+                                     "prayer practice",
+                                     "image",
+                                     "sign",
+                                     "symbol",
+                                     "information",
+                                     "knowledge",
+                                     "energy",
+                                     "silence",
+                                     "emptiness",
+                                     "dialogue",
+                                     "Christ"
+                                 ],
+                      "tags":  [
+                                   "video",
+                                   "reports",
+                                   "research",
+                                   "неявне знання",
+                                   "дознакове знання",
+                                   "молитовна практика",
+                                   "образ",
+                                   "знак",
+                                   "символ",
+                                   "інформація",
+                                   "знання",
+                                   "енергія",
+                                   "тиша",
+                                   "порожнеча",
+                                   "діалог",
+                                   "Христос",
+                                   "implicit knowledge",
+                                   "pre-significative knowledge",
+                                   "prayer practice",
+                                   "image",
+                                   "sign",
+                                   "symbol",
+                                   "information",
+                                   "knowledge",
+                                   "energy",
+                                   "silence",
+                                   "emptiness",
+                                   "dialogue",
+                                   "Christ",
+                                   "Відео",
+                                   "Доповіді",
+                                   "Матеріали",
+                                   "Video",
+                                   "Reports",
+                                   "Materials"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "неявне знання",
+                                                  "дознакове знання",
+                                                  "молитовна практика",
+                                                  "образ",
+                                                  "знак",
+                                                  "символ",
+                                                  "інформація",
+                                                  "знання",
+                                                  "енергія",
+                                                  "тиша",
+                                                  "порожнеча",
+                                                  "діалог",
+                                                  "Христос",
+                                                  "Відео",
+                                                  "Доповіді",
+                                                  "Матеріали"
+                                              ],
+                                       "en":  [
+                                                  "implicit knowledge",
+                                                  "pre-significative knowledge",
+                                                  "prayer practice",
+                                                  "image",
+                                                  "sign",
+                                                  "symbol",
+                                                  "information",
+                                                  "knowledge",
+                                                  "energy",
+                                                  "silence",
+                                                  "emptiness",
+                                                  "dialogue",
+                                                  "Christ",
+                                                  "Video",
+                                                  "Reports",
+                                                  "Materials"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "НЕЯВНЕ і ДОЗНАКОВЕ ЗНАННЯ В МОЛИТОВНІЙ ПРАКТИЦІ Зустріч 25/10/2026. Доповідь Ігора Спаського — «Неявне і дознакове знання в молитовній практиці». неявне знання дознакове знання молитовна практика образ знак символ інформація знання енергія тиша порожнеча діалог Христос Відео Доповіді Матеріали",
+                                         "en":  "IMPLICIT AND PRE-SIGNIFICATIVE KNOWLEDGE IN PRAYER PRACTICE Meeting on 25 October 2026. A report by Ihor Spaskyi on implicit and pre-significative knowledge in prayer practice. implicit knowledge pre-significative knowledge prayer practice image sign symbol information knowledge energy silence emptiness dialogue Christ Video Reports Materials"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "неявне і дознакове знання в молитовній практиці зустріч 25 10 2026 доповідь ігора спаського неявне і дознакове знання в молитовній практиці неявне знання дознакове знання молитовна практика образ знак символ інформація знання енергія тиша порожнеча діалог христос відео доповіді матеріали",
+                                             "en":  "implicit and pre significative knowledge in prayer practice meeting on 25 october 2026 a report by ihor spaskyi on implicit and pre significative knowledge in prayer practice implicit knowledge pre significative knowledge prayer practice image sign symbol information knowledge energy silence emptiness dialogue christ video reports materials"
+                                         },
+                      "date":  "2026-10-25",
+                      "videoId":  "DMHGQJKWENo",
+                      "pageUrl":  "activity1.html#video-DMHGQJKWENo",
+                      "externalUrl":  "https://www.youtube.com/watch?v=DMHGQJKWENo",
+                      "rankBoost":  45
                   },
                   {
                       "id":  "video-_W5SGM5gTQk",

@@ -1,6 +1,53 @@
 {
   "items": [
     {
+      "id": "DMHGQJKWENo",
+      "enabled": true,
+      "section": "research",
+      "category": "videos",
+      "pageUrl": "activity1.html",
+      "url": "https://www.youtube.com/watch?v=DMHGQJKWENo",
+      "date": "2026-10-25",
+      "title": "НЕЯВНЕ і ДОЗНАКОВЕ ЗНАННЯ В МОЛИТОВНІЙ ПРАКТИЦІ",
+      "titleEn": "IMPLICIT AND PRE-SIGNIFICATIVE KNOWLEDGE IN PRAYER PRACTICE",
+      "description": "Зустріч 25/10/2026. Доповідь Ігора Спаського — «Неявне і дознакове знання в молитовній практиці».",
+      "descriptionEn": "Meeting on 25 October 2026. A report by Ihor Spaskyi on implicit and pre-significative knowledge in prayer practice.",
+      "tags": [
+        "неявне знання",
+        "дознакове знання",
+        "молитовна практика",
+        "образ",
+        "знак",
+        "символ",
+        "інформація",
+        "знання",
+        "енергія",
+        "тиша",
+        "порожнеча",
+        "діалог",
+        "Христос"
+      ],
+      "tagsEn": [
+        "implicit knowledge",
+        "pre-significative knowledge",
+        "prayer practice",
+        "image",
+        "sign",
+        "symbol",
+        "information",
+        "knowledge",
+        "energy",
+        "silence",
+        "emptiness",
+        "dialogue",
+        "Christ"
+      ],
+      "supportDocuments": [],
+      "publishedAt": "2026-10-25T23:38:34+00:00",
+      "viewCount": 22,
+      "viewCountUpdatedAt": "2026-10-25T23:38:35+00:00"
+    },
+    {
       "id": "_W5SGM5gTQk",
       "enabled": true,
       "section": "research",
