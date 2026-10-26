@@ -1,0 +1,26 @@
+name: YouTube feed monitor
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-latest-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Compare latest YouTube upload with catalogue
+        run: npm run check:youtube-feed

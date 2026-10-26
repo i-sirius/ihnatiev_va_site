@@ -1,5 +1,6 @@
 {
   "scripts": {
-    "check:content": "node scripts/check-content.js && node scripts/check-service-worker.js && node scripts/check-ui-lifecycle.js"
+    "check:content": "node scripts/check-content.js && node scripts/check-service-worker.js && node scripts/check-ui-lifecycle.js",
+    "check:youtube-feed": "node scripts/check-youtube-feed.js"
   }
 }

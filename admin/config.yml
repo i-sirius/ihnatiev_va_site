@@ -429,7 +429,13 @@ collections:
             summary: "{{fields.title}}"
             hint: "Показуються тільки записи з увімкненим перемикачем і заповненим шляхом до аудіофайлу."
             fields:
-              - { label: "ID", name: id, widget: string, hint: "Обов'язково. Унікальний короткий ID латиницею, наприклад sermon-2026-10-18-love-for-enemies-and-mercy." }
+              - label: "ID"
+                name: id
+                widget: string
+                hint: "Обов'язково. Унікальний короткий ID латиницею, наприклад sermon-2026-10-18-love-for-enemies-and-mercy."
+                pattern:
+                  - "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                  - "ID має містити лише малі латинські літери, цифри та дефіси."
               - { label: "Показувати", name: enabled, widget: boolean, default: false, hint: "Вимкнений запис не показується на сайті." }
               - { label: "Розділ", name: section, widget: hidden, default: church }
               - { label: "Категорія", name: category, widget: hidden, default: sermons }

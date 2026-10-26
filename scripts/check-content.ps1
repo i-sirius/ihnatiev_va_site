@@ -666,6 +666,7 @@ function Test-AudioContentManifest {
   }
 
   $Items = Get-JsonList $Payload @("items")
+  $AudioIds = New-Object "System.Collections.Generic.HashSet[string]"
   for ($Index = 0; $Index -lt $Items.Count; $Index++) {
     $Item = $Items[$Index]
     if (-not $Item -or $Item -is [string]) {
@@ -680,6 +681,16 @@ function Test-AudioContentManifest {
     foreach ($Field in @("id", "title", "titleEn", "description", "descriptionEn", "src")) {
       if (-not (Test-NonEmptyString $Item.$Field)) {
         Add-CheckError "${RelativePath}: enabled items[$Index].${Field} must be a non-empty string"
+      }
+    }
+
+    if (Test-NonEmptyString $Item.id) {
+      $AudioId = ([string]$Item.id).Trim()
+      if ($AudioId -notmatch "^[a-z0-9]+(?:-[a-z0-9]+)*$") {
+        Add-CheckError "${RelativePath}: enabled items[$Index].id must contain lowercase ASCII letters, digits, and hyphens"
+      }
+      if (-not $AudioIds.Add($AudioId)) {
+        Add-CheckError "${RelativePath}: enabled items[$Index].id must be unique"
       }
     }
 
