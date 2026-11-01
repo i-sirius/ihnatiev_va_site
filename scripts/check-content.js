@@ -269,6 +269,93 @@ function checkDownloads(relativePath) {
   });
 }
 
+function audioSignatureMatches(filePath, extension) {
+  const descriptor = fs.openSync(filePath, "r");
+  let header;
+  try {
+    header = Buffer.alloc(12);
+    const bytesRead = fs.readSync(descriptor, header, 0, header.length, 0);
+    header = header.subarray(0, bytesRead);
+  } finally {
+    fs.closeSync(descriptor);
+  }
+
+  if (extension === ".m4a" || extension === ".mp4") {
+    return header.length >= 8 && header.toString("ascii", 4, 8) === "ftyp";
+  }
+  if (extension === ".ogg" || extension === ".oga") {
+    return header.length >= 4 && header.toString("ascii", 0, 4) === "OggS";
+  }
+  if (extension === ".wav") {
+    return header.length >= 12 &&
+      header.toString("ascii", 0, 4) === "RIFF" &&
+      header.toString("ascii", 8, 12) === "WAVE";
+  }
+  if (extension === ".mp3") {
+    return header.toString("ascii", 0, 3) === "ID3" ||
+      (header.length >= 3 &&
+        header[0] === 0xff &&
+        (header[1] & 0xe0) === 0xe0 &&
+        (header[1] & 0x06) !== 0 &&
+        (header[2] & 0xf0) !== 0xf0 &&
+        (header[2] & 0x0c) !== 0x0c);
+  }
+  if (extension === ".aac") {
+    return header.length >= 2 &&
+      header[0] === 0xff &&
+      (header[1] & 0xf6) === 0xf0;
+  }
+
+  return true;
+}
+
+function checkAudioCatalogue() {
+  const source = "files/content/audio.json";
+  const payload = readJson(source);
+  const items = payload && Array.isArray(payload.items) ? payload.items : [];
+  const supportedExtensions = new Set([".mp3", ".m4a", ".mp4", ".aac", ".ogg", ".oga", ".wav"]);
+
+  items.forEach((item, index) => {
+    if (!item || typeof item.src !== "string" || isExternalOrVirtual(item.src)) {
+      return;
+    }
+
+    const cleanPath = decodePath(stripUrlParts(item.src)).replace(/^\.\//, "").replace(/^\/+/, "");
+    const extension = path.extname(cleanPath).toLowerCase();
+    if (!supportedExtensions.has(extension)) {
+      fail(`${source}: items[${index}].src uses unsupported audio extension "${extension || "(none)"}"`);
+      return;
+    }
+
+    checkReference(source, item.src, `items[${index}].src`);
+    const absolutePath = path.resolve(root, cleanPath);
+    const relativePath = path.relative(root, absolutePath);
+    if (relativePath.startsWith(`..${path.sep}`) || relativePath === ".." || path.isAbsolute(relativePath)) {
+      fail(`${source}: items[${index}].src must point to a local audio file`);
+      return;
+    }
+    if (!fs.existsSync(absolutePath)) {
+      return;
+    }
+    if (!fs.statSync(absolutePath).isFile()) {
+      fail(`${source}: items[${index}].src must point to an audio file`);
+      return;
+    }
+    if (!audioSignatureMatches(absolutePath, extension)) {
+      const expected = {
+        ".m4a": "MP4/M4A (ftyp)",
+        ".mp4": "MP4 (ftyp)",
+        ".ogg": "Ogg (OggS)",
+        ".oga": "Ogg (OggS)",
+        ".wav": "WAVE (RIFF/WAVE)",
+        ".mp3": "MP3 (ID3 or MPEG frame)",
+        ".aac": "AAC (ADTS frame)"
+      }[extension];
+      fail(`${source}: items[${index}].src "${item.src}" does not match its ${extension} extension (expected ${expected} signature)`);
+    }
+  });
+}
+
 function isNonEmptyString(value) {
   return typeof value === "string" && Boolean(value.trim());
 }
@@ -1140,6 +1227,7 @@ function checkVideoCatalogue() {
 }
 
 checkVideoCatalogue();
+checkAudioCatalogue();
 checkJsonFiles();
 checkKnownContentManifests();
 checkHtmlLocalLinks();

@@ -450,7 +450,7 @@ collections:
                 required: true
                 media_folder: /files/audio/sermons
                 public_folder: /files/audio/sermons
-                hint: "Підтримуються .mp3, .m4a, .mp4, .aac, .ogg, .oga і .wav. Порожнє поле не створює аудіоплеєр."
+                hint: "Підтримуються .mp3, .m4a, .mp4, .aac, .ogg, .oga і .wav. Переконайтеся, що розширення відповідає фактичному формату файлу; перевірка сайту це контролює."
               - { label: "Тривалість", name: duration, widget: string, required: false }
               - { label: "Посилання для завантаження", name: downloadUrl, widget: string, required: false }
               - { label: "Посилання на текст", name: transcriptUrl, widget: string, required: false }
