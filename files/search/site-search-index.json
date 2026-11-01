@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-10-26T10:28:15Z",
+    "generatedAt":  "2026-11-01T10:21:57Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  145,
+    "itemCount":  146,
     "items":  [
                   {
                       "id":  "page-home",
@@ -6043,6 +6043,100 @@
                       "pageUrl":  "activity1.html#video-Q8KNXpftoJE",
                       "documentType":  "video-support",
                       "rankBoost":  55
+                  },
+                  {
+                      "id":  "audio-sermon-2026-11-01-parable-of-the-sower",
+                      "type":  "audio",
+                      "url":  "activity3.html#audio-sermon-2026-11-01-parable-of-the-sower",
+                      "title":  {
+                                    "uk":  "Проповіді: Притча про Сіятеля",
+                                    "en":  "Sermons: The Parable of the Sower"
+                                },
+                      "titleEn":  "Sermons: The Parable of the Sower",
+                      "section":  {
+                                      "uk":  "Проповіді",
+                                      "en":  "Sermons"
+                                  },
+                      "description":  {
+                                          "uk":  "Проповідь на притчу про Сіяча: про Боже слово серед інформаційного шуму, плоди спасіння та шлях до вічного життя.",
+                                          "en":  "A sermon on the Parable of the Sower: the Word of God amid information noise, the fruits of salvation, and the way to eternal life."
+                                      },
+                      "descriptionEn":  "A sermon on the Parable of the Sower: the Word of God amid information noise, the fruits of salvation, and the way to eternal life.",
+                      "topics":  [
+                                     "audio",
+                                     "sermons",
+                                     "Боже слово",
+                                     "інформаційний шум",
+                                     "соціальні мережі",
+                                     "плоди спасіння",
+                                     "вічне життя",
+                                     "Word of God",
+                                     "information noise",
+                                     "social media",
+                                     "fruits of salvation",
+                                     "eternal life"
+                                 ],
+                      "tags":  [
+                                   "audio",
+                                   "sermons",
+                                   "Боже слово",
+                                   "інформаційний шум",
+                                   "соціальні мережі",
+                                   "плоди спасіння",
+                                   "вічне життя",
+                                   "Word of God",
+                                   "information noise",
+                                   "social media",
+                                   "fruits of salvation",
+                                   "eternal life",
+                                   "проповідь",
+                                   "проповіді",
+                                   "аудіо",
+                                   "церковна проповідь",
+                                   "sermon",
+                                   "church sermon"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "Боже слово",
+                                                  "інформаційний шум",
+                                                  "соціальні мережі",
+                                                  "плоди спасіння",
+                                                  "вічне життя",
+                                                  "проповідь",
+                                                  "проповіді",
+                                                  "аудіо",
+                                                  "церковна проповідь"
+                                              ],
+                                       "en":  [
+                                                  "Word of God",
+                                                  "information noise",
+                                                  "social media",
+                                                  "fruits of salvation",
+                                                  "eternal life",
+                                                  "sermon",
+                                                  "sermons",
+                                                  "audio",
+                                                  "church sermon"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Проповіді: Притча про Сіятеля Проповідь на притчу про Сіяча: про Боже слово серед інформаційного шуму, плоди спасіння та шлях до вічного життя. Боже слово інформаційний шум соціальні мережі плоди спасіння вічне життя Аудіо Проповіді Духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                         "en":  "Sermons: The Parable of the Sower A sermon on the Parable of the Sower: the Word of God amid information noise, the fruits of salvation, and the way to eternal life. Word of God information noise social media fruits of salvation eternal life Audio Sermons Spiritual activity Church sermon sermons audio church sermon"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "проповіді притча про сіятеля проповідь на притчу про сіяча про боже слово серед інформаційного шуму плоди спасіння та шлях до вічного життя боже слово інформаційний шум соціальні мережі плоди спасіння вічне життя аудіо проповіді духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                             "en":  "sermons the parable of the sower a sermon on the parable of the sower the word of god amid information noise the fruits of salvation and the way to eternal life word of god information noise social media fruits of salvation eternal life audio sermons spiritual activity church sermon sermons audio church sermon"
+                                         },
+                      "category":  "sermons",
+                      "fileType":  "audio",
+                      "date":  "2026-11-01",
+                      "duration":  "17:20",
+                      "rankBoost":  38
                   },
                   {
                       "id":  "audio-sermon-2026-10-04-cross-path-to-christ",
