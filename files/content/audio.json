@@ -257,6 +257,47 @@
         "mercy",
         "God"
       ]
+    },
+    {
+      "id": "sermon-2026-11-15-life-without-god-gadarene-demoniac",
+      "section": "church",
+      "category": "sermons",
+      "enabled": true,
+      "title": "Про життя без Бога (гадаринський біснуватий)",
+      "titleEn": "Life Without God (The Gadarene Demoniac)",
+      "description": "На прикладі євангельської події зцілення гадаринського біснуватого проповідь порушує питання життя людини без Бога, духовної неволі та можливості нового життя через зустріч із Христом.",
+      "descriptionEn": "A reflection on life without God through the Gospel account of the Gadarene demoniac, spiritual bondage, and the possibility of new life through an encounter with Christ.",
+      "date": "2026-11-15",
+      "src": "/files/audio/sermons/2026-11-15-zhyttia-bez-boha-hadarynskyi-bisnuvatyi.m4a",
+      "duration": "25:25",
+      "downloadUrl": "",
+      "transcriptUrl": "",
+      "tags": [
+        "життя без Бога",
+        "гадаринський біснуватий",
+        "Євангеліє",
+        "Ісус Христос",
+        "віра",
+        "духовна неволя",
+        "духовна свобода",
+        "зцілення",
+        "духовне життя",
+        "спасіння",
+        "зустріч із Христом"
+      ],
+      "tagsEn": [
+        "life without God",
+        "Gadarene demoniac",
+        "Gospel",
+        "Jesus Christ",
+        "faith",
+        "spiritual bondage",
+        "spiritual freedom",
+        "healing",
+        "spiritual life",
+        "salvation",
+        "encounter with Christ"
+      ]
     }
   ]
 }

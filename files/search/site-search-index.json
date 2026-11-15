@@ -1,8 +1,8 @@
 {
     "version":  "1",
-    "generatedAt":  "2026-11-01T10:44:25Z",
+    "generatedAt":  "2026-11-15T18:00:02Z",
     "source":  "scripts/build-site-search-index.ps1",
-    "itemCount":  146,
+    "itemCount":  147,
     "items":  [
                   {
                       "id":  "page-home",
@@ -6875,6 +6875,136 @@
                       "fileType":  "audio",
                       "date":  "2026-10-18",
                       "duration":  "20:40",
+                      "rankBoost":  38
+                  },
+                  {
+                      "id":  "audio-sermon-2026-11-15-life-without-god-gadarene-demoniac",
+                      "type":  "audio",
+                      "url":  "activity3.html#audio-sermon-2026-11-15-life-without-god-gadarene-demoniac",
+                      "title":  {
+                                    "uk":  "Проповіді: Про життя без Бога (гадаринський біснуватий)",
+                                    "en":  "Sermons: Life Without God (The Gadarene Demoniac)"
+                                },
+                      "titleEn":  "Sermons: Life Without God (The Gadarene Demoniac)",
+                      "section":  {
+                                      "uk":  "Проповіді",
+                                      "en":  "Sermons"
+                                  },
+                      "description":  {
+                                          "uk":  "На прикладі євангельської події зцілення гадаринського біснуватого проповідь порушує питання життя людини без Бога, духовної неволі та можливості нового життя через зустріч із Христом.",
+                                          "en":  "A reflection on life without God through the Gospel account of the Gadarene demoniac, spiritual bondage, and the possibility of new life through an encounter with Christ."
+                                      },
+                      "descriptionEn":  "A reflection on life without God through the Gospel account of the Gadarene demoniac, spiritual bondage, and the possibility of new life through an encounter with Christ.",
+                      "topics":  [
+                                     "audio",
+                                     "sermons",
+                                     "життя без Бога",
+                                     "гадаринський біснуватий",
+                                     "Євангеліє",
+                                     "Ісус Христос",
+                                     "віра",
+                                     "духовна неволя",
+                                     "духовна свобода",
+                                     "зцілення",
+                                     "духовне життя",
+                                     "спасіння",
+                                     "зустріч із Христом",
+                                     "life without God",
+                                     "Gadarene demoniac",
+                                     "Gospel",
+                                     "Jesus Christ",
+                                     "faith",
+                                     "spiritual bondage",
+                                     "spiritual freedom",
+                                     "healing",
+                                     "spiritual life",
+                                     "salvation",
+                                     "encounter with Christ"
+                                 ],
+                      "tags":  [
+                                   "audio",
+                                   "sermons",
+                                   "життя без Бога",
+                                   "гадаринський біснуватий",
+                                   "Євангеліє",
+                                   "Ісус Христос",
+                                   "віра",
+                                   "духовна неволя",
+                                   "духовна свобода",
+                                   "зцілення",
+                                   "духовне життя",
+                                   "спасіння",
+                                   "зустріч із Христом",
+                                   "life without God",
+                                   "Gadarene demoniac",
+                                   "Gospel",
+                                   "Jesus Christ",
+                                   "faith",
+                                   "spiritual bondage",
+                                   "spiritual freedom",
+                                   "healing",
+                                   "spiritual life",
+                                   "salvation",
+                                   "encounter with Christ",
+                                   "проповідь",
+                                   "проповіді",
+                                   "аудіо",
+                                   "церковна проповідь",
+                                   "sermon",
+                                   "church sermon"
+                               ],
+                      "keywords":  {
+                                       "uk":  [
+                                                  "життя без Бога",
+                                                  "гадаринський біснуватий",
+                                                  "Євангеліє",
+                                                  "Ісус Христос",
+                                                  "віра",
+                                                  "духовна неволя",
+                                                  "духовна свобода",
+                                                  "зцілення",
+                                                  "духовне життя",
+                                                  "спасіння",
+                                                  "зустріч із Христом",
+                                                  "проповідь",
+                                                  "проповіді",
+                                                  "аудіо",
+                                                  "церковна проповідь"
+                                              ],
+                                       "en":  [
+                                                  "life without God",
+                                                  "Gadarene demoniac",
+                                                  "Gospel",
+                                                  "Jesus Christ",
+                                                  "faith",
+                                                  "spiritual bondage",
+                                                  "spiritual freedom",
+                                                  "healing",
+                                                  "spiritual life",
+                                                  "salvation",
+                                                  "encounter with Christ",
+                                                  "sermon",
+                                                  "sermons",
+                                                  "audio",
+                                                  "church sermon"
+                                              ]
+                                   },
+                      "lang":  [
+                                   "uk",
+                                   "en"
+                               ],
+                      "searchText":  {
+                                         "uk":  "Проповіді: Про життя без Бога (гадаринський біснуватий) На прикладі євангельської події зцілення гадаринського біснуватого проповідь порушує питання життя людини без Бога, духовної неволі та можливості нового життя через зустріч із Христом. життя без Бога гадаринський біснуватий Євангеліє Ісус Христос віра духовна неволя духовна свобода зцілення духовне життя спасіння зустріч із Христом Аудіо Проповіді Духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                         "en":  "Sermons: Life Without God (The Gadarene Demoniac) A reflection on life without God through the Gospel account of the Gadarene demoniac, spiritual bondage, and the possibility of new life through an encounter with Christ. life without God Gadarene demoniac Gospel Jesus Christ faith spiritual bondage spiritual freedom healing spiritual life salvation encounter with Christ Audio Sermons Spiritual activity Church sermon sermons audio church sermon"
+                                     },
+                      "normalizedText":  {
+                                             "uk":  "проповіді про життя без бога гадаринський біснуватий на прикладі євангельської події зцілення гадаринського біснуватого проповідь порушує питання життя людини без бога духовної неволі та можливості нового життя через зустріч із христом життя без бога гадаринський біснуватий євангеліє ісус христос віра духовна неволя духовна свобода зцілення духовне життя спасіння зустріч із христом аудіо проповіді духовна діяльність проповідь проповіді аудіо церковна проповідь",
+                                             "en":  "sermons life without god the gadarene demoniac a reflection on life without god through the gospel account of the gadarene demoniac spiritual bondage and the possibility of new life through an encounter with christ life without god gadarene demoniac gospel jesus christ faith spiritual bondage spiritual freedom healing spiritual life salvation encounter with christ audio sermons spiritual activity church sermon sermons audio church sermon"
+                                         },
+                      "category":  "sermons",
+                      "fileType":  "audio",
+                      "date":  "2026-11-15",
+                      "duration":  "25:25",
                       "rankBoost":  38
                   },
                   {
