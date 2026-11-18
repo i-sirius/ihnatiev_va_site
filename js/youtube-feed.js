@@ -505,8 +505,10 @@
               ? `
                 <a class="button-link video-card-doc-link" href="${escapeHtml(
                   supportDoc.url
-                )}" target="_blank" rel="noopener">
-                  <span class="video-card-doc-label">${escapeHtml(
+                )}" target="_blank" rel="noopener" title="${escapeHtml(
+                  getSupportDocLabel(supportDoc)
+                )}">
+                  <span class="video-card-doc-title">${escapeHtml(
                     getSupportDocLabel(supportDoc)
                   )}</span>
                 </a>
