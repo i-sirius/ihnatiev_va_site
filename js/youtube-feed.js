@@ -9,7 +9,7 @@
     },
     /*
     "YOUTUBE_VIDEO_ID": {
-      url: "/files/video-docs/activity1/example.pdf",
+      url: "/files/video-docs/activity1/rashism-yak-forma-etnofiletizmu.pdf",
       label: "Матеріали",
       labelEn: "Materials",
       type: "pdf"
@@ -23,6 +23,12 @@
     },
     "Q8KNXpftoJE": {
       url: "/files/video-docs/activity1/corporeality-and-synergy.pdf",
+      label: "Матеріали",
+      labelEn: "Materials",
+      type: "pdf"
+    },
+    "9UyBUqF-GWY": {
+      url: "/files/video-docs/activity1/rashism-yak-forma-etnofiletizmu.pdf",
       label: "Матеріали",
       labelEn: "Materials",
       type: "pdf"
@@ -124,6 +130,7 @@
 
         return items
           .filter((item) => item && item.enabled !== false && (item.id || item.videoId || item.url))
+          .sort((a, b) => (Date.parse(b.publishedAt || b.date) || 0) - (Date.parse(a.publishedAt || a.date) || 0))
           .map((item) => {
             const videoId = item.videoId || item.id || getYoutubeVideoId(item);
 
@@ -139,6 +146,9 @@
               },
               thumbnail: `https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg`,
               url: item.url || `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`,
+              supportDocuments: Array.isArray(item.supportDocuments)
+                ? item.supportDocuments.filter((doc) => doc && doc.enabled !== false && doc.url)
+                : [],
               viewCount: item.viewCount ?? null,
               viewCountUpdatedAt: item.viewCountUpdatedAt || ""
             };
@@ -206,13 +216,21 @@
 
     function getSupportDocForVideo(video) {
       const videoId = getYoutubeVideoId(video);
-      const doc = videoId ? VIDEO_SUPPORT_DOCS[videoId] : null;
+      const attachedDoc = Array.isArray(video.supportDocuments)
+        ? video.supportDocuments.find((doc) => doc && doc.enabled !== false && doc.url)
+        : null;
+      const fallbackDoc = videoId ? VIDEO_SUPPORT_DOCS[videoId] : null;
 
-      if (!doc || !doc.url) {
-        return null;
+      if (attachedDoc) {
+        return {
+          url: attachedDoc.url,
+          label: attachedDoc.title || attachedDoc.label || "Матеріали",
+          labelEn: attachedDoc.titleEn || attachedDoc.labelEn || "Materials",
+          type: attachedDoc.type || "pdf"
+        };
       }
 
-      return doc;
+      return fallbackDoc && fallbackDoc.url ? fallbackDoc : null;
     }
 
     function getSupportDocLabel(doc) {
@@ -597,7 +615,10 @@
     }
 
     function getCacheKey(channelId) {
-      return `youtube-feed:v2:${channelId}`;
+      const buildVersion = site && site.meta && site.meta.buildVersion
+        ? String(site.meta.buildVersion)
+        : "default";
+      return `youtube-feed:v2:${buildVersion}:${channelId}`;
     }
 
     function readCache(channelId) {
@@ -651,10 +672,10 @@
 
           return {
             videoId,
-            title:
-              (titleNode && titleNode.textContent ? titleNode.textContent.trim() : "") ||
-              getVideoUi().fallbackTitle ||
-              "YouTube video",
+            title: {
+              uk: titleNode && titleNode.textContent ? titleNode.textContent.trim() : getVideoUi().fallbackTitle || "YouTube video",
+              en: titleNode && titleNode.textContent ? titleNode.textContent.trim() : getVideoUi().fallbackTitle || "YouTube video"
+            },
             thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
             url: `https://www.youtube.com/watch?v=${videoId}`,
             viewCount:
@@ -680,6 +701,9 @@
         return {
           ...video,
           title: canonical ? canonical.title : video.title,
+          supportDocuments: canonical && Array.isArray(canonical.supportDocuments)
+            ? canonical.supportDocuments
+            : (video.supportDocuments || []),
           viewCount: stats ? Number(stats.viewCount) : null,
           viewCountUpdatedAt: stats ? stats.viewCountUpdatedAt : ""
         };
@@ -712,6 +736,7 @@
             const videos = mergeVideoMetadata(localVideos, cachedVideos);
             renderVideoCards(videos);
             writeCache(channelId, videos);
+            renderVideoSyncStatus();
           }
         })
         .catch(() => {
@@ -734,6 +759,7 @@
             writeCache(channelId, videos);
             renderVideoCards(videos);
             renderStatus("");
+            renderVideoSyncStatus();
           });
         })
         .catch(() => {
@@ -745,6 +771,31 @@
         .then(() => {
           loading = false;
         });
+    }
+
+    function renderVideoSyncStatus() {
+      const label = getVideoLocale() === "en"
+        ? "Videos checked"
+        : "Відео перевірено";
+      const date = new Intl.DateTimeFormat(getVideoLocale() === "en" ? "en-GB" : "uk-UA", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      }).format(new Date());
+
+      document.querySelectorAll(selector).forEach((element) => {
+        let status = element.querySelector("[data-youtube-status]");
+        if (!status) {
+          status = document.createElement("div");
+          status.className = "video-status-text";
+          status.setAttribute("data-youtube-status", "");
+          element.insertBefore(status, element.firstChild);
+        }
+
+        status.className = "video-status-text is-sync";
+        status.textContent = `${label} · ${date}`;
+        status.hidden = false;
+      });
     }
 
     if (window.addEventListener) {

@@ -394,6 +394,75 @@
       "publishedAt": "2026-04-27T11:08:25+00:00",
       "viewCount": 233,
       "viewCountUpdatedAt": "2026-10-01T06:42:11.246802+00:00"
+    },
+    {
+      "id": "9UyBUqF-GWY",
+      "enabled": true,
+      "section": "research",
+      "category": "videos",
+      "pageUrl": "activity1.html",
+      "url": "https://www.youtube.com/watch?v=9UyBUqF-GWY",
+      "date": "2026-11-15",
+      "title": "РАШИЗМ ЯК ФОРМА ЕТНОФІЛЕТИЗМУ — доповідь прот. Віталія ІГНАТЬЄВА (15 листопада 2026)",
+      "titleEn": "RASHISM AS A FORM OF ETHNOPHYLETISM — a lecture by Archpriest Vitalii IGNATIEV (15 November 2026)",
+      "description": "Доповідь прот. Віталія Ігнатьєва — «Рашизм як форма етнофілетизму» (15 листопада 2026).",
+      "descriptionEn": "A lecture by Archpriest Vitalii Ihnatiev — ‘Rashism as a Form of Ethnophyletism’ (15 November 2026).",
+      "tags": [
+        "рашизм",
+        "етнофілетизм",
+        "ідеологія",
+        "філософія",
+        "релгія",
+        "нація",
+        "церква",
+        "доповідь",
+        "відео"
+      ],
+      "tagsEn": [
+        "rashism",
+        "ethnophyletism",
+        "ideology",
+        "philosophy",
+        "religion",
+        "nation",
+        "church",
+        "report",
+        "video"
+      ],
+      "supportDocuments": [
+        {
+          "id": "rashism-yak-forma-etnofiletizmu",
+          "enabled": true,
+          "url": "/files/video-docs/activity1/rashism-yak-forma-etnofiletizmu.pdf",
+          "type": "pdf",
+          "language": "uk",
+          "title": "РАШИЗМ ЯК ФОРМА ЕТНОФІЛЕТИЗМУ",
+          "titleEn": "Rashism as a Form of Ethnophyletism",
+          "description": "Роздатковий матеріал до доповіді прот. Віталія Ігнатьєва про рашизм як форму етнофілетизму.",
+          "descriptionEn": "Printed handout for Archpriest Vitalii Ihnatiev’s lecture on rashism as a form of ethnophyletism.",
+          "tags": [
+            "Матеріали",
+            "PDF",
+            "рашизм",
+            "етнофілетизм",
+            "ідеологія",
+            "нація",
+            "церква"
+          ],
+          "tagsEn": [
+            "Materials",
+            "PDF",
+            "rashism",
+            "ethnophyletism",
+            "ideology",
+            "nation",
+            "church"
+          ]
+        }
+      ],
+      "publishedAt": "2026-11-17T09:28:27+00:00",
+      "viewCount": null,
+      "viewCountUpdatedAt": null
     }
   ]
 }
