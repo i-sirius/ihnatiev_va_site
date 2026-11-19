@@ -4,7 +4,7 @@ const SITE = {
     ownerName: "Sirius",
     authorRealName: "Віталій Ігнатьєв",
     siteDeveloperName: "Sirius",
-    buildVersion: "0.7.83d",
+    buildVersion: "0.7.83e",
     buildDate: "191126",
     year: "2026",
     homeTitle: "Ігнатьєв Віталій",
@@ -929,3 +929,5 @@ function applySiteLocale(locale) {
 
 syncSiteRuntimeProperties();
 applySiteLocale(getStoredSiteLocale() || document.documentElement.lang || SITE_RUNTIME.defaultLocale);
+
+window.SITE = SITE;
