@@ -863,6 +863,11 @@
     }
 
     bindSupportDocPreview();
+
+    return {
+      load,
+      renderVideoCards
+    };
   }
 
   window.SiteYoutubeFeed = {
