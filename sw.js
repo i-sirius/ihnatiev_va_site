@@ -79,12 +79,11 @@ function isCacheableAsset(requestUrl) {
 
 function isNetworkFirstContent(requestUrl) {
   return (
-    (/(?:^|\/)(?:config\.js|.*\.js)$/i.test(requestUrl.pathname)) ||
-    (/\.json$/i.test(requestUrl.pathname) && (
+    /\.json$/i.test(requestUrl.pathname) && (
       requestUrl.pathname.indexOf("/files/content/") === 0 ||
       requestUrl.pathname.indexOf("/files/search/") === 0 ||
       requestUrl.pathname.indexOf("/files/downloads/") === 0
-    ))
+    )
   );
 }
 
