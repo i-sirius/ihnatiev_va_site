@@ -172,6 +172,24 @@ html.no-modern-effects body[data-page="activity"] .activity-collapsible-section 
   overflow: visible;
 }
 
+body[data-page="activity"] .activity-videos-sync-status {
+  display: inline;
+  margin-left: 6px;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  body[data-page="activity"] .activity-videos-sync-status {
+    display: block;
+    margin: 3px 0 0;
+  }
+}
+
 @media (max-width: 900px) {
   body[data-page="activity"] .activity-collapsible-title {
     font-size: 1.32rem;

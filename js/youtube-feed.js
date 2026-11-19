@@ -787,19 +787,20 @@
         year: "numeric"
       }).format(new Date());
 
-      document.querySelectorAll(selector).forEach((element) => {
-        let status = element.querySelector("[data-youtube-status]");
-        if (!status) {
-          status = document.createElement("div");
-          status.className = "video-status-text";
-          status.setAttribute("data-youtube-status", "");
-          element.insertBefore(status, element.firstChild);
-        }
+      const heading = document.querySelector("[data-activity-videos-heading]");
+      if (!heading) {
+        return;
+      }
 
-        status.className = "video-status-text is-sync";
-        status.textContent = `${label} · ${date}`;
-        status.hidden = false;
-      });
+      let status = heading.querySelector("[data-youtube-sync-status]");
+      if (!status) {
+        status = document.createElement("span");
+        status.className = "activity-videos-sync-status";
+        status.setAttribute("data-youtube-sync-status", "");
+        heading.appendChild(status);
+      }
+
+      status.textContent = ` · ${label} ${date}`;
     }
 
     function getSupportDocType(doc) {
@@ -816,7 +817,7 @@
       const normalized = String(type || "FILE").toUpperCase();
 
       if (normalized === "PDF") {
-        return '<svg class="video-card-doc-icon is-pdf" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6 2.8h8.4L20 8.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Zm7.8 1.8v4.3h4.3L13.8 4.6ZM8 17.8v-6h2.6c1.5 0 2.4.8 2.4 2.1 0 1.4-.9 2.2-2.4 2.2H9.5v1.7H8Zm1.5-3h1c.6 0 1-.3 1-.9s-.4-.8-1-.8h-1v1.7Zm4.4 3v-6h2.3c1.9 0 3.2 1.2 3.2 3s-1.3 3-3.2 3h-2.3Zm1.5-1.3h.7c1.1 0 1.8-.7 1.8-1.8s-.7-1.8-1.8-1.8h-.7v3.6Zm4.7 1.3v-6h3.9v1.3h-2.4v1.2h2.1v1.3h-2.1v2.2h-1.5Z"/></svg>';
+        return '<svg class="video-card-doc-icon is-pdf" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6 2.8h8.4L20 8.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Zm7.8 1.8v4.3h4.3L13.8 4.6ZM8 17.8v-6h2.6c1.5 0 2.4.8 2.4 2.1 0 1.4-.9 2.2-2.4 2.2H9.5v1.7H8Zm1.5-3h1c.6 0 1-.3 1-.9s-.4-.8-1-.8h-1v1.7Zm4.4 3v-6h2.3c1.9 0 3.2 1.2 3.2 3s-1.3 3-3.2 3h-2.3Zm1.5-1.3h.7c1.1 0 1.8-.7 1.8-1.8s-.7-1.8-1.8-1.8h-.7v3.6Zm4.7 1.3v-6h3.9v1.3h-2.4v1.2h2.1v1.3h-2.1v2.2h-1.5v-5.8Z"/></svg>';
       }
 
       if (normalized === "DOC" || normalized === "DOCX" || normalized === "WORD") {
@@ -864,10 +865,10 @@
     bindSupportDocPreview();
   }
 
-  createYoutubeFeed({
-    site: window.SITE,
-    selector: "[data-activity-videos]",
-    getLocalizedValue: (value, fallback) => value || fallback,
-    escapeHtml: (value) => String(value)
-  });
+  window.SiteYoutubeFeed = {
+    create: createYoutubeFeed,
+    load: function (options) {
+      return createYoutubeFeed(options).load();
+    }
+  };
 })();
