@@ -574,7 +574,7 @@
   function loadYoutubeFeed() {
     if (window.SiteYoutubeFeed) {
       window.SiteYoutubeFeed.load({
-        site: SITE,
+        site: (typeof window.SITE === "object" && window.SITE) ? window.SITE : SITE,
         selector: "[data-activity-videos]",
         getLocalizedValue,
         escapeHtml
