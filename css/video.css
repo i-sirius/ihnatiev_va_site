@@ -347,6 +347,28 @@ html[data-theme="dark"] .video-gallery::after {
 }
 
 .video-card-doc-link {
+  gap: 6px;
+}
+
+.video-card-doc-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+
+.video-card-doc-icon.is-pdf {
+  color: #c23a32;
+}
+
+.video-card-doc-icon.is-doc {
+  color: #2d63c8;
+}
+
+.video-card-doc-icon.is-file {
+  color: var(--primary);
+}
+
+.video-card-doc-link {
   position: relative;
   z-index: 4;
   flex: 0 1 auto;
