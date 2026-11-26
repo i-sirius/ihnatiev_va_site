@@ -178,8 +178,9 @@ body[data-page="activity"] .activity-videos-sync-status {
   color: var(--muted);
   font-family: var(--font-ui);
   font-size: 0.68rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.2;
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 

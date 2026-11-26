@@ -779,8 +779,8 @@
 
     function renderVideoSyncStatus() {
       const label = getVideoLocale() === "en"
-        ? "Videos checked"
-        : "Відео перевірено";
+        ? "as of"
+        : "станом на";
       const date = new Intl.DateTimeFormat(getVideoLocale() === "en" ? "en-GB" : "uk-UA", {
         day: "2-digit",
         month: "2-digit",
@@ -800,7 +800,7 @@
         heading.appendChild(status);
       }
 
-      status.textContent = ` · ${label} ${date}`;
+      status.textContent = `(${label} ${date})`;
     }
 
     function getSupportDocType(doc) {
