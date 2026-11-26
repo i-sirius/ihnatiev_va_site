@@ -814,17 +814,24 @@
     }
 
     function getSupportDocIconMarkup(type) {
-      const normalized = String(type || "FILE").toUpperCase();
+      let iconType = "file";
+      let formatPath = "M7 13h10M7 17h8";
 
-      if (normalized === "PDF") {
-        return '<svg class="video-card-doc-icon is-pdf" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6 2.8h8.4L20 8.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Zm7.8 1.8v4.3h4.3L13.8 4.6ZM8 17.8v-6h2.6c1.5 0 2.4.8 2.4 2.1 0 1.4-.9 2.2-2.4 2.2H9.5v1.7H8Zm1.5-3h1c.6 0 1-.3 1-.9s-.4-.8-1-.8h-1v1.7Zm4.4 3v-6h2.3c1.9 0 3.2 1.2 3.2 3s-1.3 3-3.2 3h-2.3Zm1.5-1.3h.7c1.1 0 1.8-.7 1.8-1.8s-.7-1.8-1.8-1.8h-.7v3.6Zm4.7 1.3v-6h3.9v1.3h-2.4v1.2h2.1v1.3h-2.1v2.2h-1.5v-5.8Z"/></svg>';
+      if (type === "PDF") {
+        iconType = "pdf";
+        formatPath = "M5.8 17.5v-5.4h1.6a1.35 1.35 0 0 1 0 2.7H5.8 M10.6 17.5v-5.4h.9a2.05 2.05 0 0 1 2.05 2.05v1.3a2.05 2.05 0 0 1-2.05 2.05z M15.6 17.5v-5.4h2.8m-2.8 2.7h2.4";
+      } else if (type === "DOC" || type === "DOCX" || type === "WORD") {
+        iconType = "doc";
+        formatPath = "M5.8 17.5v-5.4h.9a2.05 2.05 0 0 1 2.05 2.05v1.3a2.05 2.05 0 0 1-2.05 2.05z M12.1 12.1a1.45 1.45 0 0 1 1.45 1.45v2.5a1.45 1.45 0 0 1-2.9 0v-2.5a1.45 1.45 0 0 1 1.45-1.45z M18.4 12.1H17a1.45 1.45 0 0 0-1.45 1.45v2.5A1.45 1.45 0 0 0 17 17.5h1.4";
       }
 
-      if (normalized === "DOC" || normalized === "DOCX" || normalized === "WORD") {
-        return '<svg class="video-card-doc-icon is-doc" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6 2.8h8.4L20 8.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Zm7.8 1.8v4.3h4.3L13.8 4.6ZM7.8 17.8v-6H10c1.9 0 3.1 1.2 3.1 3s-1.2 3-3.1 3H7.8Zm1.5-1.3H10c1 0 1.6-.6 1.6-1.7S11 13.1 10 13.1H9.3v3.4Zm7.2 1.4c-1.7 0-2.8-1.2-2.8-3.1s1.1-3.1 2.8-3.1 2.8 1.2 2.8 3.1-1.1 3.1-2.8 3.1Z"/></svg>';
-      }
-
-      return '<svg class="video-card-doc-icon is-file" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6 2.8h8.4L20 8.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4.8a2 2 0 0 1 2-2Zm7.8 1.8v4.3h4.3L13.8 4.6ZM8 17.7v-5.8h1.5v4.5h2.6v1.3H8Zm5-5.8h1.5v5.8H13v-5.8Zm2.8 0h4.1v1.3h-2.6v1h2.2v1.3h-2.2v2.2h-1.5v-5.8Z"/></svg>';
+      return `
+        <svg class="video-card-doc-icon is-${iconType}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"
+             fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke-width="1.5" d="M4.75 2.75H14l6.5 6.5V20a1.25 1.25 0 0 1-1.25 1.25H4.75A1.25 1.25 0 0 1 3.5 20V4a1.25 1.25 0 0 1 1.25-1.25Z M14 2.75v6.5h6.5"/>
+          <path stroke-width="1.2" d="${formatPath}"/>
+        </svg>
+      `;
     }
 
     function bindSupportDocPreview() {

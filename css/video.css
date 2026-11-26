@@ -150,6 +150,7 @@ html[data-theme="dark"] .video-gallery::after {
   flex: 1 0 auto;
   align-content: center;
   margin: 8px 16px;
+  text-wrap: balance;
 }
 
 .video-card-media {
@@ -374,6 +375,8 @@ html[data-theme="dark"] .video-card-doc-link {
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
   border-left: 13px solid #ffffff;
+  /* Center the triangle by its visual weight. */
+  transform: translateX(2px);
 }
 
 .video-card-link-copy {
