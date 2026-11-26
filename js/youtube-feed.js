@@ -51,10 +51,23 @@
       return "";
     }
 
+    let label = viewsLabel;
+    if (locale === "uk") {
+      const lastDigit = numericValue % 10;
+      const lastTwoDigits = numericValue % 100;
+      if (lastDigit === 1 && lastTwoDigits !== 11) {
+        label = "перегляд";
+      } else if (lastDigit >= 2 && lastDigit <= 4 && (lastTwoDigits < 12 || lastTwoDigits > 14)) {
+        label = "перегляди";
+      }
+    } else if (locale === "en" && numericValue === 1) {
+      label = "view";
+    }
+
     try {
-      return `${new Intl.NumberFormat(locale).format(numericValue)} ${viewsLabel}`;
+      return `${new Intl.NumberFormat(locale).format(numericValue)} ${label}`;
     } catch {
-      return `${numericValue} ${viewsLabel}`;
+      return `${numericValue} ${label}`;
     }
   }
 
@@ -455,9 +468,10 @@
       }
 
       const videoUi = getVideoUi();
+      const locale = getVideoLocale();
       const watchLabel = videoUi.watch || "ДИВИТИСЬ";
       const fallbackTitle = videoUi.fallbackTitle || "YouTube";
-      const viewsLabel = videoUi.views || "переглядів";
+      const viewsLabel = videoUi.views || (locale === "en" ? "views" : "переглядів");
       const validVideos = videos.filter((video) => video && video.url);
 
       if (validVideos.length) {
@@ -469,7 +483,7 @@
           .map((video) => {
             const title = getLocalizedValue(
               video.title && typeof video.title === "object"
-                ? video.title[getVideoLocale()] || video.title.uk || video.title.en
+                ? video.title[locale] || video.title.uk || video.title.en
                 : video.title,
               fallbackTitle
             );
@@ -483,7 +497,7 @@
             const viewsText = formatVideoViews(
               video.viewCount,
               viewsLabel,
-              site.currentLocale || "uk"
+              locale
             );
             const supportDoc = getSupportDocForVideo(video);
             const watchAriaLabel = getWatchAriaLabel(title);
