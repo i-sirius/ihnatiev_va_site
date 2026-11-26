@@ -619,21 +619,44 @@
     }
 
     function getCacheKey(channelId) {
-      const buildVersion = site && site.meta && site.meta.buildVersion
-        ? String(site.meta.buildVersion)
-        : "default";
-      return `youtube-feed:v2:${buildVersion}:${channelId}`;
+      return `youtube-feed:v2:${channelId}`;
+    }
+
+    function readCacheEntry(key) {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(key) || "null");
+        const videos = parsed && Array.isArray(parsed.videos)
+          ? parsed.videos.filter((video) => video && video.url).slice(0, 6)
+          : [];
+        return videos.length ? { videos, updatedAt: Number(parsed.updatedAt) || 0 } : null;
+      } catch {
+        return null;
+      }
     }
 
     function readCache(channelId) {
-      try {
-        const parsed = JSON.parse(localStorage.getItem(getCacheKey(channelId)) || "null");
-        return parsed && Array.isArray(parsed.videos)
-          ? parsed.videos.filter((video) => video && video.url).slice(0, 6)
-          : [];
-      } catch {
-        return [];
+      const cacheKey = getCacheKey(channelId);
+      const cached = readCacheEntry(cacheKey);
+      if (cached) {
+        return cached.videos;
       }
+
+      try {
+        const previousCaches = Object.keys(localStorage)
+          .filter((key) => key !== cacheKey && key.startsWith("youtube-feed:v2:") && key.endsWith(`:${channelId}`))
+          .map(readCacheEntry)
+          .filter(Boolean)
+          .sort((a, b) => b.updatedAt - a.updatedAt);
+
+        if (previousCaches.length) {
+          const previousVideos = previousCaches.flatMap(({ videos }) => videos);
+          return mergeVideoMetadata(previousCaches[0].videos, previousVideos);
+        }
+      } catch {
+        // Storing video statistics is optional.
+      }
+
+      return [];
     }
 
     function writeCache(channelId, videos) {
