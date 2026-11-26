@@ -225,23 +225,19 @@
       };
 
       const getLensTarget = (target) => {
-        const card = target && typeof target.closest === "function"
-          ? target.closest(".video-card")
-          : null;
-        if (card && gallery.contains(card)) {
-          return card.querySelector(".video-card-link");
+        if (!target || typeof target.closest !== "function" || !gallery.contains(target)) {
+          return null;
         }
 
-        const fallback = target && typeof target.closest === "function"
-          ? target.closest(".video-fallback-link")
-          : null;
-        return fallback && gallery.contains(fallback) ? fallback : null;
+        const action = target.closest(".video-card-doc-link, .video-fallback-link");
+        const card = target.closest(".video-card");
+        return action || (card && card.querySelector(".video-card-link"));
       };
 
       const syncLens = (target = null) => {
         lensFrame = 0;
 
-        const lensTarget = getLensTarget(target);
+        const lensTarget = target && gallery.contains(target) ? target : null;
 
         if (!lensTarget) {
           clearLens();
@@ -250,8 +246,8 @@
 
         const galleryRect = gallery.getBoundingClientRect();
         const targetRect = lensTarget.getBoundingClientRect();
-        const bleedX = 10;
-        const bleedY = 7;
+        const bleedX = 3;
+        const bleedY = 4;
         const previousX = Number.parseFloat(gallery.style.getPropertyValue("--video-lens-x")) || 0;
         const nextX = targetRect.left - galleryRect.left - bleedX;
         const isMoving = Math.abs(nextX - previousX) > 2;
@@ -299,18 +295,18 @@
       if (gallery.dataset.videoLensBound !== "true") {
         gallery.addEventListener("pointerover", (event) => {
           const target = getLensTarget(event.target);
-          if (target) {
+          if (target && target !== getLensTarget(event.relatedTarget)) {
             requestLens(target);
           }
         });
-        gallery.addEventListener("pointerleave", clearLens);
+        gallery.addEventListener("pointerleave", resetLens);
         gallery.addEventListener("focusin", (event) => {
           const target = getLensTarget(event.target);
           if (target) {
             requestLens(target);
           }
         });
-        gallery.addEventListener("focusout", clearLens);
+        gallery.addEventListener("focusout", resetLens);
         window.addEventListener("resize", () => requestLens(), { passive: true });
         window.addEventListener("scroll", resetLens, { passive: true });
         window.addEventListener("site:layout-shift", resetLens);

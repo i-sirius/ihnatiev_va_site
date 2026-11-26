@@ -24,9 +24,10 @@
 
 .video-gallery::before {
   z-index: 2;
+  box-sizing: border-box;
   width: var(--video-lens-width);
   height: var(--video-lens-height);
-  border-radius: 999px;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.48);
   background:
     radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.26), transparent 24%),
@@ -73,7 +74,7 @@
 
 .video-gallery.is-video-lens-ready::before {
   opacity: 0.82;
-  transform: translate3d(var(--video-lens-x), var(--video-lens-y), 0) scale(1.018);
+  transform: translate3d(var(--video-lens-x), var(--video-lens-y), 0);
 }
 
 .video-gallery.is-video-lens-ready::after {
@@ -274,24 +275,19 @@ html[data-theme="dark"] .video-gallery::after {
   white-space: normal;
 }
 
-.video-card-doc-link:hover,
-.video-card-doc-link:focus-visible {
-  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(80, 104, 96, 0.1)),
-    color-mix(in srgb, var(--panel-bg) 82%, transparent);
-  color: var(--primary-dark);
-  transform: translateY(-1px);
-}
-
 .video-card-doc-label {
   display: block;
   min-width: 0;
 }
 
-.video-card:hover .video-card-link,
-.video-card:focus-visible .video-card-link,
-.video-card:focus-within .video-card-link {
+.video-card:is(:hover, :focus-visible, :focus-within):not(:where(:has(.video-card-doc-link:is(:hover, :focus-visible)))) .video-card-link,
+.video-card-actions .video-card-doc-link:is(:hover, :focus-visible) {
+  transform: translate3d(0, -1px, 0);
+  backdrop-filter: blur(var(--glass-blur-soft)) saturate(1.02);
+  -webkit-backdrop-filter: blur(var(--glass-blur-soft)) saturate(1.02);
+}
+
+.video-card:is(:hover, :focus-visible, :focus-within):not(:where(:has(.video-card-doc-link:is(:hover, :focus-visible)))) .video-card-link {
   border-color: transparent;
   background: color-mix(in srgb, var(--panel-bg) 62%, transparent);
   color: var(--primary-dark);
@@ -301,14 +297,9 @@ html[data-theme="dark"] .video-gallery::after {
   box-shadow:
     0 4px 10px rgba(40, 34, 28, 0.045),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transform: translate3d(0, -1px, 0);
-  backdrop-filter: blur(var(--glass-blur-soft)) saturate(1.02);
-  -webkit-backdrop-filter: blur(var(--glass-blur-soft)) saturate(1.02);
 }
 
-html[data-theme="dark"] .video-card:hover .video-card-link,
-html[data-theme="dark"] .video-card:focus-visible .video-card-link,
-html[data-theme="dark"] .video-card:focus-within .video-card-link {
+html[data-theme="dark"] .video-card:is(:hover, :focus-visible, :focus-within):not(:where(:has(.video-card-doc-link:is(:hover, :focus-visible)))) .video-card-link {
   color: var(--button-text);
   text-shadow:
     0 1px 0 rgba(0, 0, 0, 0.34),
@@ -338,16 +329,11 @@ html[data-theme="dark"] .video-card-doc-link {
     0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
-html[data-theme="dark"] .video-card-doc-link:hover,
-html[data-theme="dark"] .video-card-doc-link:focus-visible {
-  border-color: color-mix(in srgb, rgba(226, 240, 235, 0.36) 58%, var(--border));
-  background:
-    linear-gradient(135deg, rgba(226, 240, 235, 0.075), rgba(107, 134, 125, 0.16)),
-    color-mix(in srgb, var(--panel-bg) 82%, transparent);
-  color: var(--button-text);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 244, 210, 0.07),
-    0 7px 15px rgba(0, 0, 0, 0.18);
+.video-card-actions .video-card-doc-link:is(:hover, :focus-visible) {
+  border-color: var(--gold-glass-border);
+  background: var(--gold-glass-bg);
+  color: var(--gold-glass-text);
+  box-shadow: var(--gold-glass-shadow);
 }
 
 .video-card:hover .video-card-link::before,
