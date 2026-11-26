@@ -34,6 +34,21 @@
     radial-gradient(ellipse at 8% 92%, rgba(80, 104, 96, 0.07), transparent 38%),
     radial-gradient(circle at 84% 82%, rgba(196, 151, 57, 0.08), transparent 44%),
     linear-gradient(115deg, rgba(255, 255, 255, 0.055), rgba(80, 104, 96, 0.075) 46%, rgba(196, 151, 57, 0.055) 74%, rgba(255, 255, 255, 0.025));
+  box-shadow:
+    0 10px 22px rgba(40, 34, 28, 0.08),
+    0 0 12px rgba(196, 151, 57, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.56),
+    inset 0 -1px 0 rgba(196, 151, 57, 0.05),
+    inset 1px 0 0 rgba(255, 255, 255, 0.16),
+    inset -1px 0 0 rgba(80, 104, 96, 0.08);
+  transform: translate3d(var(--video-lens-x), var(--video-lens-y), 0) scale(0.94, 0.9);
+  backdrop-filter: blur(0.25px) saturate(1.5) contrast(1.1) brightness(1.04);
+  -webkit-backdrop-filter: blur(0.25px) saturate(1.5) contrast(1.1) brightness(1.04);
+  transition:
+    opacity 0.18s ease,
+    transform 0.42s cubic-bezier(0.18, 0.82, 0.18, 1),
+    width 0.42s cubic-bezier(0.18, 0.82, 0.18, 1),
+    height 0.42s cubic-bezier(0.18, 0.82, 0.18, 1);
 }
 
 .video-gallery::after {
@@ -50,6 +65,10 @@
       0
     )
     scale(0.84, 0.9);
+  transition:
+    opacity 0.18s ease,
+    transform 0.52s cubic-bezier(0.12, 0.82, 0.18, 1),
+    width 0.52s cubic-bezier(0.12, 0.82, 0.18, 1);
 }
 
 .video-gallery.is-video-lens-ready::before {
@@ -96,6 +115,13 @@ html[data-theme="dark"] .video-gallery::before {
     radial-gradient(ellipse at 8% 92%, rgba(0, 0, 0, 0.14), transparent 38%),
     radial-gradient(circle at 84% 82%, rgba(230, 190, 92, 0.08), transparent 44%),
     linear-gradient(115deg, rgba(255, 255, 255, 0.026), rgba(145, 175, 164, 0.07) 48%, rgba(230, 190, 92, 0.045) 76%, rgba(255, 255, 255, 0.016));
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.24),
+    0 0 12px rgba(230, 190, 92, 0.06),
+    inset 0 1px 0 rgba(255, 244, 210, 0.14),
+    inset 0 -1px 0 rgba(230, 190, 92, 0.04),
+    inset 1px 0 0 rgba(226, 240, 235, 0.08),
+    inset -1px 0 0 rgba(0, 0, 0, 0.16);
 }
 
 html[data-theme="dark"] .video-gallery::after {
@@ -200,6 +226,18 @@ html[data-theme="dark"] .video-gallery::after {
   flex: 2 1 66.666%;
   width: 66.666%;
   min-width: 0;
+}
+
+.video-card-link {
+  position: relative;
+  z-index: 4;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.42), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(85, 109, 100, 0.28));
+  border-color: color-mix(in srgb, var(--button-bg) 44%, var(--liquid-glass-border));
+  color: var(--primary-dark);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.44);
 }
 
 .video-card-actions .video-card-doc-link {
