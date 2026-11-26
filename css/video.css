@@ -150,7 +150,7 @@ html[data-theme="dark"] .video-gallery::after {
   flex: 1 0 auto;
   align-content: center;
   margin: 8px 16px;
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 
 .video-card-media {
