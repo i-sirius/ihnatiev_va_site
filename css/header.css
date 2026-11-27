@@ -1,6 +1,5 @@
 .site-header {
   --header-underlap-progress: 0;
-  --header-underlap-blur: 0px;
   --header-control-size: 44px;
   --header-control-icon-size: 28px;
   --header-control-radius: 999px;
@@ -139,24 +138,6 @@ html[data-theme="dark"] .site-header.is-over-content::after {
     opacity 0.24s ease,
     transform 0.28s ease,
     font-size 0.28s ease;
-}
-
-.site-header.is-expanding-header h1 {
-  opacity: 0;
-  transform: translateY(-6px);
-  pointer-events: none;
-}
-
-.site-header.is-expanding-header nav,
-.site-header.is-expanding-header .site-header-socials {
-  transform: translateY(2px);
-}
-
-.site-header.is-collapsing-header h1,
-.site-header.is-collapsing-header .site-header-socials {
-  opacity: 0;
-  transform: translateY(-6px);
-  pointer-events: none;
 }
 
 .site-header nav {
@@ -2828,5 +2809,224 @@ html[data-theme="dark"] .site-header.is-compact .site-brand-link {
 @media (prefers-reduced-motion: reduce) {
   .mobile-nav-host nav::before {
     transition: opacity 0.18s ease;
+  }
+}
+
+.site-header-slot {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.site-header-slot > .site-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  pointer-events: auto;
+}
+
+html[data-header-aligning] {
+  scroll-behavior: auto;
+}
+
+/* The scroll helpers read the root value. Open sticky summaries receive their
+   own value, so the live offset need not invalidate the whole document tree. */
+@property --site-header-offset {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --header-moving-height {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --header-moving-padding-top {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.site-header[data-header-enhanced] {
+  transition-property: box-shadow, border-color, background;
+}
+
+.site-header[data-header-enhanced] nav,
+.site-header[data-header-enhanced] .site-header-controls,
+.site-header[data-header-enhanced] .site-brand-logo {
+  transition: none;
+}
+
+.site-header[data-header-enhanced] [data-header-motion] {
+  transition-property: opacity, color, background, border-color, box-shadow;
+}
+
+.site-header[data-header-measuring],
+.site-header[data-header-measuring] *,
+.site-header[data-header-moving],
+.site-header[data-header-moving] nav,
+.site-header[data-header-moving] [data-header-motion] {
+  transition: none !important;
+}
+
+.site-header[data-header-enhanced][data-header-moving] {
+  height: var(--header-moving-height);
+  min-height: 0 !important;
+  padding-top: var(--header-moving-padding-top) !important;
+  padding-bottom: 0 !important;
+}
+
+.site-header[data-header-enhanced][data-header-moving][data-scroll-state-ready] [data-header-motion] {
+  position: absolute !important;
+  top: var(--header-item-y) !important;
+  left: var(--header-item-x) !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  grid-area: auto !important;
+  width: var(--header-item-width) !important;
+  min-width: var(--header-item-width) !important;
+  max-width: var(--header-item-width) !important;
+  height: var(--header-item-height) !important;
+  min-height: var(--header-item-height) !important;
+  max-height: var(--header-item-height) !important;
+  transform: none !important;
+  opacity: var(--header-item-opacity, 1);
+  visibility: var(--header-item-visibility, visible);
+}
+
+html:not(.no-modern-effects):not([data-theme="accessible"]) .site-header[data-header-enhanced][data-header-moving][data-scroll-state-ready] [data-header-motion] {
+  top: 0 !important;
+  left: 0 !important;
+  transform: translate(var(--header-item-x), var(--header-item-y)) !important;
+}
+
+.site-header[data-header-moving] .site-header-controls {
+  overflow: visible;
+}
+
+.site-header[data-header-moving] .site-brand-logo {
+  object-fit: contain;
+}
+
+.site-header[data-header-moving] nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--header-item-font-size);
+  white-space: nowrap;
+}
+
+/* One paint path for the fading rows through the final expanded frame. */
+.site-header[data-header-enhanced][data-scroll-state-ready] h1,
+.site-header[data-header-enhanced][data-scroll-state-ready] .site-header-socials {
+  opacity: var(--header-title-opacity, 1);
+  transform: translateY(var(--header-title-shift, 0px));
+  transition: none !important;
+}
+
+.site-header[data-header-moving].is-header-content-hidden .site-header-socials,
+.site-header[data-header-moving].is-header-content-hidden .site-header-social-link {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+html:not(.no-modern-effects):not([data-theme="accessible"]) .site-header[data-header-moving] .language-toggle-option.is-active {
+  opacity: var(--header-title-opacity);
+  visibility: var(--header-item-visibility, visible);
+}
+
+@media (max-width: 900px) {
+  html.no-modern-effects .site-header[data-header-enhanced] {
+    overflow: visible;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
+  /* Keep both language choices and the refresh button inside the legacy dock. */
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header[data-header-enhanced].is-compact .site-header-controls.has-app-refresh {
+    grid-template-columns: repeat(2, 40px) !important;
+    grid-template-rows: repeat(2, 34px) !important;
+    grid-column-gap: 4px !important;
+    grid-row-gap: 6px !important;
+    justify-content: center;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header[data-header-enhanced].is-compact .has-app-refresh .language-toggle {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header[data-header-enhanced].is-compact .has-app-refresh .theme-toggle {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header[data-header-enhanced].is-compact .has-app-refresh .theme-toggle,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header[data-header-enhanced].is-compact .has-app-refresh .theme-toggle-track {
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    justify-content: center !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header[data-header-enhanced].is-compact .has-app-refresh .theme-toggle:not(.is-dark) .is-sun,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header[data-header-enhanced].is-compact .has-app-refresh .theme-toggle.is-dark .is-moon,
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header[data-header-enhanced].is-compact .has-app-refresh .theme-toggle-thumb {
+    display: none !important;
+  }
+
+  html.no-modern-effects:not([data-theme="accessible"]) .site-header[data-header-enhanced].is-compact .has-app-refresh .app-refresh-button {
+    grid-column: 2;
+    grid-row: 2;
+    height: 34px;
+    min-height: 34px;
+  }
+}
+
+/* Keep the page heading available to assistive technology in compact mode. */
+.site-header[data-header-enhanced][data-scroll-state-ready].is-compact h1 {
+  display: block !important;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  max-height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (min-width: 901px) {
+  html[data-theme="accessible"] .site-header[data-header-enhanced][data-scroll-state-ready] h1 {
+    display: block !important;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    max-height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .site-header::before,
+  .site-header::after,
+  .site-header *,
+  .site-header *::before,
+  .site-header *::after,
+  .mobile-nav-host nav::before {
+    transition: none !important;
+    animation: none !important;
   }
 }
